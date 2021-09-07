@@ -5,47 +5,47 @@ services:
     volumes:
       - .:/var/www/html/
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     networks:
       - web-public
     ####################################
     # Local development config
     ####################################
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.session-tome.rule=Host(`${APP_URL}`)"
-      - "traefik.http.routers.session-tome.entrypoints=websecure"
-      - "traefik.http.routers.session-tome.tls=true"
-      - "traefik.http.services.session-tome.loadbalancer.server.port=443"
-      - "traefik.http.services.session-tome.loadbalancer.server.scheme=https"
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.session-tome.rule=Host(`${APP_URL}`)'
+      - 'traefik.http.routers.session-tome.entrypoints=websecure'
+      - 'traefik.http.routers.session-tome.tls=true'
+      - 'traefik.http.services.session-tome.loadbalancer.server.port=443'
+      - 'traefik.http.services.session-tome.loadbalancer.server.scheme=https'
 
-#  traefik:
-#    image: "traefik:v2.5"
-#    container_name: "traefik"
-#    command:
-#      #- "--log.level=DEBUG"
-#      - "--api.insecure=true"
-#      - "--providers.docker=true"
-#      - "--providers.docker.exposedbydefault=false"
-#      - "--entrypoints.web.address=:80"
-#    ports:
-#      - "80:80"
-#      - "8080:8080"
-#      - "443:443"
-#    volumes:
-#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #  traefik:
+  #    image: "traefik:v2.5"
+  #    container_name: "traefik"
+  #    command:
+  #      #- "--log.level=DEBUG"
+  #      - "--api.insecure=true"
+  #      - "--providers.docker=true"
+  #      - "--providers.docker.exposedbydefault=false"
+  #      - "--entrypoints.web.address=:80"
+  #    ports:
+  #      - "80:80"
+  #      - "8080:8080"
+  #      - "443:443"
+  #    volumes:
+  #      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   mysql:
     image: mysql
-    restart: "unless-stopped"
+    restart: 'unless-stopped'
     environment:
-      MYSQL_ROOT_PASSWORD: "toor"
+      MYSQL_ROOT_PASSWORD: 'toor'
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306"
+      - '${DB_PORT}:3306'
     networks:
       - web-public
     volumes:
@@ -59,22 +59,22 @@ services:
     networks:
       - web-public
 
-#  meilisearch:
-#    hostname: "session-tome_meilisearch"
-#    image: getmeili/meilisearch
-#    volumes:
-#      - ./volumes/meilisearch/data.ms:/data.ms
-#    networks:
-#      - web-public
+  #  meilisearch:
+  #    hostname: "session-tome_meilisearch"
+  #    image: getmeili/meilisearch
+  #    volumes:
+  #      - ./volumes/meilisearch/data.ms:/data.ms
+  #    networks:
+  #      - web-public
 
   redis:
-    hostname: "session-tome_redis"
+    hostname: 'session-tome_redis'
     image: redis:6
-    command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+    command: 'redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}'
     volumes:
-     - ./database/redis/data:/data
+      - ./database/redis/data:/data
     networks:
-     - web-public
+      - web-public
 
 networks:
   web-public:
