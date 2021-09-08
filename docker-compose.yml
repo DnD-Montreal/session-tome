@@ -49,7 +49,7 @@ services:
     networks:
       - web-public
     volumes:
-      - ./database/mysql:/var/lib/mysql
+      - mysql-db:/var/lib/mysql
 
   node:
     image: node:lts
@@ -80,3 +80,6 @@ networks:
   web-public:
     driver: bridge
     external: true
+
+volumes:
+  mysql-db:
