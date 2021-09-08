@@ -17,7 +17,6 @@ assignees: ''
 
 ## Out of scope
 <!-- The portion of this story that does not fall under the responsibility of the application -->
-
 <!-- eg: Entering the organization credentials into the system. -->
 
 ## Acceptance criteria
