@@ -33,9 +33,9 @@ jobs:
           key: dependencies-laravel-6.x-php-7.4-composer-${{ hashFiles('composer.json') }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: xdebug
 
@@ -43,10 +43,16 @@ jobs:
         run: |
           composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: yarn
+
       - name: Build Front-End Assets
         run: |
-          npm ci
-          npm run prod
+          yarn install
+          yarn prod
 
       - name: Tests with Code Climate Coverage
         uses: paambaati/codeclimate-action@v2.7.5
