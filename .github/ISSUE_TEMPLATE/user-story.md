@@ -1,12 +1,3 @@
----
-name: User story
-about: Create the description of a feature
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## User story
 <!-- Descirbe the actions the main stakeholder should be able to take -->
 <!-- eg: As a user with a CSU Office 365 account, I want to be able to use it to login. -->
