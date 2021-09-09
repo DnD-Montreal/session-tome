@@ -67,6 +67,8 @@ jobs:
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Migrate Database
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate --force
 
       - name: Serve Site
