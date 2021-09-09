@@ -78,3 +78,41 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           config: baseUrl=http://127.0.0.1:8000
+
+# Second job that runs Psalm
+name: Psalm
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  Psalm:
+    name: psalm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: xdebug
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
+      - name: Configure Composer
+        run: |
+          composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Run psalm
+        uses: ./vendor/bin/psalm
