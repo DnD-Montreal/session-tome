@@ -63,7 +63,7 @@ At which point, docker will begin to download all the required images if they're
 Once complete, the site should be available at http://localhost!
 
 ## Contributing
-If you're interested in contributing to Session Tome, See our [Contributing](https://github.com/DnD-Montreal/session-tome/blob/master/CONTRIBUTING.md) guidelines.
+If you're interested in contributing to Session Tome, See our [Contributing](https://github.com/DnD-Montreal/session-tome/blob/main/CONTRIBUTING.md) guidelines.
 
 ## Credit
 
