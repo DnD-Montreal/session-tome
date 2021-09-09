@@ -64,7 +64,7 @@ jobs:
           coverageLocations: tests/coverage.xml:clover
 
       - name: Migrate Database
-        run: php artisan migrate
+        run: php artisan migrate --force
 
       - name: Serve Site
         run: nohup php artisan serve &
