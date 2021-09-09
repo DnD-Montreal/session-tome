@@ -63,8 +63,11 @@ jobs:
           coverageCommand: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
           coverageLocations: tests/coverage.xml:clover
 
+      - name: Copy .env file
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+
       - name: Migrate Database
-        run: php artisan migrate --force --env=testing
+        run: php artisan migrate --force
 
       - name: Serve Site
         run: nohup php artisan serve &
