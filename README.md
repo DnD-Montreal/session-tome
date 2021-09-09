@@ -19,7 +19,7 @@ This Project was created in part to satisfy the requirements of SOEN 490: Capsto
 Concordia University
 
 ## Installation
-For more in-depth development environment set-up & application installation instructions, see the Wiki.
+For more in-depth development environment set-up & application installation instructions, see the [Wiki entry about Development Environments](https://github.com/DnD-Montreal/session-tome/wiki/Development-Environment).
 
 ### Quick Start
 To run this project locally, all you truly need is Docker. Though to develop locally, it's helpful to install PHP8.0, Composer, and Node14 + Yarn
