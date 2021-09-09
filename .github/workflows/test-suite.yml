@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.composer/cache/files
-          key: dependencies-laravel-6.x-php-7.4-composer-${{ hashFiles('composer.json') }}
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
