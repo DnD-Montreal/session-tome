@@ -105,4 +105,4 @@ jobs:
           composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Run psalm
-        uses: ./vendor/bin/psalm
+        run: ./vendor/bin/psalm
