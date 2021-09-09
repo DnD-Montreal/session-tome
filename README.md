@@ -29,6 +29,7 @@ If you are not running this application to develop locally, then you can simply 
 
 ```shell
 cp .env.example .env
+# Before proceeding make sure to set APP_ENV=production in the .env to automate running migrations
 # use Docker to run the required set-up commands
 docker compose run --rm --no-deps php bash -ci "composer install && php artisan key:generate"
 docker compose run --rm --no-deps node bash -ci 'yarn install && yarn run prod'
@@ -53,6 +54,8 @@ Once all the dependencies have been installed and set-up is complete, from the p
 
 ```shell
 docker compose up -d
+# If you're running the site with local dependencies you'll need to migrate your database with
+php artisan migrate
 ```
 
 At which point, docker will begin to download all the required images if they're missing and, initialize them. The first time this will take a few moments; though subsequent runs should be much quicker.
