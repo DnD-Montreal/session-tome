@@ -80,9 +80,7 @@ jobs:
           config: baseUrl=http://127.0.0.1:8000
 
 # Second job that runs Psalm
-Psalm
-
-    name: psalm
+    Psalm:
     runs-on: ubuntu-latest
 
     steps:
