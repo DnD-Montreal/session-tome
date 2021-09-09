@@ -62,3 +62,6 @@ jobs:
         with:
           coverageCommand: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
           coverageLocations: tests/coverage.xml:clover
+
+      - name: Run E2E Test Suite with Cypress
+        uses: cypress-io/github-action@v2
