@@ -64,7 +64,7 @@ jobs:
           coverageLocations: tests/coverage.xml:clover
 
       - name: Serve Site
-        run: php artisan serve
+        run: nohup php artisan serve &
 
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
