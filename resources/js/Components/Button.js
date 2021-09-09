@@ -1,6 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-export default function Button({ type = 'submit', className = '', processing, children }) {
+export default function Button({
+    type = 'submit',
+    className = '',
+    processing,
+    children,
+}) {
     return (
         <button
             type={type}
@@ -9,9 +14,8 @@ export default function Button({ type = 'submit', className = '', processing, ch
                     processing && 'opacity-25'
                 } ` + className
             }
-            disabled={processing}
-        >
+            disabled={processing}>
             {children}
         </button>
-    );
+    )
 }
