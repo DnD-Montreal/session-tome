@@ -64,10 +64,11 @@ jobs:
           coverageLocations: tests/coverage.xml:clover
 
       - name: Serve Site
-        run: nohup php artisan serve &
+        run: |
+        php artisan migrate
+        nohup php artisan serve &
 
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
-          config: baseUrl=http://localhost:8000
-          wait-on: http://localhost:8000
+          config: baseUrl=http://127.0.0.1:8000
