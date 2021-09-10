@@ -1,63 +1,93 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://github.com/DnD-Montreal/session-tome/actions"><img src="https://github.com/DnD-Montreal/session-tome/actions/workflows/test-suite.yml/badge.svg?" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/DnD-Montreal/session-tome/maintainability"><img src="https://api.codeclimate.com/v1/badges/17607964d06fb417aa4a/maintainability" /></a>
+<a href="https://codeclimate.com/github/DnD-Montreal/session-tome/test_coverage"><img src="https://api.codeclimate.com/v1/badges/17607964d06fb417aa4a/test_coverage" /></a>
+<a href="https://github.com/DnD-Montreal/session-tome"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
 </p>
 
-## About Laravel
+# SessionTome
+A web application for managing Dungeons and Dragons Adventurer's League Characters. Featuring player rating and magic item trading systems!
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This Project is built as a React front end SPA and communicates with Laravel via InertiaJS.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Session Tome was built for and in collaboration with [DnD MTL](dndmtl.com).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Purpose
+This Project was created in part to satisfy the requirements of SOEN 490: Capstone Software Engineering Design Project @
+Concordia University.
 
-## Learning Laravel
+## Installation
+For more in-depth development environment set-up & application installation instructions, see the [Wiki entry about Development Environments](https://github.com/DnD-Montreal/session-tome/wiki/Development-Environment).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Quick Start
+To run this project locally, all you truly need is Docker. Though to develop locally, it's helpful to install PHP8.0, Composer, and Node14 + Yarn.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Without Local Dependencies Installed
+If you are not running this application to develop locally, then you can simply leverage the docker containers and docker compose to run the required commands.
 
-## Laravel Sponsors
+```shell
+cp .env.example .env
+# Before proceeding make sure to set APP_ENV=production in the .env to automate running migrations
+# use Docker to run the required set-up commands
+docker compose run --rm --no-deps php bash -ci "composer install && php artisan key:generate"
+docker compose run --rm --no-deps node bash -ci 'yarn install && yarn run prod'
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### With Local Dependencies Installed
+If you have all the required dependencies installed, then you can rely much less on running docker containers and instead run the commands directly on your host machine.
 
-### Premium Partners
+```shell
+cp .env.example .env
+composer install
+php artisan key:generate
+yarn install
+yarn dev
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+
+## Usage
+
+### Docker Compose
+Once all the dependencies have been installed and set-up is complete, from the project root simply run:
+
+```shell
+docker network create web-public
+docker compose up -d
+# If you're running the site with local dependencies you'll need to migrate your database with
+php artisan migrate
+```
+
+At which point, docker will begin to download all the required images if they're missing and initialize them. The first time this will take a few moments; though subsequent runs should be much quicker.
+
+Once complete, the site should be available at http://localhost!
 
 ## Contributing
+If you're interested in contributing to Session Tome, see our [Contributing](https://github.com/DnD-Montreal/session-tome/blob/main/CONTRIBUTING.md) guidelines.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Credit
 
-## Code of Conduct
+This project was designed and created by "Wizards of the Code" consisting of:
+- Annie Tran
+- Beatrice Cobo
+- Ian Phillips
+- Jason Gadoury
+- Luigi Besani Urena
+- Massimo Triassi
+- Pascal Dermerdjian
+- Robert Nittolo
+- Wei Chen (Wilson) Huang
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+_note: Wizards of the Code is in no way affiliated with Wizards of the Coast. Any similarities are purely coincidental._
+
+## License
+
+Session Tome is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Session Tome, please send an e-mail to Massimo Triassi via [massimo@dndmtl.com](mailto:massimo@dndmtl.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
