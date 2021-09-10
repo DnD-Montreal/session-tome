@@ -8,21 +8,21 @@
 </p>
 
 # SessionTome
-A web application for managing Dungeons and Dragons Adventurer's League Characters. Featuring player rating, and magic item trading systems!
+A web application for managing Dungeons and Dragons Adventurer's League Characters. Featuring player rating and magic item trading systems!
 
-This Project is built as a React front end SPA and communicates with  Laravel via InertiaJS.
+This Project is built as a React front end SPA and communicates with Laravel via InertiaJS.
 
-Session Tome was built for and in collaboration with [DnD MTL](dndmtl.com)
+Session Tome was built for and in collaboration with [DnD MTL](dndmtl.com).
 
 ## Purpose
 This Project was created in part to satisfy the requirements of SOEN 490: Capstone Software Engineering Design Project @
-Concordia University
+Concordia University.
 
 ## Installation
 For more in-depth development environment set-up & application installation instructions, see the [Wiki entry about Development Environments](https://github.com/DnD-Montreal/session-tome/wiki/Development-Environment).
 
 ### Quick Start
-To run this project locally, all you truly need is Docker. Though to develop locally, it's helpful to install PHP8.0, Composer, and Node14 + Yarn
+To run this project locally, all you truly need is Docker. Though to develop locally, it's helpful to install PHP8.0, Composer, and Node14 + Yarn.
 
 #### Without Local Dependencies Installed
 If you are not running this application to develop locally, then you can simply leverage the docker containers and docker compose to run the required commands.
@@ -58,12 +58,12 @@ docker compose up -d
 php artisan migrate
 ```
 
-At which point, docker will begin to download all the required images if they're missing and, initialize them. The first time this will take a few moments; though subsequent runs should be much quicker.
+At which point, docker will begin to download all the required images if they're missing and initialize them. The first time this will take a few moments; though subsequent runs should be much quicker.
 
 Once complete, the site should be available at http://localhost!
 
 ## Contributing
-If you're interested in contributing to Session Tome, See our [Contributing](https://github.com/DnD-Montreal/session-tome/blob/main/CONTRIBUTING.md) guidelines.
+If you're interested in contributing to Session Tome, see our [Contributing](https://github.com/DnD-Montreal/session-tome/blob/main/CONTRIBUTING.md) guidelines.
 
 ## Credit
 
