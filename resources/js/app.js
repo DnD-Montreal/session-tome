@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 require('./bootstrap')
 
 import React from 'react'
