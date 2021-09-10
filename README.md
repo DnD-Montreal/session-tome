@@ -53,6 +53,7 @@ yarn dev
 Once all the dependencies have been installed and set-up is complete, from the project root simply run:
 
 ```shell
+docker network create web-public
 docker compose up -d
 # If you're running the site with local dependencies you'll need to migrate your database with
 php artisan migrate
