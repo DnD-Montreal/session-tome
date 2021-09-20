@@ -26,7 +26,6 @@
             "@": ["js"]
         }
     },
-    "files": ["index.d.ts"],
     "include": ["./resources", "**/*.ts"],
     "exclude": ["node_modules"]
 }
