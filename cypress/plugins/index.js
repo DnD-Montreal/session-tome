@@ -15,9 +15,9 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = (on) => {
+module.exports = (on, config) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
 
-    on('task', import('./swap-env'))
+    on('task', require('./swap-env'))
 }
