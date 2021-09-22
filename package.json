@@ -70,6 +70,9 @@
     "jest": {
         "setupFilesAfterEnv": [
             "./jest-config.js"
+        ],
+        "roots":[
+            "resources/"
         ]
     },
     "lint-staged": {
