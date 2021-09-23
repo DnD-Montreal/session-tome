@@ -27,12 +27,12 @@
         "node": true,
         "jest": true
     },
-    "extends": ["airbnb", "prettier"],
+    "extends": ["airbnb", "prettier", "plugin:cypress/recommended"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "plugins": ["prettier"],
+    "plugins": ["prettier", "cypress"],
     "rules": {
         "import-extensions": "off",
         "key-spacing": [

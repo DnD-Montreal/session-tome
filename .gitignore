@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 .php-cs-fixer.cache
 **/.DS_Store
+/cypress/screenshots
+/cypress/videos
