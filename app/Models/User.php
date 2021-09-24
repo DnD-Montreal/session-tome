@@ -2,24 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array
      */
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
     ];
 
@@ -34,11 +32,40 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'id' => 'integer',
+        'email_verified_at' => 'timestamp',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
     ];
+
+
+    public function leagues()
+    {
+        return $this->belongsToMany(\App\Models\League::class);
+    }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany(\App\Models\Campaign::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(\App\Models\Role::class);
+    }
+
+    public function characters()
+    {
+        return $this->hasMany(\App\Models\Character::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(\App\Models\Rating::class);
+    }
 }
