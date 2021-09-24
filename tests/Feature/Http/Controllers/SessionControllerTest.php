@@ -3,9 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Adventure;
-use App\Models\DungeonMaster;
 use App\Models\Event;
 use App\Models\Session;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -66,7 +66,7 @@ class SessionControllerTest extends TestCase
     {
         $event = Event::factory()->create();
         $adventure = Adventure::factory()->create();
-        $dungeon_master = DungeonMaster::factory()->create();
+        $dungeon_master = User::factory()->create();
         $table = $this->faker->word;
         $start_time = $this->faker->dateTime();
 
@@ -143,7 +143,7 @@ class SessionControllerTest extends TestCase
         $session = Session::factory()->create();
         $event = Event::factory()->create();
         $adventure = Adventure::factory()->create();
-        $dungeon_master = DungeonMaster::factory()->create();
+        $dungeon_master = User::factory()->create();
         $table = $this->faker->word;
         $start_time = $this->faker->dateTime();
 

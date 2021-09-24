@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
-use App\Models\DungeonMaster;
 use App\Models\Entry;
 use App\Models\Event;
 use App\Models\User;
@@ -72,7 +71,7 @@ class EntryControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $character = Character::factory()->create();
         $event = Event::factory()->create();
-        $dungeon_master = DungeonMaster::factory()->create();
+        $dungeon_master_user = User::factory()->create();
         $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
@@ -86,7 +85,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
             'location' => $location,
@@ -170,7 +169,7 @@ class EntryControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $character = Character::factory()->create();
         $event = Event::factory()->create();
-        $dungeon_master = DungeonMaster::factory()->create();
+        $dungeon_master_user = User::factory()->create();
         $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
@@ -184,7 +183,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
             'location' => $location,
