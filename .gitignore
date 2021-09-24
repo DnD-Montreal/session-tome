@@ -22,3 +22,5 @@ yarn-error.log
 **/.DS_Store
 /cypress/screenshots
 /cypress/videos
+draft.yml
+/.blueprint
