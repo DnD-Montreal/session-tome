@@ -100,7 +100,7 @@ class EntryControllerTest extends TestCase
             ->where('campaign_id', $campaign->id)
             ->where('character_id', $character->id)
             ->where('event_id', $event->id)
-            ->where('dungeon_master_id', $dungeon_master->id)
+            ->where('dungeon_master_id', $dungeon_master_user->id)
             ->where('dungeon_master', $dungeon_master)
             ->where('date_played', $date_played)
             ->where('location', $location)
@@ -202,7 +202,7 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($campaign->id, $entry->campaign_id);
         $this->assertEquals($character->id, $entry->character_id);
         $this->assertEquals($event->id, $entry->event_id);
-        $this->assertEquals($dungeon_master->id, $entry->dungeon_master_id);
+        $this->assertEquals($dungeon_master_user->id, $entry->dungeon_master_id);
         $this->assertEquals($dungeon_master, $entry->dungeon_master);
         $this->assertEquals($date_played, $entry->date_played);
         $this->assertEquals($location, $entry->location);
