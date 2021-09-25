@@ -24,13 +24,9 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'email_verified_at' => ['required'],
-            'password' => ['required', 'password'],
-            'remember_token' => ['required', 'string'],
-            'created_at' => ['required'],
-            'updated_at' => ['required'],
+            'name' => ['string'],
+            'email' => ['email'],
+            'password' => ['password']
         ];
     }
 }
