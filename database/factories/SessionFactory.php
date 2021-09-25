@@ -29,7 +29,7 @@ class SessionFactory extends Factory
             'event_id' => Event::factory(),
             'adventure_id' => Adventure::factory(),
             'dungeon_master_id' => User::factory(),
-            'table' => $this->faker->word(),
+            'table' => $this->faker->randomDigit()+1,
             'start_time' => $this->faker->dateTime(),
         ];
     }
