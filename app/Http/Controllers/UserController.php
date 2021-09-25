@@ -29,18 +29,6 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    /**
-     * @param \App\Http\Requests\UserStoreRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserStoreRequest $request)
-    {
-        $user = User::create($request->validated());
-
-        $request->session()->flash('user.id', $user->id);
-
-        return redirect()->route('user.index');
-    }
 
     /**
      * @param \Illuminate\Http\Request $request
