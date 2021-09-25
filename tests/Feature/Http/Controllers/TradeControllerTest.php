@@ -65,9 +65,9 @@ class TradeControllerTest extends TestCase
     {
         $item = Item::factory()->create();
         $character = Character::factory()->create();
-        $requested_items = $this->faker->word;
-        $description = $this->faker->text;
-        $status = $this->faker->randomElement(/** enum_attributes **/);
+        $requested_items = $this->faker->word();
+        $description = $this->faker->text();
+        $status = $this->faker->randomElement(['open', 'closed']);
 
         $response = $this->post(route('trade.store'), [
             'item_id' => $item->id,
@@ -144,7 +144,7 @@ class TradeControllerTest extends TestCase
         $character = Character::factory()->create();
         $requested_items = $this->faker->word;
         $description = $this->faker->text;
-        $status = $this->faker->randomElement(/** enum_attributes **/);
+        $status = $this->faker->randomElement(['open', 'closed']);
 
         $response = $this->put(route('trade.update', $trade), [
             'item_id' => $item->id,

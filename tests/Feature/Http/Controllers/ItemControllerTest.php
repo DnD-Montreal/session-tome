@@ -66,7 +66,7 @@ class ItemControllerTest extends TestCase
         $entry = Entry::factory()->create();
         $character = Character::factory()->create();
         $name = $this->faker->name;
-        $rarity = $this->faker->randomElement(/** enum_attributes **/);
+        $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;
@@ -149,7 +149,7 @@ class ItemControllerTest extends TestCase
         $entry = Entry::factory()->create();
         $character = Character::factory()->create();
         $name = $this->faker->name;
-        $rarity = $this->faker->randomElement(/** enum_attributes **/);
+        $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;

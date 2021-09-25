@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -77,7 +78,7 @@ class EntryControllerTest extends TestCase
         $location = $this->faker->word;
         $type = $this->faker->word;
         $levels = $this->faker->word;
-        $gp = $this->faker->randomFloat(/** decimal_attributes **/);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->post(route('entry.store'), [
             'user_id' => $user->id,
@@ -175,7 +176,7 @@ class EntryControllerTest extends TestCase
         $location = $this->faker->word;
         $type = $this->faker->word;
         $levels = $this->faker->word;
-        $gp = $this->faker->randomFloat(/** decimal_attributes **/);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->put(route('entry.update', $entry), [
             'user_id' => $user->id,
