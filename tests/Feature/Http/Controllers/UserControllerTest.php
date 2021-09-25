@@ -43,59 +43,6 @@ class UserControllerTest extends TestCase
         $response->assertViewIs('user.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation()
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\UserController::class,
-            'store',
-            \App\Http\Requests\UserStoreRequest::class
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects()
-    {
-        $name = $this->faker->name;
-        $email = $this->faker->safeEmail;
-        $email_verified_at = $this->faker->dateTime();
-        $password = $this->faker->password;
-        $remember_token = $this->faker->word;
-        $created_at = $this->faker->dateTime();
-        $updated_at = $this->faker->dateTime();
-
-        $response = $this->post(route('user.store'), [
-            'name' => $name,
-            'email' => $email,
-            'email_verified_at' => $email_verified_at,
-            'password' => $password,
-            'remember_token' => $remember_token,
-            'created_at' => $created_at,
-            'updated_at' => $updated_at,
-        ]);
-
-        $users = User::query()
-            ->where('name', $name)
-            ->where('email', $email)
-            ->where('email_verified_at', $email_verified_at)
-            ->where('password', $password)
-            ->where('remember_token', $remember_token)
-            ->where('created_at', $created_at)
-            ->where('updated_at', $updated_at)
-            ->get();
-        $this->assertCount(1, $users);
-        $user = $users->first();
-
-        $response->assertRedirect(route('user.index'));
-        $response->assertSessionHas('user.id', $user->id);
-    }
-
-
     /**
      * @test
      */
@@ -146,34 +93,24 @@ class UserControllerTest extends TestCase
         $user = User::factory()->create();
         $name = $this->faker->name;
         $email = $this->faker->safeEmail;
-        $email_verified_at = $this->faker->dateTime();
         $password = $this->faker->password;
-        $remember_token = $this->faker->word;
-        $created_at = $this->faker->dateTime();
-        $updated_at = $this->faker->dateTime();
 
         $response = $this->put(route('user.update', $user), [
             'name' => $name,
             'email' => $email,
-            'email_verified_at' => $email_verified_at,
             'password' => $password,
-            'remember_token' => $remember_token,
-            'created_at' => $created_at,
-            'updated_at' => $updated_at,
+            'confirm_password' => $password,
         ]);
 
+//        dump($user);
         $user->refresh();
-
+        //dd($user);
         $response->assertRedirect(route('user.index'));
         $response->assertSessionHas('user.id', $user->id);
 
         $this->assertEquals($name, $user->name);
         $this->assertEquals($email, $user->email);
-        $this->assertEquals($email_verified_at, $user->email_verified_at);
         $this->assertEquals($password, $user->password);
-        $this->assertEquals($remember_token, $user->remember_token);
-        $this->assertEquals($created_at, $user->created_at);
-        $this->assertEquals($updated_at, $user->updated_at);
     }
 
 
