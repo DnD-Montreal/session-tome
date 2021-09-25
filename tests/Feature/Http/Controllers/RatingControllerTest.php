@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Author;
 use App\Models\Entry;
 use App\Models\Rating;
 use App\Models\User;
@@ -66,7 +65,7 @@ class RatingControllerTest extends TestCase
     {
         $entry = Entry::factory()->create();
         $user = User::factory()->create();
-        $author = Author::factory()->create();
+        $author = User::factory()->create();
         $score = $this->faker->word;
 
         $response = $this->post(route('rating.store'), [
@@ -140,7 +139,7 @@ class RatingControllerTest extends TestCase
         $rating = Rating::factory()->create();
         $entry = Entry::factory()->create();
         $user = User::factory()->create();
-        $author = Author::factory()->create();
+        $author = User::factory()->create();
         $score = $this->faker->word;
 
         $response = $this->put(route('rating.update', $rating), [
