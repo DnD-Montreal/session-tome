@@ -29,7 +29,7 @@ class EntryUpdateRequest extends FormRequest
             'campaign_id' => ['required', 'integer', 'exists:campaigns,id'],
             'character_id' => ['required', 'integer', 'exists:characters,id'],
             'event_id' => ['required', 'integer', 'exists:events,id'],
-            'dungeon_master_id' => ['required', 'integer', 'exists:dungeon_masters,id'],
+            'dungeon_master_id' => ['required', 'integer', 'exists:users,id'],
             'dungeon_master' => ['required', 'string'],
             'date_played' => ['required'],
             'location' => ['required', 'string'],

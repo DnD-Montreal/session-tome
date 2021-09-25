@@ -26,7 +26,7 @@ class RatingUpdateRequest extends FormRequest
         return [
             'entry_id' => ['required', 'integer', 'exists:entries,id'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'author_id' => ['required', 'integer', 'exists:authors,id'],
+            'author_id' => ['required', 'integer', 'exists:users,id'],
             'score' => ['required', 'string'],
         ];
     }

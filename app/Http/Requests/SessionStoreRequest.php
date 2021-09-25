@@ -26,7 +26,7 @@ class SessionStoreRequest extends FormRequest
         return [
             'event_id' => ['required', 'integer', 'exists:events,id'],
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
-            'dungeon_master_id' => ['required', 'integer', 'exists:dungeon_masters,id'],
+            'dungeon_master_id' => ['required', 'integer', 'exists:users,id'],
             'table' => ['required', 'string'],
             'start_time' => ['required'],
         ];

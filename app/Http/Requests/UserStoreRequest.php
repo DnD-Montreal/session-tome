@@ -13,7 +13,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -26,11 +26,8 @@ class UserStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'email_verified_at' => ['required'],
             'password' => ['required', 'password'],
             'remember_token' => ['required', 'string'],
-            'created_at' => ['required'],
-            'updated_at' => ['required'],
         ];
     }
 }
