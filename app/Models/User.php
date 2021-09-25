@@ -18,7 +18,6 @@ class User extends Model
         'name',
         'email',
         'email_verified_at',
-        'password',
     ];
 
     /**
@@ -38,9 +37,7 @@ class User extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'email_verified_at' => 'timestamp',
-        'created_at' => 'timestamp',
-        'updated_at' => 'timestamp',
+        'email_verified_at' => 'datetime',
     ];
 
 

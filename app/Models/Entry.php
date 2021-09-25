@@ -42,7 +42,7 @@ class Entry extends Model
         'character_id' => 'integer',
         'event_id' => 'integer',
         'dungeon_master_id' => 'integer',
-        'date_played' => 'timestamp',
+        'date_played' => 'datetime',
         'gp' => 'decimal:2',
     ];
 

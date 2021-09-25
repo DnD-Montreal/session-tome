@@ -32,7 +32,7 @@ class Session extends Model
         'event_id' => 'integer',
         'adventure_id' => 'integer',
         'dungeon_master_id' => 'integer',
-        'start_time' => 'timestamp',
+        'start_time' => 'datetime',
     ];
 
 
