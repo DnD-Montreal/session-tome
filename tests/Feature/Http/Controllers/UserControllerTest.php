@@ -99,12 +99,11 @@ class UserControllerTest extends TestCase
             'name' => $name,
             'email' => $email,
             'password' => $password,
-            'confirm_password' => $password,
+            'password_confirmation' => $password,
         ]);
 
-//        dump($user);
         $user->refresh();
-        //dd($user);
+
         $response->assertRedirect(route('user.index'));
         $response->assertSessionHas('user.id', $user->id);
 
