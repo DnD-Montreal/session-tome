@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Character;
@@ -23,6 +24,7 @@ class CharacterFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => User::factory(),
             'name' => $this->faker->name(),
             'race' => $this->faker->word(),
             'class' => $this->faker->word(),
