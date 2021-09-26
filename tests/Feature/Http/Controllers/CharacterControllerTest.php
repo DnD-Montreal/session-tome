@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Character;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -24,7 +25,7 @@ class CharacterControllerTest extends TestCase
     {
         $characters = Character::factory()->count(3)->create();
 
-        $response = $this->get(route('character.index'));
+        $response = $this->actingAs(User::first())->get(route('character.index'));
 
         $response->assertOk();
         $response->assertViewIs('character.index');
@@ -61,6 +62,7 @@ class CharacterControllerTest extends TestCase
      */
     public function store_saves_and_redirects()
     {
+        User::factory()->create();
         $name = $this->faker->name;
         $race = $this->faker->word;
         $class = $this->faker->word;
@@ -69,7 +71,7 @@ class CharacterControllerTest extends TestCase
         $downtime = $this->faker->word;
         $status = $this->faker->word;
 
-        $response = $this->post(route('character.store'), [
+        $response = $this->actingAs(User::first())->post(route('character.store'), [
             'name' => $name,
             'race' => $race,
             'class' => $class,
