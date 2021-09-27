@@ -58,4 +58,9 @@ class Character extends Model
     {
         return $this->hasMany(\App\Models\Trade::class);
     }
+
+    public function entries()
+    {
+        return $this->hasMany(\App\Models\Entry::class);
+    }
 }
