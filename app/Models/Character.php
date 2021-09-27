@@ -34,6 +34,11 @@ class Character extends Model
     ];
 
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function sessions()
     {
         return $this->belongsToMany(\App\Models\Session::class);

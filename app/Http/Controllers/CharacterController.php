@@ -6,6 +6,8 @@ use App\Http\Requests\CharacterStoreRequest;
 use App\Http\Requests\CharacterUpdateRequest;
 use App\Models\Character;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CharacterController extends Controller
 {
@@ -15,7 +17,7 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $characters = Character::all();
+        $characters = Character::where('user_id', Auth::user()->id)->get();
 
         return view('character.index', compact('characters'));
     }
@@ -35,7 +37,7 @@ class CharacterController extends Controller
      */
     public function store(CharacterStoreRequest $request)
     {
-        $character = Character::create($request->validated());
+        $character = Auth::user()->characters()->create($request->validated());
 
         $request->session()->flash('character.id', $character->id);
 
