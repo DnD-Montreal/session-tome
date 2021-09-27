@@ -2,6 +2,11 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Campaign;
+use App\Models\Character;
+use App\Models\Item;
+use App\Models\Session;
+use App\Models\Trade;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -18,8 +23,52 @@ class CharacterTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+
+    /**
+     * @test
+     */
+    public function can_belong_to_sessions()
     {
-        $this->assertTrue(true);
+        $session = Session::factory(1)->create();
+        $character = Character::factory(1)->create()[0];
+
+        $character->sessions()->attach($session);
+
+        $this->assertCount(1, $character->sessions()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_belong_to_campaigns()
+    {
+        $campaign = Campaign::factory(1)->create();
+        $character = Character::factory(1)->create()[0];
+
+        $character->campaigns()->attach($campaign);
+
+        $this->assertCount(1, $character->campaigns()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_have_items()
+    {
+        Item::factory(1)->create();
+        $character = Character::has('items')->first();
+
+        $this->assertCount(1, $character->items()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_have_trades()
+    {
+        Trade::factory(1)->create();
+        $character = Character::has('trades')->first();
+
+        $this->assertCount(1, $character->trades()->get());
     }
 }
