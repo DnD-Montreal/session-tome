@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Rating;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -14,12 +15,29 @@ class RatingTest extends TestCase
     use WithFaker;
 
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * @test
      */
-    public function test_example()
+    public function can_belong_to_entry()
     {
-        $this->assertTrue(true);
+        $rating = Rating::factory(1)->create()[0];
+        $this->assertCount(1, $rating->entry()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_about_user()
+    {
+        $rating = Rating::factory(1)->create()[0];
+        $this->assertCount(1, $rating->user()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_belong_to_author()
+    {
+        $rating = Rating::factory(1)->create()[0];
+        $this->assertCount(1, $rating->author()->get());
     }
 }
