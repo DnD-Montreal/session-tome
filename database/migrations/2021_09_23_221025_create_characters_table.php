@@ -21,7 +21,7 @@ class CreateCharactersTable extends Migration
             $table->string('name');
             $table->string('race');
             $table->string('class');
-            $table->string('level');
+            $table->integer('level');
             $table->string('faction');
             $table->string('downtime');
             $table->string('status');

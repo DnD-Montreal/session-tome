@@ -27,7 +27,7 @@ class CharacterUpdateRequest extends FormRequest
             'name' => ['required', 'string'],
             'race' => ['required', 'string'],
             'class' => ['required', 'string'],
-            'level' => ['required', 'string'],
+            'level' => ['required', 'digits_between:1,20'],
             'faction' => ['required', 'string'],
             'downtime' => ['required', 'string'],
             'status' => ['required', 'string'],

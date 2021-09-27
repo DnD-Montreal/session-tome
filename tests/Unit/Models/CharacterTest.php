@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Campaign;
 use App\Models\Character;
+use App\Models\Entry;
 use App\Models\Item;
 use App\Models\Session;
 use App\Models\Trade;
@@ -64,5 +65,17 @@ class CharacterTest extends TestCase
         $character = Character::has('trades')->first();
 
         $this->assertCount(1, $character->trades()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_have_entries()
+    {
+        Entry::factory(1)->create();
+
+        $entries = Character::first()->entries()->get();
+
+        $this->assertCount(1, $entries);
     }
 }

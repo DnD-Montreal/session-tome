@@ -66,7 +66,7 @@ class CharacterControllerTest extends TestCase
         $name = $this->faker->name;
         $race = $this->faker->word;
         $class = $this->faker->word;
-        $level = $this->faker->word;
+        $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
         $downtime = $this->faker->word;
         $status = $this->faker->word;
@@ -149,7 +149,7 @@ class CharacterControllerTest extends TestCase
         $name = $this->faker->name;
         $race = $this->faker->word;
         $class = $this->faker->word;
-        $level = $this->faker->word;
+        $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
         $downtime = $this->faker->word;
         $status = $this->faker->word;
