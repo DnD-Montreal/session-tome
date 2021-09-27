@@ -1,0 +1,164 @@
+<?php
+
+namespace Tests\Feature\Http\Controllers;
+
+use App\Models\Adventure;
+use App\Models\Campaign;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use JMac\Testing\Traits\AdditionalAssertions;
+use Tests\TestCase;
+
+/**
+ * @see \App\Http\Controllers\CampaignController
+ */
+class CampaignControllerTest extends TestCase
+{
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
+
+    /**
+     * @test
+     */
+    public function index_displays_view()
+    {
+        $campaigns = Campaign::factory()->count(3)->create();
+
+        $response = $this->get(route('campaign.index'));
+
+        $response->assertOk();
+        $response->assertViewIs('campaign.index');
+        $response->assertViewHas('campaigns');
+    }
+
+
+    /**
+     * @test
+     */
+    public function create_displays_view()
+    {
+        $response = $this->get(route('campaign.create'));
+
+        $response->assertOk();
+        $response->assertViewIs('campaign.create');
+    }
+
+
+    /**
+     * @test
+     */
+    public function store_uses_form_request_validation()
+    {
+        $this->assertActionUsesFormRequest(
+            \App\Http\Controllers\CampaignController::class,
+            'store',
+            \App\Http\Requests\CampaignStoreRequest::class
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function store_saves_and_redirects()
+    {
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+
+        $response = $this->post(route('campaign.store'), [
+            'adventure_id' => $adventure->id,
+            'title' => $title,
+        ]);
+
+        $campaigns = Campaign::query()
+            ->where('adventure_id', $adventure->id)
+            ->where('title', $title)
+            ->get();
+        $this->assertCount(1, $campaigns);
+        $campaign = $campaigns->first();
+
+        $response->assertRedirect(route('campaign.index'));
+        $response->assertSessionHas('campaign.id', $campaign->id);
+    }
+
+
+    /**
+     * @test
+     */
+    public function show_displays_view()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->get(route('campaign.show', $campaign));
+
+        $response->assertOk();
+        $response->assertViewIs('campaign.show');
+        $response->assertViewHas('campaign');
+    }
+
+
+    /**
+     * @test
+     */
+    public function edit_displays_view()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->get(route('campaign.edit', $campaign));
+
+        $response->assertOk();
+        $response->assertViewIs('campaign.edit');
+        $response->assertViewHas('campaign');
+    }
+
+
+    /**
+     * @test
+     */
+    public function update_uses_form_request_validation()
+    {
+        $this->assertActionUsesFormRequest(
+            \App\Http\Controllers\CampaignController::class,
+            'update',
+            \App\Http\Requests\CampaignUpdateRequest::class
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function update_redirects()
+    {
+        $campaign = Campaign::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+
+        $response = $this->put(route('campaign.update', $campaign), [
+            'adventure_id' => $adventure->id,
+            'title' => $title,
+        ]);
+
+        $campaign->refresh();
+
+        $response->assertRedirect(route('campaign.index'));
+        $response->assertSessionHas('campaign.id', $campaign->id);
+
+        $this->assertEquals($adventure->id, $campaign->adventure_id);
+        $this->assertEquals($title, $campaign->title);
+    }
+
+
+    /**
+     * @test
+     */
+    public function destroy_deletes_and_redirects()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->delete(route('campaign.destroy', $campaign));
+
+        $response->assertRedirect(route('campaign.index'));
+
+        $this->assertDeleted($campaign);
+    }
+}
