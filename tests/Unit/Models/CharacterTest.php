@@ -19,12 +19,6 @@ class CharacterTest extends TestCase
     use WithFaker;
 
     /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-
-    /**
      * @test
      */
     public function can_belong_to_sessions()
