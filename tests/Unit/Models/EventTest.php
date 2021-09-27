@@ -2,6 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Entry;
+use App\Models\Event;
+use App\Models\League;
+use App\Models\Session;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -14,12 +18,35 @@ class EventTest extends TestCase
     use WithFaker;
 
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * @test
      */
-    public function test_example()
+    public function can_have_entries()
     {
-        $this->assertTrue(true);
+        Entry::factory(1)->create();
+        $event = Event::has('entries')->first();
+
+        $this->assertCount(1, $event->entries);
+    }
+
+    /**
+     * @test
+    */
+    public function can_have_sessions()
+    {
+        Session::factory(1)->create();
+        $event = Event::first();
+
+        $this->assertCount(1, $event->sessions()->get());
+    }
+
+
+    /**
+     * @test
+     */
+    public function can_belong_to_league()
+    {
+        $event = Event::factory(1)->create()[0];
+
+        $this->assertCount(1, $event->league()->get());
     }
 }
