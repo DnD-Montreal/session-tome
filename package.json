@@ -65,13 +65,14 @@
         "@emotion/styled": "^11.3.0",
         "@mui/material": "^5.0.0",
         "eslint-plugin-prettier": "^4.0.0",
-        "prettier": "^2.3.2"
+        "prettier": "^2.3.2",
+        "react-inlinesvg": "^2.3.0"
     },
     "jest": {
         "setupFilesAfterEnv": [
             "./jest-config.js"
         ],
-        "roots":[
+        "roots": [
             "resources/"
         ]
     },
