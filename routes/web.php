@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+require __DIR__.'/auth.php';
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,4 +30,32 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::resource('user', App\Http\Controllers\UserController::class);
+
+Route::resource('rating', App\Http\Controllers\RatingController::class);
+
+Route::resource('adventure', App\Http\Controllers\AdventureController::class);
+
+Route::resource('entry', App\Http\Controllers\EntryController::class);
+
+Route::resource('character', App\Http\Controllers\CharacterController::class);
+
+Route::resource('item', App\Http\Controllers\ItemController::class);
+
+Route::resource('trade', App\Http\Controllers\TradeController::class);
+
+Route::resource('event', App\Http\Controllers\EventController::class);
+
+Route::resource('session', App\Http\Controllers\SessionController::class);
+
+Route::resource('league', App\Http\Controllers\LeagueController::class);
+
+Route::resource('role', App\Http\Controllers\RoleController::class);
+
+Route::resource('campaign', App\Http\Controllers\CampaignController::class);
+
+
+if (config('app.env') !== "production") {
+    Route::get('/token', fn () => csrf_token());
+    Route::get('/dev/{path}', fn ($path) => Inertia::render($path));
+}
