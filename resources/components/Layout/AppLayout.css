@@ -4,6 +4,7 @@
   background-color: #232b2b;
   color: white;
   font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.8em;
 }
 
 #primaryRow {
@@ -15,25 +16,4 @@
 #secondaryRow {
   margin-bottom: 2em;
   text-align: center;
-}
-
-a {
-  text-decoration: none;
-  color: white;
-}
-
-a:hover {
-  color: white;
-}
-
-a:active {
-  color: white;
-}
-
-a:visited {
-  color: white;
-  text-decoration: underline;
-  text-decoration-color: white;
-  text-decoration-thickness: 1em;
-  text-underline-offset: 1em;
 }
