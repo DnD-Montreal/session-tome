@@ -1,11 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
 
 @media only screen and (max-width: 900px) {
-  #userAvatar {
-    display: none;
-  }
   #usernameAvatar {
-    margin-top: 0.75em;
+    margin-top: 0.1em;
   }
 }
 

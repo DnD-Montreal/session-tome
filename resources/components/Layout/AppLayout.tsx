@@ -27,15 +27,15 @@ const AppLayout = () => (
                 container
                 xs={12}
                 md={3}
-                spacing={3}
-                justifyContent='space-around'
+                spacing={6}
+                justifyContent='space-evenly'
                 alignItems='center'>
-                <Grid item xs={12} md={2}>
+                <Grid item container xs={6} md={2} justifyContent='center'>
                     <Link underline='none' color='white' href='/#'>
                         DragonSlayer999
                     </Link>
                 </Grid>
-                <Grid item xs={12} md={1}>
+                <Grid item container xs md={1} justifyContent='center'>
                     <Avatar id='userAvatar' sx={{bgcolor: '#FF4500'}}>
                         DS
                     </Avatar>
