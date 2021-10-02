@@ -1,7 +1,6 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
 import SVG from 'react-inlinesvg'
-import {Avatar, Link} from '@mui/material'
+import {Avatar, Link, Grid} from '@mui/material'
 import styled from '@emotion/styled'
 import associationLogo from '../../icons/ParentAssociationLogoWhite.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
