@@ -2,15 +2,42 @@ import React from 'react'
 import Grid from '@mui/material/Grid'
 import SVG from 'react-inlinesvg'
 import {Avatar, Link} from '@mui/material'
+import styled from '@emotion/styled'
 import associationLogo from '../../icons/ParentAssociationLogoWhite.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
-import './AppLayout.css'
+
+const MainGrid = styled(Grid)`
+    background-color: #232b2b;
+    color: white;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 0.8em;
+    flex-grow: 1;
+`
+const PrimaryRow = styled(Grid)`
+    padding-top: 3em;
+    margin-bottom: 3em;
+    text-align: center;
+`
+
+const SecondaryRow = styled(Grid)`
+    margin-bottom: 2em;
+    text-align: center;
+`
+
+const UsernameAvatar = styled(Grid)`
+    @media only screen and (max-width: 900px) {
+        margin-top: 0.1em;
+    }
+`
+
+const ContentRow = styled(Grid)`
+    height: 100vh;
+`
 
 // ToDo: implement app layout component
 const AppLayout = () => (
-    <Grid id='gridStyle' container>
-        <Grid
-            id='primaryRow'
+    <MainGrid container>
+        <PrimaryRow
             item
             container
             justifyContent='space-between'
@@ -21,8 +48,7 @@ const AppLayout = () => (
             <Grid item xs={12} md={6}>
                 <SVG src={applicationLogo} width={278} height={51} />
             </Grid>
-            <Grid
-                id='usernameAvatar'
+            <UsernameAvatar
                 item
                 container
                 xs={12}
@@ -36,14 +62,11 @@ const AppLayout = () => (
                     </Link>
                 </Grid>
                 <Grid item container xs md={1} justifyContent='center'>
-                    <Avatar id='userAvatar' sx={{bgcolor: '#FF4500'}}>
-                        DS
-                    </Avatar>
+                    <Avatar sx={{bgcolor: '#FF4500'}}>DS</Avatar>
                 </Grid>
-            </Grid>
-        </Grid>
-        <Grid
-            id='secondaryRow'
+            </UsernameAvatar>
+        </PrimaryRow>
+        <SecondaryRow
             item
             container
             direction='row'
@@ -74,18 +97,17 @@ const AppLayout = () => (
                     Ratings
                 </Link>
             </Grid>
-        </Grid>
-        <Grid
-            id='thirdRow'
+        </SecondaryRow>
+        <ContentRow
             item
             container
             justifyContent='center'
-            alignItems='center'>
+            alignItems='flex-start'>
             <div id='content'>
                 <p>Content</p>
             </div>
-        </Grid>
-    </Grid>
+        </ContentRow>
+    </MainGrid>
 )
 
 AppLayout.displayName = 'AppLayout'
