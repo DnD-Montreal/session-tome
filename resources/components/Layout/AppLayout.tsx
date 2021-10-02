@@ -2,7 +2,7 @@ import React from 'react'
 import SVG from 'react-inlinesvg'
 import {Avatar, Link, Grid} from '@mui/material'
 import styled from '@emotion/styled'
-import associationLogo from '../../icons/ParentAssociationLogoWhite.svg'
+import associationLogo from '../../icons/DNDMtlLogo.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
 
 const MainGrid = styled(Grid)`
