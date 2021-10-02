@@ -43,10 +43,18 @@ const AppLayout = () => (
             justifyContent='space-between'
             alignItems='center'>
             <Grid item xs={12} md={3}>
-                <SVG src={associationLogo} width={130} height={60} />
+                <Link
+                    underline='none'
+                    href='https://dndmtl.com/'
+                    target='_blank'
+                    rel='noopener'>
+                    <SVG src={associationLogo} width={130} height={60} />
+                </Link>
             </Grid>
             <Grid item xs={12} md={6}>
-                <SVG src={applicationLogo} width={278} height={51} />
+                <Link underline='none' href='/#'>
+                    <SVG src={applicationLogo} width={278} height={51} />
+                </Link>
             </Grid>
             <UsernameAvatar
                 item
