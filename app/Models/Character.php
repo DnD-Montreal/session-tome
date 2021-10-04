@@ -33,6 +33,14 @@ class Character extends Model
         'id' => 'integer',
     ];
 
+    public const FACTIONS = [
+        'harpers' => "The Harpers",
+        'order' => "The Order of the Gauntlet",
+        'emerald' => "The Emerald Enclave",
+        'lords' => "The Lords' Alliance",
+        'zhentarim' => "The Zhentarim"
+
+    ];
 
     public function user()
     {
