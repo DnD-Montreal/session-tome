@@ -22,7 +22,7 @@ class Character extends Model
         'faction',
         'downtime',
         'status',
-        'character_sheet:x'
+        'character_sheet'
     ];
 
     /**
