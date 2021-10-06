@@ -5,6 +5,7 @@ namespace Tests\Unit\Adapters;
 use App\Facades\Beyond;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\UnauthorizedException;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -56,7 +57,7 @@ class BeyondTest extends TestCase
      *
      * @test
      */
-    public function a_private_character_throws_a_403()
+    public function a_private_character_throws_a_403_exception()
     {
         // Mock the response from dnd beyond
         Http::fake([
@@ -65,5 +66,27 @@ class BeyondTest extends TestCase
 
         $this->expectException(UnauthorizedException::class);
         Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function characters_are_cached_when_accessed()
+    {
+        // Mock the response from dnd beyond
+        Http::fake([
+            'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200)
+        ]);
+
+        $character = Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+        // accessing a second time should pull the character from the cache
+        $cacheCharacter = Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+
+        $this->assertTrue(Cache::has('character.1234567'));
+        $this->assertEquals($character->name, $cacheCharacter->name);
+        $this->assertEquals($character->race, $cacheCharacter->race);
+        $this->assertEquals($character->class, $cacheCharacter->class);
+        $this->assertEquals($character->level, $cacheCharacter->level);
     }
 }
