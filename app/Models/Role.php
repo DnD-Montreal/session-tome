@@ -36,11 +36,6 @@ class Role extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\User::class);
-    }
-
-    public function league(): BelongsTo
-    {
-        return $this->belongsTo(\App\Models\League::class);
+        return $this->belongsToMany(\App\Models\User::class)->withPivot('league_id');
     }
 }
