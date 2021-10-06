@@ -96,10 +96,6 @@ class UserControllerTest extends TestCase
         $email = $this->faker->safeEmail;
         $password = $this->faker->password;
 
-        //breaks here
-        //fails to authenticate in App\Http\Requests\UserUpdateRequests->authenticate()
-        //hardcoding authenticate() to return true causes the test to pass
-        //perhaps the test isnt sending the proper data through the request? or auth is looking for the wrong data?
         $response = $this->actingAs($user)->put(route('user.update', $user), [
             'name' => $name,
             'email' => $email,
