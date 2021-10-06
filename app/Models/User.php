@@ -96,10 +96,7 @@ class User extends Authenticatable
     {
         $leagueRoles = $this->roles()->where('type', Role::LEAGUE_ADMIN)->get();
 
-        //dd($leagueRoles->pluck('type'));
-
         foreach ($leagueRoles as $leagueRole) {
-            dd($leagueRole->league);
             if ($leagueRole->league->id == $leagueId);
             return true;
         }

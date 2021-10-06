@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -95,7 +96,7 @@ class UserControllerTest extends TestCase
         $email = $this->faker->safeEmail;
         $password = $this->faker->password;
 
-        $response = $this->put(route('user.update', $user), [
+        $response = $this->actingAs($user)->put(route('user.update', $user), [
             'name' => $name,
             'email' => $email,
             'password' => $password,
@@ -111,7 +112,6 @@ class UserControllerTest extends TestCase
         $this->assertEquals($email, $user->email);
         $this->assertEquals($password, $user->password);
     }
-
 
     /**
      * @test
