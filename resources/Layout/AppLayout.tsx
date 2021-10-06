@@ -1,7 +1,9 @@
-import React from 'react'
+/* eslint-disable no-undef */
+import React, {ReactNode} from 'react'
 import SVG from 'react-inlinesvg'
-import {Avatar, Link, Grid} from '@mui/material'
+import {Avatar, Grid} from '@mui/material'
 import styled from '@emotion/styled'
+import {Link} from '@inertiajs/inertia-react'
 import associationLogo from '../../icons/DNDMtlLogo.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
 
@@ -33,8 +35,9 @@ const ContentRow = styled(Grid)`
     height: 100vh;
 `
 
-// ToDo: implement app layout component
-const AppLayout = () => (
+type LayoutProps = {children: ReactNode}
+
+const AppLayout = ({children}: LayoutProps) => (
     <MainGrid container>
         <PrimaryRow
             item
@@ -42,18 +45,17 @@ const AppLayout = () => (
             justifyContent='space-between'
             alignItems='center'>
             <Grid item xs={12} md={3}>
-                <Link
-                    underline='none'
+                <a
                     href='https://dndmtl.com/'
                     target='_blank'
-                    rel='noopener'>
+                    rel='noopener noreferrer'>
                     <SVG src={associationLogo} width={130} height={60} />
-                </Link>
+                </a>
             </Grid>
             <Grid item xs={12} md={6}>
-                <Link underline='none' href='/#'>
+                <a href='/#'>
                     <SVG src={applicationLogo} width={278} height={51} />
-                </Link>
+                </a>
             </Grid>
             <UsernameAvatar
                 item
@@ -64,9 +66,9 @@ const AppLayout = () => (
                 justifyContent='space-evenly'
                 alignItems='center'>
                 <Grid item container xs={6} md={2} justifyContent='center'>
-                    <Link underline='none' color='white' href='/#'>
+                    <a color='white' href='/#'>
                         DragonSlayer999
-                    </Link>
+                    </a>
                 </Grid>
                 <Grid item container xs md={1} justifyContent='center'>
                     <Avatar sx={{bgcolor: '#FF4500'}}>DS</Avatar>
@@ -80,27 +82,27 @@ const AppLayout = () => (
             spacing={0}
             justifyContent='center'>
             <Grid item xs={12} md={2}>
-                <Link underline='none' color='white' href='/#'>
+                <Link color='white' href='/character'>
                     Home
                 </Link>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link underline='none' color='white' href='/#'>
+                <Link href='/character/index' color='white'>
                     Characters
                 </Link>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link underline='none' color='white' href='/#'>
+                <Link color='white' href='/#'>
                     Item Shop
                 </Link>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link underline='none' color='white' href='/#'>
+                <Link color='white' href='/#'>
                     Campaigns
                 </Link>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link underline='none' color='white' href='/#'>
+                <Link color='white' href='/#'>
                     Ratings
                 </Link>
             </Grid>
@@ -110,9 +112,7 @@ const AppLayout = () => (
             container
             justifyContent='center'
             alignItems='flex-start'>
-            <div id='content'>
-                <p>Content</p>
-            </div>
+            <div id='content'>{children}</div>
         </ContentRow>
     </MainGrid>
 )

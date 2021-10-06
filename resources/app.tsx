@@ -4,7 +4,6 @@ import {Global} from '@emotion/react'
 import {InertiaApp} from '@inertiajs/inertia-react'
 import {InertiaProgress} from '@inertiajs/progress'
 import {globalStyles} from './global'
-import AppLayout from './components/Layout/AppLayout'
 
 InertiaProgress.init({
     color: '#ED8936',
@@ -22,7 +21,6 @@ render(
             }
         />
         <Global styles={globalStyles} />
-        <AppLayout />
     </>,
     app,
 )
