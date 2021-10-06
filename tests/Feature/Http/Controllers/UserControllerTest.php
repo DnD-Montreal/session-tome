@@ -92,9 +92,19 @@ class UserControllerTest extends TestCase
     public function update_redirects()
     {
         $user = User::factory()->create();
+        $otherUser = User::factory()->create();
         $name = $this->faker->name;
         $email = $this->faker->safeEmail;
         $password = $this->faker->password;
+
+        $response = $this->actingAs($user)->put(route('user.update', $otherUser), [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertForbidden();
 
         $response = $this->actingAs($user)->put(route('user.update', $user), [
             'name' => $name,
