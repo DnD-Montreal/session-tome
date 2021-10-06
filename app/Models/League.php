@@ -39,9 +39,4 @@ class League extends Model
     {
         return $this->hasMany(\App\Models\Event::class);
     }
-
-    public function roles(): HasMany
-    {
-        return $this->hasMany(Role::class);
-    }
 }
