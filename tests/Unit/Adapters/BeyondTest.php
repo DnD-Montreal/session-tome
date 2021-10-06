@@ -21,14 +21,16 @@ class BeyondTest extends TestCase
 
     public $fakeUnauthorizedData;
 
+    public $characterUrl;
+
     public function setUp(): void
     {
         parent::setUp();
 
         // Donte is a lvl 20 Variant Human Fighter
         $this->fakeCharacterData = file_get_contents(database_path('mocks/beyond-donte.json'));
-
         $this->fakeUnauthorizedData = file_get_contents(database_path('mocks/beyond-unauthorized.json'));
+        $this->characterUrl = "https://www.dndbeyond.com/profile/UserName/characters/1234567";
     }
 
     /**
@@ -44,7 +46,7 @@ class BeyondTest extends TestCase
            'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200)
         ]);
 
-        $character = Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+        $character = Beyond::getCharacter($this->characterUrl);
 
         $this->assertEquals("Donte Greyson", $character->name);
         $this->assertEquals("Variant Human", $character->race);
@@ -65,7 +67,7 @@ class BeyondTest extends TestCase
         ]);
 
         $this->expectException(UnauthorizedException::class);
-        Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+        Beyond::getCharacter($this->characterUrl);
     }
 
     /**
@@ -79,9 +81,9 @@ class BeyondTest extends TestCase
             'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200)
         ]);
 
-        $character = Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+        $character = Beyond::getCharacter($this->characterUrl);
         // accessing a second time should pull the character from the cache
-        $cacheCharacter = Beyond::getCharacter("https://www.dndbeyond.com/profile/UserName/characters/1234567");
+        $cacheCharacter = Beyond::getCharacter($this->characterUrl);
 
         $this->assertTrue(Cache::has('character.1234567'));
         $this->assertEquals($character->name, $cacheCharacter->name);
