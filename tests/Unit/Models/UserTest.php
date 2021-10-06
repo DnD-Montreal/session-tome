@@ -57,9 +57,7 @@ class UserTest extends TestCase
             'type' => Role::LEAGUE_ADMIN
         ]);
 
-        $testRole->league()->associate($testLeague)->save();
-
-        $testUser->roles()->attach($testRole);
+        $testUser->roles()->attach($testRole, ['league_id' => $testLeague->id]);
 
         $this->AssertTrue($testUser->isLeagueAdmin($testLeague->id));
     }
