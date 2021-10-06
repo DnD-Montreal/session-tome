@@ -40,6 +40,12 @@ class BeyondAdapter
         $this->characterData = collect();
     }
 
+    /**
+     * Extract Character data from DnD Beyonds API and Hydrate as Character Model
+     *
+     * @param $url
+     * @return Character
+     */
     public function getCharacter($url): Character
     {
 
@@ -61,7 +67,7 @@ class BeyondAdapter
     }
 
     /**
-     * Extract the character ID from a supplied url
+     * Extract the character ID from a supplied url. Also supports if only the ID is passed.
      *
      * @param $url
      * @return string
