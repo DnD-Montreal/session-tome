@@ -68,8 +68,8 @@ class CharacterControllerTest extends TestCase
         $class = $this->faker->word;
         $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
-        $downtime = $this->faker->word;
-        $status = $this->faker->word;
+        $downtime = $this->faker->numberBetween(0, 1000);
+        $status = $this->faker->randomElement(["private", "public"]);
 
         $response = $this->actingAs(User::first())->post(route('character.store'), [
             'name' => $name,
@@ -151,8 +151,8 @@ class CharacterControllerTest extends TestCase
         $class = $this->faker->word;
         $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
-        $downtime = $this->faker->word;
-        $status = $this->faker->word;
+        $downtime = $this->faker->numberBetween(0, 1000);
+        $status = $this->faker->randomElement(["private", "public"]);
 
         $response = $this->put(route('character.update', $character), [
             'name' => $name,
