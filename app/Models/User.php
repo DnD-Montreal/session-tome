@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Role::class);
+        return $this->belongsToMany(\App\Models\Role::class)->withPivot('league_id');
     }
 
     public function characters()
@@ -94,11 +94,10 @@ class User extends Authenticatable
      */
     public function isLeagueAdmin($leagueId): bool
     {
-        $leagueRoles = $this->roles()->where('type', Role::LEAGUE_ADMIN)->get();
-
-        foreach ($leagueRoles as $leagueRole) {
-            if ($leagueRole->league->id == $leagueId);
-            return true;
+        foreach ($this->roles as $role) {
+            if ($role->pivot->league_id == $leagueId) {
+                return true;
+            }
         }
         return false;
     }
