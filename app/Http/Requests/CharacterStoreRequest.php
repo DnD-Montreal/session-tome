@@ -29,7 +29,7 @@ class CharacterStoreRequest extends FormRequest
             'class' => ['required', 'string'],
             'level' => ['required', 'digits_between:1,20'],
             'faction' => ['required', 'string'],
-            'downtime' => ['required', 'string'],
+            'downtime' => ['required', 'integer'],
             'status' => ['required', 'string'],
         ];
     }
