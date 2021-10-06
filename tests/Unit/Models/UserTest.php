@@ -61,15 +61,6 @@ class UserTest extends TestCase
 
         $testUser->roles()->attach($testRole);
 
-        /*$test = $testUser->roles()->where("type", Role::LEAGUE_ADMIN)->get();
-
-        foreach($test as $t)
-        {
-            dd($t->id == $testRole->id);
-            dd($testRole->league);
-            dd($t->league);
-        }*/
-
         $this->AssertTrue($testUser->isLeagueAdmin($testLeague->id));
     }
 }
