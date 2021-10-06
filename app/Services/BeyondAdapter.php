@@ -50,7 +50,8 @@ class BeyondAdapter
     {
 
         // Fetch character data, cache to avoid abusing DnD Beyond's API
-        $data = $this->cacheCall(static::extractId($url));
+        $id = static::extractId($url);
+        $data = $this->cacheCall($id);
 
         // Extract Data
         $data = [
@@ -59,7 +60,8 @@ class BeyondAdapter
             'race' => $data['race']['fullName'],
             'class' => collect($data['classes'])->pluck('definition.name')->implode(" / "),
             'level' => collect($data['classes'])->pluck('level')->sum(),
-            'faction' => Str::of($data['notes']['organizations'])->contains(Character::FACTIONS) ? $data['notes']['organizations'] : "",
+            'character_sheet' => "https://www.dndbeyond.com/characters/" . $id,
+            'faction' => Str::of($data['notes']['organizations'])->contains(Character::FACTIONS) ? $data['notes']['organizations'] : null,
         ];
 
         // Hydrate Model
