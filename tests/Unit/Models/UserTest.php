@@ -60,5 +60,30 @@ class UserTest extends TestCase
         $testUser->roles()->attach($testRole, ['league_id' => $testLeague->id]);
 
         $this->AssertTrue($testUser->isLeagueAdmin($testLeague->id));
+        $this->AssertFalse(User::factory()->create()->isLeagueAdmin($testLeague->id));
+    }
+
+    public function test_user_has_any_role_returns_false()
+    {
+        $testUser = User::factory()->create();
+        $testRole = Role::create([
+            'name' => "test admin",
+            'type' => Role::SITE_ADMIN
+        ]);
+
+
+        $this->AssertFalse($testUser->hasAnyRole());
+    }
+    public function test_user_has_any_role_returns_true()
+    {
+        $testUser = User::factory()->create();
+        $testRole = Role::create([
+            'name' => "test admin",
+            'type' => Role::SITE_ADMIN
+        ]);
+
+        $testUser->roles()->attach($testRole, ['league_id' => 0]);
+
+        $this->AssertTrue($testUser->hasAnyRole());
     }
 }
