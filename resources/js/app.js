@@ -15,7 +15,7 @@ render(
         <InertiaApp
             initialPage=''
             resolveComponent={(name) =>
-                import(`./Pages/${name}`).then((module) => module.default)
+                import(`./js/Pages/${name}`).then((module) => module.default)
             }
         />
         <p>Test</p>
