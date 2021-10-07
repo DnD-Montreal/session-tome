@@ -11,13 +11,13 @@ const mix = require('laravel-mix')
  |
  */
 
-mix.ts('resources/app.tsx', 'public/js')
+mix.ts('resources/js/app.js', 'public/js')
     .react()
-    // .postCss('resources/css/app.css', 'public/css', [
-    // require('postcss-import'),
-    // require('tailwindcss'),
-    // require('autoprefixer'),
-    // ])
+    .postCss('resources/css/app.css', 'public/css', [
+        require('postcss-import'), // eslint-disable-line global-require
+        require('tailwindcss'), // eslint-disable-line global-require
+        require('autoprefixer'), // eslint-disable-line global-require
+    ])
     .webpackConfig(require('./webpack.config'))
 
 if (mix.inProduction()) {
