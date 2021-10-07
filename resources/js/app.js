@@ -1,24 +1,10 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {InertiaApp} from '@inertiajs/inertia-react'
-import {InertiaProgress} from '@inertiajs/progress'
+import {createInertiaApp} from '@inertiajs/inertia-react'
 
-InertiaProgress.init({
-    color: '#ED8936',
-    showSpinner: true,
+createInertiaApp({
+    resolve: (name) => require(`./Pages/${name}`), // eslint-disable-line global-require, import/no-dynamic-require
+    setup({el, App, props}) {
+        render(<App {...props} />, el)
+    },
 })
-
-const app = document.getElementById('app')
-
-render(
-    <>
-        <InertiaApp
-            initialPage=''
-            resolveComponent={(name) =>
-                import(`./js/Pages/${name}`).then((module) => module.default)
-            }
-        />
-        <p>Test</p>
-    </>,
-    app,
-)
