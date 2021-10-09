@@ -71,6 +71,23 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate --force
 
+      - name: Jest tests with Code Climate Coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
+        with:
+          coverageCommand: yarn jest --coverage
+          coverageLocations: coverage/coverage.xml:clover
+
+      - name: Copy .env file
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+
+      - name: Migrate Database
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: php artisan migrate --force
+
       - name: Serve Site
         run: nohup php artisan serve &
 
