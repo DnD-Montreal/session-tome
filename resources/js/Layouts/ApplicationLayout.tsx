@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 import React, {ReactNode} from 'react'
 import SVG from 'react-inlinesvg'
-import {Avatar, Grid} from '@mui/material'
+import {Avatar, Grid, Link} from '@mui/material'
 import styled from '@emotion/styled'
-import {Link} from '@inertiajs/inertia-react'
+import {Link as InertiaLink} from '@inertiajs/inertia-react'
 import associationLogo from '../../icons/DNDMtlLogo.svg'
-import applicationLogo from '../icons/SessionTomeOfficialLogo.svg'
+import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
 
 const MainGrid = styled(Grid)`
     background-color: #232b2b;
@@ -37,25 +37,37 @@ const ContentRow = styled(Grid)`
 
 type LayoutProps = {children: ReactNode}
 
-const AppLayout = ({children}: LayoutProps) => (
+const ApplicationLayout = ({children}: LayoutProps) => (
     <MainGrid container>
         <PrimaryRow
             item
             container
             justifyContent='space-between'
             alignItems='center'>
-            <Grid item xs={12} md={3}>
-                <a
+            <Grid
+                item
+                container
+                xs={12}
+                md={3}
+                alignItems='center'
+                justifyContent='center'>
+                <Link
                     href='https://dndmtl.com/'
                     target='_blank'
                     rel='noopener noreferrer'>
                     <SVG src={associationLogo} width={130} height={60} />
-                </a>
+                </Link>
             </Grid>
-            <Grid item xs={12} md={6}>
-                <a href='/#'>
+            <Grid
+                item
+                container
+                xs={12}
+                md={6}
+                alignItems='center'
+                justifyContent='center'>
+                <Link href='/#'>
                     <SVG src={applicationLogo} width={278} height={51} />
-                </a>
+                </Link>
             </Grid>
             <UsernameAvatar
                 item
@@ -66,9 +78,9 @@ const AppLayout = ({children}: LayoutProps) => (
                 justifyContent='space-evenly'
                 alignItems='center'>
                 <Grid item container xs={6} md={2} justifyContent='center'>
-                    <a color='white' href='/#'>
+                    <Link color='white' href='/#'>
                         DragonSlayer999
-                    </a>
+                    </Link>
                 </Grid>
                 <Grid item container xs md={1} justifyContent='center'>
                     <Avatar sx={{bgcolor: '#FF4500'}}>DS</Avatar>
@@ -82,29 +94,29 @@ const AppLayout = ({children}: LayoutProps) => (
             spacing={0}
             justifyContent='center'>
             <Grid item xs={12} md={2}>
-                <Link color='white' href='/character'>
+                <InertiaLink color='white' href='/#'>
                     Home
-                </Link>
+                </InertiaLink>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link href='/character/index' color='white'>
+                <InertiaLink color='white' href='/#'>
                     Characters
-                </Link>
+                </InertiaLink>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link color='white' href='/#'>
+                <InertiaLink color='white' href='/#'>
                     Item Shop
-                </Link>
+                </InertiaLink>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link color='white' href='/#'>
+                <InertiaLink color='white' href='/#'>
                     Campaigns
-                </Link>
+                </InertiaLink>
             </Grid>
             <Grid item xs={12} md={2}>
-                <Link color='white' href='/#'>
+                <InertiaLink color='white' href='/#'>
                     Ratings
-                </Link>
+                </InertiaLink>
             </Grid>
         </SecondaryRow>
         <ContentRow
@@ -117,5 +129,5 @@ const AppLayout = ({children}: LayoutProps) => (
     </MainGrid>
 )
 
-AppLayout.displayName = 'AppLayout'
-export default AppLayout
+ApplicationLayout.displayName = 'ApplicationLayout'
+export default ApplicationLayout

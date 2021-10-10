@@ -56,9 +56,9 @@ Route::resource('role', App\Http\Controllers\RoleController::class);
 
 Route::resource('campaign', App\Http\Controllers\CampaignController::class);
 
-Route::get('/charactertest', fn () => Inertia::render('Character/index'));
-
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
-    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where(['path' => '.*']);
+    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where([
+        'path' => '.*',
+    ]);
 }
