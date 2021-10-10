@@ -35,6 +35,11 @@ const ContentRow = styled(Grid)`
     height: 100vh;
 `
 
+const MUILink = styled(Link)`
+    text-decoration: none;
+    color: white;
+`
+
 type LayoutProps = {children: ReactNode}
 
 const ApplicationLayout = ({children}: LayoutProps) => (
@@ -78,9 +83,7 @@ const ApplicationLayout = ({children}: LayoutProps) => (
                 justifyContent='space-evenly'
                 alignItems='center'>
                 <Grid item container xs={6} md={2} justifyContent='center'>
-                    <Link color='white' href='/#'>
-                        DragonSlayer999
-                    </Link>
+                    <MUILink href='/#'>DragonSlayer999</MUILink>
                 </Grid>
                 <Grid item container xs md={1} justifyContent='center'>
                     <Avatar sx={{bgcolor: '#FF4500'}}>DS</Avatar>
