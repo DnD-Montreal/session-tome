@@ -1,7 +1,10 @@
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const path = require('path')
 
 module.exports = {
     resolve: {
-        plugins: [new TsconfigPathsPlugin({})],
+        alias: {
+            '@': path.resolve('resources/js'),
+            ziggy: path.resolve('vendor/tightenco/ziggy/dist'),
+        },
     },
 }

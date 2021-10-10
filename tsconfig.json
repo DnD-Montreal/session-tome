@@ -15,15 +15,9 @@
         "isolatedModules": false,
         "noEmit": false,
         "jsx": "react",
-        "baseUrl": "resources/",
+        "baseUrl": "./",
         "paths": {
-            "@components": ["components"],
-            "@types": ["types"],
-            "@utils": ["utils"],
-            "@services/*": ["services/*"],
-            "@models/*": ["models/*"],
-            "@views": ["views"],
-            "@": ["js"]
+            "@/*": ["resources/js/*"]
         }
     },
     "include": ["./resources", "**/*.ts"],

@@ -27,6 +27,7 @@
         "@types/node": "^16.7.13",
         "@types/react": "^17.0.20",
         "@types/react-dom": "^17.0.9",
+        "@types/ziggy-js": "^1.0.1",
         "@typescript-eslint/eslint-plugin": "^4.31.0",
         "@typescript-eslint/parser": "^4.31.0",
         "autoprefixer": "^10.2.4",
@@ -65,13 +66,14 @@
         "@emotion/styled": "^11.3.0",
         "@mui/material": "^5.0.0",
         "eslint-plugin-prettier": "^4.0.0",
-        "prettier": "^2.3.2"
+        "prettier": "^2.3.2",
+        "ziggy-js": "^1.4.2"
     },
     "jest": {
         "setupFilesAfterEnv": [
             "./jest-config.js"
         ],
-        "roots":[
+        "roots": [
             "resources/"
         ]
     },
