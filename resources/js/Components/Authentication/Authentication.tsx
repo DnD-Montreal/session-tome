@@ -1,12 +1,5 @@
 import React, {useState} from 'react'
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControlLabel,
-    Popover,
-    TextField,
-} from '@mui/material'
+import {Box, Button, Popover, TextField, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
@@ -15,79 +8,124 @@ const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
 `
 
-const Authentication = () => {
-    const [anchorEl, setAnchorEl] = useState(null)
+type AuthenticationPropType = {
+    anchorEl: any | null
+    handleClose: () => void
+}
 
-    const handleClick = (event: any) => {
-        setAnchorEl(event.currentTarget)
-    }
+const Login = ({data, setData, post}: any) => (
+    <>
+        <TextField
+            margin='normal'
+            required
+            fullWidth
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
+            autoFocus
+            onChange={(e) => setData('email', e.target.value)}
+            value={data.email}
+        />
+        <TextField
+            margin='normal'
+            required
+            fullWidth
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
+            onChange={(e) => setData('password', e.target.value)}
+            value={data.password}
+        />
+        <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            onClick={() => post(route('login'))}
+            sx={{mt: 3, mb: 2}}>
+            Sign In
+        </Button>
+    </>
+)
 
-    const handleClose = () => {
-        setAnchorEl(null)
-    }
+const Register = ({data, setData, post}: any) => (
+    <>
+        <TextField
+            margin='normal'
+            required
+            fullWidth
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
+            autoFocus
+            onChange={(e) => setData('email', e.target.value)}
+            value={data.email}
+        />
+        <TextField
+            margin='normal'
+            required
+            fullWidth
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
+            onChange={(e) => setData('password', e.target.value)}
+            value={data.password}
+        />
+        <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            onClick={() => post(route('register'))}
+            sx={{mt: 3, mb: 2}}>
+            Register
+        </Button>
+    </>
+)
 
+const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
     const {data, setData, post} = useForm({
         email: '',
         password: '',
     })
 
-    console.log(data)
+    const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)
+    const commonFormDataProps = {data, setData, post}
 
     return (
-        <div>
-            <Button variant='contained' onClick={handleClick}>
-                Open Popover
-            </Button>
-            <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-            >
-                <StyledBox component='form' sx={{width: 300, height: 300}}>
-                    <TextField
-                        margin='normal'
-                        required
-                        fullWidth
-                        id='email'
-                        label='Email Address'
-                        name='email'
-                        autoComplete='email'
-                        autoFocus
-                        onChange={(e) => setData('email', e.target.value)}
-                        value={data.email}
-                    />
-                    <TextField
-                        margin='normal'
-                        required
-                        fullWidth
-                        name='password'
-                        label='Password'
-                        type='password'
-                        id='password'
-                        autoComplete='current-password'
-                        onChange={(e) => setData('password', e.target.value)}
-                        value={data.password}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value='remember' color='primary' />}
-                        label='Remember me'
-                    />
-                    <Button
-                        type='submit'
-                        fullWidth
-                        variant='contained'
-                        onClick={() => post(route('login'))}
-                        sx={{mt: 3, mb: 2}}
-                    >
-                        Sign In
-                    </Button>
-                </StyledBox>
-            </Popover>
-        </div>
+        <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            transformOrigin={{vertical: 'top', horizontal: 'right'}}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
+            <StyledBox
+                component='form'
+                sx={{width: 300, height: 300, bgcolor: '#232b2b'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={(e, newValue) => setSelectedTab(newValue)}>
+                        <Tab label='Login' />
+                        <Tab label='Register' />
+                    </Tabs>
+                </Box>
+                {selectedTab === 0 ? (
+                    <Login {...commonFormDataProps} />
+                ) : (
+                    <Register {...commonFormDataProps} />
+                )}
+            </StyledBox>
+        </Popover>
     )
 }
 
+Register.displayName = 'Register'
+Login.displayName = 'Login'
 Authentication.displayName = 'Authentication'
 export default Authentication
