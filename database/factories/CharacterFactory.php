@@ -29,9 +29,10 @@ class CharacterFactory extends Factory
             'race' => $this->faker->word(),
             'class' => $this->faker->word(),
             'level' => $this->faker->numberBetween(1, 20),
-            'faction' => $this->faker->word(),
-            'downtime' => $this->faker->word(),
-            'status' => $this->faker->word(),
+            'faction' => $this->faker->randomElement(array_values(Character::FACTIONS)),
+            'downtime' => $this->faker->numberBetween(0, 1000),
+            'character_sheet' => $this->faker->url(),
+            'status' => $this->faker->randomElement(['private', 'public']),
         ];
     }
 }

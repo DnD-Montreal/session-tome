@@ -5,7 +5,7 @@ import {Avatar, Grid} from '@mui/material'
 import styled from '@emotion/styled'
 import {Link} from '@inertiajs/inertia-react'
 import associationLogo from '../../icons/DNDMtlLogo.svg'
-import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
+import applicationLogo from '../icons/SessionTomeOfficialLogo.svg'
 
 const MainGrid = styled(Grid)`
     background-color: #232b2b;
