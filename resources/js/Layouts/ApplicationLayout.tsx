@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {Avatar, Grid, Link} from '@mui/material'
