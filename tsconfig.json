@@ -20,6 +20,6 @@
             "@/*": ["resources/js/*"]
         }
     },
-    "include": ["./resources", "**/*.ts"],
+    "include": ["./resources", "**/*.ts", "./custom.d.ts"],
     "exclude": ["node_modules", "resources/**/*.js"]
 }

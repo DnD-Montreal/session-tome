@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +28,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::resource('user', App\Http\Controllers\UserController::class);
 
@@ -54,8 +56,9 @@ Route::resource('role', App\Http\Controllers\RoleController::class);
 
 Route::resource('campaign', App\Http\Controllers\CampaignController::class);
 
-
-if (config('app.env') !== "production") {
+if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
-    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where(['path' => '.*']);
+    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where([
+        'path' => '.*',
+    ]);
 }
