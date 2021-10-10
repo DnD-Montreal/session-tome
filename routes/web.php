@@ -57,5 +57,5 @@ Route::resource('campaign', App\Http\Controllers\CampaignController::class);
 
 if (config('app.env') !== "production") {
     Route::get('/token', fn () => csrf_token());
-    Route::get('/dev/{path}', fn ($path) => Inertia::render($path));
+    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where(['path' => '.*']);
 }
