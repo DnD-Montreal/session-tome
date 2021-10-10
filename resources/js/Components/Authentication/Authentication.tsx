@@ -7,6 +7,13 @@ import {
     Popover,
     TextField,
 } from '@mui/material'
+import styled from 'styled-components'
+import {useForm} from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
+
+const StyledBox = styled(Box)`
+    padding: 0px 16px 0px 16px;
+`
 
 const Authentication = () => {
     const [anchorEl, setAnchorEl] = useState(null)
@@ -19,6 +26,12 @@ const Authentication = () => {
         setAnchorEl(null)
     }
 
+    const {data, setData, post} = useForm({
+        email: '',
+        password: '',
+    })
+
+    console.log(data)
     const open = Boolean(anchorEl)
 
     return (
@@ -30,19 +43,10 @@ const Authentication = () => {
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
             >
-                <Box
-                    component='form'
-                    onSubmit={() => {}}
-                    noValidate
-                    sx={{mt: 1}}
-                >
+                <StyledBox component='form' sx={{width: 300, height: 300}}>
                     <TextField
-                        className='hello'
                         margin='normal'
                         required
                         fullWidth
@@ -51,10 +55,10 @@ const Authentication = () => {
                         name='email'
                         autoComplete='email'
                         autoFocus
-                        value=''
+                        onChange={(e) => setData('email', e.target.value)}
+                        value={data.email}
                     />
                     <TextField
-                        className='hello1'
                         margin='normal'
                         required
                         fullWidth
@@ -63,7 +67,8 @@ const Authentication = () => {
                         type='password'
                         id='password'
                         autoComplete='current-password'
-                        value=''
+                        onChange={(e) => setData('password', e.target.value)}
+                        value={data.password}
                     />
                     <FormControlLabel
                         control={<Checkbox value='remember' color='primary' />}
@@ -73,11 +78,12 @@ const Authentication = () => {
                         type='submit'
                         fullWidth
                         variant='contained'
+                        onClick={() => post(route('login'))}
                         sx={{mt: 3, mb: 2}}
                     >
                         Sign In
                     </Button>
-                </Box>
+                </StyledBox>
             </Popover>
         </div>
     )
