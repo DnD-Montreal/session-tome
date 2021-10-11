@@ -3,6 +3,7 @@ import {Box, Button, Popover, TextField, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
+import {createTheme, ThemeProvider} from '@mui/material/styles'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -13,7 +14,24 @@ type AuthenticationPropType = {
     handleClose: () => void
 }
 
-const Login = ({data, setData, post}: any) => (
+const theme = createTheme({
+    typography: {
+        fontFamily: 'Roboto',
+    },
+    palette: {
+        primary: {
+            main: '#3E5543',
+            dark: '#3E5543',
+        },
+        secondary: {
+            main: '#D3D7C6',
+            dark: '#D3D7C6',
+        },
+        mode: 'dark',
+    },
+})
+
+const commonFieldForms = (data: any, setData: any) => (
     <>
         <TextField
             margin='normal'
@@ -39,6 +57,12 @@ const Login = ({data, setData, post}: any) => (
             onChange={(e) => setData('password', e.target.value)}
             value={data.password}
         />
+    </>
+)
+
+const Login = ({data, setData, post}: any) => (
+    <>
+        {commonFieldForms(data, setData)}
         <Button
             type='submit'
             fullWidth
@@ -64,30 +88,7 @@ const Register = ({data, setData, post}: any) => (
             onChange={(e) => setData('email', e.target.value)}
             value={data.email}
         />
-        <TextField
-            margin='normal'
-            required
-            fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            autoComplete='username'
-            autoFocus
-            onChange={(e) => setData('username', e.target.value)}
-            value={data.username}
-        />
-        <TextField
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            onChange={(e) => setData('password', e.target.value)}
-            value={data.password}
-        />
+        {commonFieldForms(data, setData)}
         <Button
             type='submit'
             fullWidth
@@ -105,43 +106,43 @@ const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
         password: '',
         username: '',
     })
-
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)
     const commonFormDataProps = {data, setData, post}
 
     return (
-        <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
-            <StyledBox
-                component='form'
-                sx={{
-                    width: 300,
-                    fontFamily: 'Roboto',
-                }}>
-                <Box
-                    sx={{
-                        borderBottom: 1,
-                        borderColor: 'divider',
-                    }}>
-                    <Tabs
-                        value={selectedTab}
-                        onChange={(e, newValue) => setSelectedTab(newValue)}>
-                        <Tab label='Login' />
-                        <Tab label='Register' />
-                    </Tabs>
-                </Box>
-                {selectedTab === 0 ? (
-                    <Login {...commonFormDataProps} />
-                ) : (
-                    <Register {...commonFormDataProps} />
-                )}
-            </StyledBox>
-        </Popover>
+        <ThemeProvider theme={theme}>
+            <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
+                <StyledBox
+                    component='form'
+                    sx={{width: 300, fontFamily: '"Roboto"'}}>
+                    <Box
+                        sx={{
+                            borderBottom: 1,
+                            borderColor: 'divider',
+                        }}>
+                        <Tabs
+                            value={selectedTab}
+                            onChange={(e, newValue) =>
+                                setSelectedTab(newValue)
+                            }>
+                            <Tab label='Login' />
+                            <Tab label='Register' />
+                        </Tabs>
+                    </Box>
+                    {selectedTab === 0 ? (
+                        <Login {...commonFormDataProps} />
+                    ) : (
+                        <Register {...commonFormDataProps} />
+                    )}
+                </StyledBox>
+            </Popover>
+        </ThemeProvider>
     )
 }
 

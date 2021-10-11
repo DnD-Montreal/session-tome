@@ -97,7 +97,6 @@
                 "array": false
             }
         ],
-        "prettier/prettier": ["error"],
         "quotes": [
             "error",
             "single",

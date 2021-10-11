@@ -2,7 +2,7 @@ import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {Avatar, Grid, Link} from '@mui/material'
 import styled from '@emotion/styled'
-import {Link as InertiaLink} from '@inertiajs/inertia-react'
+import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import associationLogo from '../../icons/DNDMtlLogo.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
@@ -62,16 +62,22 @@ const UsernameLink = styled(Link)`
     color: white;
 `
 
-type LayoutProps = {children: ReactNode}
+type LayoutProps = {
+    children: ReactNode
+}
 
 const ApplicationLayout = ({children}: LayoutProps) => {
+    const {auth}: any = usePage().props
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
     }
-
     const handleClose = () => {
         setAnchorEl(null)
+    }
+    const getUsername = () => {
+        if (!auth) return 'Login'
+        if (auth.user) return auth.user
     }
 
     return (
@@ -128,12 +134,11 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='space-evenly'
                         alignItems='center'>
                         <Grid item container xs md={6} justifyContent='center'>
-                            <UsernameLink>DragonSlayer999</UsernameLink>
+                            <UsernameLink>{getUsername()}</UsernameLink>
                             <Avatar
                                 onClick={handleClick}
-                                sx={{bgcolor: '#FF4500'}}>
-                                DS
-                            </Avatar>
+                                sx={{bgcolor: '#4E302E'}}
+                            />
                         </Grid>
                     </UserAvatarColumn>
                 </PrimaryRow>
