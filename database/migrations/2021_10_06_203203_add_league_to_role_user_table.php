@@ -17,6 +17,7 @@ class AddLeagueToRoleUserTable extends Migration
 
         Schema::table('role_user', function (Blueprint $table) {
             $table->foreignId('league_id')->nullable();
+            $table->unique(['user_id', 'role_id', 'league_id']);
         });
 
         Schema::enableForeignKeyConstraints();
