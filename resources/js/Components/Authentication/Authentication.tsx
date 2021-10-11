@@ -19,13 +19,13 @@ const Login = ({data, setData, post}: any) => (
             margin='normal'
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
+            id='username'
+            label='Username'
+            name='username'
+            autoComplete='username'
             autoFocus
-            onChange={(e) => setData('email', e.target.value)}
-            value={data.email}
+            onChange={(e) => setData('username', e.target.value)}
+            value={data.username}
         />
         <TextField
             margin='normal'
@@ -68,6 +68,18 @@ const Register = ({data, setData, post}: any) => (
             margin='normal'
             required
             fullWidth
+            id='username'
+            label='Username'
+            name='username'
+            autoComplete='username'
+            autoFocus
+            onChange={(e) => setData('username', e.target.value)}
+            value={data.username}
+        />
+        <TextField
+            margin='normal'
+            required
+            fullWidth
             name='password'
             label='Password'
             type='password'
@@ -89,8 +101,9 @@ const Register = ({data, setData, post}: any) => (
 
 const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
     const {data, setData, post} = useForm({
-        email: '',
+        email: null,
         password: '',
+        username: '',
     })
 
     const [selectedTab, setSelectedTab] = useState<number>(0)
@@ -106,8 +119,15 @@ const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
             anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
             <StyledBox
                 component='form'
-                sx={{width: 300, height: 300, bgcolor: '#232b2b'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                sx={{
+                    width: 300,
+                    fontFamily: 'Roboto',
+                }}>
+                <Box
+                    sx={{
+                        borderBottom: 1,
+                        borderColor: 'divider',
+                    }}>
                     <Tabs
                         value={selectedTab}
                         onChange={(e, newValue) => setSelectedTab(newValue)}>
