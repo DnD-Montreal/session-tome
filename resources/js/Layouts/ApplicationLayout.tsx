@@ -78,6 +78,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     const getUsername = () => {
         if (!auth) return 'Login'
         if (auth.user) return auth.user
+        return 'Login'
     }
 
     return (
