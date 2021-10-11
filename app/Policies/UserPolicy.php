@@ -18,8 +18,8 @@ class UserPolicy
     {
         //
     }
-    public function update(User $user, User $otherUser)
+    public function update(User $user, User $target)
     {
-        return $user->id == $otherUser->id || $user->isSiteAdmin();
+        return $user->id == $target->id || $user->isSiteAdmin();
     }
 }
