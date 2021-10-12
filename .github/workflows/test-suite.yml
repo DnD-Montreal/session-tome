@@ -54,10 +54,13 @@ jobs:
           yarn install
           yarn prod
 
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
+
+      - name: Run Jest
+        run: yarn jest --coverage
+
       - name: Tests with Code Climate Coverage
-        run: |
-          ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
-          yarn jest --coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
