@@ -110,7 +110,8 @@ export default function Register() {
                 <div className='flex items-center justify-end mt-4'>
                     <InertiaLink
                         href={route('login')}
-                        className='underline text-sm text-gray-600 hover:text-gray-900'>
+                        className='underline text-sm text-gray-600 hover:text-gray-900'
+                    >
                         Already registered?
                     </InertiaLink>
 

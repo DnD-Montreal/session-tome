@@ -11,7 +11,8 @@ interface Props {
 const Label: React.FC<Props> = ({forInput, value, className, children}) => (
     <label
         htmlFor={forInput}
-        className={`block font-medium text-sm text-gray-700 ${className}`}>
+        className={`block font-medium text-sm text-gray-700 ${className}`}
+    >
         {value || {children}}
     </label>
 )

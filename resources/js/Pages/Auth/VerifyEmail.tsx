@@ -45,7 +45,8 @@ export default function VerifyEmail({status}: Props) {
                         href={route('logout')}
                         method='post'
                         as='button'
-                        className='underline text-sm text-gray-600 hover:text-gray-900'>
+                        className='underline text-sm text-gray-600 hover:text-gray-900'
+                    >
                         Log Out
                     </InertiaLink>
                 </div>
