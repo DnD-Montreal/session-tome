@@ -78,14 +78,10 @@ jobs:
         with:
           coverageCommand: yarn jest --coverage
 
-      - name: Test & publish code coverage
+      - name: publish code coverage reports
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
-        with:
-        coverageLocations: |
-          coverage/coverage.xml:clover
-          tests/coverage.xml:clover
 
       - name: Serve Site
         run: nohup php artisan serve &
