@@ -55,16 +55,17 @@ jobs:
           yarn prod
 
       - name: Tests with Code Climate Coverage
-        run: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
-        run: yarn jest --coverage
+        run: |
+          ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
+          yarn jest --coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
         with:
           coverageLocations: |
-          tests/coverage.xml:clover
-          coverage/coverage.xml:clover
+            tests/coverage.xml:clover
+            coverage/coverage.xml:clover
 
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
