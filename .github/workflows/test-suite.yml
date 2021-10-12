@@ -61,7 +61,6 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
         with:
           coverageCommand: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
-          coverageLocations: tests/coverage.xml:clover
 
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
@@ -78,15 +77,15 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
         with:
           coverageCommand: yarn jest --coverage
-          coverageLocations: coverage/coverage.xml:clover
 
-      - name: Copy .env file
-        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
-
-      - name: Migrate Database
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v3.0.0
         env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan migrate --force
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_REPORTER_ID }}
+        with:
+        coverageLocations: |
+          coverage/coverage.xml:clover
+          tests/coverage.xml:clover
 
       - name: Serve Site
         run: nohup php artisan serve &
