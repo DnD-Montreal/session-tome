@@ -69,7 +69,7 @@ jobs:
         with:
           coverageLocations: |
             tests/coverage.xml:clover
-            coverage/coverage.xml:clover
+            coverage/clover.xml:clover
 
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
