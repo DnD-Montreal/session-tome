@@ -72,4 +72,17 @@ class Character extends Model
     {
         return $this->hasMany(\App\Models\Entry::class);
     }
+
+    public function stubEntries()
+    {
+        $stubs = [
+            'user_id' => $this->user_id,
+            'character_id' => $this->id,
+            'levels' => 1,
+            'type' => Entry::TYPE_GAME
+        ];
+
+        // Note: Insert() doesn't fire events, thus will not trigger the observer
+        return Entry::insert(array_fill(0, $this->level, $stubs));
+    }
 }
