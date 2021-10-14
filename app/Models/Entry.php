@@ -27,6 +27,7 @@ class Entry extends Model
         'type',
         'levels',
         'gp',
+        'notes'
     ];
 
     /**
@@ -42,10 +43,14 @@ class Entry extends Model
         'character_id' => 'integer',
         'event_id' => 'integer',
         'dungeon_master_id' => 'integer',
+        'levels' => 'integer',
         'date_played' => 'datetime',
         'gp' => 'decimal:2',
     ];
 
+    public const TYPE_GAME = 'game';
+    public const TYPE_DM = 'dm';
+    public const TYPE_DOWNTIME = 'downtime';
 
     public function items()
     {
