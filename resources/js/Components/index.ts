@@ -1,4 +1,5 @@
 export {default as Authentication} from './Authentication'
+export {default as FactionChip} from './FactionChip'
 
 export {default as Button} from './Button'
 export {default as Checkbox} from './Checkbox'

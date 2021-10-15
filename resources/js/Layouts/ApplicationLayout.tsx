@@ -155,7 +155,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </Grid>
                     <Grid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink color='white' href='/dev/Character/index'>
                             Characters
                         </InertiaLink>
                     </Grid>
