@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ItemStoreRequest extends FormRequest
+class ItemUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ItemStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('store', $this->item);
     }
 
     /**
@@ -31,6 +31,7 @@ class ItemStoreRequest extends FormRequest
             'tier' => ['required', 'string'],
             'description' => ['required', 'string'],
             'counted' => ['required', 'string'],
+            'author_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 }
