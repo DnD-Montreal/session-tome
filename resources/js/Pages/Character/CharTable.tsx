@@ -69,19 +69,21 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
+interface Data {
+    cname: string
+    race: string
+    cclass: string
+    level: number
+    faction: string
+    downtime: number
+}
 type CharTablePropType = {
-    rows: {
-        cname: string
-        race: string
-        cclass: string
-        level: number
-        faction: string
-        downtime: number
-    }[]
+    rows: Data[]
     handleSelectAllClick: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleClick: (e: React.MouseEvent<unknown>, cname: string) => void
     isSelected: (cname: string) => boolean
     selected: readonly string[]
+    filter: {fn: (items: Data[]) => Data[]}
 }
 
 const CharTable = ({
@@ -90,6 +92,7 @@ const CharTable = ({
     handleClick,
     isSelected,
     selected,
+    filter,
 }: CharTablePropType) => {
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -104,6 +107,7 @@ const CharTable = ({
         setRowsPerPage(parseInt(event.target.value, 10))
         setPage(0)
     }
+
     return (
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -138,12 +142,13 @@ const CharTable = ({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
+                        {filter
+                            .fn(rows)
                             .slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage,
                             )
-                            .map((row, index) => {
+                            .map((row: Data, index: number) => {
                                 const isItemSelected = isSelected(row.cname)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (

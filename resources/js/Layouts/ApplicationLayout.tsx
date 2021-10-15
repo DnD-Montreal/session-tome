@@ -53,6 +53,7 @@ const UserAvatarColumn = styled(Grid)`
 const ContentRow = styled(Grid)`
     height: 100vh;
     padding-top: 48px;
+    overflow-y: scroll;
 `
 
 const UsernameLink = styled(Link)`

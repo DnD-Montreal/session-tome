@@ -5,18 +5,18 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
-import styled from '@emotion/styled'
 import {Link} from '@inertiajs/inertia-react'
 import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
 
-const MainGrid = styled(Grid)`
-    background-color: #232b2b;
-    color: white;
-    font-family: 'Cinzel Decorative', cursive;
-    font-size: 0.8em;
-    flex-grow: 1;
-`
+interface Data {
+    cname: string
+    race: string
+    cclass: string
+    level: number
+    faction: string
+    downtime: number
+}
 
 function createData(
     cname: string,
@@ -25,7 +25,7 @@ function createData(
     level: number,
     faction: string,
     downtime: number,
-) {
+): Data {
     return {cname, race, cclass, level, faction, downtime}
 }
 
@@ -60,6 +60,7 @@ const rows = [
 
 export default function Character() {
     const [selected, setSelected] = React.useState<readonly string[]>([])
+    const [filter, setFilter] = React.useState({fn: (items: any) => items})
 
     const handleSelectAllClick = (
         event: React.ChangeEvent<HTMLInputElement>,
@@ -92,46 +93,67 @@ export default function Character() {
     }
 
     const isSelected = (name: string) => selected.indexOf(name) !== -1
+
+    const onChangeSearch = (e: {target: any}) => {
+        const {target} = e
+        setFilter({
+            fn: (items: Data[]) => {
+                if (target.value === 0)
+                    return items.filter(
+                        (x) =>
+                            x.cname.toLowerCase() ===
+                            target.textContent.toLowerCase(),
+                    )
+                if (target.value === '' || target.value === undefined)
+                    return items
+                return items.filter((x) =>
+                    x.cname.toLowerCase().includes(target.value.toLowerCase()),
+                )
+            },
+        })
+    }
     return (
-        <MainGrid container>
-            <Grid
-                container
-                rowSpacing={{xs: 1, sm: 2, md: 3}}
-                alignItems='center'
-                justifyContent='center'>
-                <Grid item xs={8} alignItems='center' justifyContent='center'>
-                    <Stack direction='row' spacing={4}>
-                        <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/'>Create</Link>
-                        </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<FileDownloadIcon />}>
-                            Export
-                        </Button>
-                    </Stack>
-                </Grid>
-                <Grid item xs={4}>
-                    <Autocomplete
-                        id='character-search'
-                        freeSolo
-                        options={rows.map((option) => option.cname)}
-                        renderInput={(params) => (
-                            <TextField {...params} label='Search Character' />
-                        )}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <CharTable
-                        isSelected={isSelected}
-                        rows={rows}
-                        handleSelectAllClick={handleSelectAllClick}
-                        selected={selected}
-                        handleClick={handleClick}
-                    />
-                </Grid>
+        <Grid
+            container
+            rowSpacing={{xs: 1, sm: 2, md: 3}}
+            alignItems='center'
+            justifyContent='center'>
+            <Grid item xs={8} alignItems='center' justifyContent='center'>
+                <Stack direction='row' spacing={4}>
+                    <Button variant='contained' startIcon={<AddIcon />}>
+                        <Link href='/'>Create</Link>
+                    </Button>
+                    <Button
+                        variant='contained'
+                        startIcon={<FileDownloadIcon />}>
+                        Export
+                    </Button>
+                </Stack>
             </Grid>
-        </MainGrid>
+            <Grid item xs={4}>
+                <Autocomplete
+                    id='character-search'
+                    options={rows.map((option) => option.cname)}
+                    renderInput={(params) => (
+                        <TextField {...params} label='Search Character' />
+                    )}
+                    sx={{width: 300}}
+                    onInputChange={onChangeSearch}
+                    onChange={onChangeSearch}
+                    onClose={onChangeSearch}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <CharTable
+                    isSelected={isSelected}
+                    rows={rows}
+                    handleSelectAllClick={handleSelectAllClick}
+                    selected={selected}
+                    handleClick={handleClick}
+                    filter={filter}
+                />
+            </Grid>
+        </Grid>
     )
 }
 
