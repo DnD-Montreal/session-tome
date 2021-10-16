@@ -1,15 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
-import {rows} from './CharacterData'
+import {charData, RowData} from './CharacterData'
 
 export default function Character() {
-    const [selected, setSelected] = React.useState<readonly string[]>([])
-    const [filter, setFilter] = React.useState({fn: (items: any) => items})
+    const [selected, setSelected] = useState<readonly string[]>([])
+    const [rows, setRows] = useState<RowData[]>(charData)
 
     const handleSelectAllClick = (
         event: React.ChangeEvent<HTMLInputElement>,
@@ -43,23 +43,29 @@ export default function Character() {
 
     const isSelected = (name: string) => selected.indexOf(name) !== -1
 
+    const requestSearch = (searchedVal: string) => {
+        const filteredRows = charData.filter((row) =>
+            row.cname.toLowerCase().includes(searchedVal.toLowerCase()),
+        )
+        setRows(filteredRows)
+    }
+
     const onChangeSearch = (e: {target: any}) => {
         const {target} = e
-        setFilter({
-            fn: (items: any[]) => {
-                if (target.value === 0)
-                    return items.filter(
-                        (x) =>
-                            x.cname.toLowerCase() ===
-                            target.textContent.toLowerCase(),
-                    )
-                if (target.value === '' || target.value === undefined)
-                    return items
-                return items.filter((x) =>
-                    x.cname.toLowerCase().includes(target.value.toLowerCase()),
-                )
-            },
-        })
+        switch (target.value) {
+            case 0: {
+                requestSearch(target.textContent)
+                break
+            }
+            case undefined: {
+                requestSearch('')
+                break
+            }
+            default: {
+                requestSearch(target.value)
+                break
+            }
+        }
     }
     return (
         <Grid
@@ -99,7 +105,6 @@ export default function Character() {
                     handleSelectAllClick={handleSelectAllClick}
                     selected={selected}
                     handleClick={handleClick}
-                    filter={filter}
                 />
             </Grid>
         </Grid>

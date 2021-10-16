@@ -1,4 +1,4 @@
-export const rows = [
+export const charData = [
     {
         cname: 'Name 1',
         race: 'Half Orc',
@@ -88,3 +88,12 @@ export const rows = [
         downtime: 322,
     },
 ]
+
+export interface RowData {
+    cname: string
+    race: string
+    cclass: string
+    level: number
+    faction: string
+    downtime: number
+}

@@ -21,6 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import FactionChip from '../../Components/FactionChip'
+import {RowData} from './CharacterData'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -69,21 +70,12 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
-interface Data {
-    cname: string
-    race: string
-    cclass: string
-    level: number
-    faction: string
-    downtime: number
-}
 type CharTablePropType = {
-    rows: Data[]
+    rows: RowData[]
     handleSelectAllClick: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleClick: (e: React.MouseEvent<unknown>, cname: string) => void
     isSelected: (cname: string) => boolean
     selected: readonly string[]
-    filter: {fn: (items: Data[]) => Data[]}
 }
 
 const CharTable = ({
@@ -92,7 +84,6 @@ const CharTable = ({
     handleClick,
     isSelected,
     selected,
-    filter,
 }: CharTablePropType) => {
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -142,13 +133,12 @@ const CharTable = ({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filter
-                            .fn(rows)
+                        {rows
                             .slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage,
                             )
-                            .map((row: Data, index: number) => {
+                            .map((row: RowData, index: number) => {
                                 const isItemSelected = isSelected(row.cname)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
