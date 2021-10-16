@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Character::class);
     }
 
+    public function items()
+    {
+        return $this->hasManyThrough(\App\Models\Item::class,\App\Models\Character::class );
+    }
+
     public function ratings()
     {
         return $this->hasMany(\App\Models\Rating::class);
