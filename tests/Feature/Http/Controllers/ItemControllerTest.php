@@ -165,7 +165,7 @@ class ItemControllerTest extends TestCase
         $description = $this->faker->text;
         $counted = $this->faker->word;
 
-        $response = $this->put(route('item.update', $item), [
+        $response = $this->actingAs($item->user())->put(route('item.update', $item), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
