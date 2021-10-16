@@ -89,7 +89,7 @@ export const charData = [
     },
 ]
 
-export interface RowData {
+export type RowData = {
     cname: string
     race: string
     cclass: string

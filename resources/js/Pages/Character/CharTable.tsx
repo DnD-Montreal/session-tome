@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
     Table,
     TableBody,
@@ -72,8 +72,8 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 
 type CharTablePropType = {
     rows: RowData[]
-    handleSelectAllClick: (e: React.ChangeEvent<HTMLInputElement>) => void
-    handleClick: (e: React.MouseEvent<unknown>, cname: string) => void
+    handleSelectAllClick: (e: any) => void
+    handleClick: (e: any, cname: string) => void
     isSelected: (cname: string) => boolean
     selected: readonly string[]
 }
@@ -85,16 +85,14 @@ const CharTable = ({
     isSelected,
     selected,
 }: CharTablePropType) => {
-    const [page, setPage] = React.useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
     }
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const handleChangeRowsPerPage = (event: any) => {
         setRowsPerPage(parseInt(event.target.value, 10))
         setPage(0)
     }
@@ -190,7 +188,7 @@ const CharTable = ({
                                             {row.level}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <FactionChip name={row.faction} />
+                                            <FactionChip fname={row.faction} />
                                         </TableCell>
                                         <TableCell align='center'>
                                             {row.downtime}

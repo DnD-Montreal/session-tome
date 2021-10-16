@@ -7,13 +7,11 @@ import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
 import {charData, RowData} from './CharacterData'
 
-export default function Character() {
+const Character = () => {
     const [selected, setSelected] = useState<readonly string[]>([])
     const [rows, setRows] = useState<RowData[]>(charData)
 
-    const handleSelectAllClick = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
             const newSelecteds = rows.map((n) => n.cname)
             setSelected(newSelecteds)
@@ -22,7 +20,7 @@ export default function Character() {
         setSelected([])
     }
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    const handleClick = (event: any, name: string) => {
         const selectedIndex = selected.indexOf(name)
         let newSelected: readonly string[] = []
 
@@ -113,3 +111,4 @@ export default function Character() {
 
 Character.displayName = 'Character'
 Character.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
+export default Character
