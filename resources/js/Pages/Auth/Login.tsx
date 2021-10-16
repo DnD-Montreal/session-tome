@@ -100,7 +100,8 @@ export default function Login({status, canResetPassword}: Props) {
                     {canResetPassword && (
                         <InertiaLink
                             href={route('password.request')}
-                            className='underline text-sm text-gray-600 hover:text-gray-900'>
+                            className='underline text-sm text-gray-600 hover:text-gray-900'
+                        >
                             Forgot your password?
                         </InertiaLink>
                     )}
