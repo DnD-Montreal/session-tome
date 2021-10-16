@@ -46,7 +46,7 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
             </Typography>
         ) : (
             <Typography
-                sx={{flex: '1 1 100%'}}
+                sx={{flex: '1 1 100%', fontFamily: 'Cinzel Decorative'}}
                 variant='h6'
                 id='tableTitle'
                 component='div'>
@@ -104,7 +104,7 @@ const CharTable = ({
                 <Table sx={{minWidth: 650}} aria-label='simple table'>
                     <TableHead>
                         <TableRow>
-                            <TableCell>
+                            <TableCell padding='checkbox'>
                                 <Checkbox
                                     color='primary'
                                     indeterminate={
@@ -117,11 +117,13 @@ const CharTable = ({
                                     }
                                     onChange={handleSelectAllClick}
                                     inputProps={{
-                                        'aria-label': 'select all desserts',
+                                        'aria-label': 'select all names',
                                     }}
                                 />
                             </TableCell>
-                            <TableCell>Name</TableCell>
+                            <TableCell padding='none' align='left'>
+                                Name
+                            </TableCell>
                             <TableCell align='center'>Race</TableCell>
                             <TableCell align='center'>Class</TableCell>
                             <TableCell align='center'>Level</TableCell>

@@ -3,13 +3,16 @@ import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
+import {ThemeProvider} from '@mui/material/styles'
 import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
 import {charData, RowData} from './CharacterData'
+import {getFontTheme} from '../../Utils/theme'
 
 const Character = () => {
     const [selected, setSelected] = useState<readonly string[]>([])
     const [rows, setRows] = useState<RowData[]>(charData)
+    const theme = getFontTheme('Form', 16)
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
@@ -66,46 +69,48 @@ const Character = () => {
         }
     }
     return (
-        <Grid
-            container
-            rowSpacing={{xs: 1, sm: 2, md: 3}}
-            alignItems='center'
-            justifyContent='center'>
-            <Grid item xs={8} alignItems='center' justifyContent='center'>
-                <Stack direction='row' spacing={4}>
-                    <Button variant='contained' startIcon={<AddIcon />}>
-                        <Link href='/'>Create</Link>
-                    </Button>
-                    <Button
-                        variant='contained'
-                        startIcon={<FileDownloadIcon />}>
-                        Export
-                    </Button>
-                </Stack>
+        <ThemeProvider theme={theme}>
+            <Grid
+                container
+                rowSpacing={{xs: 1, sm: 2, md: 3}}
+                alignItems='center'
+                justifyContent='center'>
+                <Grid item xs={8} alignItems='center' justifyContent='center'>
+                    <Stack direction='row' spacing={4}>
+                        <Button variant='contained' startIcon={<AddIcon />}>
+                            <Link href='/'>Create</Link>
+                        </Button>
+                        <Button
+                            variant='contained'
+                            startIcon={<FileDownloadIcon />}>
+                            Export
+                        </Button>
+                    </Stack>
+                </Grid>
+                <Grid item xs={4}>
+                    <Autocomplete
+                        id='character-search'
+                        options={rows.map((option) => option.cname)}
+                        renderInput={(params) => (
+                            <TextField {...params} label='Search Character' />
+                        )}
+                        sx={{width: 300}}
+                        onInputChange={onChangeSearch}
+                        onChange={onChangeSearch}
+                        onClose={onChangeSearch}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <CharTable
+                        isSelected={isSelected}
+                        rows={rows}
+                        handleSelectAllClick={handleSelectAllClick}
+                        selected={selected}
+                        handleClick={handleClick}
+                    />
+                </Grid>
             </Grid>
-            <Grid item xs={4}>
-                <Autocomplete
-                    id='character-search'
-                    options={rows.map((option) => option.cname)}
-                    renderInput={(params) => (
-                        <TextField {...params} label='Search Character' />
-                    )}
-                    sx={{width: 300}}
-                    onInputChange={onChangeSearch}
-                    onChange={onChangeSearch}
-                    onClose={onChangeSearch}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <CharTable
-                    isSelected={isSelected}
-                    rows={rows}
-                    handleSelectAllClick={handleSelectAllClick}
-                    selected={selected}
-                    handleClick={handleClick}
-                />
-            </Grid>
-        </Grid>
+        </ThemeProvider>
     )
 }
 
