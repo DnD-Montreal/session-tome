@@ -3,7 +3,8 @@ import {Box, Button, Popover, TextField, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
-import {createTheme, ThemeProvider} from '@mui/material/styles'
+import {ThemeProvider} from '@mui/material/styles'
+import {getFontTheme} from '../../Utils/theme'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -14,22 +15,7 @@ type AuthenticationPropType = {
     handleClose: () => void
 }
 
-const theme = createTheme({
-    typography: {
-        fontFamily: 'Roboto',
-    },
-    palette: {
-        primary: {
-            main: '#3E5543',
-            dark: '#3E5543',
-        },
-        secondary: {
-            main: '#D3D7C6',
-            dark: '#D3D7C6',
-        },
-        mode: 'dark',
-    },
-})
+const theme = getFontTheme('Form')
 
 const commonFieldForms = (data: any, setData: any) => (
     <>
