@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
      *
      * @param \Illuminate\Http\Request  $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Contracts\Auth\Authenticatable
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -51,6 +51,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return Auth::user();
     }
 }
