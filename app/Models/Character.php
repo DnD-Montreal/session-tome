@@ -15,6 +15,7 @@ class Character extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'race',
         'class',
@@ -22,7 +23,7 @@ class Character extends Model
         'faction',
         'downtime',
         'status',
-        'character_sheet'
+        'character_sheet',
     ];
 
     /**
