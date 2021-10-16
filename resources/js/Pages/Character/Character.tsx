@@ -1,61 +1,100 @@
 import React from 'react'
-import {Button, Stack} from '@mui/material'
+import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import Grid from '@mui/material/Grid'
-import Autocomplete from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
 import {Link} from '@inertiajs/inertia-react'
 import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
 
-interface Data {
-    cname: string
-    race: string
-    cclass: string
-    level: number
-    faction: string
-    downtime: number
-}
-
-function createData(
-    cname: string,
-    race: string,
-    cclass: string,
-    level: number,
-    faction: string,
-    downtime: number,
-): Data {
-    return {cname, race, cclass, level, faction, downtime}
-}
-
 const rows = [
-    createData('Name 1', 'Half Orc', 'Barbarian', 14, 'The Harpers', 67),
-    createData('Name 2', 'Goliath', 'Paladin', 16, 'The Harpers', 24),
-    createData('Name 3', 'Lizard Fold', 'Druid', 9, 'The Harpers', 132),
-    createData('Name 4', 'Half Orc', 'Barbarian', 10, 'The Harpers', 250),
-    createData('Name 5', 'Half Orc', 'Barbarian', 14, 'The Emrald Enclave', 8),
-    createData('Name 6', 'Goliath', 'Paladin', 6, 'The Emrald Enclave', 4),
-    createData('Name 7', 'Goliath', 'Paladin', 1, 'The Emrald Enclave', 24),
-    createData('Name 8', 'Goliath', 'Paladin', 11, 'The Emrald Enclave', 456),
-    createData('Name 9', 'Lizard Fold', 'Druid', 5, `The Lords' Alliance`, 234),
-    createData(
-        'Name 10',
-        'Lizard Fold',
-        'Druid',
-        7,
-        `The Lords' Alliance`,
-        554,
-    ),
-    createData('Name 11', 'Lizard Fold', 'Druid', 9, `The Lords' Alliance`, 55),
-    createData(
-        'Name 12',
-        'Half Orc',
-        'Barbarian',
-        19,
-        `The Lords' Alliance`,
-        450,
-    ),
+    {
+        cname: 'Name 1',
+        race: 'Half Orc',
+        cclass: 'Barbarian',
+        level: 14,
+        faction: 'The Harpers',
+        downtime: 67,
+    },
+    {
+        cname: 'Name 2',
+        race: 'Goliath',
+        cclass: 'Paladin',
+        level: 16,
+        faction: 'The Harpers',
+        downtime: 132,
+    },
+    {
+        cname: 'Name 3',
+        race: 'Lizard Fold',
+        cclass: 'Druid',
+        level: 9,
+        faction: 'The Harpers',
+        downtime: 250,
+    },
+    {
+        cname: 'Name 4',
+        race: 'Half Orc',
+        cclass: 'Barbarian',
+        level: 10,
+        faction: 'The Harpers',
+        downtime: 24,
+    },
+    {
+        cname: 'Name 5',
+        race: 'Goliath',
+        cclass: 'Paladin',
+        level: 10,
+        faction: 'The Emrald Enclave',
+        downtime: 8,
+    },
+    {
+        cname: 'Name 6',
+        race: 'Goliath',
+        cclass: 'Paladin',
+        level: 10,
+        faction: 'The Emrald Enclave',
+        downtime: 4,
+    },
+    {
+        cname: 'Name 7',
+        race: 'Goliath',
+        cclass: 'Paladin',
+        level: 10,
+        faction: 'The Harpers',
+        downtime: 24,
+    },
+    {
+        cname: 'Name 8',
+        race: 'Lizard Fold',
+        cclass: 'Druid',
+        level: 10,
+        faction: 'The Zhentarim',
+        downtime: 456,
+    },
+    {
+        cname: 'Name 9',
+        race: 'Lizard Fold',
+        cclass: 'Druid',
+        level: 10,
+        faction: 'The Zhentarim',
+        downtime: 34,
+    },
+    {
+        cname: 'Name 10',
+        race: 'Goliath',
+        cclass: 'Barbarian',
+        level: 10,
+        faction: 'The Order of the Gauntlet',
+        downtime: 431,
+    },
+    {
+        cname: 'Name 11',
+        race: 'Lizard Fold',
+        cclass: 'Druid',
+        level: 10,
+        faction: 'The Order of the Gauntlet',
+        downtime: 322,
+    },
 ]
 
 export default function Character() {
@@ -97,7 +136,7 @@ export default function Character() {
     const onChangeSearch = (e: {target: any}) => {
         const {target} = e
         setFilter({
-            fn: (items: Data[]) => {
+            fn: (items: any[]) => {
                 if (target.value === 0)
                     return items.filter(
                         (x) =>
