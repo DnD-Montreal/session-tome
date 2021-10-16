@@ -26,9 +26,7 @@ class BeyondImportController extends Controller
 
         return response([
             'success' => true,
-            'data' => [
-                $character->refresh()->load('entries')
-            ]
+            'data' => $character->refresh()->load('entries')
         ]);
     }
 }
