@@ -45,5 +45,12 @@ class BeyondImportControllerTest extends TestCase
         $response->assertOk();
         $content = $response->getOriginalContent()['data'];
         $this->assertCount($data['level'], $content->entries);
+        $this->assertEquals($data['user_id'], $content->user_id);
+        $this->assertEquals($data['name'], $content->name);
+        $this->assertEquals($data['race'], $content->race);
+        $this->assertEquals($data['class'], $content->class);
+        $this->assertEquals($data['level'], $content->level);
+        $this->assertEquals($data['character_sheet'], $content->character_sheet);
+        $this->assertEquals($data['faction'], $content->faction);
     }
 }
