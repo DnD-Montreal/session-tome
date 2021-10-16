@@ -64,4 +64,5 @@ if (config('app.env') !== 'production') {
     Route::get('/dev/{path}', fn ($path) => Inertia::render($path))->where([
         'path' => '.*',
     ]);
+    Route::get('/dev-auth/{id}', fn ($id) => \Illuminate\Support\Facades\Auth::loginUsingId($id));
 }
