@@ -1,29 +1,24 @@
 import React from 'react'
-import {shallow} from 'enzyme'
-import {Button} from '@mui/material'
+import {render, screen, fireEvent} from '@testing-library/react'
 import CharacterCreate from './CharacterCreate'
+
+const step3Text = `Do you want this character to be public\?`
+const step2Text = `Fill out the following fields with your character\'s details.`
 
 describe('<CharacterCreate />', () => {
     it('Component should render', () => {
-        const component = shallow(<CharacterCreate />)
+        const component = render(<CharacterCreate />)
         expect(component).toBeDefined()
     })
-    it('should have correct footer', () => {
-        const component = shallow(<CharacterCreate />)
-        expect(
-            component.containsMatchingElement(
-                <Button fullWidth>Cancel</Button>,
-            ),
-        )
-        expect(
-            component.containsMatchingElement(
-                <Button
-                    variant='contained'
-                    onClick={() => setActiveStep(1)}
-                    fullWidth>
-                    Continue
-                </Button>,
-            ),
-        )
+    it('should go to correct steps', () => {
+        render(<CharacterCreate />)
+        fireEvent.click(screen.getByText('Continue'))
+        expect(screen.getByText(step2Text)).toBeInTheDocument()
+        fireEvent.click(screen.getByText('Continue'))
+        expect(screen.getByText(step3Text)).toBeInTheDocument()
+        fireEvent.click(screen.getByText('Previous'))
+        expect(screen.getByText(step2Text)).toBeInTheDocument()
+        fireEvent.click(screen.getByText('Previous'))
+        expect(screen.getByText('AdventurersLeagueLog.com')).toBeInTheDocument()
     })
 })
