@@ -4,7 +4,7 @@ import Character from './Character'
 
 describe('Character', () => {
     it('Component should render', () => {
-        const component = shallow(<Character />)
+        const component = render(<Character />)
         expect(component).toBeDefined()
     })
 
@@ -13,10 +13,22 @@ describe('Character', () => {
         fireEvent.click(screen.getByText('Create'))
         expect(screen.getByRole('link')).toHaveAttribute('href', '/')
         fireEvent.click(screen.getByText('Export'))
-        const searchInput = screen
-            .getByRole('label')
-            .getByText('Search Character')
-        fireEvent.change(searchInput, {target: {value: 'test'}})
-        expect(searchInput.value).toBe('test')
+    })
+
+    it('should input Name 6 in Search Character', () => {
+        const setup = () => {
+            const utils = render(<Character />)
+            const input = utils.getByLabelText('Search Character')
+            return {
+                input,
+                ...utils,
+            }
+        }
+        const {input} = setup()
+        input.focus()
+        fireEvent.change(document.activeElement, {target: {value: 'Name 6'}})
+        fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
+        fireEvent.keyDown(document.activeElement, {key: 'Enter'})
+        expect(screen.getByText('Name 6')).toBeInTheDocument()
     })
 })
