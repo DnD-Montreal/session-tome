@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -22,6 +23,15 @@ class EntryControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        Auth::login($this->user);
+    }
 
     /**
      * @test
@@ -80,7 +90,7 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
-        $response = $this->post(route('entry.store'), [
+        $response = $this->actingAs($user)->post(route('entry.store'), [
             'user_id' => $user->id,
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
@@ -165,7 +175,6 @@ class EntryControllerTest extends TestCase
     public function update_redirects()
     {
         $entry = Entry::factory()->create();
-        $user = User::factory()->create();
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
         $character = Character::factory()->create();
@@ -178,8 +187,7 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
-        $response = $this->put(route('entry.update', $entry), [
-            'user_id' => $user->id,
+        $response = $this->actingAs($entry->user)->put(route('entry.update', $entry), [
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
@@ -198,7 +206,6 @@ class EntryControllerTest extends TestCase
         $response->assertRedirect(route('entry.index'));
         $response->assertSessionHas('entry.id', $entry->id);
 
-        $this->assertEquals($user->id, $entry->user_id);
         $this->assertEquals($adventure->id, $entry->adventure_id);
         $this->assertEquals($campaign->id, $entry->campaign_id);
         $this->assertEquals($character->id, $entry->character_id);

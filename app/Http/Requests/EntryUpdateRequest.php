@@ -24,7 +24,6 @@ class EntryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['required', 'integer', 'exists:campaigns,id'],
             'character_id' => ['required', 'integer', 'exists:characters,id'],
