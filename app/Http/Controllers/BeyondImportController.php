@@ -16,7 +16,7 @@ class BeyondImportController extends Controller
     public function store(Request $request)
     {
         $link = $request->validate([
-            'beyond_link' => "regex:/(.*(www\.dndbeyond\.com).*[0-9]+|[0-9]+)/"
+            'beyond_link' => "regex:/^(https:\/\/www\.dndbeyond\.com).+[0-9]+$/i"
         ])['beyond_link'];
 
         $character = Beyond::getCharacter($link);
@@ -27,8 +27,7 @@ class BeyondImportController extends Controller
         return response([
             'success' => true,
             'data' => [
-                'character' => $character->refresh(),
-                'entries' => $character->entries
+                $character->refresh()->load('entries')
             ]
         ]);
     }
