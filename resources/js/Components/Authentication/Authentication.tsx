@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import {Box, Button, Popover, TextField, Tabs, Tab} from '@mui/material'
+import {Box, Popover, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 import {ThemeProvider} from '@mui/material/styles'
 import {getFontTheme} from '../../Utils/theme'
+import AuthenticationForm from './AuthenticationForm'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -16,75 +17,6 @@ type AuthenticationPropType = {
 }
 
 const theme = getFontTheme('Form')
-
-const commonFieldForms = (data: any, setData: any) => (
-    <>
-        <TextField
-            margin='normal'
-            required
-            fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            autoComplete='username'
-            autoFocus
-            onChange={(e) => setData('username', e.target.value)}
-            value={data.username}
-        />
-        <TextField
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            onChange={(e) => setData('password', e.target.value)}
-            value={data.password}
-        />
-    </>
-)
-
-const Login = ({data, setData, post}: any) => (
-    <>
-        {commonFieldForms(data, setData)}
-        <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            onClick={() => post(route('login'))}
-            sx={{mt: 3, mb: 2}}>
-            Sign In
-        </Button>
-    </>
-)
-
-const Register = ({data, setData, post}: any) => (
-    <>
-        <TextField
-            margin='normal'
-            required
-            fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
-            onChange={(e) => setData('email', e.target.value)}
-            value={data.email}
-        />
-        {commonFieldForms(data, setData)}
-        <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            onClick={() => post(route('register'))}
-            sx={{mt: 3, mb: 2}}>
-            Register
-        </Button>
-    </>
-)
 
 const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
     const {data, setData, post} = useForm({
@@ -122,9 +54,17 @@ const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
                         </Tabs>
                     </Box>
                     {selectedTab === 0 ? (
-                        <Login {...commonFormDataProps} />
+                        <AuthenticationForm
+                            type='Login'
+                            route={route}
+                            {...commonFormDataProps}
+                        />
                     ) : (
-                        <Register {...commonFormDataProps} />
+                        <AuthenticationForm
+                            type='Register'
+                            route={route}
+                            {...commonFormDataProps}
+                        />
                     )}
                 </StyledBox>
             </Popover>
@@ -132,7 +72,5 @@ const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
     )
 }
 
-Register.displayName = 'Register'
-Login.displayName = 'Login'
 Authentication.displayName = 'Authentication'
 export default Authentication
