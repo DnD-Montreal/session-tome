@@ -25,7 +25,7 @@ class CreateItemsTable extends Migration
             $table->text('description');
             $table->string('counted');
             $table->timestamps();
-            $table->foreignId('author_id')->constrained();
+            $table->foreignId('author_id')->constrained('users', 'id');
         });
 
         Schema::enableForeignKeyConstraints();
