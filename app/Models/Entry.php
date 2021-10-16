@@ -27,7 +27,7 @@ class Entry extends Model
         'type',
         'levels',
         'gp',
-        'notes'
+        'notes',
     ];
 
     /**
