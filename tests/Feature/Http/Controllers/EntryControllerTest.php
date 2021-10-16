@@ -87,7 +87,7 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = $this->faker->word;
-        $levels = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($user)->post(route('entry.store'), [
@@ -184,7 +184,7 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = $this->faker->word;
-        $levels = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($entry->user)->put(route('entry.update', $entry), [

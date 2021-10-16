@@ -62,8 +62,12 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('campaign', App\Http\Controllers\CampaignController::class);
 });
 
+Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
+    ->only('store');
+
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
     Route::get('/dev/{path}', fn ($path) => Inertia::render(Str::of($path)->replace('/', ' ')->title()->replace(' ', '/')))
         ->where(['path' => '.*']);
+    Route::get('/dev-auth/{id}', fn ($id) => \Illuminate\Support\Facades\Auth::loginUsingId($id));
 }

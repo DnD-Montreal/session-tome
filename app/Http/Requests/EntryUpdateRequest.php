@@ -33,7 +33,7 @@ class EntryUpdateRequest extends FormRequest
             'date_played' => ['required'],
             'location' => ['required', 'string'],
             'type' => ['required', 'string'],
-            'levels' => ['required', 'string'],
+            'levels' => ['required', 'integer'],
             'gp' => ['required', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
         ];
     }
