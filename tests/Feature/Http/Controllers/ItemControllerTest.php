@@ -164,6 +164,7 @@ class ItemControllerTest extends TestCase
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;
+        $author = User::factory()->create();
 
         $response = $this->actingAs($item->user())->put(route('item.update', $item), [
             'entry_id' => $entry->id,
@@ -173,6 +174,7 @@ class ItemControllerTest extends TestCase
             'tier' => $tier,
             'description' => $description,
             'counted' => $counted,
+            'author_id' => $author->id
         ]);
 
         $item->refresh();
@@ -187,6 +189,7 @@ class ItemControllerTest extends TestCase
         $this->assertEquals($tier, $item->tier);
         $this->assertEquals($description, $item->description);
         $this->assertEquals($counted, $item->counted);
+        $this->assertEquals($author->id, $item->author_id);
     }
 
 
