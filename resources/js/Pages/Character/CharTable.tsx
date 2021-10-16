@@ -106,6 +106,7 @@ const CharTable = ({
                         <TableRow>
                             <TableCell padding='checkbox'>
                                 <Checkbox
+                                    data-testid='header-checkbox'
                                     color='primary'
                                     indeterminate={
                                         selected.length > 0 &&

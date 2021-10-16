@@ -89,7 +89,6 @@ const Character = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-                        data-testid='character-search'
                         id='character-search'
                         options={rows.map((option) => option.cname)}
                         renderInput={(params) => (

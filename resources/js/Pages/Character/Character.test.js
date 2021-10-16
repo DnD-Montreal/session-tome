@@ -1,6 +1,8 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import Character from './Character'
+import Character, {handleClick, handleSelectAllClick} from './Character'
+import CharTable from './CharTable'
+import {charData} from './CharacterData'
 
 describe('Character', () => {
     it('Component should render', () => {
@@ -8,11 +10,10 @@ describe('Character', () => {
         expect(component).toBeDefined()
     })
 
-    it('should go to correct steps', () => {
+    it('create button should lead to home', () => {
         render(<Character />)
         fireEvent.click(screen.getByText('Create'))
         expect(screen.getByRole('link')).toHaveAttribute('href', '/')
-        fireEvent.click(screen.getByText('Export'))
     })
 
     it('should input Name 6 in Search Character', () => {
@@ -30,5 +31,36 @@ describe('Character', () => {
         fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
         fireEvent.keyDown(document.activeElement, {key: 'Enter'})
         expect(screen.getByText('Name 6')).toBeInTheDocument()
+    })
+})
+
+const isSelected = (name) => [].indexOf(name) !== -1
+
+describe('CharTable', () => {
+    it('Component should render', () => {
+        const component = render(
+            <CharTable
+                isSelected={isSelected}
+                rows={charData}
+                handleSelectAllClick={handleSelectAllClick}
+                selected={[]}
+                handleClick={handleClick}
+            />,
+        )
+        expect(component).toBeDefined()
+    })
+
+    it('shoud render all checkboxes for each data row', () => {
+        render(
+            <CharTable
+                isSelected={isSelected}
+                rows={charData}
+                handleSelectAllClick={handleSelectAllClick}
+                selected={[]}
+                handleClick={handleClick}
+            />,
+        )
+        const checkbox = screen.getAllByRole('checkbox')
+        expect(checkbox).toHaveLength(charData.length)
     })
 })
