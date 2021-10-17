@@ -21,17 +21,6 @@ use Illuminate\Validation\UnauthorizedException;
 class AdventuresLeagueAdaptor
 {
     /**
-     * @var array array Configuration parameters for the Adventures League Adaptor
-     */
-    protected array $config;
-
-    public function __construct($config)
-    {
-        $this->config = $config;
-        $this->characterData = collect();
-    }
-
-    /**
      * Extract Character data from given file and Hydrate as Character Model
      *
      * @param $url
@@ -72,7 +61,7 @@ class AdventuresLeagueAdaptor
 
             // Hydrate Model
             $character = new Character($characterData);
-            //$character->save();
+            $character->save();
             $entries = [];
 
             for ($i = 4; $i < count($data); $i++) {
@@ -83,9 +72,9 @@ class AdventuresLeagueAdaptor
                     $entryData = [
                         'user_id' => Auth::id(),
                         'character_id' => $character->id,
-                        'date_played' => $data[$i][3],
+                        'date_played' => $data[$i][3] ?? now(),
                         'type' => Entry::TYPE_GAME,
-                        'gp' => $data[$i][7],
+                        'gp' => (float) $data[$i][7] ?? 0,
                     ];
                     array_push($entries, new Entry($entryData));
                 } else {
@@ -102,7 +91,7 @@ class AdventuresLeagueAdaptor
                 }
             }
 
-            //$character->entries()->saveMany($entries);
+            $character->entries()->saveMany($entries);
             return $character;
         }
         return null;
