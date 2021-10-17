@@ -20,7 +20,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../Components/FactionChip'
+import FactionChip from '../../Components/FactionChip/FactionChip'
 import {RowData} from './CharacterData'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (

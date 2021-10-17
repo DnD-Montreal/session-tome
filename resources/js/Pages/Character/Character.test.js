@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import Character, {handleClick, handleSelectAllClick} from './Character'
+import Character from './Character'
 import CharTable from './CharTable'
 import {charData} from './CharacterData'
 
@@ -34,32 +34,23 @@ describe('Character', () => {
     })
 })
 
-const isSelected = (name) => [].indexOf(name) !== -1
-
+const mockFunction = jest.fn()
+const isSelectedtest = (name) => [].indexOf(name) !== -1
+const props = {
+    isSelected: isSelectedtest,
+    rows: charData,
+    selected: [],
+    handleClick: mockFunction,
+    handleSelectAllClick: mockFunction,
+}
 describe('CharTable', () => {
     it('Component should render', () => {
-        const component = render(
-            <CharTable
-                isSelected={isSelected}
-                rows={charData}
-                handleSelectAllClick={handleSelectAllClick}
-                selected={[]}
-                handleClick={handleClick}
-            />,
-        )
+        const component = render(<CharTable {...props} />)
         expect(component).toBeDefined()
     })
 
     it('shoud render all checkboxes for each data row', () => {
-        render(
-            <CharTable
-                isSelected={isSelected}
-                rows={charData}
-                handleSelectAllClick={handleSelectAllClick}
-                selected={[]}
-                handleClick={handleClick}
-            />,
-        )
+        render(<CharTable {...props} />)
         const checkbox = screen.getAllByRole('checkbox')
         expect(checkbox).toHaveLength(charData.length)
     })
