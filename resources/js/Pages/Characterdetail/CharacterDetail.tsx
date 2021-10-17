@@ -1,18 +1,21 @@
 import React, {useState} from 'react'
-// eslint-disable-next-line import/extensions
-import ApplicationLayout from '@/Layouts/ApplicationLayout'
+import {ThemeProvider} from '@mui/material/styles'
+import {getFontTheme} from '../../Utils/theme'
+import {ApplicationLayout} from '../../Layouts'
 import CharacterDetailBox from './CharacterDetailBox'
 import CharacterDetailTable from './CharacterDetailTable'
 import {CharacterDetailData, RowData} from './CharacterDetailData'
 
 const CharacterDetail = () => {
-    // eslint-disable-next-line no-unused-vars
-    const [rows, setRows] = useState<RowData[]>(CharacterDetailData)
+    const [rows] = useState<RowData[]>(CharacterDetailData)
+    const theme = getFontTheme('Form', 14)
 
     return (
         <>
-            <CharacterDetailBox />
-            <CharacterDetailTable rows={rows} />
+            <ThemeProvider theme={theme}>
+                <CharacterDetailBox />
+                <CharacterDetailTable rows={rows} />
+            </ThemeProvider>
         </>
     )
 }

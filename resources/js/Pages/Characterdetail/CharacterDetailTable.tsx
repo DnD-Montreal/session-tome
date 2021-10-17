@@ -26,8 +26,7 @@ import {alpha} from '@mui/material/styles'
 import {RowData} from './CharacterDetailData'
 
 const StyledTableCell = styled(TableCell)({
-    color: 'white',
-    padding: '10px 25px',
+    padding: '3px 25px',
 })
 
 const ColorButton = styled(Button)({
@@ -38,6 +37,10 @@ const ColorButton = styled(Button)({
         borderColor: '#a2bf8e',
         backgroundColor: '#a2bf8e',
     },
+})
+
+const StyledTableRow = styled(TableRow)({
+    '&:last-child td, &:last-child th': {border: 0},
 })
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
@@ -144,6 +147,8 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                         <TableRow>
                             <StyledTableCell padding='checkbox'>
                                 <Checkbox
+                                    data-testid='header-checkbox'
+                                    id='header-checkbox'
                                     color='primary'
                                     indeterminate={
                                         selected.length > 0 &&
@@ -179,12 +184,8 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                 const isItemSelected = isSelected(row.date)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
-                                    <TableRow
+                                    <StyledTableRow
                                         key={row.date}
-                                        sx={{
-                                            '&:last-child td, &:last-child th':
-                                                {border: 0},
-                                        }}
                                         hover
                                         onClick={(event) =>
                                             handleClick(event, row.date)
@@ -200,6 +201,8 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                                 inputProps={{
                                                     'aria-labelledby': labelId,
                                                 }}
+                                                id={`checkbox-${index}`}
+                                                data-testid={`checkbox-${index}`}
                                             />
                                         </StyledTableCell>
                                         <StyledTableCell
@@ -224,7 +227,7 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                             {row.downtime}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            <ColorButton>
+                                            <ColorButton variant='outlined'>
                                                 {row.magicItems}
                                             </ColorButton>
                                         </StyledTableCell>
@@ -245,13 +248,15 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                                 <DeleteIcon fontSize='small' />
                                             </IconButton>
                                         </StyledTableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 )
                             })}
                     </TableBody>
                 </Table>
             </TableContainer>
             <TablePagination
+                data-testid='pagination'
+                id='pagination'
                 rowsPerPageOptions={[5, 10, 15]}
                 component='div'
                 count={rows.length}

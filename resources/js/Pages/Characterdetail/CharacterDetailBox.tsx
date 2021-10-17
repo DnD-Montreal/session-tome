@@ -65,7 +65,7 @@ const CharacterDetailBox = () => (
                     <Typography style={{color: '#a0a2a3'}}>Public</Typography>
                 </Grid>
                 {/* Buttons */}
-                <Grid item xs={12} spacing={3}>
+                <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
                         <ColorButton variant='contained'>
                             <CreateIcon fontSize='small' /> UPDATE

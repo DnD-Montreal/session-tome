@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 export const CharacterDetailData = [
     {
         date: '5-10-2021',
@@ -7,7 +6,7 @@ export const CharacterDetailData = [
         level: 14,
         gp: 100,
         downtime: 10,
-        magicItems: ['Item 3', 'Item 7'],
+        magicItems: ['Item 3'],
     },
     {
         date: '3-3-2021',
@@ -54,9 +53,18 @@ export const CharacterDetailData = [
         downtime: 15,
         magicItems: ['Item 1'],
     },
+    {
+        date: '12-12-2018',
+        adventure: 'Jesus',
+        session: 26,
+        level: 4,
+        gp: 30,
+        downtime: 15,
+        magicItems: ['Item 7'],
+    },
 ]
 
-export interface RowData {
+export type RowData = {
     date: string
     adventure: string
     session: number
