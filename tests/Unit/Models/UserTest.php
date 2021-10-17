@@ -3,6 +3,8 @@
 namespace Tests\Unit\Models;
 
 use App\Models\User;
+use App\Models\Item;
+use App\Models\Character;
 use App\Models\Role;
 use App\Models\League;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -85,5 +87,24 @@ class UserTest extends TestCase
         $testUser->roles()->attach($testRole, ['league_id' => 0]);
 
         $this->AssertTrue($testUser->hasAnyRole());
+    }
+
+    public function user_has_items()
+    {
+        $user = User::factory()->create();
+        $item = Item::factory(3)->create();
+        $character = Character::factory()->create();
+
+        $character->items()->savemany($item);
+        $user->characters()->save($character);
+
+        $user->save();
+        $character->save();
+        $items = $user->items()->get();
+
+        $user->refresh();
+        $character->refresh();
+
+        $this->assertEquals($items->count(), 3);
     }
 }
