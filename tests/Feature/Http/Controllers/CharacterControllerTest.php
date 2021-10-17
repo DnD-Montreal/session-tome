@@ -163,8 +163,9 @@ class CharacterControllerTest extends TestCase
         $faction = $this->faker->word;
         $downtime = $this->faker->numberBetween(0, 1000);
         $status = $this->faker->randomElement(["private", "public"]);
+        $user = $character->user;
 
-        $response = $this->put(route('character.update', $character), [
+        $response = $this->actingAs($user)->put(route('character.update', $character), [
             'name' => $name,
             'race' => $race,
             'class' => $class,
@@ -195,8 +196,9 @@ class CharacterControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $character = Character::factory()->create();
+        $user = $character->user;
 
-        $response = $this->delete(route('character.destroy', $character));
+        $response = $this->actingAs($user)->delete(route('character.destroy', $character));
 
         $response->assertRedirect(route('character.index'));
 
