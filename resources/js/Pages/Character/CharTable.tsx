@@ -18,10 +18,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
-import {alpha} from '@mui/material/styles'
+import {alpha, styled} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import FactionChip from '../../Components/FactionChip/FactionChip'
 import {RowData} from '../../../mock/CharacterData'
+
+const StyledTable = styled(Table)`
+    minwidth: 650vw;
+`
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -122,7 +126,7 @@ const CharTable = ({rows}: CharTablePropType) => {
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
-                <Table sx={{minWidth: 650}} aria-label='simple table'>
+                <StyledTable aria-label='simple table'>
                     <TableHead>
                         <TableRow>
                             <TableCell padding='checkbox'>
@@ -232,7 +236,7 @@ const CharTable = ({rows}: CharTablePropType) => {
                                 )
                             })}
                     </TableBody>
-                </Table>
+                </StyledTable>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
