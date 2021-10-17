@@ -3,27 +3,13 @@ import SVG from 'react-inlinesvg'
 import {Avatar, Grid, Link} from '@mui/material'
 import styled from '@emotion/styled'
 import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
-import {createTheme, ThemeProvider} from '@mui/material/styles'
+import {ThemeProvider} from '@mui/material/styles'
 import associationLogo from '../../icons/DNDMtlLogo.svg'
 import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
 import {Authentication} from '../Components'
+import {getFontTheme} from '../Utils/theme'
 
-const theme = createTheme({
-    typography: {
-        fontFamily: ['Cinzel Decorative'].join(','),
-    },
-    palette: {
-        primary: {
-            main: '#3E5543',
-            dark: '#3E5543',
-        },
-        secondary: {
-            main: '#D3D7C6',
-            dark: '#D3D7C6',
-        },
-        mode: 'dark',
-    },
-})
+const theme = getFontTheme('Normal')
 
 const MainGrid = styled(Grid)`
     background-color: #232b2b;
