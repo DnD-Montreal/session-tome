@@ -36,12 +36,18 @@ class ItemControllerTest extends TestCase
     public function index_displays_view()
     {
         $items = Item::factory()->count(3)->create();
-
+        $character = $items[0]->character;
+        $character->items()->saveMany($items);
+        $character->save();
         $response = $this->get(route('item.index'));
 
         $response->assertOk();
         $response->assertViewIs('item.index');
         $response->assertViewHas('items');
+
+        foreach ($items as $item) {
+            $this->assertTrue($item->character_id == $character->id);
+        }
     }
 
 
@@ -82,7 +88,7 @@ class ItemControllerTest extends TestCase
         $description = $this->faker->text;
         $counted = $this->faker->word;
 
-        $response = $this->post(route('item.store'), [
+        $response = $this->actingAs($character->user)->post(route('item.store'), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
@@ -101,6 +107,7 @@ class ItemControllerTest extends TestCase
             ->where('description', $description)
             ->where('counted', $counted)
             ->get();
+
         $this->assertCount(1, $items);
         $item = $items->first();
 
