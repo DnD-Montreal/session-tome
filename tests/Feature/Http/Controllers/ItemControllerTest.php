@@ -39,15 +39,22 @@ class ItemControllerTest extends TestCase
         $character = $items[0]->character;
         $character->items()->saveMany($items);
         $character->save();
-        $response = $this->get(route('item.index'));
+
+
+        $response = $this->get(route('item.index') . "?character_id={$character->id}");
+        $responseEmpty = $this->get(route('item.index'));
 
         $response->assertOk();
+        $responseEmpty->assertOk();
         $response->assertViewIs('item.index');
-        $response->assertViewHas('items');
-
-        foreach ($items as $item) {
-            $this->assertTrue($item->character_id == $character->id);
-        }
+        // Check the items returned belong to the character we're checking.
+        $response->assertViewHas('items', function ($items) use ($character) {
+            $res = true;
+            foreach ($items->pluck('character_id') as $id) {
+                $res = $res && $id == $character->id;
+            }
+            return $res;
+        });
     }
 
 
