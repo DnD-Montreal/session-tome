@@ -11,9 +11,9 @@ class ItemUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('update', $this->item);
     }
 
     /**
@@ -21,7 +21,7 @@ class ItemUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'entry_id' => ['required', 'integer', 'exists:entries,id'],

@@ -50,4 +50,9 @@ class Item extends Model
     {
         return $this->belongsTo(\App\Models\Character::class);
     }
+
+    public function user()
+    {
+        return $this->character->user;
+    }
 }
