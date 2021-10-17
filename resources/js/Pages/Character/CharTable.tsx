@@ -18,18 +18,10 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
-import {alpha, styled} from '@mui/material/styles'
+import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import FactionChip from '../../Components/FactionChip/FactionChip'
 import {RowData} from '../../../mock/CharacterData'
-
-const StyledTable = styled(Table)`
-    minwidth: 650vw;
-`
-
-const StyledTableRow = styled(TableRow)({
-    '&:last-child td, &:last-child th': {border: 0},
-})
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -130,7 +122,7 @@ const CharTable = ({rows}: CharTablePropType) => {
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
-                <StyledTable aria-label='simple table'>
+                <Table sx={{minWidth: 650}} aria-label='simple table'>
                     <TableHead>
                         <TableRow>
                             <TableCell padding='checkbox'>
@@ -173,8 +165,12 @@ const CharTable = ({rows}: CharTablePropType) => {
                                 const isItemSelected = isSelected(row.cname)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
-                                    <StyledTableRow
+                                    <TableRow
                                         key={row.cname}
+                                        sx={{
+                                            '&:last-child td, &:last-child th':
+                                                {border: 0},
+                                        }}
                                         hover
                                         onClick={(event) =>
                                             handleClick(event, row.cname)
@@ -232,11 +228,11 @@ const CharTable = ({rows}: CharTablePropType) => {
                                                 <DeleteIcon />
                                             </IconButton>
                                         </TableCell>
-                                    </StyledTableRow>
+                                    </TableRow>
                                 )
                             })}
                     </TableBody>
-                </StyledTable>
+                </Table>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
