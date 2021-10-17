@@ -64,6 +64,7 @@
     "dependencies": {
         "@emotion/react": "^11.4.1",
         "@emotion/styled": "^11.3.0",
+        "@mui/icons-material": "^5.0.4",
         "@mui/material": "^5.0.0",
         "eslint-plugin-prettier": "^4.0.0",
         "prettier": "^2.3.2",
