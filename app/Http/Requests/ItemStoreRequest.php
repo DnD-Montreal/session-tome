@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ItemStoreRequest extends FormRequest
@@ -13,7 +14,7 @@ class ItemStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('store', $this->item);
+        return $this->user()->can('create', Item::class);
     }
 
     /**
