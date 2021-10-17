@@ -19,7 +19,7 @@ class CharacterPolicy
      */
     public function view(User $user, Character $character)
     {
-        return $character->status == "public" || $character->user_id == $user->id;
+        return $character->status == "public" || $character->user_id == $user->id || $user->isSiteAdmin();
     }
 
 
@@ -32,7 +32,7 @@ class CharacterPolicy
      */
     public function update(User $user, Character $character)
     {
-        return $user->id == $character->user_id;
+        return $user->id == $character->user_id || $user->isSiteAdmin();
     }
 
     /**
@@ -44,6 +44,6 @@ class CharacterPolicy
      */
     public function delete(User $user, Character $character)
     {
-        return $user->id == $character->user_id;
+        return $user->id == $character->user_id || $user->isSiteAdmin();
     }
 }
