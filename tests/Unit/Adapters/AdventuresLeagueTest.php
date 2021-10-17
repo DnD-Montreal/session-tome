@@ -1,0 +1,46 @@
+<?php
+
+namespace Tests\Unit\Adapters;
+
+use App\Facades\AdventuresLeague;
+use App\Facades\Beyond;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\UnauthorizedException;
+use JMac\Testing\Traits\AdditionalAssertions;
+use Tests\TestCase;
+
+class AdventuresLeagueTest extends TestCase
+{
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
+
+    /**
+     * Attempts to create a character from the Mocked API
+     *
+     * @test
+     */
+    public function check_a_character_can_be_hydrated()
+    {
+        $character = AdventuresLeague::getCharacter(database_path('mocks/grod.csv'));
+
+        $this->assertEquals("Grod", $character->name);
+        $this->assertEquals("Half Orc", $character->race);
+        $this->assertEquals("Fighter", $character->class);
+        $this->assertEquals(0, $character->level);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function check_character_hydration_fails_if_bad_file()
+    {
+        $character = AdventuresLeague::getCharacter(database_path('mocks/grod.csv'));
+
+        $this->assertNull($character);
+    }
+}
