@@ -81,8 +81,9 @@ class ItemControllerTest extends TestCase
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;
+        $author = User::factory()->create();
 
-        $response = $this->post(route('item.store'), [
+        $response = $this->actingAs($character->user)->post(route('item.store'), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
@@ -90,6 +91,7 @@ class ItemControllerTest extends TestCase
             'tier' => $tier,
             'description' => $description,
             'counted' => $counted,
+            'author_id' => $author->id
         ]);
 
         $items = Item::query()
@@ -100,6 +102,7 @@ class ItemControllerTest extends TestCase
             ->where('tier', $tier)
             ->where('description', $description)
             ->where('counted', $counted)
+            ->where('author_id', $author->id)
             ->get();
         $this->assertCount(1, $items);
         $item = $items->first();
