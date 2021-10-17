@@ -27,6 +27,10 @@ const StyledTable = styled(Table)`
     minwidth: 650vw;
 `
 
+const StyledTableRow = styled(TableRow)({
+    '&:last-child td, &:last-child th': {border: 0},
+})
+
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
         sx={{
@@ -169,12 +173,8 @@ const CharTable = ({rows}: CharTablePropType) => {
                                 const isItemSelected = isSelected(row.cname)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
-                                    <TableRow
+                                    <StyledTableRow
                                         key={row.cname}
-                                        sx={{
-                                            '&:last-child td, &:last-child th':
-                                                {border: 0},
-                                        }}
                                         hover
                                         onClick={(event) =>
                                             handleClick(event, row.cname)
@@ -232,7 +232,7 @@ const CharTable = ({rows}: CharTablePropType) => {
                                                 <DeleteIcon />
                                             </IconButton>
                                         </TableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 )
                             })}
                     </TableBody>
