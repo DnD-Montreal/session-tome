@@ -113,10 +113,16 @@ class CharacterControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'status' => "private"
+        ]);
+        $user = $character->user;
+        $nonOwner = User::factory()->create();
 
-        $response = $this->get(route('character.show', $character));
+        $badResponse = $this->actingAs($nonOwner)->get(route('character.show', $character));
+        $response = $this->actingAs($user)->get(route('character.show', $character));
 
+        $badResponse->assertStatus(403);
         $response->assertOk();
         $response->assertViewIs('character.show');
         $response->assertViewHas('character');
