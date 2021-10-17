@@ -57,4 +57,9 @@ class Item extends Model
     {
         return $this->character->user;
     }
+
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }
