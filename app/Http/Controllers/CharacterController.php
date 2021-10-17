@@ -85,7 +85,9 @@ class CharacterController extends Controller
      */
     public function destroy(Request $request, Character $character)
     {
-        $character->delete();
+        if ($request->user()->can('delete', $character)) {
+            $character->delete();
+        }
 
         return redirect()->route('character.index');
     }
