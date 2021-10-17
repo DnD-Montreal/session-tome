@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import CharTable from './CharTable'
-import {charData} from './CharacterData'
+import {charData} from '../../../mock/CharacterData'
 
 const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1

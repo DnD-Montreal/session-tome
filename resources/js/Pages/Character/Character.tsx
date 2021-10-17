@@ -6,7 +6,7 @@ import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {ApplicationLayout} from '../../Layouts'
 import CharTable from './CharTable'
-import {charData, RowData} from './CharacterData'
+import {charData, RowData} from '../../../mock/CharacterData'
 import {getFontTheme} from '../../Utils/theme'
 
 const Character = () => {
