@@ -31,6 +31,7 @@ class ItemUpdateRequest extends FormRequest
             'tier' => ['required', 'string'],
             'description' => ['required', 'string'],
             'counted' => ['required', 'string'],
+            'author_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 }

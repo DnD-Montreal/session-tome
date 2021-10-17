@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use App\Models\User;
 
 class ItemFactory extends Factory
 {
@@ -32,6 +33,7 @@ class ItemFactory extends Factory
             'tier' => $this->faker->word(),
             'description' => $this->faker->text(),
             'counted' => $this->faker->word(),
+            'author_id' => User::factory()
         ];
     }
 }
