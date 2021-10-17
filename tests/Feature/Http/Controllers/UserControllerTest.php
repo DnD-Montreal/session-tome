@@ -3,8 +3,10 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -16,6 +18,15 @@ class UserControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        Auth::login($this->user);
+    }
 
     /**
      * @test
@@ -91,11 +102,21 @@ class UserControllerTest extends TestCase
     public function update_redirects()
     {
         $user = User::factory()->create();
+        $otherUser = User::factory()->create();
         $name = $this->faker->name;
         $email = $this->faker->safeEmail;
         $password = $this->faker->password;
 
-        $response = $this->put(route('user.update', $user), [
+        $response = $this->actingAs($user)->put(route('user.update', $otherUser), [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertForbidden();
+
+        $response = $this->actingAs($user)->put(route('user.update', $user), [
             'name' => $name,
             'email' => $email,
             'password' => $password,
@@ -111,7 +132,6 @@ class UserControllerTest extends TestCase
         $this->assertEquals($email, $user->email);
         $this->assertEquals($password, $user->password);
     }
-
 
     /**
      * @test

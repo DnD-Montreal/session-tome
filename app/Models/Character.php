@@ -15,6 +15,7 @@ class Character extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'race',
         'class',
@@ -22,7 +23,7 @@ class Character extends Model
         'faction',
         'downtime',
         'status',
-        'character_sheet'
+        'character_sheet',
     ];
 
     /**
@@ -71,5 +72,18 @@ class Character extends Model
     public function entries()
     {
         return $this->hasMany(\App\Models\Entry::class);
+    }
+
+    public function stubEntries()
+    {
+        $stubs = [
+            'user_id' => $this->user_id,
+            'character_id' => $this->id,
+            'levels' => 1,
+            'type' => Entry::TYPE_GAME
+        ];
+
+        // Note: Insert() doesn't fire events, thus will not trigger the observer
+        return Entry::insert(array_fill(0, $this->level, $stubs));
     }
 }

@@ -5,8 +5,10 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -18,6 +20,15 @@ class ItemControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        Auth::login($this->user);
+    }
 
     /**
      * @test
@@ -154,7 +165,7 @@ class ItemControllerTest extends TestCase
         $description = $this->faker->text;
         $counted = $this->faker->word;
 
-        $response = $this->put(route('item.update', $item), [
+        $response = $this->actingAs($item->user())->put(route('item.update', $item), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
