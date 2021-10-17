@@ -10,39 +10,8 @@ import {charData, RowData} from './CharacterData'
 import {getFontTheme} from '../../Utils/theme'
 
 const Character = () => {
-    const [selected, setSelected] = useState<readonly string[]>([])
     const [rows, setRows] = useState<RowData[]>(charData)
     const theme = getFontTheme('Form', 16)
-
-    const handleSelectAllClick = (event: any) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cname)
-            setSelected(newSelecteds)
-            return
-        }
-        setSelected([])
-    }
-
-    const handleClick = (event: any, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: readonly string[] = []
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1))
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            )
-        }
-        setSelected(newSelected)
-    }
-
-    const isSelected = (name: string) => selected.indexOf(name) !== -1
 
     const requestSearch = (searchedVal: string) => {
         const filteredRows = charData.filter((row) =>
@@ -101,13 +70,7 @@ const Character = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharTable
-                        isSelected={isSelected}
-                        rows={rows}
-                        handleSelectAllClick={handleSelectAllClick}
-                        selected={selected}
-                        handleClick={handleClick}
-                    />
+                    <CharTable rows={rows} />
                 </Grid>
             </Grid>
         </ThemeProvider>

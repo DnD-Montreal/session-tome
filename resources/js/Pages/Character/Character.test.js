@@ -1,8 +1,6 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import Character from './Character'
-import CharTable from './CharTable'
-import {charData} from './CharacterData'
 
 describe('Character', () => {
     it('Component should render', () => {
@@ -31,27 +29,5 @@ describe('Character', () => {
         fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
         fireEvent.keyDown(document.activeElement, {key: 'Enter'})
         expect(screen.getByText('Name 6')).toBeInTheDocument()
-    })
-})
-
-const mockFunction = jest.fn()
-const isSelectedtest = (name) => [].indexOf(name) !== -1
-const props = {
-    isSelected: isSelectedtest,
-    rows: charData,
-    selected: [],
-    handleClick: mockFunction,
-    handleSelectAllClick: mockFunction,
-}
-describe('CharTable', () => {
-    it('Component should render', () => {
-        const component = render(<CharTable {...props} />)
-        expect(component).toBeDefined()
-    })
-
-    it('shoud render all checkboxes for each data row', () => {
-        render(<CharTable {...props} />)
-        const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox).toHaveLength(charData.length)
     })
 })

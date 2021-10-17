@@ -72,19 +72,10 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 
 type CharTablePropType = {
     rows: RowData[]
-    handleSelectAllClick: (e: any) => void
-    handleClick: (e: any, cname: string) => void
-    isSelected: (cname: string) => boolean
-    selected: readonly string[]
 }
 
-const CharTable = ({
-    rows,
-    handleSelectAllClick,
-    handleClick,
-    isSelected,
-    selected,
-}: CharTablePropType) => {
+const CharTable = ({rows}: CharTablePropType) => {
+    const [selected, setSelected] = useState<readonly string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -97,6 +88,36 @@ const CharTable = ({
         setPage(0)
     }
 
+    const handleSelectAllClick = (event: any) => {
+        if (event.target.checked) {
+            const newSelecteds = rows.map((n) => n.cname)
+            setSelected(newSelecteds)
+            return
+        }
+        setSelected([])
+    }
+
+    const handleClick = (event: any, name: string) => {
+        const selectedIndex = selected.indexOf(name)
+        let newSelected: readonly string[] = []
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, name)
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1))
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1))
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            )
+        }
+        setSelected(newSelected)
+    }
+
+    const isSelected = (name: string) => selected.indexOf(name) !== -1
+
     return (
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -107,6 +128,7 @@ const CharTable = ({
                             <TableCell padding='checkbox'>
                                 <Checkbox
                                     data-testid='header-checkbox'
+                                    id='header-checkbox'
                                     color='primary'
                                     indeterminate={
                                         selected.length > 0 &&
@@ -164,6 +186,8 @@ const CharTable = ({
                                                 inputProps={{
                                                     'aria-labelledby': labelId,
                                                 }}
+                                                id={`checkbox-${index}`}
+                                                data-testid={`checkbox-${index}`}
                                             />
                                         </TableCell>
                                         <TableCell
