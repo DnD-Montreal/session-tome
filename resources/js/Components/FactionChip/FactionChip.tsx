@@ -6,50 +6,32 @@ type FactionChipPropType = {
 }
 
 const FactionChip = ({fname}: FactionChipPropType) => {
+    let colorObj
     switch (fname) {
         case 'The Harpers':
-            return (
-                <Chip
-                    label={fname}
-                    sx={{color: '#86B8F4', borderColor: '#86B8F4'}}
-                    variant='outlined'
-                />
-            )
+            colorObj = {color: '#86B8F4', borderColor: '#86B8F4'}
+            break
+
         case 'The Order of the Gauntlet':
-            return (
-                <Chip
-                    label={fname}
-                    sx={{color: '#D3D8DC', borderColor: '#D3D8DC'}}
-                    variant='outlined'
-                />
-            )
+            colorObj = {color: '#D3D8DC', borderColor: '#D3D8DC'}
+            break
+
         case 'The Emerald Enclave':
-            return (
-                <Chip
-                    label={fname}
-                    sx={{color: '#8DA57C', borderColor: '#8DA57C'}}
-                    variant='outlined'
-                />
-            )
+            colorObj = {color: '#8DA57C', borderColor: '#8DA57C'}
+            break
+
         case `The Lords' Alliance`:
-            return (
-                <Chip
-                    label={fname}
-                    sx={{color: '#CC5D56', borderColor: '#CC5D56'}}
-                    variant='outlined'
-                />
-            )
+            colorObj = {color: '#CC5D56', borderColor: '#CC5D56'}
+            break
+
         case 'The Zhentarim':
-            return (
-                <Chip
-                    label={fname}
-                    sx={{color: '#CAA93C', borderColor: '#CAA93C'}}
-                    variant='outlined'
-                />
-            )
+            colorObj = {color: '#CAA93C', borderColor: '#CAA93C'}
+            break
+
         default:
-            return <Chip label={fname} color='success' variant='outlined' />
+            colorObj = {color: 'primary', borderColor: 'primary'}
     }
+    return <Chip label={fname} sx={colorObj} variant='outlined' />
 }
 
 FactionChip.displayName = 'FactionChip'

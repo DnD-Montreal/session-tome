@@ -36,7 +36,7 @@ export const charData = [
         race: 'Goliath',
         cclass: 'Paladin',
         level: 10,
-        faction: 'The Emrald Enclave',
+        faction: 'The Emerald Enclave',
         downtime: 8,
     },
     {
@@ -44,7 +44,7 @@ export const charData = [
         race: 'Goliath',
         cclass: 'Paladin',
         level: 10,
-        faction: 'The Emrald Enclave',
+        faction: 'The Emerald Enclave',
         downtime: 4,
     },
     {
