@@ -24,4 +24,10 @@ class ItemPolicy
     {
         return $item->user()->id == $user->id || $user->isSiteAdmin();
     }
+
+    public function store(User $user, Item $item)
+    {
+        dd($item->user()->id);
+        return $item->user()->id == $user->id || $user->isSiteAdmin();
+    }
 }
