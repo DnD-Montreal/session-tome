@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Character;
 use App\Models\User;
 use App\Models\Item;
+use App\Policies\CharacterPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\ItemPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Character::class => CharacterPolicy::class,
         User::class => UserPolicy::class,
         Item::class => ItemPolicy::class,
     ];
