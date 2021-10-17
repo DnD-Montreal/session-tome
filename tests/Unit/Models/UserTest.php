@@ -89,6 +89,9 @@ class UserTest extends TestCase
         $this->AssertTrue($testUser->hasAnyRole());
     }
 
+    /**
+     * @test
+     */
     public function user_has_items()
     {
         $user = User::factory()->create();
@@ -97,13 +100,9 @@ class UserTest extends TestCase
 
         $character->items()->savemany($item);
         $user->characters()->save($character);
-
         $user->save();
         $character->save();
         $items = $user->items()->get();
-
-        $user->refresh();
-        $character->refresh();
 
         $this->assertEquals($items->count(), 3);
     }
