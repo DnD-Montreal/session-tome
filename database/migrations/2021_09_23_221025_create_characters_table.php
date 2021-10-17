@@ -23,7 +23,6 @@ class CreateCharactersTable extends Migration
             $table->string('class');
             $table->integer('level');
             $table->string('faction');
-            $table->string('background');
             $table->string('downtime');
             $table->string('status');
             $table->timestamps();
