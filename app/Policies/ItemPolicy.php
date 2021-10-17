@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Character;
 use App\Models\User;
 use App\Models\Item;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Http\Request;
 
 class ItemPolicy
 {
@@ -25,9 +27,9 @@ class ItemPolicy
         return $item->user()->id == $user->id || $user->isSiteAdmin();
     }
 
-    public function store(User $user, Item $item)
+    public function create(User $user)
     {
-        dd($item->user()->id);
-        return $item->user()->id == $user->id || $user->isSiteAdmin();
+        $request = request();
+        return $request->user()->id == Character::findOrFail($request->character_id)->user->id || $user->isSiteAdmin();
     }
 }
