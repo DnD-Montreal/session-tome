@@ -21,7 +21,6 @@ class Character extends Model
         'class',
         'level',
         'faction',
-        'background',
         'downtime',
         'status',
         'character_sheet',
