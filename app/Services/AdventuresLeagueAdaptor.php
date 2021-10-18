@@ -51,12 +51,12 @@ class AdventuresLeagueAdaptor
 
             $characterData = [
                 'user_id' => Auth::id(),
-                'name' => $data[1][0],
-                'race' => $data[1][1],
-                'class' => $data[1][2],
+                'name' => (array_key_exists(0, $data[1])) ? $data[1][0] : "",
+                'race' => (array_key_exists(1, $data[1])) ? $data[1][1] : "",
+                'class' => (array_key_exists(2, $data[1])) ? $data[1][2] : "",
                 'level' => $characterLevel,
                 'faction' => substr($data[1][3], 0, 1) == "#" ? "" : $data[1][3], //Sometimes export has faction as a strange code such as #<...>
-                'background' => $data[1][4],
+                'background' => (array_key_exists(4, $data[1])) ? $data[1][4] : "",
             ];
 
             // Hydrate Model
@@ -72,9 +72,9 @@ class AdventuresLeagueAdaptor
                     $entryData = [
                         'user_id' => Auth::id(),
                         'character_id' => $character->id,
-                        'date_played' => $data[$i][3] ?? now(),
+                        'date_played' => (array_key_exists(3, $data[$i])) ? $data[$i][3] : now(),
                         'type' => Entry::TYPE_GAME,
-                        'gp' => (float) $data[$i][7] ?? 0,
+                        'gp' => (array_key_exists(7, $data[$i])) ? (float) $data[$i][7] : 0,
                     ];
                     array_push($entries, new Entry($entryData));
                 } else {
