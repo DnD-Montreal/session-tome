@@ -3,7 +3,7 @@
 namespace App\Facades;
 
 use App\Models\Character;
-use App\Services\AdventuresLeagueAdaptor;
+use App\Services\AdventuresLeagueAdapter;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method Character getCharacter($filePath)
  *
- * @see AdventuresLeagueAdaptor
+ * @see AdventuresLeagueAdapter
  */
 class AdventuresLeague extends Facade
 {

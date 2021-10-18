@@ -15,10 +15,10 @@ use Illuminate\Validation\UnauthorizedException;
 /**
  * Wraps the AdventuresLeagueLog exported csv file handling.
  *
- * Class AdventuresLeagueAdaptor
+ * Class AdventuresLeagueAdapter
  * @package App\Services
  */
-class AdventuresLeagueAdaptor
+class AdventuresLeagueAdapter
 {
     /**
      * Extract Character data from given file and Hydrate as Character Model
