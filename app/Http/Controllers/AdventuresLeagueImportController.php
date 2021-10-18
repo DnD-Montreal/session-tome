@@ -26,8 +26,6 @@ class AdventuresLeagueImportController extends Controller
 
             $character->save();
 
-            $character->stubEntries();
-
             return response([
                 'success' => true,
                 'data' => $character->refresh()->load('entries')
