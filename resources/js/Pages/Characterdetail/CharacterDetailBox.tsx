@@ -5,28 +5,28 @@ import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
 
-const Img = styled('img')`
+const Img = styled('img')({
     margin: 'auto',
     display: 'block',
     maxWidth: '100',
     maxHeight: '100',
-`
+})
 
-const StyledTypography = styled(Typography)`
+const StyledTypography = styled(Typography)({
     color: '#a0a2a3',
     fontSize: 11,
-`
+})
 
-const ColorButton = styled(Button)`
+const ColorButton = styled(Button)({
     fontsize: 6,
     backgroundColor: '#8da57c',
     '&:hover': {
         backgroundColor: '#a2bf8e',
     },
-`
+})
 
 const CharacterDetailBox = () => (
-    <Box sx={{p: 10, backgroundColor: 'primary'}}>
+    <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container spacing={6}>
             {/* Avatar */}
             <Grid item xs={4}>
