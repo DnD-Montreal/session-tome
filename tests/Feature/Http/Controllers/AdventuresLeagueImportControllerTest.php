@@ -33,7 +33,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals("Grod", $character->name);
         $this->assertEquals("Half orc", $character->race);
         $this->assertEquals("Fighter", $character->class);
-        $this->assertEquals(0, $character->level);
+        $this->assertEquals(1, $character->level);
     }
 
     /**
