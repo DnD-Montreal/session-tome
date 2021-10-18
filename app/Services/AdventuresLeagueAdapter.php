@@ -46,10 +46,11 @@ class AdventuresLeagueAdapter
         }
 
         // Get total Character Level from String (ex: "Fighter 2, Warlock 6")
-        $characterLevel = 0;
+        $characterLevel = 1;
         preg_match_all("/\d{1,2}/", $data[1][2], $classLevels);
         if (!is_null($classLevels[0])) {
-            $characterLevel = array_sum($classLevels[0]);
+            $levelSum = array_sum($classLevels[0]);
+            $characterLevel = $levelSum > 0 ? $levelSum : 1;
         }
 
         $characterData = [
