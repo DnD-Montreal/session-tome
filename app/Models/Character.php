@@ -24,6 +24,7 @@ class Character extends Model
         'downtime',
         'status',
         'character_sheet',
+        'background',
     ];
 
     /**

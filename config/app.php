@@ -232,7 +232,8 @@ return [
         /**
          * Application Facades
          */
-        'Beyond' => App\Facades\Beyond::class
+        'Beyond' => App\Facades\Beyond::class,
+        'AdventuresLeague' => App\Facades\AdventuresLeague::class
 
     ],
 
