@@ -17,12 +17,12 @@ import {
     Tooltip,
     Box,
     Checkbox,
+    alpha,
 } from '@mui/material'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {alpha} from '@mui/material/styles'
 import {RowData} from './CharacterDetailData'
 
 const StyledTableCell = styled(TableCell)`
@@ -39,8 +39,8 @@ const ColorButton = styled(Button)`
     },
 `
 
-const StyledTableRow = styled(TableRow)`
-    '&:last-child td, &:last-child th': {border: 0},
+const StyledIconButton = styled(Button)`
+    color: 'white';
 `
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
@@ -184,7 +184,11 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                 const isItemSelected = isSelected(row.date)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
-                                    <StyledTableRow
+                                    <TableRow
+                                        sx={{
+                                            '&:last-child td, &:last-child th':
+                                                {border: 0},
+                                        }}
                                         key={row.date}
                                         hover
                                         onClick={(event) =>
@@ -232,31 +236,23 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
                                             </ColorButton>
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            <IconButton
-                                                aria-label='share'
-                                                sx={{color: 'white'}}>
+                                            <StyledIconButton aria-label='share'>
                                                 <IosShareIcon fontSize='small' />
-                                            </IconButton>
-                                            <IconButton
-                                                aria-label='edit'
-                                                sx={{color: 'white'}}>
+                                            </StyledIconButton>
+                                            <StyledIconButton aria-label='edit'>
                                                 <CreateIcon fontSize='small' />
-                                            </IconButton>
-                                            <IconButton
-                                                aria-label='delete'
-                                                sx={{color: 'white'}}>
+                                            </StyledIconButton>
+                                            <StyledIconButton aria-label='delete'>
                                                 <DeleteIcon fontSize='small' />
-                                            </IconButton>
+                                            </StyledIconButton>
                                         </StyledTableCell>
-                                    </StyledTableRow>
+                                    </TableRow>
                                 )
                             })}
                     </TableBody>
                 </Table>
             </TableContainer>
             <TablePagination
-                data-testid='pagination'
-                id='pagination'
                 rowsPerPageOptions={[5, 10, 15]}
                 component='div'
                 count={rows.length}

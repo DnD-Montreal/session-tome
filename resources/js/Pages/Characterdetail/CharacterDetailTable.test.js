@@ -41,11 +41,6 @@ describe('CharacterDetailTable', () => {
         fireEvent.click(screen.getByLabelText('select all dates'))
     })
 
-    it('If select all checkbox is select then handleSelectAllClick should work', () => {
-        render(<CharacterDetailTable {...props} />)
-        fireEvent.click(screen.getByLabelText('select all dates'))
-    })
-
     it('Pagination handleChangePage should work', () => {
         render(<CharacterDetailTable {...props} />)
         fireEvent.click(screen.getByTitle('Go to next page'))
