@@ -30,4 +30,9 @@ describe('Character', () => {
         fireEvent.keyDown(document.activeElement, {key: 'Enter'})
         expect(screen.getByText('Name 6')).toBeInTheDocument()
     })
+    it('should input 0 in Search Character', () => {
+        render(<Character />)
+        fireEvent.click(screen.getByTitle('Open'))
+        fireEvent.click(screen.getByLabelText('Name 2'))
+    })
 })

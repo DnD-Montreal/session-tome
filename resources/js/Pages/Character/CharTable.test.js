@@ -35,4 +35,13 @@ describe('CharTable', () => {
         fireEvent.click(screen.getByTestId('checkbox-1'))
         expect(checkbox1).toHaveProperty('checked', false)
     })
+    it('Pagination handleChangePage should work', () => {
+        render(<CharTable {...props} />)
+        fireEvent.click(screen.getByTitle('Go to next page'))
+    })
+    it('Pagination 5 click should work', () => {
+        render(<CharTable {...props} />)
+        fireEvent.click(screen.getByLabelText('5'))
+        fireEvent.click(screen.getByDisplayValue('5'))
+    })
 })
