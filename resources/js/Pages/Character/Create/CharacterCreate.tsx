@@ -13,8 +13,8 @@ import {
 import React, {useState} from 'react'
 import {ThemeProvider} from '@mui/material/styles'
 import styled from 'styled-components'
-import {ApplicationLayout} from '../../Layouts'
-import {getFontTheme} from '../../Utils/theme'
+import {ApplicationLayout} from 'Layouts'
+import {getFontTheme} from 'Utils'
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
