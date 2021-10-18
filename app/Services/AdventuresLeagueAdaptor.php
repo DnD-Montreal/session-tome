@@ -39,6 +39,7 @@ class AdventuresLeagueAdaptor
         if ($data[0] != "name,race,class_and_levels,faction,background,lifestyle,portrait_url,publicly_visible") {
             return null;
         }
+
         // Separate lines into cells
         for ($i = 0; $i < count($data); $i++) {
             $data[$i] = explode(',', $data[$i]);
@@ -64,8 +65,23 @@ class AdventuresLeagueAdaptor
         // Hydrate Model
         $character = new Character($characterData);
         $character->save();
-        $entries = [];
 
+        // Get the entries from the file
+        $entries = $this->getEntries($data, $character->id);
+
+        $character->entries()->saveMany($entries);
+        return $character;
+    }
+
+    /**
+     * Get the entries from the file passed to the adaptor getCharacter function
+     * @param  array $data The data extracted from the file
+     * @param  int $characterId The id of the character being created
+     * @return array       Returns an array of instances of the Entry class
+     */
+    private function getEntries($data, $characterId)
+    {
+        $entries = [];
         for ($i = 4; $i < count($data); $i++) {
             //Check if row is a magic item entry
             $isItemEntry = ($data[$i][0] == "MAGIC ITEM");
@@ -73,7 +89,7 @@ class AdventuresLeagueAdaptor
             if (!$isItemEntry) {
                 $entryData = [
                     'user_id' => Auth::id(),
-                    'character_id' => $character->id,
+                    'character_id' => $characterId,
                     'date_played' => (array_key_exists(3, $data[$i])) ? $data[$i][3] : now(),
                     'type' => Entry::TYPE_GAME,
                     'gp' => (array_key_exists(7, $data[$i])) ? (float)$data[$i][7] : 0,
@@ -94,8 +110,6 @@ class AdventuresLeagueAdaptor
                 $latestEntry->items()->save(new Item($itemData));
             }*/
         }
-
-        $character->entries()->saveMany($entries);
-        return $character;
+        return $entries;
     }
 }
