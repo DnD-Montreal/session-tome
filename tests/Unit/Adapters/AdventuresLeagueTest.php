@@ -37,7 +37,7 @@ class AdventuresLeagueTest extends TestCase
         $character = AdventuresLeague::getCharacter(database_path('mocks/grod.csv'));
 
         $this->assertEquals("Grod", $character->name);
-        $this->assertEquals("Half Orc", $character->race);
+        $this->assertEquals("Half orc", $character->race);
         $this->assertEquals("Fighter", $character->class);
         $this->assertEquals(0, $character->level);
     }
@@ -48,7 +48,7 @@ class AdventuresLeagueTest extends TestCase
      */
     public function check_character_hydration_fails_if_bad_file()
     {
-        $character = AdventuresLeague::getCharacter(database_path('mocks/grod.csv'));
+        $character = AdventuresLeague::getCharacter(database_path('mocks/grod-bad.csv'));
 
         $this->assertNull($character);
     }
