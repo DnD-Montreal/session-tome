@@ -25,11 +25,11 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {alpha} from '@mui/material/styles'
 import {RowData} from './CharacterDetailData'
 
-const StyledTableCell = styled(TableCell)({
-    padding: '3px 25px',
-})
+const StyledTableCell = styled(TableCell)`
+    padding: '3px 25px';
+`
 
-const ColorButton = styled(Button)({
+const ColorButton = styled(Button)`
     color: '#8da57c',
     borderColor: '#8da57c',
     '&:hover': {
@@ -37,11 +37,11 @@ const ColorButton = styled(Button)({
         borderColor: '#a2bf8e',
         backgroundColor: '#a2bf8e',
     },
-})
+`
 
-const StyledTableRow = styled(TableRow)({
+const StyledTableRow = styled(TableRow)`
     '&:last-child td, &:last-child th': {border: 0},
-})
+`
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
