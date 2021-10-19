@@ -39,6 +39,7 @@ const UserAvatarColumn = styled(Grid)`
 const ContentRow = styled(Grid)`
     height: 100vh;
     padding-top: 48px;
+    overflow-y: scroll;
 `
 
 const UsernameLink = styled(Link)`
@@ -142,7 +143,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </Grid>
                     <Grid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink color='white' href='/dev/Character'>
                             Characters
                         </InertiaLink>
                     </Grid>
