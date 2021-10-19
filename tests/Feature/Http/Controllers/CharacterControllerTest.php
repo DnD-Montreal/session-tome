@@ -113,10 +113,16 @@ class CharacterControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'status' => "private"
+        ]);
+        $user = $character->user;
+        $nonOwner = User::factory()->create();
 
-        $response = $this->get(route('character.show', $character));
+        $badResponse = $this->actingAs($nonOwner)->get(route('character.show', $character));
+        $response = $this->actingAs($user)->get(route('character.show', $character));
 
+        $badResponse->assertStatus(403);
         $response->assertOk();
         $response->assertViewIs('character.show');
         $response->assertViewHas('character');
@@ -163,8 +169,9 @@ class CharacterControllerTest extends TestCase
         $faction = $this->faker->word;
         $downtime = $this->faker->numberBetween(0, 1000);
         $status = $this->faker->randomElement(["private", "public"]);
+        $user = $character->user;
 
-        $response = $this->put(route('character.update', $character), [
+        $response = $this->actingAs($user)->put(route('character.update', $character), [
             'name' => $name,
             'race' => $race,
             'class' => $class,
@@ -195,8 +202,9 @@ class CharacterControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $character = Character::factory()->create();
+        $user = $character->user;
 
-        $response = $this->delete(route('character.destroy', $character));
+        $response = $this->actingAs($user)->delete(route('character.destroy', $character));
 
         $response->assertRedirect(route('character.index'));
 

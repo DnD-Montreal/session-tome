@@ -65,6 +65,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
     ->only('store');
 
+Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
+    ->only('store');
+
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
     Route::get('/dev/{path}', fn ($path) => Inertia::render(Str::of($path)->replace('/', ' ')->title()->replace(' ', '/')))

@@ -4,10 +4,10 @@ import {Avatar, Grid, Link} from '@mui/material'
 import styled from '@emotion/styled'
 import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
-import associationLogo from '../../icons/DNDMtlLogo.svg'
-import applicationLogo from '../../icons/SessionTomeOfficialLogo.svg'
-import {Authentication} from '../Components'
-import {getFontTheme} from '../Utils/theme'
+import {Authentication} from 'Components'
+import {getFontTheme} from 'Utils'
+import associationLogo from '../../../icons/DNDMtlLogo.svg'
+import applicationLogo from '../../../icons/SessionTomeOfficialLogo.svg'
 
 const theme = getFontTheme('Normal')
 
@@ -142,7 +142,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </Grid>
                     <Grid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/dev/Character/index'>
+                        <InertiaLink color='white' href='/dev/Character'>
                             Characters
                         </InertiaLink>
                     </Grid>

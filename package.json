@@ -32,16 +32,12 @@
         "@types/ziggy-js": "^1.0.1",
         "@typescript-eslint/eslint-plugin": "^4.31.0",
         "@typescript-eslint/parser": "^4.31.0",
-        "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
         "autoprefixer": "^10.2.4",
         "axios": "^0.21",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.2.2",
         "babel-plugin-import": "^1.13.3",
         "cypress": "^8.3.1",
-        "enzyme": "^3.11.0",
-        "enzyme-adapter-react-16": "^1.15.6",
-        "enzyme-to-json": "^3.6.2",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-cypress": "^2.12.1",
@@ -82,24 +78,6 @@
         "styled-components": "^5.3.1",
         "ts-jest": "^27.0.5",
         "ziggy-js": "^1.4.2"
-    },
-    "jest": {
-        "testEnvironment": "jsdom",
-        "setupFilesAfterEnv": [
-            "./setup_jest.js"
-        ],
-        "roots": [
-            "resources/"
-        ],
-        "moduleNameMapper": {
-            "^ziggy$": "<rootDir>/vendor/tightenco/ziggy/dist/js/route.js"
-        },
-        "transform": {
-            ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
-            "^.+\\.(ts|tsx)?$": "ts-jest",
-            "^.+\\.(js|jsx)$": "babel-jest",
-            "^.+\\.svg$": "<rootDir>/svgTransform.js"
-        }
     },
     "lint-staged": {
         "*.{js,jsx}": [

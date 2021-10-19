@@ -15,7 +15,11 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Item::all();
+        if ($characterId = $request->get('character_id')) {
+            $items = Item::where('character_id', $characterId)->get();
+        } else {
+            $items = [];
+        }
 
         return view('item.index', compact('items'));
     }
