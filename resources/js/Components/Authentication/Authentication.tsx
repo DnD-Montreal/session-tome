@@ -21,8 +21,8 @@ const theme = getFontTheme('Form')
 const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
     const {data, setData, post} = useForm({
         email: null,
-        password: '',
-        username: '',
+        password: null,
+        username: null,
     })
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)

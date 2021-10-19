@@ -13,8 +13,8 @@ type AuthenticationFormPropType = {
 
 type FormDataType = {
     email: string | null
-    password: string
-    username: string
+    password: string | null
+    username: string | null
 }
 
 const AuthenticationForm = ({
@@ -30,13 +30,13 @@ const AuthenticationForm = ({
                 margin='normal'
                 required
                 fullWidth
-                id='username'
-                label='Username'
-                name='username'
-                autoComplete='username'
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
                 autoFocus
-                onChange={(e) => setData('username', e.target.value)}
-                value={data.username}
+                onChange={(e) => setData('email', e.target.value)}
+                value={data.email}
             />
             <TextField
                 margin='normal'
@@ -71,13 +71,13 @@ const AuthenticationForm = ({
                 margin='normal'
                 required
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
+                id='username'
+                label='Username'
+                name='username'
+                autoComplete='username'
                 autoFocus
-                onChange={(e) => setData('email', e.target.value)}
-                value={data.email}
+                onChange={(e) => setData('username', e.target.value)}
+                value={data.username}
             />
             {commonFieldForms()}
             <Button

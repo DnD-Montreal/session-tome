@@ -54,6 +54,7 @@ type LayoutProps = {
 
 const ApplicationLayout = ({children}: LayoutProps) => {
     const {auth}: any = usePage().props
+    console.log(usePage().props)
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
