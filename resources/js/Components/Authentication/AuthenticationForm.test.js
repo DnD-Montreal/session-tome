@@ -7,7 +7,7 @@ const postMock = jest.fn()
 const routeMock = jest.fn()
 const loginProps = {
     data: {
-        username: 'test12',
+        email: 'test12',
         password: 'test123',
     },
     setData: setDataMock,
@@ -50,7 +50,7 @@ describe('<Authentication />', () => {
         fireEvent.change(screen.getByDisplayValue('test12'), {
             target: {value: '123456'},
         })
-        expect(setDataMock).toBeCalledWith('username', '123456')
+        expect(setDataMock).toBeCalledWith('email', '123456')
     })
     it('register form assertion', () => {
         render(<AuthenticationForm {...registerProps} />)
