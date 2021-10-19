@@ -20,7 +20,7 @@ const registerProps = {
     data: {
         email: 'testing123',
         username: 'test123',
-        password: 'test123',
+        password: 'test12',
     },
     setData: setDataMock,
     post: postMock,
@@ -51,6 +51,10 @@ describe('<Authentication />', () => {
             target: {value: '123456'},
         })
         expect(setDataMock).toBeCalledWith('email', '123456')
+        fireEvent.change(screen.getByDisplayValue('test123'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password', '123456')
     })
     it('register form assertion', () => {
         render(<AuthenticationForm {...registerProps} />)
@@ -58,5 +62,13 @@ describe('<Authentication />', () => {
             target: {value: '123456'},
         })
         expect(setDataMock).toBeCalledWith('email', '123456')
+        fireEvent.change(screen.getByDisplayValue('test123'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('username', '123456')
+        fireEvent.change(screen.getByDisplayValue('test12'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password', '123456')
     })
 })
