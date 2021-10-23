@@ -13,7 +13,7 @@ class EntryUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', $this->entry->character) and $this->user()->can('update', $this->entry);
     }
 
     /**
@@ -25,16 +25,16 @@ class EntryUpdateRequest extends FormRequest
     {
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
-            'campaign_id' => ['required', 'integer', 'exists:campaigns,id'],
+            'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['required', 'integer', 'exists:characters,id'],
-            'event_id' => ['required', 'integer', 'exists:events,id'],
-            'dungeon_master_id' => ['required', 'integer', 'exists:users,id'],
-            'dungeon_master' => ['required', 'string'],
-            'date_played' => ['required'],
-            'location' => ['required', 'string'],
+            'event_id' => ['sometimes', 'integer', 'exists:events,id'],
+            'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
+            'dungeon_master' => ['sometimes', 'string'],
+            'date_played' => ['required', 'date'],
+            'location' => ['sometimes', 'string'],
             'type' => ['required', 'string'],
-            'levels' => ['required', 'integer'],
-            'gp' => ['required', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
+            'levels' => ['sometimes', 'integer'],
+            'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
         ];
     }
 }
