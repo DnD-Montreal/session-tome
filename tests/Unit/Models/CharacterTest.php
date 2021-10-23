@@ -78,4 +78,21 @@ class CharacterTest extends TestCase
 
         $this->assertCount(1, $entries);
     }
+
+    /**
+     * @test
+     */
+    public function can_access_gp()
+    {
+        $character = Character::factory()->create();
+        $goldEntry = Entry::factory()->create([
+            'gp' => 1000,
+        ]);
+
+        $this->assertEquals(0, $character->gp);
+
+        $goldEntry->character()->associate($character)->save();
+
+        $this->assertEquals(1000, $character->gp);
+    }
 }
