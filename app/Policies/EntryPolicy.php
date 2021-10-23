@@ -2,11 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Character;
 use App\Models\User;
 use App\Models\Entry;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
 
 class EntryPolicy
 {
