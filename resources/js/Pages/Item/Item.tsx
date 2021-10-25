@@ -1,5 +1,14 @@
 import React, {useState} from 'react'
-import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
+import {
+    Button,
+    Stack,
+    Grid,
+    Autocomplete,
+    TextField,
+    Breadcrumbs,
+    Link as MUILink,
+    Typography,
+} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
@@ -44,6 +53,14 @@ const Item = () => {
                 rowSpacing={{xs: 1, sm: 2, md: 3}}
                 alignItems='center'
                 justifyContent='center'>
+                <Grid item xs={12} alignItems='center' justifyContent='center'>
+                    <Breadcrumbs aria-label='breadcrumb'>
+                        <MUILink underline='hover' color='inherit' href='/'>
+                            Character 1
+                        </MUILink>
+                        <Typography color='text.primary'>Items</Typography>
+                    </Breadcrumbs>
+                </Grid>
                 <Grid item xs={8} alignItems='center' justifyContent='center'>
                     <Stack direction='row' spacing={4}>
                         <Button variant='contained' startIcon={<AddIcon />}>
