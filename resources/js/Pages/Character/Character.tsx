@@ -7,7 +7,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import {CharacterTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
-import {charData, RowData} from '../../../mock/CharacterData'
+import {charData, RowData} from '../../../mock/character-data'
 
 const Character = () => {
     const [rows, setRows] = useState<RowData[]>(charData)

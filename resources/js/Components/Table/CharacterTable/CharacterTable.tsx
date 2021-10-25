@@ -20,8 +20,8 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../FactionChip/FactionChip'
-import {RowData} from '../../../../mock/CharacterData'
+import {FactionChip} from 'Components'
+import {RowData} from '../../../../mock/character-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -75,7 +75,7 @@ type CharTablePropType = {
 }
 
 const CharacterTable = ({rows}: CharTablePropType) => {
-    const [selected, setSelected] = useState<readonly string[]>([])
+    const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -99,7 +99,7 @@ const CharacterTable = ({rows}: CharTablePropType) => {
 
     const handleClick = (event: any, name: string) => {
         const selectedIndex = selected.indexOf(name)
-        let newSelected: readonly string[] = []
+        let newSelected: string[] = []
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name)
