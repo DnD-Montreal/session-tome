@@ -72,9 +72,15 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 
 type CharTablePropType = {
     rows: RowData[]
+    setIsEditDrawerOpen: (payload: boolean) => void
+    setEditId: (payload: number) => void
 }
 
-const CharacterTable = ({rows}: CharTablePropType) => {
+const CharacterTable = ({
+    rows,
+    setIsEditDrawerOpen,
+    setEditId,
+}: CharTablePropType) => {
     const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -224,7 +230,12 @@ const CharacterTable = ({rows}: CharTablePropType) => {
                                             {row.downtime}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <IconButton aria-label='edit'>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setIsEditDrawerOpen(true)
+                                                    setEditId(index)
+                                                }}
+                                                aria-label='edit'>
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton aria-label='delete'>

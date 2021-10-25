@@ -1,17 +1,27 @@
 import React, {useState} from 'react'
-import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
+import {
+    Button,
+    Stack,
+    Grid,
+    Autocomplete,
+    TextField,
+    Typography,
+} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterTable} from 'Components'
+import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
 import {charData, RowData} from '../../../mock/character-data'
 
+const theme = getFontTheme('Form', 16)
+
 const Character = () => {
     const [rows, setRows] = useState<RowData[]>(charData)
-    const theme = getFontTheme('Form', 16)
+    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
+    const [editId, setEditId] = useState<number | null>()
 
     const requestSearch = (searchedVal: string) => {
         const filteredRows = charData.filter((row) =>
@@ -39,6 +49,17 @@ const Character = () => {
     }
     return (
         <ThemeProvider theme={theme}>
+            <EditDrawer
+                content={<CharacterCreateForm type='Edit' />}
+                title={
+                    <Typography>Edit character with id: {editId}</Typography>
+                }
+                isOpen={isEditDrawerOpen}
+                onClose={() => {
+                    setIsEditDrawerOpen(false)
+                    setEditId(null)
+                }}
+            />
             <Grid
                 container
                 rowSpacing={{xs: 1, sm: 2, md: 3}}
@@ -73,7 +94,11 @@ const Character = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharacterTable rows={rows} />
+                    <CharacterTable
+                        rows={rows}
+                        setIsEditDrawerOpen={setIsEditDrawerOpen}
+                        setEditId={setEditId}
+                    />
                 </Grid>
             </Grid>
         </ThemeProvider>
