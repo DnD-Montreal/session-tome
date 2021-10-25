@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Link,
     Grid,
     Stepper,
     Step,
@@ -15,6 +14,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import styled from 'styled-components'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
+import {Link} from '@inertiajs/inertia-react'
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
@@ -23,18 +23,6 @@ const StyledBox = styled(Box)`
 const FormBox = styled(Box)`
     width: 100%;
 `
-
-const ButtonContainer = styled(Box)`
-    padding: 16px 0px 16px 0px;
-`
-
-const Input = styled('input')({
-    display: 'none',
-})
-
-const Label = styled('label')({
-    marginTop: '16px',
-})
 
 const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
@@ -55,63 +43,14 @@ const CharacterCreate = () => {
             <FormBox>
                 <Stepper activeStep={activeStep}>
                     <Step completed={activeStep > 0}>
-                        <StepLabel
-                            optional={
-                                <Typography variant='caption'>
-                                    Optional
-                                </Typography>
-                            }>
-                            Import character
-                        </StepLabel>
-                    </Step>
-                    <Step completed={activeStep > 1}>
                         <StepLabel>Enter details</StepLabel>
                     </Step>
-                    <Step completed={activeStep > 2}>
+                    <Step completed={activeStep > 1}>
                         <StepLabel>Privacy details</StepLabel>
                     </Step>
                 </Stepper>
                 <StyledBox>
                     {activeStep === 0 && (
-                        <>
-                            <Typography>
-                                Import character log by uploading your{' '}
-                                <Link href='https://www.adventurersleaguelog.com/'>
-                                    AdventurersLeagueLog.com
-                                </Link>{' '}
-                                logs or by entering your character&apos;s{' '}
-                                <Link href='https://www.dndbeyond.com/'>
-                                    D&D Beyond
-                                </Link>{' '}
-                                link.
-                            </Typography>
-                            <ButtonContainer>
-                                <Label htmlFor='contained-button-file'>
-                                    <Input
-                                        accept='*'
-                                        id='contained-button-file'
-                                        multiple={false}
-                                        type='file'
-                                    />
-                                    <Button
-                                        variant='contained'
-                                        component='span'>
-                                        Upload
-                                    </Button>
-                                </Label>
-                            </ButtonContainer>
-                            <Typography>OR</Typography>
-                            <TextField
-                                margin='normal'
-                                fullWidth
-                                id='ddBeyondLink'
-                                label='D&D Beyond Link'
-                                name='D&D Beyond Link'
-                                helperText="Enter your character's link on D&D Beyond."
-                            />
-                        </>
-                    )}
-                    {activeStep === 1 && (
                         <>
                             <Typography>
                                 Fill out the following fields with your
@@ -168,7 +107,7 @@ const CharacterCreate = () => {
                             </Grid>
                         </>
                     )}
-                    {activeStep === 2 && (
+                    {activeStep === 1 && (
                         <>
                             <Typography>
                                 Do you want this character to be public?
@@ -181,7 +120,9 @@ const CharacterCreate = () => {
                     {activeStep === 0 && (
                         <>
                             <Grid item md={2} xs={6}>
-                                <Button fullWidth>Cancel</Button>
+                                <Link href='/dev/Character'>
+                                    <Button fullWidth>Cancel</Button>
+                                </Link>
                             </Grid>
                             <Grid item md={8} />
                             <Grid item md={2} xs={6}>
@@ -199,26 +140,6 @@ const CharacterCreate = () => {
                             <Grid item md={2} xs={6}>
                                 <Button
                                     onClick={() => setActiveStep(0)}
-                                    fullWidth>
-                                    Previous
-                                </Button>
-                            </Grid>
-                            <Grid item md={8} />
-                            <Grid item md={2} xs={6}>
-                                <Button
-                                    variant='contained'
-                                    onClick={() => setActiveStep(2)}
-                                    fullWidth>
-                                    Continue
-                                </Button>
-                            </Grid>
-                        </>
-                    )}
-                    {activeStep === 2 && (
-                        <>
-                            <Grid item md={2} xs={6}>
-                                <Button
-                                    onClick={() => setActiveStep(1)}
                                     fullWidth>
                                     Previous
                                 </Button>

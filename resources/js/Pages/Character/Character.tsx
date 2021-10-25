@@ -4,10 +4,10 @@ import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
-import {ApplicationLayout} from '../../Layouts'
-import CharTable from './CharTable'
+import {CharacterTable} from 'Components'
+import {ApplicationLayout} from 'Layouts'
+import {getFontTheme} from 'Utils'
 import {charData, RowData} from '../../../mock/CharacterData'
-import {getFontTheme} from '../../Utils/theme'
 
 const Character = () => {
     const [rows, setRows] = useState<RowData[]>(charData)
@@ -47,7 +47,10 @@ const Character = () => {
                 <Grid item xs={8} alignItems='center' justifyContent='center'>
                     <Stack direction='row' spacing={4}>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/'>Create</Link>
+                            <Link href='/dev/character/create'>Create</Link>
+                        </Button>
+                        <Button variant='contained' startIcon={<AddIcon />}>
+                            <Link href='/dev/character/import'>Import</Link>
                         </Button>
                         <Button
                             variant='contained'
@@ -70,7 +73,7 @@ const Character = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharTable rows={rows} />
+                    <CharacterTable rows={rows} />
                 </Grid>
             </Grid>
         </ThemeProvider>

@@ -20,8 +20,8 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../Components/FactionChip/FactionChip'
-import {RowData} from '../../../mock/CharacterData'
+import FactionChip from '../../FactionChip/FactionChip'
+import {RowData} from '../../../../mock/CharacterData'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -74,7 +74,7 @@ type CharTablePropType = {
     rows: RowData[]
 }
 
-const CharTable = ({rows}: CharTablePropType) => {
+const CharacterTable = ({rows}: CharTablePropType) => {
     const [selected, setSelected] = useState<readonly string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -172,15 +172,18 @@ const CharTable = ({rows}: CharTablePropType) => {
                                                 {border: 0},
                                         }}
                                         hover
-                                        onClick={(event) =>
-                                            handleClick(event, row.cname)
-                                        }
                                         role='checkbox'
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         selected={isItemSelected}>
                                         <TableCell padding='checkbox'>
                                             <Checkbox
+                                                onClick={(event) =>
+                                                    handleClick(
+                                                        event,
+                                                        row.cname,
+                                                    )
+                                                }
                                                 color='primary'
                                                 checked={isItemSelected}
                                                 inputProps={{
@@ -248,5 +251,5 @@ const CharTable = ({rows}: CharTablePropType) => {
 }
 
 EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
-CharTable.displayName = 'CharTable'
-export default CharTable
+CharacterTable.displayName = 'CharacterTable'
+export default CharacterTable
