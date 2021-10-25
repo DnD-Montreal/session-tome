@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ItemStoreRequest extends FormRequest
@@ -13,7 +14,7 @@ class ItemStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', Item::class);
     }
 
     /**
@@ -31,6 +32,7 @@ class ItemStoreRequest extends FormRequest
             'tier' => ['required', 'string'],
             'description' => ['required', 'string'],
             'counted' => ['required', 'string'],
+            'author_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 }

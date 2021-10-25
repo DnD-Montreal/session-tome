@@ -17,7 +17,11 @@
         "jsx": "react",
         "baseUrl": "./",
         "paths": {
-            "@/*": ["resources/js/*"]
+            "@": ["resources/js/*"],
+            "Components": ["resources/js/Components"],
+            "Layouts": ["resources/js/Layouts"],
+            "Pages": ["resources/js/Pages"],
+            "Utils": ["resources/js/Utils"]
         }
     },
     "include": ["./resources", "**/*.ts", "./custom.d.ts"],

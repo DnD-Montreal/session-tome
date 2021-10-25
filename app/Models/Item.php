@@ -22,6 +22,7 @@ class Item extends Model
         'tier',
         'description',
         'counted',
+        'author_id',
     ];
 
     /**
@@ -33,6 +34,7 @@ class Item extends Model
         'id' => 'integer',
         'entry_id' => 'integer',
         'character_id' => 'integer',
+        'author_id' => 'integer',
     ];
 
 
@@ -54,5 +56,10 @@ class Item extends Model
     public function user()
     {
         return $this->character->user;
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

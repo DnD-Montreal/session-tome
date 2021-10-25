@@ -36,12 +36,25 @@ class ItemControllerTest extends TestCase
     public function index_displays_view()
     {
         $items = Item::factory()->count(3)->create();
+        $character = $items[0]->character;
+        $character->items()->saveMany($items);
+        $character->save();
 
-        $response = $this->get(route('item.index'));
+
+        $response = $this->get(route('item.index') . "?character_id={$character->id}");
+        $responseEmpty = $this->get(route('item.index'));
 
         $response->assertOk();
+        $responseEmpty->assertOk();
         $response->assertViewIs('item.index');
-        $response->assertViewHas('items');
+        // Check the items returned belong to the character we're checking.
+        $response->assertViewHas('items', function ($items) use ($character) {
+            $res = true;
+            foreach ($items->pluck('character_id') as $id) {
+                $res = $res && $id == $character->id;
+            }
+            return $res;
+        });
     }
 
 
@@ -81,8 +94,9 @@ class ItemControllerTest extends TestCase
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;
+        $author = User::factory()->create();
 
-        $response = $this->post(route('item.store'), [
+        $response = $this->actingAs($character->user)->post(route('item.store'), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
@@ -90,6 +104,7 @@ class ItemControllerTest extends TestCase
             'tier' => $tier,
             'description' => $description,
             'counted' => $counted,
+            'author_id' => $author->id
         ]);
 
         $items = Item::query()
@@ -100,7 +115,9 @@ class ItemControllerTest extends TestCase
             ->where('tier', $tier)
             ->where('description', $description)
             ->where('counted', $counted)
+            ->where('author_id', $author->id)
             ->get();
+
         $this->assertCount(1, $items);
         $item = $items->first();
 
@@ -164,6 +181,7 @@ class ItemControllerTest extends TestCase
         $tier = $this->faker->word;
         $description = $this->faker->text;
         $counted = $this->faker->word;
+        $author = User::factory()->create();
 
         $response = $this->actingAs($item->user())->put(route('item.update', $item), [
             'entry_id' => $entry->id,
@@ -173,6 +191,7 @@ class ItemControllerTest extends TestCase
             'tier' => $tier,
             'description' => $description,
             'counted' => $counted,
+            'author_id' => $author->id
         ]);
 
         $item->refresh();
@@ -187,6 +206,7 @@ class ItemControllerTest extends TestCase
         $this->assertEquals($tier, $item->tier);
         $this->assertEquals($description, $item->description);
         $this->assertEquals($counted, $item->counted);
+        $this->assertEquals($author->id, $item->author_id);
     }
 
 
