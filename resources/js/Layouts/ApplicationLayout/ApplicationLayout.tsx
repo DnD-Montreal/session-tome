@@ -2,7 +2,7 @@ import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {Avatar, Grid, Link} from '@mui/material'
 import styled from '@emotion/styled'
-import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
+import {Link as InertiaLink} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication} from 'Components'
 import {getFontTheme} from 'Utils'
@@ -54,7 +54,7 @@ type LayoutProps = {
 }
 
 const ApplicationLayout = ({children}: LayoutProps) => {
-    const {auth}: any = usePage().props
+    //   const {auth}: any = usePage().props
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
@@ -62,11 +62,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     const handleClose = () => {
         setAnchorEl(null)
     }
-    const getUsername = () => {
-        if (!auth) return 'Login'
-        if (auth.user) return auth.user
-        return 'Login'
-    }
+    const getUsername = () => 'Login'
+    // if (!auth) return 'Login'
+    // if (auth.user) return auth.user
 
     return (
         <ThemeProvider theme={theme}>
