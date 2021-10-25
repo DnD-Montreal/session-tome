@@ -15,6 +15,7 @@ import {Link} from '@inertiajs/inertia-react'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
+    onCloserDrawer?: () => void
 }
 
 const StyledBox = styled(Box)`
@@ -34,7 +35,10 @@ const StyledFooter = styled(Grid)`
     min-width: 25vw;
 `
 
-const CharacterCreateForm = ({type}: CharacterCreateFormPropType) => {
+const CharacterCreateForm = ({
+    type,
+    onCloserDrawer = () => {},
+}: CharacterCreateFormPropType) => {
     const [activeStep, setActiveStep] = useState<number>(0)
     return (
         <FormBox>
@@ -137,7 +141,11 @@ const CharacterCreateForm = ({type}: CharacterCreateFormPropType) => {
                                     <Button fullWidth>Cancel</Button>
                                 </Link>
                             ) : (
-                                <Button fullWidth>Cancel</Button>
+                                <Button
+                                    onClick={() => onCloserDrawer()}
+                                    fullWidth>
+                                    Cancel
+                                </Button>
                             )}
                         </Grid>
                         <Grid item md={type === 'Edit' ? 4 : 8} />

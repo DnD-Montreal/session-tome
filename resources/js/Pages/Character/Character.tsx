@@ -50,7 +50,12 @@ const Character = () => {
     return (
         <ThemeProvider theme={theme}>
             <EditDrawer
-                content={<CharacterCreateForm type='Edit' />}
+                content={
+                    <CharacterCreateForm
+                        type='Edit'
+                        onCloserDrawer={() => setIsEditDrawerOpen(false)}
+                    />
+                }
                 title={
                     <Typography>Edit character with id: {editId}</Typography>
                 }
