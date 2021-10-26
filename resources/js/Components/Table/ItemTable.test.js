@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import ItemTable from './ItemTable'
-import {itemData} from '../../../mock/ItemData'
+import {itemData} from '../../../mock/item-data'
 
 const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1

@@ -4,9 +4,9 @@ import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
+import {CharacterTable} from 'Components'
 import {ApplicationLayout} from '../../Layouts'
-import CharTable from './CharTable'
-import {charData, RowData} from '../../../mock/CharacterData'
+import {charData, RowData} from '../../../mock/character-data'
 import {getFontTheme} from '../../Utils/theme'
 
 const Character = () => {
@@ -70,7 +70,7 @@ const Character = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharTable rows={rows} />
+                    <CharacterTable rows={rows} />
                 </Grid>
             </Grid>
         </ThemeProvider>

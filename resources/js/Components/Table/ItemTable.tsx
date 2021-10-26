@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import RarityChip from '../RarityChip'
-import {RowData} from '../../../mock/ItemData'
+import {RowData} from '../../../mock/item-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar

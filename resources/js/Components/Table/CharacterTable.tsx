@@ -20,8 +20,8 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../Components/FactionChip/FactionChip'
-import {RowData} from '../../../mock/CharacterData'
+import {FactionChip} from 'Components'
+import {RowData} from '../../../mock/character-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -70,11 +70,11 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
-type CharTablePropType = {
+type CharacterTablePropType = {
     rows: RowData[]
 }
 
-const CharTable = ({rows}: CharTablePropType) => {
+const CharacterTable = ({rows}: CharacterTablePropType) => {
     const [selected, setSelected] = useState<readonly string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -248,5 +248,5 @@ const CharTable = ({rows}: CharTablePropType) => {
 }
 
 EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
-CharTable.displayName = 'CharTable'
-export default CharTable
+CharacterTable.displayName = 'CharacterTable'
+export default CharacterTable
