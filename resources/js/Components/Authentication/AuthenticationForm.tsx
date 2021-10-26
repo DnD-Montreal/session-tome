@@ -60,7 +60,10 @@ const AuthenticationForm = ({
                 type='submit'
                 fullWidth
                 variant='contained'
-                onClick={() => post(route('login'))}
+                onClick={(e) => {
+                    e.preventDefault()
+                    post(route('login'))
+                }}
                 sx={{mt: 3, mb: 2}}>
                 Sign In
             </Button>
@@ -84,7 +87,10 @@ const AuthenticationForm = ({
                 type='submit'
                 fullWidth
                 variant='contained'
-                onClick={() => post(route('register'))}
+                onClick={(e) => {
+                    e.preventDefault()
+                    post(route('register'))
+                }}
                 sx={{mt: 3, mb: 2}}>
                 Register
             </Button>
