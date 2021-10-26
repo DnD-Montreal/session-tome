@@ -90,9 +90,13 @@ const Character = () => {
                         id='character-search'
                         options={rows.map((option) => option.cname)}
                         renderInput={(params) => (
-                            <TextField {...params} label='Search Character' />
+                            <TextField
+                                {...params}
+                                fullWidth
+                                label='Search Character'
+                            />
                         )}
-                        sx={{width: 300}}
+                        sx={{width: '100%'}}
                         onInputChange={onChangeSearch}
                         onChange={onChangeSearch}
                         onClose={onChangeSearch}
