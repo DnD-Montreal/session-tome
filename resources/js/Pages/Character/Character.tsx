@@ -5,7 +5,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterTable} from 'Components'
-import {ApplicationLayout} from '../../Layouts'
+import {ApplicationLayout} from 'Layouts'
 import {charData, RowData} from '../../../mock/character-data'
 import {getFontTheme} from '../../Utils/theme'
 

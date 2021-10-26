@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import CharacterTable from 'Components'
+import CharacterTable from './CharacterTable'
 import {charData} from '../../../mock/character-data'
 
 const mockFunction = jest.fn()

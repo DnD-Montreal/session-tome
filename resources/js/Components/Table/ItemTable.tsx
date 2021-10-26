@@ -20,7 +20,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import RarityChip from '../RarityChip'
+import {RarityChip} from 'Components'
 import {RowData} from '../../../mock/item-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
