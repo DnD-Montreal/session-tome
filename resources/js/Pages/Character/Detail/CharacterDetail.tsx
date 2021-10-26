@@ -1,11 +1,8 @@
 import React, {useState} from 'react'
 import {ThemeProvider} from '@mui/material/styles'
-import {getFontTheme} from '../../../Utils/theme'
-import {ApplicationLayout} from '../../../Layouts'
-import {
-    CharacterDetailBox,
-    CharacterDetailTable,
-} from '../../../Components/CharacterDetail'
+import {ApplicationLayout} from 'Layouts'
+import {getFontTheme} from 'Utils'
+import {CharacterDetailBox, CharacterDetailTable} from 'Components'
 import {
     CharacterDetailData,
     RowData,
