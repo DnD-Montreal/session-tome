@@ -21,7 +21,7 @@ const MainGrid = styled(Grid)`
 `
 
 const PrimaryRow = styled(Grid)`
-    @media only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 900px) {
         height: 10vh;
     }
     text-align: center;
@@ -30,13 +30,13 @@ const PrimaryRow = styled(Grid)`
 
 const SecondaryRow = styled(Grid)`
     text-align: center;
-    @media only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 900px) {
         height: 5vh;
     }
 `
 
 const UserAvatarColumn = styled(Grid)`
-    @media only screen and (max-width: 1025px) {
+    @media only screen and (max-width: 900px) {
         padding-top: 0.1em;
     }
     cursor: pointer;
@@ -48,13 +48,13 @@ const ContentRow = styled(Grid)`
 
 const ContentContainer = styled.div`
     padding-top: 3em;
-    @media only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 900px) {
         margin: 0px auto 0px auto;
     }
 `
 
 const Username = styled(Typography)`
-    @media only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 900px) {
         margin-right: 16px;
         margin-top: 10px;
     }
@@ -63,7 +63,7 @@ const Username = styled(Typography)`
 `
 
 const PaddingGrid = styled(Grid)`
-    @media only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 900px) {
         padding-bottom: 3em;
         padding-top: 3em;
     }
