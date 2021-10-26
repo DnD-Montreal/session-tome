@@ -14,7 +14,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
-import {charData, RowData} from '../../../mock/character-data'
+import {charData, RowData} from 'Mock/character-data'
 
 const theme = getFontTheme('Form', 16)
 

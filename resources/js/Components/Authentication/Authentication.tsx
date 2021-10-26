@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 import {ThemeProvider} from '@mui/material/styles'
-import {getFontTheme} from '../../Utils/theme'
+import {getFontTheme} from 'Utils'
 import AuthenticationForm from './AuthenticationForm'
 
 const StyledBox = styled(Box)`
