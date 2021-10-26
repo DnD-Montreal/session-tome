@@ -17,16 +17,16 @@ const MainGrid = styled(Grid)`
     font-family: 'Cinzel Decorative', cursive;
     font-size: 0.8em;
     flex-grow: 1;
+    overflow-y: auto;
 `
 const PrimaryRow = styled(Grid)`
-    padding-top: 3em;
-    margin-bottom: 3em;
     text-align: center;
+    height: 10vh;
 `
 
 const SecondaryRow = styled(Grid)`
-    margin-bottom: 2em;
     text-align: center;
+    height: 5vh;
 `
 
 const UserAvatarColumn = styled(Grid)`
@@ -37,9 +37,11 @@ const UserAvatarColumn = styled(Grid)`
 `
 
 const ContentRow = styled(Grid)`
-    height: 100vh;
-    padding-top: 48px;
-    overflow-y: scroll;
+    min-height: 85vh;
+`
+
+const ContentContainer = styled.div`
+    padding-top: 3em;
 `
 
 const UsernameLink = styled(Link)`
@@ -47,6 +49,11 @@ const UsernameLink = styled(Link)`
     margin-top: 10px;
     text-decoration: none;
     color: white;
+`
+
+const PaddingGrid = styled(Grid)`
+    padding-bottom: 3em;
+    padding-top: 3em;
 `
 
 type LayoutProps = {
@@ -76,7 +83,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     container
                     justifyContent='space-between'
                     alignItems='center'>
-                    <Grid
+                    <PaddingGrid
                         item
                         container
                         xs={12}
@@ -93,8 +100,8 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 height={60}
                             />
                         </Link>
-                    </Grid>
-                    <Grid
+                    </PaddingGrid>
+                    <PaddingGrid
                         item
                         container
                         xs={12}
@@ -108,7 +115,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 height={51}
                             />
                         </Link>
-                    </Grid>
+                    </PaddingGrid>
                     <Authentication
                         anchorEl={anchorEl}
                         handleClose={handleClose}
@@ -136,38 +143,38 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     direction='row'
                     spacing={0}
                     justifyContent='center'>
-                    <Grid item xs={12} md={2}>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Home
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/dev/Character'>
                             Characters
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Item Shop
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Campaigns
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Ratings
                         </InertiaLink>
-                    </Grid>
+                    </PaddingGrid>
                 </SecondaryRow>
                 <ContentRow
                     item
                     container
                     justifyContent='center'
                     alignItems='flex-start'>
-                    <div id='content'>{children}</div>
+                    <ContentContainer id='content'>{children}</ContentContainer>
                 </ContentRow>
             </MainGrid>
         </ThemeProvider>
