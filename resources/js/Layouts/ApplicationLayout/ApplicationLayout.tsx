@@ -6,8 +6,8 @@ import {Link as InertiaLink} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication} from 'Components'
 import {getFontTheme} from 'Utils'
-import associationLogo from '../../../icons/DNDMtlLogo.svg'
-import applicationLogo from '../../../icons/SessionTomeOfficialLogo.svg'
+import associationLogo from 'Icons/DNDMtlLogo.svg'
+import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 
 const theme = getFontTheme('Normal')
 
