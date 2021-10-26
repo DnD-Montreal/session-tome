@@ -14,8 +14,8 @@ import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {ItemTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import {itemData, RowData} from '../../../mock/item-data'
-import {getFontTheme} from '../../Utils/theme'
+import {itemData, RowData} from 'Mock/item-data'
+import {getFontTheme} from 'Utils'
 
 const Item = () => {
     const [rows, setRows] = useState<RowData[]>(itemData)
