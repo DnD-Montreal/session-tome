@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, fireEvent, screen} from '@testing-library/react'
 import CharacterDetailTable from './CharacterDetailTable'
-import {CharacterDetailData} from './CharacterDetailData'
+import {CharacterDetailData} from '../../../mock/character-detail-data'
 
 const isSelectedtest = (name) => [].indexOf(name) !== -1
 

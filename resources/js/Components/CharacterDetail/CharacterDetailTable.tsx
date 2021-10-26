@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, {useState} from 'react'
 import {
     styled,
@@ -17,7 +16,7 @@ import {
 import IosShareIcon from '@mui/icons-material/IosShare'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {RowData} from './CharacterDetailData'
+import {RowData} from '../../../mock/character-detail-data'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 
 const StyledTableCell = styled(TableCell)({

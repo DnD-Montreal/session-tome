@@ -1,10 +1,15 @@
 import React, {useState} from 'react'
 import {ThemeProvider} from '@mui/material/styles'
-import {getFontTheme} from '../../Utils/theme'
-import {ApplicationLayout} from '../../Layouts'
-import CharacterDetailBox from './CharacterDetailBox'
-import CharacterDetailTable from './CharacterDetailTable'
-import {CharacterDetailData, RowData} from './CharacterDetailData'
+import {getFontTheme} from '../../../Utils/theme'
+import {ApplicationLayout} from '../../../Layouts'
+import {
+    CharacterDetailBox,
+    CharacterDetailTable,
+} from '../../../Components/CharacterDetail'
+import {
+    CharacterDetailData,
+    RowData,
+} from '../../../../mock/character-detail-data'
 
 const CharacterDetail = () => {
     const [rows] = useState<RowData[]>(CharacterDetailData)
