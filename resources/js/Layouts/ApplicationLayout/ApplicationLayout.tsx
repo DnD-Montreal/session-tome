@@ -1,6 +1,6 @@
 import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
-import {Avatar, Grid, Link} from '@mui/material'
+import {Avatar, Grid, Link, Typography} from '@mui/material'
 import styled from '@emotion/styled'
 import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
@@ -19,19 +19,25 @@ const MainGrid = styled(Grid)`
     flex-grow: 1;
     overflow-y: auto;
 `
+
 const PrimaryRow = styled(Grid)`
+    @media only screen and (min-width: 1025px) {
+        height: 10vh;
+    }
     text-align: center;
-    height: 10vh;
+    padding: 16px;
 `
 
 const SecondaryRow = styled(Grid)`
     text-align: center;
-    height: 5vh;
+    @media only screen and (min-width: 1025px) {
+        height: 5vh;
+    }
 `
 
 const UserAvatarColumn = styled(Grid)`
-    @media only screen and (max-width: 900px) {
-        margin-top: 0.1em;
+    @media only screen and (max-width: 1025px) {
+        padding-top: 0.1em;
     }
     cursor: pointer;
 `
@@ -42,18 +48,26 @@ const ContentRow = styled(Grid)`
 
 const ContentContainer = styled.div`
     padding-top: 3em;
+    @media only screen and (min-width: 1025px) {
+        margin: 0px auto 0px auto;
+    }
 `
 
-const UsernameLink = styled(Link)`
-    margin-right: 16px;
-    margin-top: 10px;
-    text-decoration: none;
-    color: white;
+const Username = styled(Typography)`
+    @media only screen and (min-width: 1025px) {
+        margin-right: 16px;
+        margin-top: 10px;
+    }
+    margin: 10px 6px 0px 0px;
+    font-size: 14px;
 `
 
 const PaddingGrid = styled(Grid)`
-    padding-bottom: 3em;
-    padding-top: 3em;
+    @media only screen and (min-width: 1025px) {
+        padding-bottom: 3em;
+        padding-top: 3em;
+    }
+    padding-top: 0.1em;
 `
 
 type LayoutProps = {
@@ -129,7 +143,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='space-evenly'
                         alignItems='center'>
                         <Grid item container xs md={6} justifyContent='center'>
-                            <UsernameLink>{getUsername()}</UsernameLink>
+                            <Username>{getUsername()}</Username>
                             <Avatar
                                 onClick={handleClick}
                                 sx={{bgcolor: '#4E302E'}}
@@ -169,11 +183,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </PaddingGrid>
                 </SecondaryRow>
-                <ContentRow
-                    item
-                    container
-                    justifyContent='center'
-                    alignItems='flex-start'>
+                <ContentRow item container>
                     <ContentContainer id='content'>{children}</ContentContainer>
                 </ContentRow>
             </MainGrid>
