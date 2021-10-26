@@ -9,6 +9,7 @@ const StyledDrawerContent = styled(Paper)`
     width: 33vw;
     padding: 32px 32px 32px 32px;
     height: 100%;
+    overflow-y: scroll;
 `
 
 type EditDrawerPropType = {
