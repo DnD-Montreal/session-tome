@@ -6,7 +6,6 @@ import {
     Autocomplete,
     TextField,
     Breadcrumbs,
-    Link as MUILink,
     Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
@@ -55,9 +54,9 @@ const Item = () => {
                 justifyContent='center'>
                 <Grid item xs={12} alignItems='center' justifyContent='center'>
                     <Breadcrumbs aria-label='breadcrumb'>
-                        <MUILink underline='hover' color='inherit' href='/'>
+                        <Link color='inherit' href='/'>
                             Character 1
-                        </MUILink>
+                        </Link>
                         <Typography color='text.primary'>Items</Typography>
                     </Breadcrumbs>
                 </Grid>
