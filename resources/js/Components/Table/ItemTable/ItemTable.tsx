@@ -7,8 +7,8 @@ import {
     TableContainer,
     TableHead,
     TablePagination,
+    Stack,
 } from '@mui/material'
-import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
