@@ -77,9 +77,13 @@ const Item = () => {
                         id='item-search'
                         options={rows.map((option) => option.iname)}
                         renderInput={(params) => (
-                            <TextField {...params} label='Search Items' />
+                            <TextField
+                                {...params}
+                                fullWidth
+                                label='Search Items'
+                            />
                         )}
-                        sx={{width: 300}}
+                        sx={{width: '100%'}}
                         onInputChange={onChangeSearch}
                         onChange={onChangeSearch}
                         onClose={onChangeSearch}
