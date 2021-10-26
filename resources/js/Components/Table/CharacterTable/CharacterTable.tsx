@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {FactionChip} from 'Components'
-import {RowData} from '../../../mock/character-data'
+import {RowData} from '../../../../mock/character-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -70,12 +70,18 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
-type CharacterTablePropType = {
+type CharTablePropType = {
     rows: RowData[]
+    setIsEditDrawerOpen: (payload: boolean) => void
+    setEditId: (payload: number) => void
 }
 
-const CharacterTable = ({rows}: CharacterTablePropType) => {
-    const [selected, setSelected] = useState<readonly string[]>([])
+const CharacterTable = ({
+    rows,
+    setIsEditDrawerOpen,
+    setEditId,
+}: CharTablePropType) => {
+    const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -99,7 +105,7 @@ const CharacterTable = ({rows}: CharacterTablePropType) => {
 
     const handleClick = (event: any, name: string) => {
         const selectedIndex = selected.indexOf(name)
-        let newSelected: readonly string[] = []
+        let newSelected: string[] = []
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name)
@@ -172,15 +178,18 @@ const CharacterTable = ({rows}: CharacterTablePropType) => {
                                                 {border: 0},
                                         }}
                                         hover
-                                        onClick={(event) =>
-                                            handleClick(event, row.cname)
-                                        }
                                         role='checkbox'
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         selected={isItemSelected}>
                                         <TableCell padding='checkbox'>
                                             <Checkbox
+                                                onClick={(event) =>
+                                                    handleClick(
+                                                        event,
+                                                        row.cname,
+                                                    )
+                                                }
                                                 color='primary'
                                                 checked={isItemSelected}
                                                 inputProps={{
@@ -221,7 +230,12 @@ const CharacterTable = ({rows}: CharacterTablePropType) => {
                                             {row.downtime}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <IconButton aria-label='edit'>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setIsEditDrawerOpen(true)
+                                                    setEditId(index)
+                                                }}
+                                                aria-label='edit'>
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton aria-label='delete'>

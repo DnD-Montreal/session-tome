@@ -8,10 +8,16 @@ describe('Character', () => {
         expect(component).toBeDefined()
     })
 
-    it('create button should lead to home', () => {
+    it('buttons should lead to respective places', () => {
         render(<Character />)
-        fireEvent.click(screen.getByText('Create'))
-        expect(screen.getByRole('link')).toHaveAttribute('href', '/')
+        expect(screen.getByText('Create')).toHaveAttribute(
+            'href',
+            '/dev/character/create',
+        )
+        expect(screen.getByText('Import')).toHaveAttribute(
+            'href',
+            '/dev/character/import',
+        )
     })
 
     it('should input Name 6 in Search Character', () => {
