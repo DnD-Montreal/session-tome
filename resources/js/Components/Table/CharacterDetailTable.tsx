@@ -46,10 +46,8 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
         setPage(newPage)
     }
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        setRowsPerPage(+event.target.value)
+    const handleChangeRowsPerPage = (event: any) => {
+        setRowsPerPage(parseInt(event.target.value, 10))
         setPage(0)
     }
 
