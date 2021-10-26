@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
      *
      * @param \Illuminate\Http\Request  $request
      *
-     * @return \Illuminate\Contracts\Auth\Authenticatable
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
