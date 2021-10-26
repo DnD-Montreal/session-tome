@@ -10,7 +10,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
-const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
+const TableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
         sx={{
             pl: {sm: 2},
@@ -57,5 +57,5 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
-EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
-export default EnhancedTableToolbar
+TableToolbar.displayName = 'TableToolbar'
+export default TableToolbar

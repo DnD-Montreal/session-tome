@@ -16,7 +16,7 @@ import {
 import IosShareIcon from '@mui/icons-material/IosShare'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {EnhancedTableToolbar} from 'Components'
+import {TableToolbar} from 'Components'
 import {RowData} from '../../../mock/character-detail-data'
 
 const StyledTableCell = styled(TableCell)({
@@ -83,7 +83,7 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
 
     return (
         <Box>
-            <EnhancedTableToolbar numSelected={selected.length} />
+            <TableToolbar numSelected={selected.length} />
             <TableContainer>
                 <Table sx={{minWidth: 650}} aria-label='character detail table'>
                     <TableHead>
@@ -214,6 +214,5 @@ const CharacterDetailTable = ({rows}: CharacterDetailTablePropType) => {
     )
 }
 
-EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
 CharacterDetailTable.displayName = 'CharacterDetailTable'
 export default CharacterDetailTable

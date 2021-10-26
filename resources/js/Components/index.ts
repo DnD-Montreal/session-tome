@@ -6,4 +6,4 @@ export {CharacterDetailBox} from './CharacterDetail'
 
 // Table
 export {CharacterDetailTable} from './Table'
-export {EnhancedTableToolbar} from './Table'
+export {TableToolbar} from './Table'
