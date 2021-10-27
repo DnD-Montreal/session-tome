@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Box, Popover, Tabs, Tab} from '@mui/material'
+import {Box, Button, Popover, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
@@ -15,6 +15,7 @@ type AuthenticationPropType = {
     anchorEl: any | null
     handleClose: () => void
     setAnchorEl: (element: any) => void
+    user: any | null
 }
 
 const theme = getFontTheme('Form')
@@ -23,6 +24,7 @@ const Authentication = ({
     anchorEl,
     handleClose,
     setAnchorEl,
+    user,
 }: AuthenticationPropType) => {
     const formInitialValues = {
         email: null,
@@ -39,7 +41,6 @@ const Authentication = ({
         setAnchorEl(null)
     }
     const commonFormDataProps = {data, setData, post, resetFields}
-
     return (
         <ThemeProvider theme={theme}>
             <Popover
@@ -48,37 +49,50 @@ const Authentication = ({
                 onClose={handleClose}
                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
                 anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
-                <StyledBox
-                    component='form'
-                    sx={{width: 300, fontFamily: '"Roboto"'}}>
-                    <Box
-                        sx={{
-                            borderBottom: 1,
-                            borderColor: 'divider',
-                        }}>
-                        <Tabs
-                            value={selectedTab}
-                            onChange={(e, newValue) =>
-                                setSelectedTab(newValue)
-                            }>
-                            <Tab label='Login' />
-                            <Tab label='Register' />
-                        </Tabs>
+                {user ? (
+                    <Box sx={{width: 200}}>
+                        <Button
+                            fullWidth
+                            variant='text'
+                            color='error'
+                            onClick={() => {
+                                post(route('logout'))
+                                resetFields()
+                            }}>
+                            Logout
+                        </Button>
                     </Box>
-                    {selectedTab === 0 ? (
-                        <AuthenticationForm
-                            type='Login'
-                            route={route}
-                            {...commonFormDataProps}
-                        />
-                    ) : (
-                        <AuthenticationForm
-                            type='Register'
-                            route={route}
-                            {...commonFormDataProps}
-                        />
-                    )}
-                </StyledBox>
+                ) : (
+                    <StyledBox component='form' sx={{width: 300}}>
+                        <Box
+                            sx={{
+                                borderBottom: 1,
+                                borderColor: 'divider',
+                            }}>
+                            <Tabs
+                                value={selectedTab}
+                                onChange={(e, newValue) =>
+                                    setSelectedTab(newValue)
+                                }>
+                                <Tab label='Login' />
+                                <Tab label='Register' />
+                            </Tabs>
+                        </Box>
+                        {selectedTab === 0 ? (
+                            <AuthenticationForm
+                                type='Login'
+                                route={route}
+                                {...commonFormDataProps}
+                            />
+                        ) : (
+                            <AuthenticationForm
+                                type='Register'
+                                route={route}
+                                {...commonFormDataProps}
+                            />
+                        )}
+                    </StyledBox>
+                )}
             </Popover>
         </ThemeProvider>
     )

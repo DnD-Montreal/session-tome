@@ -74,9 +74,29 @@ type LayoutProps = {
     children: ReactNode
 }
 
+// type ConnectedPropType = {
+// auth: AuthDataType
+// canLogin: boolean
+// canRegister: boolean
+// errors: any
+// } & PageProps
+
+// type AuthDataType = {
+// user: UserDataType | null
+// }
+
+// type UserDataType = {
+// created_at: string
+// email: string
+// email_verified_at: string | null
+// id: number
+// name: string
+// updated_at: string
+// }
+
 const ApplicationLayout = ({children}: LayoutProps) => {
     const {auth}: any = usePage().props
-    console.log(usePage().props)
+    const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
@@ -85,8 +105,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         setAnchorEl(null)
     }
     const getUsername = () => {
-        if (!auth) return 'Login'
-        if (auth.user) return auth.user
+        if (user) {
+            return user.name
+        }
         return 'Login'
     }
 
@@ -135,6 +156,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         anchorEl={anchorEl}
                         handleClose={handleClose}
                         setAnchorEl={setAnchorEl}
+                        user={user}
                     />
                     <UserAvatarColumn
                         item
