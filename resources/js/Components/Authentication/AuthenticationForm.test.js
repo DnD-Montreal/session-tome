@@ -23,6 +23,7 @@ const registerProps = {
         email: 'testing123',
         name: 'test123',
         password: 'test12',
+        password_confirmation: 'test',
     },
     setData: setDataMock,
     post: postMock,
@@ -73,5 +74,9 @@ describe('<Authentication />', () => {
             target: {value: '123456'},
         })
         expect(setDataMock).toBeCalledWith('password', '123456')
+        fireEvent.change(screen.getByDisplayValue('test'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password_confirmation', '123456')
     })
 })
