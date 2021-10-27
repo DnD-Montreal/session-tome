@@ -13,22 +13,22 @@ class CharacterController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
         $characters = Character::where('user_id', Auth::user()->id)->get();
 
-        return view('character.index', compact('characters'));
+        return Inertia::render('Character/Character', compact('characters'));
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create(Request $request)
     {
-        return view('character.create');
+        return Inertia::render('Character/Create/CharacterCreate');
     }
 
     /**

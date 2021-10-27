@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import styled from 'styled-components'
 import {Link} from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -137,7 +138,7 @@ const CharacterCreateForm = ({
                     <>
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
-                                <Link href='/dev/Character'>
+                                <Link href={route('character.index')}>
                                     <Button fullWidth>Cancel</Button>
                                 </Link>
                             ) : (

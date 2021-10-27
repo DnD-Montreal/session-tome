@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Facades\AdventuresLeague;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AdventuresLeagueImportController extends Controller
 {
+    /**
+     * Show the Import index
+     *
+     * @param Request $request
+     * @return \Inertia\Response
+     */
+    public function index(Request $request)
+    {
+        return Inertia::render('Character/Import');
+    }
+
     /**
      * Store a newly created resource in storage.
      *

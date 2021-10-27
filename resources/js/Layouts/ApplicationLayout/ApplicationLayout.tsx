@@ -6,6 +6,7 @@ import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication} from 'Components'
 import {getFontTheme} from 'Utils'
+import route from 'ziggy-js'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 
@@ -144,13 +145,13 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         md={6}
                         alignItems='center'
                         justifyContent='center'>
-                        <Link href='/#'>
+                        <InertiaLink href='/#'>
                             <SVG
                                 src={applicationLogo}
                                 width={278}
                                 height={51}
                             />
-                        </Link>
+                        </InertiaLink>
                     </PaddingGrid>
                     <Authentication
                         anchorEl={anchorEl}
@@ -187,7 +188,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/dev/Character'>
+                        <InertiaLink
+                            color='white'
+                            href={route('character.index')}>
                             Characters
                         </InertiaLink>
                     </PaddingGrid>

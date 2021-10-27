@@ -66,7 +66,7 @@ Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::cl
     ->only('store');
 
 Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
-    ->only('store');
+    ->only(['index', 'store']);
 
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
