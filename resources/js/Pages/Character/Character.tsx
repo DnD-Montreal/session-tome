@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import route from 'ziggy-js'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
@@ -73,10 +74,13 @@ const Character = () => {
                 <Grid item xs={8} alignItems='center' justifyContent='center'>
                     <Stack direction='row' spacing={4}>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/dev/character/create'>Create</Link>
+                            <Link href={route('character.create')}>Create</Link>
                         </Button>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/dev/character/import'>Import</Link>
+                            <Link
+                                href={route('adventures-league-import.index')}>
+                                Import
+                            </Link>
                         </Button>
                         <Button
                             variant='contained'
