@@ -5,27 +5,25 @@ import {
     Grid,
     Autocomplete,
     TextField,
+    Breadcrumbs,
     Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
+import {ItemTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
+import {itemData, RowData} from 'Mock/item-data'
 import {getFontTheme} from 'Utils'
-import {charData, RowData} from 'Mock/character-data'
 
-const theme = getFontTheme('Form', 16)
-
-const Character = () => {
-    const [rows, setRows] = useState<RowData[]>(charData)
-    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editId, setEditId] = useState<number | null>()
+const Item = () => {
+    const [rows, setRows] = useState<RowData[]>(itemData)
+    const theme = getFontTheme('Form', 16)
 
     const requestSearch = (searchedVal: string) => {
-        const filteredRows = charData.filter((row) =>
-            row.cname.toLowerCase().includes(searchedVal.toLowerCase()),
+        const filteredRows = itemData.filter((row) =>
+            row.iname.toLowerCase().includes(searchedVal.toLowerCase()),
         )
         setRows(filteredRows)
     }
@@ -49,34 +47,23 @@ const Character = () => {
     }
     return (
         <ThemeProvider theme={theme}>
-            <EditDrawer
-                content={
-                    <CharacterCreateForm
-                        type='Edit'
-                        onCloserDrawer={() => setIsEditDrawerOpen(false)}
-                    />
-                }
-                title={
-                    <Typography>Edit character with id: {editId}</Typography>
-                }
-                isOpen={isEditDrawerOpen}
-                onClose={() => {
-                    setIsEditDrawerOpen(false)
-                    setEditId(null)
-                }}
-            />
             <Grid
                 container
                 rowSpacing={{xs: 1, sm: 2, md: 3}}
                 alignItems='center'
                 justifyContent='center'>
+                <Grid item xs={12} alignItems='center' justifyContent='center'>
+                    <Breadcrumbs aria-label='breadcrumb'>
+                        <Link color='inherit' href='/'>
+                            Character 1
+                        </Link>
+                        <Typography color='text.primary'>Items</Typography>
+                    </Breadcrumbs>
+                </Grid>
                 <Grid item xs={8} alignItems='center' justifyContent='center'>
                     <Stack direction='row' spacing={4}>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/dev/character/create'>Create</Link>
-                        </Button>
-                        <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/dev/character/import'>Import</Link>
+                            <Link href='/'>Create</Link>
                         </Button>
                         <Button
                             variant='contained'
@@ -87,13 +74,13 @@ const Character = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-                        id='character-search'
-                        options={rows.map((option) => option.cname)}
+                        id='item-search'
+                        options={rows.map((option) => option.iname)}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
                                 fullWidth
-                                label='Search Character'
+                                label='Search Items'
                             />
                         )}
                         sx={{width: '100%'}}
@@ -103,17 +90,13 @@ const Character = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharacterTable
-                        rows={rows}
-                        setIsEditDrawerOpen={setIsEditDrawerOpen}
-                        setEditId={setEditId}
-                    />
+                    <ItemTable rows={rows} />
                 </Grid>
             </Grid>
         </ThemeProvider>
     )
 }
 
-Character.displayName = 'Character'
-Character.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
-export default Character
+Item.displayName = 'Item'
+Item.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
+export default Item
