@@ -14,19 +14,31 @@ const StyledBox = styled(Box)`
 type AuthenticationPropType = {
     anchorEl: any | null
     handleClose: () => void
+    setAnchorEl: (element: any) => void
 }
 
 const theme = getFontTheme('Form')
 
-const Authentication = ({anchorEl, handleClose}: AuthenticationPropType) => {
-    const {data, setData, post} = useForm({
+const Authentication = ({
+    anchorEl,
+    handleClose,
+    setAnchorEl,
+}: AuthenticationPropType) => {
+    const formInitialValues = {
         email: null,
         password: null,
-        username: null,
-    })
+        name: null,
+        password_confirmation: null,
+    }
+    const {data, setData, post} = useForm(formInitialValues)
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)
-    const commonFormDataProps = {data, setData, post}
+
+    const resetFields = () => {
+        setData(formInitialValues)
+        setAnchorEl(null)
+    }
+    const commonFormDataProps = {data, setData, post, resetFields}
 
     return (
         <ThemeProvider theme={theme}>

@@ -134,6 +134,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     <Authentication
                         anchorEl={anchorEl}
                         handleClose={handleClose}
+                        setAnchorEl={setAnchorEl}
                     />
                     <UserAvatarColumn
                         item
