@@ -7,7 +7,7 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
@@ -17,6 +17,18 @@ class AdventuresLeagueImportControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public function index_displays_view()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('adventures-league-import.index'));
+
+        $response->assertOk();
+        $response->assertInertia(
+            fn (Assert $page) => $page
+            ->component('Character/Import')
+        );
+    }
 
     /**
      * @test
