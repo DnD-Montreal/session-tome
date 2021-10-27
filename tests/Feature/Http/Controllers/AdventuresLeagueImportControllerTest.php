@@ -18,6 +18,9 @@ class AdventuresLeagueImportControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    /**
+     * @test
+     */
     public function index_displays_view()
     {
         $user = User::factory()->create();
@@ -26,7 +29,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $response->assertOk();
         $response->assertInertia(
             fn (Assert $page) => $page
-            ->component('Character/Import')
+            ->component('Character/Import/CharacterImport')
         );
     }
 
