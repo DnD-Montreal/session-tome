@@ -5,6 +5,7 @@ import AuthenticationForm from './AuthenticationForm'
 const setDataMock = jest.fn()
 const postMock = jest.fn()
 const routeMock = jest.fn()
+const resetFields = jest.fn()
 const loginProps = {
     data: {
         email: 'test12',
@@ -14,18 +15,20 @@ const loginProps = {
     post: postMock,
     type: 'Login',
     route: routeMock,
+    resetFields,
 }
 
 const registerProps = {
     data: {
         email: 'testing123',
-        username: 'test123',
+        name: 'test123',
         password: 'test12',
     },
     setData: setDataMock,
     post: postMock,
     type: 'Register',
     route: routeMock,
+    resetFields,
 }
 
 describe('<Authentication />', () => {
@@ -65,7 +68,7 @@ describe('<Authentication />', () => {
         fireEvent.change(screen.getByDisplayValue('test123'), {
             target: {value: '123456'},
         })
-        expect(setDataMock).toBeCalledWith('username', '123456')
+        expect(setDataMock).toBeCalledWith('name', '123456')
         fireEvent.change(screen.getByDisplayValue('test12'), {
             target: {value: '123456'},
         })

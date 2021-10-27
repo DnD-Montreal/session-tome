@@ -104,9 +104,7 @@ const AuthenticationForm = ({
                 variant='contained'
                 onClick={(e) => {
                     e.preventDefault()
-                    post(route('register')).then((bruh: any) =>
-                        console.log(bruh),
-                    )
+                    post(route('register'))
                     resetFields()
                 }}
                 sx={{mt: 3, mb: 2}}>
