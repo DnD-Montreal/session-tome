@@ -16,7 +16,7 @@ class AdventuresLeagueImportController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('Character/Import');
+        return Inertia::render('Character/Import/CharacterImport');
     }
 
     /**
