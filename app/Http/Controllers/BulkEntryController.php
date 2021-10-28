@@ -35,7 +35,14 @@ class BulkEntryController extends Controller
         $entriesCount = round($difference * $data['frequency']);
 
         $character = Character::findOrFail($data['character_id']);
-        $character->stubEntries($entriesCount, 0, $data['adventure_id']);
+        $character->stubEntries(0, $entriesCount, $data['adventure_id']);
+
+        foreach ($character->entries as $index => $entry) {
+            $datePlayed = $data['start_date']->addWeeks($index/$data['frequency']);
+            $entry->date_played = $datePlayed->isBefore($data['end_date']) ? $datePlayed : $data['end_date'];
+            // N+1 consider refactor?
+            $entry->save();
+        }
 
         return redirect(route('character.show', [
             'character' => $character->refresh()
