@@ -79,6 +79,7 @@
         ],
         "linebreak-style": "off",
         "max-len": "off",
+        "no-control-regex": "off",
         "no-extra-semi": "error",
         "no-param-reassign": "off",
         "no-trailing-spaces": [

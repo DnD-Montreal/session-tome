@@ -8,4 +8,9 @@ export {default as CharacterTable} from './Table/CharacterTable'
 export {default as ItemTable} from './Table/ItemTable'
 
 // Forms
-export {CharacterImportForm, CharacterCreateForm} from './Form'
+export {
+    CharacterImportForm,
+    CharacterCreateForm,
+    LoginForm,
+    RegistrationForm,
+} from './Form'

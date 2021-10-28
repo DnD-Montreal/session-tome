@@ -23,7 +23,8 @@
             "Pages": ["resources/js/Pages"],
             "Utils": ["resources/js/Utils"],
             "Icons/*": ["resources/icons/*"],
-            "Mock/*": ["resources/mock/*"]
+            "Mock/*": ["resources/mock/*"],
+            "Types/*": ["resources/js/Types/*"]
         }
     },
     "include": ["./resources", "**/*.ts", "./custom.d.ts"],
