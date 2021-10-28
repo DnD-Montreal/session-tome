@@ -1,29 +1,23 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import Character from './Character'
+import Item from './Item'
 
-describe('Character', () => {
+describe('Item', () => {
     it('Component should render', () => {
-        const component = render(<Character />)
+        const component = render(<Item />)
         expect(component).toBeDefined()
     })
 
-    it('buttons should lead to respective places', () => {
-        render(<Character />)
-        expect(screen.getByText('Create')).toHaveAttribute(
-            'href',
-            '/dev/character/create',
-        )
-        expect(screen.getByText('Import')).toHaveAttribute(
-            'href',
-            '/dev/character/import',
-        )
+    it('create button should lead to home', () => {
+        render(<Item />)
+        fireEvent.click(screen.getByText('Create'))
+        expect(screen.getByText('Create')).toHaveAttribute('href', '/')
     })
 
-    it('should input Name 6 in Search Character', () => {
+    it('should input Name 6 in Search Items', () => {
         const setup = () => {
-            const utils = render(<Character />)
-            const input = utils.getByLabelText('Search Character')
+            const utils = render(<Item />)
+            const input = utils.getByLabelText('Search Items')
             return {
                 input,
                 ...utils,
@@ -36,8 +30,8 @@ describe('Character', () => {
         fireEvent.keyDown(document.activeElement, {key: 'Enter'})
         expect(screen.getByText('Name 6')).toBeInTheDocument()
     })
-    it('should input 0 in Search Character', () => {
-        render(<Character />)
+    it('should input 0 in Search Items', () => {
+        render(<Item />)
         fireEvent.click(screen.getByTitle('Open'))
         fireEvent.click(screen.getByLabelText('Name 2'))
     })

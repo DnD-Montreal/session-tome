@@ -8,6 +8,8 @@ module.exports = {
             Components: path.resolve('resources/js/Components'),
             Layouts: path.resolve('resources/js/Layouts'),
             Utils: path.resolve('resources/js/Utils'),
+            Icons: path.resolve('resources/icons'),
+            Mock: path.resolve('resources/mock/'),
         },
     },
 }

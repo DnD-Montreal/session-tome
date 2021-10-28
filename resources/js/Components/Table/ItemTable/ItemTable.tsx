@@ -7,8 +7,8 @@ import {
     TableContainer,
     TableHead,
     TablePagination,
+    Stack,
 } from '@mui/material'
-import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -20,8 +20,8 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../Components/FactionChip/FactionChip'
-import {RowData} from '../../../mock/CharacterData'
+import {RarityChip} from 'Components'
+import {RowData} from 'Mock/item-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -50,7 +50,7 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
                 variant='h6'
                 id='tableTitle'
                 component='div'>
-                Characters
+                Items
             </Typography>
         )}
         {numSelected > 0 ? (
@@ -70,11 +70,11 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     </Toolbar>
 )
 
-type CharTablePropType = {
+type ItemTablePropType = {
     rows: RowData[]
 }
 
-const CharTable = ({rows}: CharTablePropType) => {
+const ItemTable = ({rows}: ItemTablePropType) => {
     const [selected, setSelected] = useState<readonly string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -90,7 +90,7 @@ const CharTable = ({rows}: CharTablePropType) => {
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cname)
+            const newSelecteds = rows.map((n) => n.iname)
             setSelected(newSelecteds)
             return
         }
@@ -147,11 +147,9 @@ const CharTable = ({rows}: CharTablePropType) => {
                             <TableCell padding='none' align='left'>
                                 Name
                             </TableCell>
-                            <TableCell align='center'>Race</TableCell>
-                            <TableCell align='center'>Class</TableCell>
-                            <TableCell align='center'>Level</TableCell>
-                            <TableCell align='center'>Faction</TableCell>
-                            <TableCell align='center'>Downtime</TableCell>
+                            <TableCell align='center'>Rarity</TableCell>
+                            <TableCell align='center'>Tier</TableCell>
+                            <TableCell align='center'>Description</TableCell>
                             <TableCell align='center'>Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -162,18 +160,18 @@ const CharTable = ({rows}: CharTablePropType) => {
                                 page * rowsPerPage + rowsPerPage,
                             )
                             .map((row: RowData, index: number) => {
-                                const isItemSelected = isSelected(row.cname)
+                                const isItemSelected = isSelected(row.iname)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
-                                        key={row.cname}
+                                        key={row.iname}
                                         sx={{
                                             '&:last-child td, &:last-child th':
                                                 {border: 0},
                                         }}
                                         hover
                                         onClick={(event) =>
-                                            handleClick(event, row.cname)
+                                            handleClick(event, row.iname)
                                         }
                                         role='checkbox'
                                         aria-checked={isItemSelected}
@@ -195,30 +193,20 @@ const CharTable = ({rows}: CharTablePropType) => {
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.cname}
+                                            {row.iname}
+                                        </TableCell>
+                                        <TableCell align='center'>
+                                            <RarityChip fname={row.rarity} />
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
-                                                label={row.race}
+                                                label={row.tier}
                                                 color='default'
                                                 variant='outlined'
                                             />
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <Chip
-                                                label={row.cclass}
-                                                color='default'
-                                                variant='outlined'
-                                            />
-                                        </TableCell>
-                                        <TableCell align='center'>
-                                            {row.level}
-                                        </TableCell>
-                                        <TableCell align='center'>
-                                            <FactionChip fname={row.faction} />
-                                        </TableCell>
-                                        <TableCell align='center'>
-                                            {row.downtime}
+                                            {row.description}
                                         </TableCell>
                                         <TableCell align='center'>
                                             <IconButton aria-label='edit'>
@@ -248,5 +236,5 @@ const CharTable = ({rows}: CharTablePropType) => {
 }
 
 EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
-CharTable.displayName = 'CharTable'
-export default CharTable
+ItemTable.displayName = 'ItemTable'
+export default ItemTable
