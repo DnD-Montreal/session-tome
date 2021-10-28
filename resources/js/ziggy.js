@@ -14,7 +14,6 @@ const Ziggy = {
         },
         'cypress.routes': {uri: '__cypress__/routes', methods: ['POST']},
         register: {uri: 'register', methods: ['GET', 'HEAD']},
-        login: {uri: 'login', methods: ['GET', 'HEAD']},
         'password.request': {uri: 'forgot-password', methods: ['GET', 'HEAD']},
         'password.email': {uri: 'forgot-password', methods: ['POST']},
         'password.reset': {
@@ -309,6 +308,15 @@ const Ziggy = {
             uri: 'campaign/{campaign}',
             methods: ['DELETE'],
             bindings: {campaign: 'id'},
+        },
+        'beyond-import.store': {uri: 'beyond-import', methods: ['POST']},
+        'adventures-league-import.index': {
+            uri: 'adventures-league-import',
+            methods: ['GET', 'HEAD'],
+        },
+        'adventures-league-import.store': {
+            uri: 'adventures-league-import',
+            methods: ['POST'],
         },
     },
 }
