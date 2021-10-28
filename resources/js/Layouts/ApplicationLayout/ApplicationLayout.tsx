@@ -9,6 +9,7 @@ import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
+import {UsePageType} from 'Types/global'
 
 const theme = getFontTheme('Normal')
 
@@ -75,28 +76,8 @@ type LayoutProps = {
     children: ReactNode
 }
 
-// type ConnectedPropType = {
-// auth: AuthDataType
-// canLogin: boolean
-// canRegister: boolean
-// errors: any
-// } & PageProps
-
-// type AuthDataType = {
-// user: UserDataType | null
-// }
-
-// type UserDataType = {
-// created_at: string
-// email: string
-// email_verified_at: string | null
-// id: number
-// name: string
-// updated_at: string
-// }
-
 const ApplicationLayout = ({children}: LayoutProps) => {
-    const {auth}: any = usePage().props
+    const {auth} = usePage<UsePageType>().props
     const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {

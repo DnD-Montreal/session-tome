@@ -10,6 +10,7 @@ module.exports = {
             Utils: path.resolve('resources/js/Utils'),
             Icons: path.resolve('resources/icons'),
             Mock: path.resolve('resources/mock/'),
+            Types: path.resolve('resources/js/Types/'),
         },
     },
 }
