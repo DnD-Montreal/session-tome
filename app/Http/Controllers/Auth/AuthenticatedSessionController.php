@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Contracts\Auth\Authenticatable
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request)
     {
@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return Auth::user();
+        return redirect()->intended();
     }
 
     /**

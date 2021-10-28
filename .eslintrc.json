@@ -90,6 +90,7 @@
         "no-undef": "off",
         "no-underscore-dangle": "off",
         "no-useless-escape": "off",
+        "no-restricted-globals": "off",
         "object-curly-spacing": ["error", "never"],
         "prefer-destructuring": [
             "error",
@@ -137,6 +138,7 @@
                 "after": true
             }
         ],
-        "semi-style": ["error", "last"]
+        "semi-style": ["error", "last"],
+        "camelcase": "off"
     }
 }

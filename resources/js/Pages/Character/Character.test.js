@@ -12,11 +12,11 @@ describe('Character', () => {
         render(<Character />)
         expect(screen.getByText('Create')).toHaveAttribute(
             'href',
-            '/dev/character/create',
+            'character.create',
         )
         expect(screen.getByText('Import')).toHaveAttribute(
             'href',
-            '/dev/character/import',
+            'adventures-league-import.index',
         )
     })
 
