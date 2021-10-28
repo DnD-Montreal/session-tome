@@ -11,8 +11,8 @@ import {
 import {ApplicationLayout} from 'Layouts'
 import {styled, ThemeProvider} from '@mui/material/styles'
 import RoomIcon from '@mui/icons-material/Room'
-import {getFontTheme} from '../Utils/theme'
-import {eventData} from '../../mock/EventData'
+import {eventData} from 'Mock/EventData'
+import {getFontTheme} from 'Utils'
 
 const StyledBox = styled(Box)`
     font-family: 'Cinzel Decorative', cursive;
