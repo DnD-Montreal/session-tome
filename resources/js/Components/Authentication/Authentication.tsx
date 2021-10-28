@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Popover, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 import {ThemeProvider} from '@mui/material/styles'
 import {getFontTheme} from 'Utils'
-import AuthenticationForm from './AuthenticationForm'
+import {AuthenticationForm} from 'Components'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -32,15 +32,23 @@ const Authentication = ({
         name: null,
         password_confirmation: null,
     }
-    const {data, setData, post} = useForm(formInitialValues)
+    const {data, setData, post, errors, clearErrors} =
+        useForm(formInitialValues)
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)
 
     const resetFields = () => {
         setData(formInitialValues)
-        setAnchorEl(null)
+        if (!errors) {
+            setAnchorEl(null)
+        }
     }
-    const commonFormDataProps = {data, setData, post, resetFields}
+    const commonFormDataProps = {data, setData, post, resetFields, errors}
+
+    useEffect(() => {
+        clearErrors()
+    }, [anchorEl])
+
     return (
         <ThemeProvider theme={theme}>
             <Popover
