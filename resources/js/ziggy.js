@@ -14,6 +14,7 @@ const Ziggy = {
         },
         'cypress.routes': {uri: '__cypress__/routes', methods: ['POST']},
         register: {uri: 'register', methods: ['GET', 'HEAD']},
+        login: {uri: 'login', methods: ['POST']},
         'password.request': {uri: 'forgot-password', methods: ['GET', 'HEAD']},
         'password.email': {uri: 'forgot-password', methods: ['POST']},
         'password.reset': {
