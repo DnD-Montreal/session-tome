@@ -4,6 +4,7 @@ const {compilerOptions} = require('./tsconfig.json')
 const moduleNameMapper = pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
 })
+
 moduleNameMapper['^ziggy$'] =
     '<rootDir>/vendor/tightenco/ziggy/dist/js/route.js'
 

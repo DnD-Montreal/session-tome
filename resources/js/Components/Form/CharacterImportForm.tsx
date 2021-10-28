@@ -2,6 +2,7 @@ import React from 'react'
 import {Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
 import styled from 'styled-components'
 import {Link as InertiaLink} from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
 
 const Label = styled('label')({
     marginTop: '16px',
@@ -57,7 +58,7 @@ const CharacterImportForm = () => (
         />
         <StyledFooter container>
             <Grid item md={2} xs={6}>
-                <InertiaLink href='/dev/Character'>
+                <InertiaLink href={route('character.index')}>
                     <Button fullWidth>Cancel</Button>
                 </InertiaLink>
             </Grid>

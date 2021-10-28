@@ -5,27 +5,31 @@ import AuthenticationForm from './AuthenticationForm'
 const setDataMock = jest.fn()
 const postMock = jest.fn()
 const routeMock = jest.fn()
+const resetFields = jest.fn()
 const loginProps = {
     data: {
-        username: 'test12',
+        email: 'test12',
         password: 'test123',
     },
     setData: setDataMock,
     post: postMock,
     type: 'Login',
     route: routeMock,
+    resetFields,
 }
 
 const registerProps = {
     data: {
         email: 'testing123',
-        username: 'test123',
-        password: 'test123',
+        name: 'test123',
+        password: 'test12',
+        password_confirmation: 'test',
     },
     setData: setDataMock,
     post: postMock,
     type: 'Register',
     route: routeMock,
+    resetFields,
 }
 
 describe('<Authentication />', () => {
@@ -50,7 +54,11 @@ describe('<Authentication />', () => {
         fireEvent.change(screen.getByDisplayValue('test12'), {
             target: {value: '123456'},
         })
-        expect(setDataMock).toBeCalledWith('username', '123456')
+        expect(setDataMock).toBeCalledWith('email', '123456')
+        fireEvent.change(screen.getByDisplayValue('test123'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password', '123456')
     })
     it('register form assertion', () => {
         render(<AuthenticationForm {...registerProps} />)
@@ -58,5 +66,17 @@ describe('<Authentication />', () => {
             target: {value: '123456'},
         })
         expect(setDataMock).toBeCalledWith('email', '123456')
+        fireEvent.change(screen.getByDisplayValue('test123'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('name', '123456')
+        fireEvent.change(screen.getByDisplayValue('test12'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password', '123456')
+        fireEvent.change(screen.getByDisplayValue('test'), {
+            target: {value: '123456'},
+        })
+        expect(setDataMock).toBeCalledWith('password_confirmation', '123456')
     })
 })

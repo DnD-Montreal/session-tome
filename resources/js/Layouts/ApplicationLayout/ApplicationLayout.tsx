@@ -2,10 +2,11 @@ import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import styled from '@emotion/styled'
-import {Link as InertiaLink} from '@inertiajs/inertia-react'
+import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication} from 'Components'
 import {getFontTheme} from 'Utils'
+import route from 'ziggy-js'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 
@@ -74,8 +75,29 @@ type LayoutProps = {
     children: ReactNode
 }
 
+// type ConnectedPropType = {
+// auth: AuthDataType
+// canLogin: boolean
+// canRegister: boolean
+// errors: any
+// } & PageProps
+
+// type AuthDataType = {
+// user: UserDataType | null
+// }
+
+// type UserDataType = {
+// created_at: string
+// email: string
+// email_verified_at: string | null
+// id: number
+// name: string
+// updated_at: string
+// }
+
 const ApplicationLayout = ({children}: LayoutProps) => {
-    //   const {auth}: any = usePage().props
+    const {auth}: any = usePage().props
+    const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
@@ -83,9 +105,12 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     const handleClose = () => {
         setAnchorEl(null)
     }
-    const getUsername = () => 'Login'
-    // if (!auth) return 'Login'
-    // if (auth.user) return auth.user
+    const getUsername = () => {
+        if (user) {
+            return user.name
+        }
+        return 'Login'
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -120,17 +145,19 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         md={6}
                         alignItems='center'
                         justifyContent='center'>
-                        <Link href='/#'>
+                        <InertiaLink href='/#'>
                             <SVG
                                 src={applicationLogo}
                                 width={278}
                                 height={51}
                             />
-                        </Link>
+                        </InertiaLink>
                     </PaddingGrid>
                     <Authentication
                         anchorEl={anchorEl}
                         handleClose={handleClose}
+                        setAnchorEl={setAnchorEl}
+                        user={user}
                     />
                     <UserAvatarColumn
                         item
@@ -161,7 +188,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/dev/Character'>
+                        <InertiaLink
+                            color='white'
+                            href={route('character.index')}>
                             Characters
                         </InertiaLink>
                     </PaddingGrid>
