@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Character;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BulkEntryController extends Controller
 {
@@ -12,7 +13,7 @@ class BulkEntryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -36,11 +37,8 @@ class BulkEntryController extends Controller
         $character = Character::findOrFail($data['character_id']);
         $character->stubEntries($entriesCount, 0, $data['adventure_id']);
 
-
-        // or inertia response?
-        return response([
-            'success' => true,
-            'data' => $character->refesh()->load('entries')
-        ]);
+        return redirect(route('character.show', [
+            'character' => $character->refresh()
+        ]));
     }
 }
