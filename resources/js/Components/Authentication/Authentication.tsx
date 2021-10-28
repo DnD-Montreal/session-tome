@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Box, Button, Popover, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 import {ThemeProvider} from '@mui/material/styles'
 import {getFontTheme} from 'Utils'
-import {AuthenticationForm} from 'Components'
+import {LoginForm, RegistrationForm} from 'Components'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -26,28 +26,9 @@ const Authentication = ({
     setAnchorEl,
     user,
 }: AuthenticationPropType) => {
-    const formInitialValues = {
-        email: null,
-        password: null,
-        name: null,
-        password_confirmation: null,
-    }
-    const {data, setData, post, errors, clearErrors} =
-        useForm(formInitialValues)
-    const [selectedTab, setSelectedTab] = useState<number>(0)
     const open = Boolean(anchorEl)
-
-    const resetFields = () => {
-        setData(formInitialValues)
-        if (!errors) {
-            setAnchorEl(null)
-        }
-    }
-    const commonFormDataProps = {data, setData, post, resetFields, errors}
-
-    useEffect(() => {
-        clearErrors()
-    }, [anchorEl])
+    const [selectedTab, setSelectedTab] = useState<number>(0)
+    const {post, wasSuccessful} = useForm({})
 
     return (
         <ThemeProvider theme={theme}>
@@ -65,7 +46,9 @@ const Authentication = ({
                             color='error'
                             onClick={() => {
                                 post(route('logout'))
-                                resetFields()
+                                if (wasSuccessful) {
+                                    setAnchorEl(null)
+                                }
                             }}>
                             Logout
                         </Button>
@@ -87,16 +70,10 @@ const Authentication = ({
                             </Tabs>
                         </Box>
                         {selectedTab === 0 ? (
-                            <AuthenticationForm
-                                type='Login'
-                                route={route}
-                                {...commonFormDataProps}
-                            />
+                            <LoginForm closePopover={() => setAnchorEl(null)} />
                         ) : (
-                            <AuthenticationForm
-                                type='Register'
-                                route={route}
-                                {...commonFormDataProps}
+                            <RegistrationForm
+                                closePopover={() => setAnchorEl(null)}
                             />
                         )}
                     </StyledBox>

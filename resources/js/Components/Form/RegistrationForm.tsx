@@ -1,43 +1,49 @@
 import React from 'react'
 import {Box, Button, TextField, Typography} from '@mui/material'
-import {EMAIL_VALIDATION_REGEX} from 'Utils'
 import styled from 'styled-components'
+import {useForm} from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
 
 const StyledErrorText = styled(Typography)`
     color: red;
     font-size: 12px;
 `
 
-type AuthenticationFormPropType = {
-    data: FormDataType
-    setData: (key: string, value: any) => void
-    // not really sure how to type this
-    post: (payload: any) => any
-    type: 'Login' | 'Register'
-    // should tighten type from ziggy
-    route: (url?: any) => any
-    resetFields: () => void
-    errors?: {[key: string]: string}
+type RegisterFormDataType = {
+    email: string
+    password: string
+    name: string
+    password_confirmation: string
 }
 
-type FormDataType = {
-    email: string | null
-    password: string | null
-    name: string | null
-    password_confirmation: string | null
+type RegisterFormPropType = {
+    closePopover: () => void
 }
 
-const AuthenticationForm = ({
-    data,
-    setData,
-    post,
-    type,
-    route,
-    resetFields,
-    errors,
-}: AuthenticationFormPropType) => {
-    const commonFieldForms = () => (
-        <>
+const LoginForm = ({closePopover}: RegisterFormPropType) => {
+    const registerFormInitialValues = {
+        email: '',
+        password: '',
+        name: '',
+        password_confirmation: '',
+    }
+    const {data, setData, post, errors, reset, wasSuccessful} = useForm(
+        registerFormInitialValues,
+    )
+    return (
+        <Box>
+            <TextField
+                margin='normal'
+                required
+                fullWidth
+                id='username'
+                label='Username'
+                name='username'
+                autoComplete='username'
+                onChange={(e) => setData('name', e.target.value)}
+                value={data.name}
+            />
+            {errors?.name && <StyledErrorText>{errors?.name}</StyledErrorText>}
             <TextField
                 margin='normal'
                 required
@@ -48,11 +54,6 @@ const AuthenticationForm = ({
                 autoComplete='email'
                 onChange={(e) => setData('email', e.target.value)}
                 value={data.email}
-                error={
-                    data.email
-                        ? !data.email?.match(EMAIL_VALIDATION_REGEX)
-                        : false
-                }
             />
             {errors?.email && (
                 <StyledErrorText>{errors?.email}</StyledErrorText>
@@ -73,40 +74,6 @@ const AuthenticationForm = ({
             {errors?.password && (
                 <StyledErrorText>{errors?.password}</StyledErrorText>
             )}
-        </>
-    )
-
-    return type === 'Login' ? (
-        <Box>
-            {commonFieldForms()}
-            <Button
-                type='submit'
-                fullWidth
-                variant='contained'
-                onClick={(e) => {
-                    e.preventDefault()
-                    post(route('login'))
-                    resetFields()
-                }}
-                sx={{mt: 3, mb: 2}}>
-                Sign In
-            </Button>
-        </Box>
-    ) : (
-        <Box>
-            <TextField
-                margin='normal'
-                required
-                fullWidth
-                id='username'
-                label='Username'
-                name='username'
-                autoComplete='username'
-                onChange={(e) => setData('name', e.target.value)}
-                value={data.name}
-            />
-            {errors?.name && <StyledErrorText>{errors?.name}</StyledErrorText>}
-            {commonFieldForms()}
             <TextField
                 margin='normal'
                 required
@@ -137,7 +104,10 @@ const AuthenticationForm = ({
                 onClick={(e) => {
                     e.preventDefault()
                     post(route('register'))
-                    resetFields()
+                    reset()
+                    if (wasSuccessful) {
+                        closePopover()
+                    }
                 }}
                 sx={{mt: 3, mb: 2}}>
                 Register
@@ -146,5 +116,5 @@ const AuthenticationForm = ({
     )
 }
 
-AuthenticationForm.displayName = 'AuthenticationForm'
-export default AuthenticationForm
+LoginForm.displayName = 'LoginForm'
+export default LoginForm
