@@ -1,17 +1,28 @@
 import React, {useState} from 'react'
-import {Button, Stack, Grid, Autocomplete, TextField} from '@mui/material'
+import {
+    Button,
+    Stack,
+    Grid,
+    Autocomplete,
+    TextField,
+    Typography,
+} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import route from 'ziggy-js'
 import {Link} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
-import {ApplicationLayout} from '../../Layouts'
-import CharTable from './CharTable'
-import {charData, RowData} from '../../../mock/CharacterData'
-import {getFontTheme} from '../../Utils/theme'
+import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
+import {ApplicationLayout} from 'Layouts'
+import {getFontTheme} from 'Utils'
+import {charData, RowData} from 'Mock/character-data'
+
+const theme = getFontTheme('Form', 16)
 
 const Character = () => {
     const [rows, setRows] = useState<RowData[]>(charData)
-    const theme = getFontTheme('Form', 16)
+    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
+    const [editId, setEditId] = useState<number | null>()
 
     const requestSearch = (searchedVal: string) => {
         const filteredRows = charData.filter((row) =>
@@ -39,6 +50,22 @@ const Character = () => {
     }
     return (
         <ThemeProvider theme={theme}>
+            <EditDrawer
+                content={
+                    <CharacterCreateForm
+                        type='Edit'
+                        onCloserDrawer={() => setIsEditDrawerOpen(false)}
+                    />
+                }
+                title={
+                    <Typography>Edit character with id: {editId}</Typography>
+                }
+                isOpen={isEditDrawerOpen}
+                onClose={() => {
+                    setIsEditDrawerOpen(false)
+                    setEditId(null)
+                }}
+            />
             <Grid
                 container
                 rowSpacing={{xs: 1, sm: 2, md: 3}}
@@ -47,7 +74,13 @@ const Character = () => {
                 <Grid item xs={8} alignItems='center' justifyContent='center'>
                     <Stack direction='row' spacing={4}>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/'>Create</Link>
+                            <Link href={route('character.create')}>Create</Link>
+                        </Button>
+                        <Button variant='contained' startIcon={<AddIcon />}>
+                            <Link
+                                href={route('adventures-league-import.index')}>
+                                Import
+                            </Link>
                         </Button>
                         <Button
                             variant='contained'
@@ -61,16 +94,24 @@ const Character = () => {
                         id='character-search'
                         options={rows.map((option) => option.cname)}
                         renderInput={(params) => (
-                            <TextField {...params} label='Search Character' />
+                            <TextField
+                                {...params}
+                                fullWidth
+                                label='Search Character'
+                            />
                         )}
-                        sx={{width: 300}}
+                        sx={{width: '100%'}}
                         onInputChange={onChangeSearch}
                         onChange={onChangeSearch}
                         onClose={onChangeSearch}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <CharTable rows={rows} />
+                    <CharacterTable
+                        rows={rows}
+                        setIsEditDrawerOpen={setIsEditDrawerOpen}
+                        setEditId={setEditId}
+                    />
                 </Grid>
             </Grid>
         </ThemeProvider>
