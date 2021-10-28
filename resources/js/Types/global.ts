@@ -14,5 +14,7 @@ export type UsePageType = {
         canRegister: boolean
         laravelVersion: string
         phpVersion: string
+        // for new global props to be used later
+        [key: string]: any
     }
 } & Page
