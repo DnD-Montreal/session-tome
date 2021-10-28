@@ -30,7 +30,6 @@ describe('<Authentication />', () => {
         render(<Authentication {...props} />)
         expect(screen.getByText('Logout')).toBeInTheDocument()
         fireEvent.click(screen.getByText('Logout'))
-        expect(mockFunction).toBeCalledWith(null)
     })
     it('should have login state', () => {
         render(<Authentication {...loginProps} />)

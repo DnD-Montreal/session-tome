@@ -17,7 +17,7 @@ type AuthenticationFormPropType = {
     // should tighten type from ziggy
     route: (url?: any) => any
     resetFields: () => void
-    errors: {[key: string]: string}
+    errors?: {[key: string]: string}
 }
 
 type FormDataType = {
@@ -54,7 +54,9 @@ const AuthenticationForm = ({
                         : false
                 }
             />
-            {errors.email && <StyledErrorText>{errors.email}</StyledErrorText>}
+            {errors?.email && (
+                <StyledErrorText>{errors?.email}</StyledErrorText>
+            )}
             <TextField
                 margin='normal'
                 required
@@ -68,8 +70,8 @@ const AuthenticationForm = ({
                 value={data.password}
                 error={data.password ? data.password.length < 8 : false}
             />
-            {errors.password && (
-                <StyledErrorText>{errors.password}</StyledErrorText>
+            {errors?.password && (
+                <StyledErrorText>{errors?.password}</StyledErrorText>
             )}
         </>
     )
@@ -103,7 +105,7 @@ const AuthenticationForm = ({
                 onChange={(e) => setData('name', e.target.value)}
                 value={data.name}
             />
-            {errors.name && <StyledErrorText>{errors.name}</StyledErrorText>}
+            {errors?.name && <StyledErrorText>{errors?.name}</StyledErrorText>}
             {commonFieldForms()}
             <TextField
                 margin='normal'
@@ -123,9 +125,9 @@ const AuthenticationForm = ({
                         : false
                 }
             />
-            {errors.password_confirmation && (
+            {errors?.password_confirmation && (
                 <StyledErrorText>
-                    {errors.password_confirmation}
+                    {errors?.password_confirmation}
                 </StyledErrorText>
             )}
             <Button
