@@ -60,6 +60,8 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
     Route::resource('campaign', App\Http\Controllers\CampaignController::class);
+
+    Route::resource('item-entry', App\Http\Controllers\ItemEntryController::class)->only(['store']);
 });
 
 Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
