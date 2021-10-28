@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Popover, Tabs, Tab} from '@mui/material'
 import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
@@ -29,6 +29,12 @@ const Authentication = ({
     const open = Boolean(anchorEl)
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const {post, wasSuccessful} = useForm({})
+
+    useEffect(() => {
+        if (user) {
+            setAnchorEl(null)
+        }
+    }, [user])
 
     return (
         <ThemeProvider theme={theme}>
@@ -70,11 +76,9 @@ const Authentication = ({
                             </Tabs>
                         </Box>
                         {selectedTab === 0 ? (
-                            <LoginForm closePopover={() => setAnchorEl(null)} />
+                            <LoginForm />
                         ) : (
-                            <RegistrationForm
-                                closePopover={() => setAnchorEl(null)}
-                            />
+                            <RegistrationForm />
                         )}
                     </StyledBox>
                 )}

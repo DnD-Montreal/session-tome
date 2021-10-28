@@ -2,10 +2,7 @@ import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import RegistrationForm from './RegistrationForm'
 
-const mockFunction = jest.fn()
-const props = {
-    closePopover: mockFunction,
-}
+const props = {}
 
 describe('<RegistrationForm />', () => {
     it('Component should render', () => {
