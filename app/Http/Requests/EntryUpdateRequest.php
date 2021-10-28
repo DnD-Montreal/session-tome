@@ -13,7 +13,7 @@ class EntryUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->entry->character) and $this->user()->can('update', $this->entry);
+        return $this->user()->can('update', $this->entry->character)  && $this->user()->can('update', $this->entry);
     }
 
     /**
