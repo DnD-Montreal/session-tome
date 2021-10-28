@@ -9,10 +9,11 @@ import {
     Container,
 } from '@mui/material'
 import {ApplicationLayout} from 'Layouts'
-import {styled, ThemeProvider} from '@mui/material/styles'
+import {ThemeProvider} from '@mui/material/styles'
 import RoomIcon from '@mui/icons-material/Room'
 import {eventData} from 'Mock/EventData'
 import {getFontTheme} from 'Utils'
+import styled from 'styled-components'
 
 const StyledBox = styled(Box)`
     font-family: 'Cinzel Decorative', cursive;
