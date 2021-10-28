@@ -59,7 +59,9 @@ const LoginForm = () => {
                 onClick={(e) => {
                     e.preventDefault()
                     post(route('login'))
-                    reset()
+                    if (!errors) {
+                        reset()
+                    }
                 }}
                 sx={{mt: 3, mb: 2}}>
                 Sign In

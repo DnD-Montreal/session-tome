@@ -101,7 +101,9 @@ const LoginForm = () => {
                 onClick={(e) => {
                     e.preventDefault()
                     post(route('register'))
-                    reset()
+                    if (!errors) {
+                        reset()
+                    }
                 }}
                 sx={{mt: 3, mb: 2}}>
                 Register
