@@ -16,20 +16,17 @@ type RegisterFormDataType = {
     password_confirmation: string
 }
 
-type RegisterFormPropType = {
-    closePopover: () => void
-}
-
-const LoginForm = ({closePopover}: RegisterFormPropType) => {
+const LoginForm = () => {
     const registerFormInitialValues = {
         email: '',
         password: '',
         name: '',
         password_confirmation: '',
     }
-    const {data, setData, post, errors, reset, wasSuccessful} = useForm(
+    const {data, setData, post, errors, reset} = useForm(
         registerFormInitialValues,
     )
+
     return (
         <Box>
             <TextField
@@ -105,9 +102,6 @@ const LoginForm = ({closePopover}: RegisterFormPropType) => {
                     e.preventDefault()
                     post(route('register'))
                     reset()
-                    if (wasSuccessful) {
-                        closePopover()
-                    }
                 }}
                 sx={{mt: 3, mb: 2}}>
                 Register

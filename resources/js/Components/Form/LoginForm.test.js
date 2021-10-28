@@ -2,10 +2,7 @@ import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import LoginForm from './LoginForm'
 
-const mockFunction = jest.fn()
-const props = {
-    closePopover: mockFunction,
-}
+const props = {}
 
 describe('<LoginForm />', () => {
     it('Component should render', () => {

@@ -14,18 +14,12 @@ type LoginFormDataType = {
     password: string
 }
 
-type LoginFormPropType = {
-    closePopover: () => void
-}
-
-const LoginForm = ({closePopover}: LoginFormPropType) => {
+const LoginForm = () => {
     const loginFormInitialValues: LoginFormDataType = {
         email: '',
         password: '',
     }
-    const {data, setData, post, errors, reset, wasSuccessful} = useForm(
-        loginFormInitialValues,
-    )
+    const {data, setData, post, errors, reset} = useForm(loginFormInitialValues)
     return (
         <Box>
             <TextField
@@ -66,9 +60,6 @@ const LoginForm = ({closePopover}: LoginFormPropType) => {
                     e.preventDefault()
                     post(route('login'))
                     reset()
-                    if (wasSuccessful) {
-                        closePopover()
-                    }
                 }}
                 sx={{mt: 3, mb: 2}}>
                 Sign In
