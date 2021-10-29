@@ -39,6 +39,10 @@ class EntryController extends Controller
 
         $request->session()->flash('entry.id', $entry->id);
 
+        if ($request->type == Entry::TYPE_DM) {
+            return redirect()->route('dm-entry.index');
+        }
+
         return redirect()->route('entry.index');
     }
 
