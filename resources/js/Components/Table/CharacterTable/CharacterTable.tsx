@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {FactionChip} from 'Components'
-import {RowData} from 'Mock/character-data'
+import {CharacterRowData} from 'Types/character-row-data'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -71,7 +71,7 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 )
 
 type CharTablePropType = {
-    rows: RowData[]
+    rows: CharacterRowData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
 }
@@ -96,7 +96,7 @@ const CharacterTable = ({
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cname)
+            const newSelecteds = rows.map((n) => n.name)
             setSelected(newSelecteds)
             return
         }
@@ -167,12 +167,12 @@ const CharacterTable = ({
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage,
                             )
-                            .map((row: RowData, index: number) => {
-                                const isItemSelected = isSelected(row.cname)
+                            .map((row: CharacterRowData, index: number) => {
+                                const isItemSelected = isSelected(row.name)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
-                                        key={row.cname}
+                                        key={row.name}
                                         sx={{
                                             '&:last-child td, &:last-child th':
                                                 {border: 0},
@@ -185,10 +185,7 @@ const CharacterTable = ({
                                         <TableCell padding='checkbox'>
                                             <Checkbox
                                                 onClick={(event) =>
-                                                    handleClick(
-                                                        event,
-                                                        row.cname,
-                                                    )
+                                                    handleClick(event, row.name)
                                                 }
                                                 color='primary'
                                                 checked={isItemSelected}
@@ -204,7 +201,7 @@ const CharacterTable = ({
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.cname}
+                                            {row.name}
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
@@ -215,7 +212,7 @@ const CharacterTable = ({
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
-                                                label={row.cclass}
+                                                label={row.class}
                                                 color='default'
                                                 variant='outlined'
                                             />
