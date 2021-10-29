@@ -38,6 +38,7 @@ class EntryStoreRequest extends FormRequest
             'type' => ['required', 'string'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
+            'downtime' => ['sometimes', 'integer'],
         ];
     }
 }
