@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class DMEntryController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $entries = DB::table('entries')
