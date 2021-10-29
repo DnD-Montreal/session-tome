@@ -1,0 +1,42 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Session Tome API Documentation",
+        "description": "Session Tome API description",
+        "contact": {
+            "email": "massimo@dndmtl.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": ""
+        }
+    ],
+    "paths": {
+        "/adventure": {
+            "get": {
+                "description": "Adventure Index",
+                "responses": {
+                    "default": {
+                        "description": "Adventure Index"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Session Tome",
+            "description": "API Endpoints of Session Tome"
+        }
+    ],
+    "security": [
+        []
+    ]
+}
