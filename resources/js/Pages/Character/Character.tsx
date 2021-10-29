@@ -28,9 +28,9 @@ const Character = ({characters}: CharacterPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number | null>()
 
-    const requestSearch = (searchedVal: string) => {
+    const onSearch = (value: string) => {
         const filteredRows = characters.filter((row: CharacterRowData) =>
-            row.name.toLowerCase().includes(searchedVal.toLowerCase()),
+            row.name.toLowerCase().includes(value.toLowerCase()),
         )
         setRows(filteredRows)
     }
@@ -39,15 +39,15 @@ const Character = ({characters}: CharacterPropType) => {
         const {target} = e
         switch (target.value) {
             case 0: {
-                requestSearch(target.textContent)
+                onSearch(target.textContent)
                 break
             }
             case undefined: {
-                requestSearch('')
+                onSearch('')
                 break
             }
             default: {
-                requestSearch(target.value)
+                onSearch(target.value)
                 break
             }
         }
