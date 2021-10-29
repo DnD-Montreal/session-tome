@@ -105,8 +105,28 @@ class EntryControllerTest extends TestCase
             'gp' => $gp,
         ]);
 
+        $response->assertForbidden();
+
+        $character->user()->associate($this->user)->save();
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+
         $entries = Entry::query()
-            ->where('user_id', $user->id)
+            ->where('user_id', $this->user->id)
             ->where('adventure_id', $adventure->id)
             ->where('campaign_id', $campaign->id)
             ->where('character_id', $character->id)
@@ -187,7 +207,27 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
-        $response = $this->actingAs($entry->user)->put(route('entry.update', $entry), [
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $response->assertForbidden();
+
+        $character->user()->associate($this->user)->save();
+        $entry->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,

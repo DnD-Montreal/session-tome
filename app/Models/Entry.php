@@ -28,6 +28,7 @@ class Entry extends Model
         'levels',
         'gp',
         'notes',
+        'downtime',
     ];
 
     /**
@@ -46,6 +47,7 @@ class Entry extends Model
         'levels' => 'integer',
         'date_played' => 'datetime',
         'gp' => 'decimal:2',
+        'downtime' => 'integer',
     ];
 
     public const TYPE_GAME = 'game';
