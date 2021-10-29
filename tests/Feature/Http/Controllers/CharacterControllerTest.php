@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -38,8 +39,11 @@ class CharacterControllerTest extends TestCase
         $response = $this->actingAs(User::first())->get(route('character.index'));
 
         $response->assertOk();
-        $response->assertViewIs('character.index');
-        $response->assertViewHas('characters');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+            ->component('Character/Character')
+            ->has('characters')
+        );
     }
 
 
@@ -51,7 +55,10 @@ class CharacterControllerTest extends TestCase
         $response = $this->get(route('character.create'));
 
         $response->assertOk();
-        $response->assertViewIs('character.create');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+            ->component('Character/Create/CharacterCreate')
+        );
     }
 
 

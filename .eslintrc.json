@@ -79,6 +79,7 @@
         ],
         "linebreak-style": "off",
         "max-len": "off",
+        "no-control-regex": "off",
         "no-extra-semi": "error",
         "no-param-reassign": "off",
         "no-trailing-spaces": [
@@ -90,6 +91,7 @@
         "no-undef": "off",
         "no-underscore-dangle": "off",
         "no-useless-escape": "off",
+        "no-restricted-globals": "off",
         "object-curly-spacing": ["error", "never"],
         "prefer-destructuring": [
             "error",
@@ -128,6 +130,7 @@
         ],
         "react/jsx-wrap-multilines": "off",
         "react/prop-types": "off",
+        "react/require-default-props": "off",
         "semi": ["error", "never"],
         "semi-spacing": [
             "error",
@@ -136,6 +139,7 @@
                 "after": true
             }
         ],
-        "semi-style": ["error", "last"]
+        "semi-style": ["error", "last"],
+        "camelcase": "off"
     }
 }

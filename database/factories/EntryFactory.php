@@ -39,7 +39,7 @@ class EntryFactory extends Factory
             'location' => $this->faker->word(),
             'type' => $this->faker->word(),
             'levels' => $this->faker->numberBetween(1, 20),
-            'gp' => $this->faker->randomFloat(2, 0, 999999999999999999999999999999.99),
+            'gp' => $this->faker->randomFloat(2, 0, 9999.99),
             'downtime' => $this->faker->numberBetween(1, 1000),
         ];
     }
