@@ -60,16 +60,18 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
     Route::resource('campaign', App\Http\Controllers\CampaignController::class);
+
+    Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
+        ->only('store');
+
+    Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
+        ->only(['index', 'store']);
+
+    Route::resource('dm-entry', \App\Http\Controllers\DMEntryController::class)
+        ->only('index');
 });
 
-Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
-    ->only('store');
 
-Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
-    ->only(['index', 'store']);
-
-Route::resource('dm-entry', \App\Http\Controllers\DMEntryController::class)
-    ->only('index');
 
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
