@@ -122,7 +122,7 @@ const CharacterTable = ({
         setSelected(newSelected)
     }
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1
+    const isSelected = (name: string) => selected.includes(name)
 
     return (
         <Box>
@@ -172,7 +172,7 @@ const CharacterTable = ({
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
-                                        key={row.name}
+                                        key={row.id}
                                         sx={{
                                             '&:last-child td, &:last-child th':
                                                 {border: 0},
