@@ -14,10 +14,9 @@ class EntryObserver
      */
     public function created(Entry $entry)
     {
-        if ($entry->type != Entry::TYPE_DM) {
+        if ($entry->type != Entry::TYPE_DM || !is_null($entry->character)) {
             $character = $entry->character;
             $character->level += $entry->levels;
-
             $character->save();
         }
     }
@@ -30,7 +29,7 @@ class EntryObserver
      */
     public function updated(Entry $entry)
     {
-        if ($entry->type != Entry::TYPE_DM) {
+        if ($entry->type != Entry::TYPE_DM || !is_null($entry->character)) {
             $character = $entry->character;
             if ($entry->isDirty('levels')) {
                 $levelDelta = $entry->levels - $entry->getOriginal('levels');
@@ -48,7 +47,7 @@ class EntryObserver
      */
     public function deleting(Entry $entry)
     {
-        if ($entry->type != Entry::TYPE_DM) {
+        if ($entry->type != Entry::TYPE_DM || !is_null($entry->character)) {
             $character = $entry->character;
             if ($entry->levels) {
                 $character->level -= $entry->levels;
