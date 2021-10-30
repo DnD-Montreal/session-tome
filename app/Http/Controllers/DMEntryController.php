@@ -16,6 +16,8 @@ class DMEntryController extends Controller
     {
         $entries = Entry::where('type', Entry::TYPE_DM)->get();
 
+        // this should maybe have its own view..
+        // potential fix in the future
         return view('entry.index', compact('entries'));
     }
 }
