@@ -366,6 +366,31 @@ class EntryControllerTest extends TestCase
         $this->assertEquals(5, $character->level);
     }
 
+    /**
+     * @test
+     */
+    public function update_entry_with_character_updates_level()
+    {
+        $character = Character::factory()->create([
+            'level' => 1,
+            ]);
+
+        $entry = Entry::factory()->create([
+            'character_id' => null,
+            'type' => Entry::TYPE_DM,
+            'levels' => 3,
+        ]);
+
+        $character->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+
+        $oldLevel = $character->level;
+
+        $character->refresh();
+
+        $this->assertEquals($entry->level + $oldLevel, $character->level);
+    }
 
     /**
      * @test
