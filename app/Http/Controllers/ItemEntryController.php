@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ItemEntryStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Item;
 
