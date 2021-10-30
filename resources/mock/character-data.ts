@@ -1,6 +1,6 @@
 export const characterData = [
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Barbarian',
         created_at: '',
@@ -15,7 +15,7 @@ export const characterData = [
         user_id: 1,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Paladin',
         created_at: '',
@@ -30,7 +30,7 @@ export const characterData = [
         user_id: 2,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Druid',
         created_at: '',
@@ -45,7 +45,7 @@ export const characterData = [
         user_id: 3,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Barbarian',
         created_at: '',
@@ -60,7 +60,7 @@ export const characterData = [
         user_id: 4,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Paladin',
         created_at: '',
@@ -75,7 +75,7 @@ export const characterData = [
         user_id: 5,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Paladin',
         created_at: '',
@@ -90,7 +90,7 @@ export const characterData = [
         user_id: 6,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Paladin',
         created_at: '',
@@ -105,7 +105,7 @@ export const characterData = [
         user_id: 7,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Druid',
         created_at: '',
@@ -120,7 +120,7 @@ export const characterData = [
         user_id: 8,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Druid',
         created_at: '',
@@ -135,7 +135,7 @@ export const characterData = [
         user_id: 9,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Barbarian',
         created_at: '',
@@ -150,7 +150,7 @@ export const characterData = [
         user_id: 10,
     },
     {
-        background: '',
+        background: null,
         character_sheet: '',
         class: 'Druid',
         created_at: '',
