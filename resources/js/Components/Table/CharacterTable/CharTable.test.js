@@ -1,13 +1,13 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import {charData} from 'Mock/character-data'
+import {characterData} from 'Mock/character-data'
 import CharacterTable from './CharacterTable'
 
 const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
     isSelected: isSelectedtest,
-    rows: charData,
+    rows: characterData,
     selected: [],
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
@@ -21,7 +21,7 @@ describe('CharacterTable', () => {
     it('shoud render all checkboxes for each data row', () => {
         render(<CharacterTable {...props} />)
         const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox).toHaveLength(charData.length)
+        expect(checkbox).toHaveLength(characterData.length)
         fireEvent.click(screen.getByLabelText('select all names'))
         for (let i = 0; i < 5; i += 1) {
             const checkboxel = screen
