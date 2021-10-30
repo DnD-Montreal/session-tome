@@ -230,6 +230,21 @@ class EntryControllerTest extends TestCase
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $response->assertForbidden();
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
