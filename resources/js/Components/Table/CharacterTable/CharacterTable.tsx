@@ -22,6 +22,7 @@ import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {FactionChip} from 'Components'
 import {CharacterRowData} from 'Types/character-row-data'
+import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -81,7 +82,6 @@ const CharacterTable = ({
     setIsEditDrawerOpen,
     setEditId,
 }: CharTablePropType) => {
-    const DEFAULT_ROWS_PER_PAGE = 10
     const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
