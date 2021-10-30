@@ -8,7 +8,7 @@ use App\Models\Item;
 class ItemEntryController extends Controller
 {
     /**
-    * @param \App\Http\Requests\ItemEntryRequest $request
+    * @param \Illuminate\Http\Request $request
     * @return \Illuminate\Http\Response
     */
     public function store(Request $request)
