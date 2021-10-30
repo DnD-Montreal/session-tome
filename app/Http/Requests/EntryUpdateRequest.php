@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Entry;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EntryUpdateRequest extends FormRequest
@@ -13,6 +14,9 @@ class EntryUpdateRequest extends FormRequest
      */
     public function authorize()
     {
+        if (is_null($this->character_id)) {
+            return $this->type == Entry::TYPE_DM;
+        }
         return $this->user()->can('update', $this->entry->character)  && $this->user()->can('update', $this->entry);
     }
 
@@ -26,7 +30,7 @@ class EntryUpdateRequest extends FormRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
-            'character_id' => ['required', 'integer', 'exists:characters,id'],
+            'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
             'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes', 'string'],
