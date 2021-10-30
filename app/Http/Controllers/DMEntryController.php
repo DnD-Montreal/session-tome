@@ -14,9 +14,7 @@ class DMEntryController extends Controller
      */
     public function index(Request $request)
     {
-        $entries = DB::table('entries')
-            ->where('type', Entry::TYPE_DM)
-            ->get();
+        $entries = Entry::where('type', Entry::TYPE_DM)->get();
 
         return view('entry.index', compact('entries'));
     }
