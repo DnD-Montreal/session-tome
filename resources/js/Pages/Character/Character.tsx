@@ -28,17 +28,6 @@ const Character = ({characters}: CharacterPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number | null>()
 
-    const onSearch = (value: string) => {
-        const filteredRows = characters.filter((row: CharacterRowData) =>
-            row.name.toLowerCase().includes(value.toLowerCase()),
-        )
-        setRows(filteredRows)
-    }
-
-    const onChangeSearch = (e: {target: any}) => {
-        const {target} = e
-        onSearch(target.value)
-    }
     return (
         <ThemeProvider theme={theme}>
             <EditDrawer
@@ -92,9 +81,15 @@ const Character = ({characters}: CharacterPropType) => {
                             />
                         )}
                         sx={{width: '100%'}}
-                        onInputChange={onChangeSearch}
-                        onChange={onChangeSearch}
-                        onClose={onChangeSearch}
+                        onInputChange={(e: {target: any}) => {
+                            const filteredRows = characters.filter(
+                                (row: CharacterRowData) =>
+                                    row.name
+                                        .toLowerCase()
+                                        .includes(e.target.value.toLowerCase()),
+                            )
+                            setRows(filteredRows)
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
