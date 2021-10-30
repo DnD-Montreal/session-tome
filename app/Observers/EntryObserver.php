@@ -35,6 +35,11 @@ class EntryObserver
                 $levelDelta = $entry->levels - $entry->getOriginal('levels');
                 $character->level += $levelDelta;
                 $character->save();
+            } elseif ($entry->isDirty('character_id')) {
+                $character->level = (is_null($character->level))
+                    ? $entry->levels
+                    : $character->level + $entry->levels;
+                $character->save();
             }
         }
     }
