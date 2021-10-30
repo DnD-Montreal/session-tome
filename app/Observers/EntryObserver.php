@@ -14,10 +14,12 @@ class EntryObserver
      */
     public function created(Entry $entry)
     {
-        $character = $entry->character;
-        $character->level += $entry->levels;
+        if ($entry->type != Entry::TYPE_DM) {
+            $character = $entry->character;
+            $character->level += $entry->levels;
 
-        $character->save();
+            $character->save();
+        }
     }
 
     /**
@@ -28,11 +30,13 @@ class EntryObserver
      */
     public function updated(Entry $entry)
     {
-        $character = $entry->character;
-        if ($entry->isDirty('levels')) {
-            $levelDelta = $entry->levels - $entry->getOriginal('levels');
-            $character->level += $levelDelta;
-            $character->save();
+        if ($entry->type != Entry::TYPE_DM) {
+            $character = $entry->character;
+            if ($entry->isDirty('levels')) {
+                $levelDelta = $entry->levels - $entry->getOriginal('levels');
+                $character->level += $levelDelta;
+                $character->save();
+            }
         }
     }
 
@@ -44,10 +48,12 @@ class EntryObserver
      */
     public function deleting(Entry $entry)
     {
-        $character = $entry->character;
-        if ($entry->levels) {
-            $character->level -= $entry->levels;
-            $character->save();
+        if ($entry->type != Entry::TYPE_DM) {
+            $character = $entry->character;
+            if ($entry->levels) {
+                $character->level -= $entry->levels;
+                $character->save();
+            }
         }
     }
 }
