@@ -37,20 +37,7 @@ const Character = ({characters}: CharacterPropType) => {
 
     const onChangeSearch = (e: {target: any}) => {
         const {target} = e
-        switch (target.value) {
-            case 0: {
-                onSearch(target.textContent)
-                break
-            }
-            case undefined: {
-                onSearch('')
-                break
-            }
-            default: {
-                onSearch(target.value)
-                break
-            }
-        }
+        onSearch(target.value)
     }
     return (
         <ThemeProvider theme={theme}>
