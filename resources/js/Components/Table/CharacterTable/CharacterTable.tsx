@@ -81,9 +81,10 @@ const CharacterTable = ({
     setIsEditDrawerOpen,
     setEditId,
 }: CharTablePropType) => {
-    const [selected, setSelected] = useState<string[]>([])
+    const DEFAULT_ROWS_PER_PAGE = 10
+    const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
@@ -96,19 +97,19 @@ const CharacterTable = ({
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name)
+            const newSelecteds = rows.map((n) => n.id)
             setSelected(newSelecteds)
             return
         }
         setSelected([])
     }
 
-    const handleClick = (event: any, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: string[] = []
+    const handleClick = (event: any, id: number) => {
+        const selectedIndex = selected.indexOf(id)
+        let newSelected: number[] = []
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
+            newSelected = newSelected.concat(selected, id)
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1))
         } else if (selectedIndex === selected.length - 1) {
@@ -122,7 +123,7 @@ const CharacterTable = ({
         setSelected(newSelected)
     }
 
-    const isSelected = (name: string) => selected.includes(name)
+    const isSelected = (id: number) => selected.includes(id)
 
     return (
         <Box>
@@ -168,7 +169,7 @@ const CharacterTable = ({
                                 page * rowsPerPage + rowsPerPage,
                             )
                             .map((row: CharacterRowData, index: number) => {
-                                const isItemSelected = isSelected(row.name)
+                                const isItemSelected = isSelected(row.id)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
@@ -185,7 +186,7 @@ const CharacterTable = ({
                                         <TableCell padding='checkbox'>
                                             <Checkbox
                                                 onClick={(event) =>
-                                                    handleClick(event, row.name)
+                                                    handleClick(event, row.id)
                                                 }
                                                 color='primary'
                                                 checked={isItemSelected}
