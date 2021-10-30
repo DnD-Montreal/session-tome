@@ -45,6 +45,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('entry', App\Http\Controllers\EntryController::class);
 
+    Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
+        ->only(['store']);
+
     Route::resource('character', App\Http\Controllers\CharacterController::class);
 
     Route::resource('item', App\Http\Controllers\ItemController::class);
