@@ -324,7 +324,7 @@ class EntryControllerTest extends TestCase
     public function update_dm_entry_on_character_updates_level()
     {
         $character = Character::factory()->create([
-            'level' => 3,
+            'level' => 0,
         ]);
 
         $entry = Entry::factory()->create([
