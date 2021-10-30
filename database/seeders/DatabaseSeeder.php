@@ -17,19 +17,21 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $users = User::factory(10)->create();
-        $ids = $users->pluck('id');
+        $characters = [];
 
         foreach ($users as $user) {
-            $character = Character::factory()->create([
+            $characters = Character::factory(6)->create([
                  'user_id' => $user->id,
                  'level' => 1
-             ]);
-            Entry::factory(random_int(1, 20))->create([
-                 'user_id' => $user->id,
-                 'character_id' => $character->id,
-                 'dungeon_master_id' => $ids->diff([$user->id])[random_int(0, $ids->count()-3)],
-                 'levels' => 1
-             ]);
+             ])->merge($characters);
+        }
+
+        foreach ($characters as $character) {
+            Entry::factory(10)->create([
+                'character_id' => $character->id,
+                'user_id' => $character->user->id,
+                'levels' => random_int(0, 1)
+            ]);
         }
     }
 }

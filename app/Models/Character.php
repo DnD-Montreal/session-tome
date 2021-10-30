@@ -75,6 +75,16 @@ class Character extends Model
         return $this->hasMany(\App\Models\Entry::class);
     }
 
+    /**
+     * Accessor which exposes a GP attribute on the model
+     *
+     * @return float
+     */
+    public function getGpAttribute()
+    {
+        return $this->entries()->pluck('gp')->sum();
+    }
+
     public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
     {
         $stubs = array_merge([
