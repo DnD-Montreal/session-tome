@@ -57,14 +57,20 @@ const CharacterDetailBox = () => (
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
-                        <Button variant='contained'>
-                            <CreateIcon fontSize='small' /> UPDATE
+                        <Button
+                            variant='contained'
+                            startIcon={<CreateIcon fontSize='small' />}>
+                            UPDATE
                         </Button>
-                        <Button variant='contained'>
-                            <DownloadIcon fontSize='small' /> EXPORT
+                        <Button
+                            variant='contained'
+                            startIcon={<DownloadIcon fontSize='small' />}>
+                            EXPORT
                         </Button>
-                        <Button variant='contained'>
-                            <IosShareIcon fontSize='small' /> ITEMS
+                        <Button
+                            variant='contained'
+                            startIcon={<IosShareIcon fontSize='small' />}>
+                            ITEMS
                         </Button>
                     </Stack>
                 </Grid>

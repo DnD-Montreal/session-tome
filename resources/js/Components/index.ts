@@ -9,8 +9,8 @@ export {CharacterDetailBox} from './CharacterDetail'
 // Tables
 export {default as CharacterTable} from './Table/CharacterTable'
 export {default as ItemTable} from './Table/ItemTable'
-export {CharacterDetailTable} from './Table'
-export {TableToolbar} from './Table'
+export {CharacterDetailTable} from './Table/CharacterDetail'
+export {TableToolbar} from './Table/CharacterDetail'
 
 // Forms
 export {
