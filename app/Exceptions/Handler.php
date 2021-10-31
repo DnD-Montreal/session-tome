@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
             return back()->with([
                 'message' => 'The page expired, please try again.',
             ]);
-        } elseif ($error = $response->getOriginalContent()) {
+        } elseif ($error = $response->getOriginalContent() && !in_array($response->status(), [200, 302])) {
             return $this->renderError($request, $response, "{$response->status()}: Error", $error['errors']);
         }
 
