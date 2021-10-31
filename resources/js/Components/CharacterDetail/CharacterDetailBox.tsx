@@ -17,25 +17,15 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
-const ColorButton = styled(Button)({
-    fontsize: 6,
-    backgroundColor: '#8da57c',
-    '&:hover': {
-        backgroundColor: '#a2bf8e',
-    },
-})
-
 const CharacterDetailBox = () => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container spacing={6}>
-            {/* Avatar */}
             <Grid item xs={4}>
                 <Img
                     alt='avatar'
                     src='https://static.wikia.nocookie.net/eladriells-dd/images/d/d8/Orc.jpg/revision/latest/scale-to-width-down/600?cb=20190330101155'
                 />
             </Grid>
-            {/* Characteristics */}
             <Grid item container columnSpacing={1} rowSpacing={5} xs={8}>
                 <Grid item xs={12}>
                     <StyledTypography>NAME</StyledTypography>
@@ -65,18 +55,17 @@ const CharacterDetailBox = () => (
                     <StyledTypography>STATUS</StyledTypography>
                     <Typography style={{color: '#a0a2a3'}}>Public</Typography>
                 </Grid>
-                {/* Buttons */}
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
-                        <ColorButton variant='contained'>
+                        <Button variant='contained'>
                             <CreateIcon fontSize='small' /> UPDATE
-                        </ColorButton>
-                        <ColorButton variant='contained'>
+                        </Button>
+                        <Button variant='contained'>
                             <DownloadIcon fontSize='small' /> EXPORT
-                        </ColorButton>
-                        <ColorButton variant='contained'>
+                        </Button>
+                        <Button variant='contained'>
                             <IosShareIcon fontSize='small' /> ITEMS
-                        </ColorButton>
+                        </Button>
                     </Stack>
                 </Grid>
             </Grid>
