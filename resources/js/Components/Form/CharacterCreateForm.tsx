@@ -55,7 +55,7 @@ const CharacterCreateForm = ({
         name: '',
         race: '',
         class: '',
-        level: 0,
+        level: 1,
         faction: '',
         downtime: 0,
         status: 'private',
