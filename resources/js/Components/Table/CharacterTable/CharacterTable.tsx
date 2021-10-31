@@ -21,7 +21,8 @@ import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {FactionChip} from 'Components'
-import {RowData} from 'Mock/character-data'
+import {CharacterRowData} from 'Types/character-row-data'
+import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -71,7 +72,7 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 )
 
 type CharTablePropType = {
-    rows: RowData[]
+    rows: CharacterRowData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
 }
@@ -81,9 +82,9 @@ const CharacterTable = ({
     setIsEditDrawerOpen,
     setEditId,
 }: CharTablePropType) => {
-    const [selected, setSelected] = useState<string[]>([])
+    const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
@@ -96,19 +97,19 @@ const CharacterTable = ({
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cname)
+            const newSelecteds = rows.map((n) => n.id)
             setSelected(newSelecteds)
             return
         }
         setSelected([])
     }
 
-    const handleClick = (event: any, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: string[] = []
+    const handleClick = (event: any, id: number) => {
+        const selectedIndex = selected.indexOf(id)
+        let newSelected: number[] = []
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
+            newSelected = newSelected.concat(selected, id)
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1))
         } else if (selectedIndex === selected.length - 1) {
@@ -121,9 +122,6 @@ const CharacterTable = ({
         }
         setSelected(newSelected)
     }
-
-    const isSelected = (name: string) => selected.indexOf(name) !== -1
-
     return (
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -167,12 +165,12 @@ const CharacterTable = ({
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage,
                             )
-                            .map((row: RowData, index: number) => {
-                                const isItemSelected = isSelected(row.cname)
+                            .map((row: CharacterRowData, index: number) => {
+                                const isItemSelected = selected.includes(row.id)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
-                                        key={row.cname}
+                                        key={row.id}
                                         sx={{
                                             '&:last-child td, &:last-child th':
                                                 {border: 0},
@@ -185,10 +183,7 @@ const CharacterTable = ({
                                         <TableCell padding='checkbox'>
                                             <Checkbox
                                                 onClick={(event) =>
-                                                    handleClick(
-                                                        event,
-                                                        row.cname,
-                                                    )
+                                                    handleClick(event, row.id)
                                                 }
                                                 color='primary'
                                                 checked={isItemSelected}
@@ -204,7 +199,7 @@ const CharacterTable = ({
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.cname}
+                                            {row.name}
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
@@ -215,7 +210,7 @@ const CharacterTable = ({
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
-                                                label={row.cclass}
+                                                label={row.class}
                                                 color='default'
                                                 variant='outlined'
                                             />

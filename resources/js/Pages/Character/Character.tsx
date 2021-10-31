@@ -15,39 +15,19 @@ import {ThemeProvider} from '@mui/material/styles'
 import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
-import {charData, RowData} from 'Mock/character-data'
+import {CharacterRowData} from 'Types/character-row-data'
 
 const theme = getFontTheme('Form', 16)
 
-const Character = () => {
-    const [rows, setRows] = useState<RowData[]>(charData)
+type CharacterPropType = {
+    characters: CharacterRowData[]
+}
+
+const Character = ({characters}: CharacterPropType) => {
+    const [rows, setRows] = useState<CharacterRowData[]>(characters)
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number | null>()
 
-    const requestSearch = (searchedVal: string) => {
-        const filteredRows = charData.filter((row) =>
-            row.cname.toLowerCase().includes(searchedVal.toLowerCase()),
-        )
-        setRows(filteredRows)
-    }
-
-    const onChangeSearch = (e: {target: any}) => {
-        const {target} = e
-        switch (target.value) {
-            case 0: {
-                requestSearch(target.textContent)
-                break
-            }
-            case undefined: {
-                requestSearch('')
-                break
-            }
-            default: {
-                requestSearch(target.value)
-                break
-            }
-        }
-    }
     return (
         <ThemeProvider theme={theme}>
             <EditDrawer
@@ -92,7 +72,7 @@ const Character = () => {
                 <Grid item xs={4}>
                     <Autocomplete
                         id='character-search'
-                        options={rows.map((option) => option.cname)}
+                        options={rows.map((option) => option.name)}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -101,9 +81,15 @@ const Character = () => {
                             />
                         )}
                         sx={{width: '100%'}}
-                        onInputChange={onChangeSearch}
-                        onChange={onChangeSearch}
-                        onClose={onChangeSearch}
+                        onInputChange={(e: {target: any}) => {
+                            const filteredRows = characters.filter(
+                                (row: CharacterRowData) =>
+                                    row.name
+                                        .toLowerCase()
+                                        .includes(e.target.value.toLowerCase()),
+                            )
+                            setRows(filteredRows)
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
