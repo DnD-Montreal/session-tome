@@ -18,8 +18,9 @@ class CharacterController extends Controller
     public function index(Request $request)
     {
         $characters = Character::where('user_id', Auth::user()->id)->get();
+        $factions = Character::FACTIONS;
 
-        return Inertia::render('Character/Character', compact('characters'));
+        return Inertia::render('Character/Character', compact('characters', 'factions'));
     }
 
     /**
@@ -28,7 +29,8 @@ class CharacterController extends Controller
      */
     public function create(Request $request)
     {
-        return Inertia::render('Character/Create/CharacterCreate');
+        $factions = Character::FACTIONS;
+        return Inertia::render('Character/Create/CharacterCreate', compact('factions'));
     }
 
     /**
