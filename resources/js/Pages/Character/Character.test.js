@@ -1,15 +1,20 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
+import {characterData} from 'Mock/character-data'
 import Character from './Character'
+
+const props = {
+    characters: characterData,
+}
 
 describe('Character', () => {
     it('Component should render', () => {
-        const component = render(<Character />)
+        const component = render(<Character {...props} />)
         expect(component).toBeDefined()
     })
 
     it('buttons should lead to respective places', () => {
-        render(<Character />)
+        render(<Character {...props} />)
         expect(screen.getByText('Create')).toHaveAttribute(
             'href',
             'character.create',
@@ -22,7 +27,7 @@ describe('Character', () => {
 
     it('should input Name 6 in Search Character', () => {
         const setup = () => {
-            const utils = render(<Character />)
+            const utils = render(<Character {...props} />)
             const input = utils.getByLabelText('Search Character')
             return {
                 input,
@@ -35,10 +40,5 @@ describe('Character', () => {
         fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
         fireEvent.keyDown(document.activeElement, {key: 'Enter'})
         expect(screen.getByText('Name 6')).toBeInTheDocument()
-    })
-    it('should input 0 in Search Character', () => {
-        render(<Character />)
-        fireEvent.click(screen.getByTitle('Open'))
-        fireEvent.click(screen.getByLabelText('Name 2'))
     })
 })
