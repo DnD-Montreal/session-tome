@@ -10,8 +10,8 @@ class BeyondImportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -24,9 +24,6 @@ class BeyondImportController extends Controller
 
         $character->stubEntries();
 
-        return response([
-            'success' => true,
-            'data' => $character->refresh()->load('entries')
-        ]);
+        return redirect(route('character.show', ['character' => $character->refresh()->load('entries')]));
     }
 }
