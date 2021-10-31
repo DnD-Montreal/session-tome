@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $users = User::factory(10)->create();
+        $dm = User::factory()->create();
         $characters = [];
 
         foreach ($users as $user) {
@@ -30,7 +31,8 @@ class DatabaseSeeder extends Seeder
             Entry::factory(10)->create([
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
-                'levels' => random_int(0, 1)
+                'levels' => random_int(0, 1),
+                'dungeon_master_id' => $dm->id
             ]);
         }
     }
