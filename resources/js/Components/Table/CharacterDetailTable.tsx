@@ -17,7 +17,7 @@ import IosShareIcon from '@mui/icons-material/IosShare'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteIcon from '@mui/icons-material/Delete'
 import {TableToolbar} from 'Components'
-import {RowData} from '../../../mock/character-detail-data'
+import {RowData} from 'Mock/character-detail-data'
 
 const StyledTableCell = styled(TableCell)({
     padding: '5px 25px',

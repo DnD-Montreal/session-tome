@@ -3,7 +3,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import {ApplicationLayout} from 'Layouts'
 import {getFontTheme} from 'Utils'
 import {CharacterDetailBox, CharacterDetailTable} from 'Components'
-import {CharacterDetailData} from '../../../../mock/character-detail-data'
+import {CharacterDetailData} from 'Mock/character-detail-data'
 
 const CharacterDetail = () => {
     const theme = getFontTheme('Form', 14)
