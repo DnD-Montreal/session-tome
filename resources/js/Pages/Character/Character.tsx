@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
     Button,
     Stack,
@@ -26,7 +26,12 @@ type CharacterPropType = {
 const Character = ({characters}: CharacterPropType) => {
     const [rows, setRows] = useState<CharacterRowData[]>(characters)
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editId, setEditId] = useState<number | null>()
+    const [editId, setEditId] = useState<number>()
+    const [editData, setEditData] = useState<CharacterRowData>()
+
+    useEffect(() => {
+        setRows(characters)
+    }, [characters])
 
     return (
         <ThemeProvider theme={theme}>
@@ -35,6 +40,8 @@ const Character = ({characters}: CharacterPropType) => {
                     <CharacterCreateForm
                         type='Edit'
                         onCloserDrawer={() => setIsEditDrawerOpen(false)}
+                        editData={editData}
+                        editId={editId}
                     />
                 }
                 title={
@@ -43,7 +50,6 @@ const Character = ({characters}: CharacterPropType) => {
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
-                    setEditId(null)
                 }}
             />
             <Grid
@@ -97,6 +103,7 @@ const Character = ({characters}: CharacterPropType) => {
                         rows={rows}
                         setIsEditDrawerOpen={setIsEditDrawerOpen}
                         setEditId={setEditId}
+                        setEditData={setEditData}
                     />
                 </Grid>
             </Grid>

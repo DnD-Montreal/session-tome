@@ -13,10 +13,13 @@ import {
 import styled from 'styled-components'
 import {Link, useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
+import {CharacterRowData} from 'Types/character-row-data'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
     onCloserDrawer?: () => void
+    editData?: CharacterRowData
+    editId?: number
 }
 
 type CharacterFormDataType = {
@@ -31,7 +34,6 @@ type CharacterFormDataType = {
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
-    min-width: 60vw;
 `
 
 const FormBox = styled(Box)`
@@ -50,8 +52,10 @@ const StyledFooter = styled(Grid)`
 const CharacterCreateForm = ({
     type,
     onCloserDrawer = () => {},
+    editData,
+    editId = 0,
 }: CharacterCreateFormPropType) => {
-    const CHARACTER_FORM_INITIAL_VALUE: CharacterFormDataType = {
+    const CHARACTER_CREATE_FORM_INITIAL_VALUE: CharacterFormDataType = {
         name: '',
         race: '',
         class: '',
@@ -60,9 +64,20 @@ const CharacterCreateForm = ({
         downtime: 0,
         status: 'private',
     }
+    const CHARACTER_FORM_INITIAL_VALUE: CharacterFormDataType =
+        type === 'Create'
+            ? CHARACTER_CREATE_FORM_INITIAL_VALUE
+            : {
+                  name: editData?.name || '',
+                  race: editData?.race || '',
+                  class: editData?.class || '',
+                  level: editData?.level || 0,
+                  faction: editData?.faction || '',
+                  downtime: editData?.downtime || 0,
+                  status: editData?.status || 'private',
+              }
 
-    const {data, setData, post} = useForm(CHARACTER_FORM_INITIAL_VALUE)
-    console.log(data)
+    const {data, setData, post, put} = useForm(CHARACTER_FORM_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
     return (
         <FormBox>
@@ -265,7 +280,15 @@ const CharacterCreateForm = ({
                             <Button
                                 variant='contained'
                                 fullWidth
-                                onClick={() => post(route('character.store'))}>
+                                onClick={() => {
+                                    if (type === 'Create') {
+                                        post(route('character.store'))
+                                    }
+                                    if (type === 'Edit') {
+                                        put(route('character.update', [editId]))
+                                        onCloserDrawer()
+                                    }
+                                }}>
                                 {type === 'Create' ? 'Create' : 'Save'}
                             </Button>
                         </Grid>
