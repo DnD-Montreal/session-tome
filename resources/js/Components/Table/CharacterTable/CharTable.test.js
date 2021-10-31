@@ -18,12 +18,10 @@ describe('CharacterTable', () => {
         expect(component).toBeDefined()
     })
 
-    it('shoud render all checkboxes for each data row', () => {
+    it('Checkboxes for each data row and rendered on screen and clickable', () => {
         render(<CharacterTable {...props} />)
-        const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox).toHaveLength(characterData.length)
         fireEvent.click(screen.getByLabelText('select all names'))
-        for (let i = 0; i < 5; i += 1) {
+        for (let i = 0; i < 10; i += 1) {
             const checkboxel = screen
                 .getByTestId(`checkbox-${i}`)
                 .querySelector('input[type="checkbox"]')
@@ -41,7 +39,7 @@ describe('CharacterTable', () => {
     })
     it('Pagination 5 click should work', () => {
         render(<CharacterTable {...props} />)
-        fireEvent.click(screen.getByLabelText('5'))
-        fireEvent.click(screen.getByDisplayValue('5'))
+        fireEvent.click(screen.getByLabelText('10'))
+        fireEvent.click(screen.getByDisplayValue('10'))
     })
 })

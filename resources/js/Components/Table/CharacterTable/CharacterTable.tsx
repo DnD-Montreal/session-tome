@@ -122,9 +122,6 @@ const CharacterTable = ({
         }
         setSelected(newSelected)
     }
-
-    const isSelected = (id: number) => selected.includes(id)
-
     return (
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -169,7 +166,7 @@ const CharacterTable = ({
                                 page * rowsPerPage + rowsPerPage,
                             )
                             .map((row: CharacterRowData, index: number) => {
-                                const isItemSelected = isSelected(row.id)
+                                const isItemSelected = selected.includes(row.id)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
