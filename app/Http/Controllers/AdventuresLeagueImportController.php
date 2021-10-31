@@ -22,8 +22,8 @@ class AdventuresLeagueImportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -38,10 +38,7 @@ class AdventuresLeagueImportController extends Controller
 
             $character->save();
 
-            return response([
-                'success' => true,
-                'data' => $character->refresh()->load('entries')
-            ]);
+            return redirect(route('character.show', ['character' => $character->refresh()->load('entries')]));
         } else {
             return response([
                 'success' => false,
