@@ -1,13 +1,15 @@
 import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
-import {Avatar, Grid, Link} from '@mui/material'
+import {Avatar, Grid, Link, Typography} from '@mui/material'
 import styled from '@emotion/styled'
 import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication} from 'Components'
 import {getFontTheme} from 'Utils'
-import associationLogo from '../../../icons/DNDMtlLogo.svg'
-import applicationLogo from '../../../icons/SessionTomeOfficialLogo.svg'
+import route from 'ziggy-js'
+import associationLogo from 'Icons/DNDMtlLogo.svg'
+import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
+import {UsePageType} from 'Types/global'
 
 const theme = getFontTheme('Normal')
 
@@ -17,36 +19,57 @@ const MainGrid = styled(Grid)`
     font-family: 'Cinzel Decorative', cursive;
     font-size: 0.8em;
     flex-grow: 1;
+    overflow-y: auto;
 `
+
 const PrimaryRow = styled(Grid)`
-    padding-top: 3em;
-    margin-bottom: 3em;
+    @media only screen and (min-width: 900px) {
+        height: 10vh;
+    }
     text-align: center;
+    padding: 16px;
 `
 
 const SecondaryRow = styled(Grid)`
-    margin-bottom: 2em;
     text-align: center;
+    @media only screen and (min-width: 900px) {
+        height: 5vh;
+    }
 `
 
 const UserAvatarColumn = styled(Grid)`
     @media only screen and (max-width: 900px) {
-        margin-top: 0.1em;
+        padding-top: 0.1em;
     }
     cursor: pointer;
 `
 
 const ContentRow = styled(Grid)`
-    height: 100vh;
-    padding-top: 48px;
-    overflow-y: scroll;
+    min-height: 85vh;
 `
 
-const UsernameLink = styled(Link)`
-    margin-right: 16px;
-    margin-top: 10px;
-    text-decoration: none;
-    color: white;
+const ContentContainer = styled.div`
+    padding-top: 3em;
+    @media only screen and (min-width: 900px) {
+        margin: 0px auto 0px auto;
+    }
+`
+
+const Username = styled(Typography)`
+    @media only screen and (min-width: 900px) {
+        margin-right: 16px;
+        margin-top: 10px;
+    }
+    margin: 10px 6px 0px 0px;
+    font-size: 14px;
+`
+
+const PaddingGrid = styled(Grid)`
+    @media only screen and (min-width: 900px) {
+        padding-bottom: 3em;
+        padding-top: 3em;
+    }
+    padding-top: 0.1em;
 `
 
 type LayoutProps = {
@@ -54,7 +77,8 @@ type LayoutProps = {
 }
 
 const ApplicationLayout = ({children}: LayoutProps) => {
-    const {auth}: any = usePage().props
+    const {auth} = usePage<UsePageType>().props
+    const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
@@ -63,8 +87,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         setAnchorEl(null)
     }
     const getUsername = () => {
-        if (!auth) return 'Login'
-        if (auth.user) return auth.user
+        if (user) {
+            return user.name
+        }
         return 'Login'
     }
 
@@ -76,7 +101,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     container
                     justifyContent='space-between'
                     alignItems='center'>
-                    <Grid
+                    <PaddingGrid
                         item
                         container
                         xs={12}
@@ -93,25 +118,27 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 height={60}
                             />
                         </Link>
-                    </Grid>
-                    <Grid
+                    </PaddingGrid>
+                    <PaddingGrid
                         item
                         container
                         xs={12}
                         md={6}
                         alignItems='center'
                         justifyContent='center'>
-                        <Link href='/#'>
+                        <InertiaLink href='/#'>
                             <SVG
                                 src={applicationLogo}
                                 width={278}
                                 height={51}
                             />
-                        </Link>
-                    </Grid>
+                        </InertiaLink>
+                    </PaddingGrid>
                     <Authentication
                         anchorEl={anchorEl}
                         handleClose={handleClose}
+                        setAnchorEl={setAnchorEl}
+                        user={user}
                     />
                     <UserAvatarColumn
                         item
@@ -122,7 +149,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='space-evenly'
                         alignItems='center'>
                         <Grid item container xs md={6} justifyContent='center'>
-                            <UsernameLink>{getUsername()}</UsernameLink>
+                            <Username>{getUsername()}</Username>
                             <Avatar
                                 onClick={handleClick}
                                 sx={{bgcolor: '#4E302E'}}
@@ -136,38 +163,36 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     direction='row'
                     spacing={0}
                     justifyContent='center'>
-                    <Grid item xs={12} md={2}>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Home
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/dev/Character'>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
+                        <InertiaLink
+                            color='white'
+                            href={route('character.index')}>
                             Characters
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Item Shop
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Campaigns
                         </InertiaLink>
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                    </PaddingGrid>
+                    <PaddingGrid item xs={12} md={2}>
                         <InertiaLink color='white' href='/#'>
                             Ratings
                         </InertiaLink>
-                    </Grid>
+                    </PaddingGrid>
                 </SecondaryRow>
-                <ContentRow
-                    item
-                    container
-                    justifyContent='center'
-                    alignItems='flex-start'>
-                    <div id='content'>{children}</div>
+                <ContentRow item container>
+                    <ContentContainer id='content'>{children}</ContentContainer>
                 </ContentRow>
             </MainGrid>
         </ThemeProvider>

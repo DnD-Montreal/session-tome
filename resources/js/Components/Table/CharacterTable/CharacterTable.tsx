@@ -20,8 +20,9 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import FactionChip from '../../Components/FactionChip/FactionChip'
-import {RowData} from '../../../mock/CharacterData'
+import {FactionChip} from 'Components'
+import {CharacterRowData} from 'Types/character-row-data'
+import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -71,13 +72,19 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
 )
 
 type CharTablePropType = {
-    rows: RowData[]
+    rows: CharacterRowData[]
+    setIsEditDrawerOpen: (payload: boolean) => void
+    setEditId: (payload: number) => void
 }
 
-const CharTable = ({rows}: CharTablePropType) => {
-    const [selected, setSelected] = useState<readonly string[]>([])
+const CharacterTable = ({
+    rows,
+    setIsEditDrawerOpen,
+    setEditId,
+}: CharTablePropType) => {
+    const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
@@ -90,19 +97,19 @@ const CharTable = ({rows}: CharTablePropType) => {
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cname)
+            const newSelecteds = rows.map((n) => n.id)
             setSelected(newSelecteds)
             return
         }
         setSelected([])
     }
 
-    const handleClick = (event: any, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: readonly string[] = []
+    const handleClick = (event: any, id: number) => {
+        const selectedIndex = selected.indexOf(id)
+        let newSelected: number[] = []
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
+            newSelected = newSelected.concat(selected, id)
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1))
         } else if (selectedIndex === selected.length - 1) {
@@ -115,9 +122,6 @@ const CharTable = ({rows}: CharTablePropType) => {
         }
         setSelected(newSelected)
     }
-
-    const isSelected = (name: string) => selected.indexOf(name) !== -1
-
     return (
         <Box>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -161,26 +165,26 @@ const CharTable = ({rows}: CharTablePropType) => {
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage,
                             )
-                            .map((row: RowData, index: number) => {
-                                const isItemSelected = isSelected(row.cname)
+                            .map((row: CharacterRowData, index: number) => {
+                                const isItemSelected = selected.includes(row.id)
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 return (
                                     <TableRow
-                                        key={row.cname}
+                                        key={row.id}
                                         sx={{
                                             '&:last-child td, &:last-child th':
                                                 {border: 0},
                                         }}
                                         hover
-                                        onClick={(event) =>
-                                            handleClick(event, row.cname)
-                                        }
                                         role='checkbox'
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         selected={isItemSelected}>
                                         <TableCell padding='checkbox'>
                                             <Checkbox
+                                                onClick={(event) =>
+                                                    handleClick(event, row.id)
+                                                }
                                                 color='primary'
                                                 checked={isItemSelected}
                                                 inputProps={{
@@ -195,7 +199,7 @@ const CharTable = ({rows}: CharTablePropType) => {
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.cname}
+                                            {row.name}
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
@@ -206,7 +210,7 @@ const CharTable = ({rows}: CharTablePropType) => {
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip
-                                                label={row.cclass}
+                                                label={row.class}
                                                 color='default'
                                                 variant='outlined'
                                             />
@@ -221,7 +225,12 @@ const CharTable = ({rows}: CharTablePropType) => {
                                             {row.downtime}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <IconButton aria-label='edit'>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setIsEditDrawerOpen(true)
+                                                    setEditId(index)
+                                                }}
+                                                aria-label='edit'>
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton aria-label='delete'>
@@ -248,5 +257,5 @@ const CharTable = ({rows}: CharTablePropType) => {
 }
 
 EnhancedTableToolbar.displayName = 'EnhancedTableToolbar'
-CharTable.displayName = 'CharTable'
-export default CharTable
+CharacterTable.displayName = 'CharacterTable'
+export default CharacterTable

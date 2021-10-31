@@ -45,6 +45,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('entry', App\Http\Controllers\EntryController::class);
 
+    Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
+        ->only(['store']);
+
     Route::resource('character', App\Http\Controllers\CharacterController::class);
 
     Route::resource('item', App\Http\Controllers\ItemController::class);
@@ -66,7 +69,7 @@ Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::cl
     ->only('store');
 
 Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
-    ->only('store');
+    ->only(['index', 'store']);
 
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());

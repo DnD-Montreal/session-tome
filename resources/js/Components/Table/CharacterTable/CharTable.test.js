@@ -1,29 +1,27 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import CharTable from './CharTable'
-import {charData} from '../../../mock/CharacterData'
+import {characterData} from 'Mock/character-data'
+import CharacterTable from './CharacterTable'
 
 const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
     isSelected: isSelectedtest,
-    rows: charData,
+    rows: characterData,
     selected: [],
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
 }
-describe('CharTable', () => {
+describe('CharacterTable', () => {
     it('Component should render', () => {
-        const component = render(<CharTable {...props} />)
+        const component = render(<CharacterTable {...props} />)
         expect(component).toBeDefined()
     })
 
-    it('shoud render all checkboxes for each data row', () => {
-        render(<CharTable {...props} />)
-        const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox).toHaveLength(charData.length)
+    it('Checkboxes for each data row and rendered on screen and clickable', () => {
+        render(<CharacterTable {...props} />)
         fireEvent.click(screen.getByLabelText('select all names'))
-        for (let i = 0; i < 5; i += 1) {
+        for (let i = 0; i < 10; i += 1) {
             const checkboxel = screen
                 .getByTestId(`checkbox-${i}`)
                 .querySelector('input[type="checkbox"]')
@@ -36,12 +34,12 @@ describe('CharTable', () => {
         expect(checkbox1).toHaveProperty('checked', false)
     })
     it('Pagination handleChangePage should work', () => {
-        render(<CharTable {...props} />)
+        render(<CharacterTable {...props} />)
         fireEvent.click(screen.getByTitle('Go to next page'))
     })
     it('Pagination 5 click should work', () => {
-        render(<CharTable {...props} />)
-        fireEvent.click(screen.getByLabelText('5'))
-        fireEvent.click(screen.getByDisplayValue('5'))
+        render(<CharacterTable {...props} />)
+        fireEvent.click(screen.getByLabelText('10'))
+        fireEvent.click(screen.getByDisplayValue('10'))
     })
 })

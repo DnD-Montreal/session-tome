@@ -75,16 +75,26 @@ class Character extends Model
         return $this->hasMany(\App\Models\Entry::class);
     }
 
-    public function stubEntries()
+    /**
+     * Accessor which exposes a GP attribute on the model
+     *
+     * @return float
+     */
+    public function getGpAttribute()
     {
-        $stubs = [
+        return $this->entries()->pluck('gp')->sum();
+    }
+
+    public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
+    {
+        $stubs = array_merge([
             'user_id' => $this->user_id,
             'character_id' => $this->id,
-            'levels' => 1,
+            'levels' => $entriesLevel,
             'type' => Entry::TYPE_GAME
-        ];
+        ], is_null($adventureId) ? [] : ['adventure_id' => $adventureId]);
 
         // Note: Insert() doesn't fire events, thus will not trigger the observer
-        return Entry::insert(array_fill(0, $this->level, $stubs));
+        return Entry::insert(array_fill(0, $amount ?? $this->level, $stubs));
     }
 }

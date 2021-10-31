@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><img src="https://raw.githubusercontent.com/DnD-Montreal/session-tome/main/resources/icons/SessionTomeOfficialLogo.svg" width="400"></p>
 
 <p align="center">
 <a href="https://github.com/DnD-Montreal/session-tome/actions"><img src="https://github.com/DnD-Montreal/session-tome/actions/workflows/test-suite.yml/badge.svg?" alt="Build Status"></a>
