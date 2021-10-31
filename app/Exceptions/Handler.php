@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Closure;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Inertia\Inertia;
 use Throwable;
@@ -65,15 +66,24 @@ class Handler extends ExceptionHandler
         $response = parent::render($request, $e);
 
         if (!app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
-            return Inertia::render('Error', ['title' => $this->titles[$response->status()], 'description' => $this->descriptions[$response->status()]])
-                ->toResponse($request)
-                ->setStatusCode($response->status());
+            return $this->renderError($request, $response);
         } elseif ($response->status() === 419) {
             return back()->with([
                 'message' => 'The page expired, please try again.',
             ]);
+        } elseif ($error = $response->getOriginalContent()['errors']) {
+            return $this->renderError($request, $response, "{$response->status()}: Error", $error);
         }
 
         return $response;
+    }
+
+    protected function renderError($request, $response, $title = null, $description = null)
+    {
+        $title = $title ?? $this->titles[$response->status()];
+        $description = $description ?? $this->descriptions[$response->status()];
+        return Inertia::render('Error', ['title' => $title, 'description' => $description])
+            ->toResponse($request)
+            ->setStatusCode($response->status());
     }
 }
