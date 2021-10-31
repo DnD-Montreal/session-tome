@@ -1,7 +1,11 @@
+// Components
 export {default as Authentication} from './Authentication'
+export {default as EditDrawer} from './EditDrawer'
+export {default as ErrorText} from './ErrorText'
+
+// Chips
 export {default as FactionChip} from './FactionChip'
 export {default as RarityChip} from './RarityChip'
-export {default as EditDrawer} from './EditDrawer'
 
 // Tables
 export {default as CharacterTable} from './Table/CharacterTable'

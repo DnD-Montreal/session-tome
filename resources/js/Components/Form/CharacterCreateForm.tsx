@@ -11,7 +11,7 @@ import {
     Typography,
 } from '@mui/material'
 import styled from 'styled-components'
-import {Link} from '@inertiajs/inertia-react'
+import {Link, useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 
 type CharacterCreateFormPropType = {
@@ -19,8 +19,19 @@ type CharacterCreateFormPropType = {
     onCloserDrawer?: () => void
 }
 
+type CharacterFormDataType = {
+    name: string
+    race: string
+    class: string
+    level: number
+    faction: string
+    downtime: number
+    status: 'private' | 'public'
+}
+
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
+    min-width: 60vw;
 `
 
 const FormBox = styled(Box)`
@@ -40,6 +51,18 @@ const CharacterCreateForm = ({
     type,
     onCloserDrawer = () => {},
 }: CharacterCreateFormPropType) => {
+    const CHARACTER_FORM_INITIAL_VALUE: CharacterFormDataType = {
+        name: '',
+        race: '',
+        class: '',
+        level: 0,
+        faction: '',
+        downtime: 0,
+        status: 'private',
+    }
+
+    const {data, setData, post} = useForm(CHARACTER_FORM_INITIAL_VALUE)
+    console.log(data)
     const [activeStep, setActiveStep] = useState<number>(0)
     return (
         <FormBox>
@@ -69,6 +92,10 @@ const CharacterCreateForm = ({
                                     id='name'
                                     label='Name'
                                     name='Name'
+                                    value={data.name}
+                                    onChange={(e) =>
+                                        setData('name', e.target.value)
+                                    }
                                 />
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
@@ -82,6 +109,10 @@ const CharacterCreateForm = ({
                                     id='race'
                                     label='Race'
                                     name='Race'
+                                    value={data.race}
+                                    onChange={(e) =>
+                                        setData('race', e.target.value)
+                                    }
                                 />
                             </StyledGrid>
                             <StyledGrid
@@ -94,6 +125,10 @@ const CharacterCreateForm = ({
                                     id='class'
                                     label='Class'
                                     name='Class'
+                                    value={data.class}
+                                    onChange={(e) =>
+                                        setData('class', e.target.value)
+                                    }
                                 />
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
@@ -107,6 +142,10 @@ const CharacterCreateForm = ({
                                     id='faction'
                                     label='Faction'
                                     name='Faction'
+                                    value={data.faction}
+                                    onChange={(e) =>
+                                        setData('faction', e.target.value)
+                                    }
                                 />
                             </StyledGrid>
                             <StyledGrid
@@ -119,6 +158,51 @@ const CharacterCreateForm = ({
                                     id='race'
                                     label='Level'
                                     name='Level'
+                                    type='number'
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    InputProps={{
+                                        inputProps: {
+                                            min: 0,
+                                            max: 20,
+                                        },
+                                    }}
+                                    value={data.level.toString()}
+                                    onChange={(e) => {
+                                        const value = parseInt(e.target.value)
+                                        if (value > 20) {
+                                            setData('level', 20)
+                                        } else {
+                                            setData('level', value)
+                                        }
+                                    }}
+                                />
+                            </StyledGrid>
+                            {type === 'Create' && <StyledGrid item md={2} />}
+                            <StyledGrid
+                                item
+                                xs={12}
+                                md={type === 'Edit' ? 12 : 5}>
+                                <TextField
+                                    margin='normal'
+                                    fullWidth
+                                    id='downtime'
+                                    label='Downtime'
+                                    name='Downtime'
+                                    type='number'
+                                    InputProps={{
+                                        inputProps: {
+                                            min: 0,
+                                        },
+                                    }}
+                                    value={data.downtime.toString()}
+                                    onChange={(e) =>
+                                        setData(
+                                            'downtime',
+                                            parseInt(e.target.value),
+                                        )
+                                    }
                                 />
                             </StyledGrid>
                         </Grid>
@@ -129,7 +213,16 @@ const CharacterCreateForm = ({
                         <Typography>
                             Do you want this character to be public?
                         </Typography>
-                        <Switch />
+                        <Switch
+                            value={data.status === 'public'}
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    setData('status', 'public')
+                                } else {
+                                    setData('status', 'private')
+                                }
+                            }}
+                        />
                     </>
                 )}
             </StyledBox>
@@ -169,7 +262,10 @@ const CharacterCreateForm = ({
                         </Grid>
                         <Grid item md={type === 'Edit' ? 4 : 8} />
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
-                            <Button variant='contained' fullWidth>
+                            <Button
+                                variant='contained'
+                                fullWidth
+                                onClick={() => post(route('character.create'))}>
                                 {type === 'Create' ? 'Create' : 'Save'}
                             </Button>
                         </Grid>

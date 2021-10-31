@@ -1,13 +1,8 @@
 import React from 'react'
-import {Box, Button, TextField, Typography} from '@mui/material'
-import styled from 'styled-components'
+import {Box, Button, TextField} from '@mui/material'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
-
-const StyledErrorText = styled(Typography)`
-    color: red;
-    font-size: 12px;
-`
+import {ErrorText} from 'Components'
 
 type LoginFormDataType = {
     email: string
@@ -15,11 +10,13 @@ type LoginFormDataType = {
 }
 
 const LoginForm = () => {
-    const loginFormInitialValues: LoginFormDataType = {
+    const LOGIN_FORM_INITIAL_VALUE: LoginFormDataType = {
         email: '',
         password: '',
     }
-    const {data, setData, post, errors, reset} = useForm(loginFormInitialValues)
+    const {data, setData, post, errors, reset} = useForm(
+        LOGIN_FORM_INITIAL_VALUE,
+    )
     return (
         <Box>
             <TextField
@@ -33,9 +30,7 @@ const LoginForm = () => {
                 onChange={(e) => setData('email', e.target.value)}
                 value={data.email}
             />
-            {errors?.email && (
-                <StyledErrorText>{errors?.email}</StyledErrorText>
-            )}
+            {errors?.email && <ErrorText message={errors?.email} />}
             <TextField
                 margin='normal'
                 required
@@ -49,9 +44,7 @@ const LoginForm = () => {
                 value={data.password}
                 error={data.password ? data.password.length < 8 : false}
             />
-            {errors?.password && (
-                <StyledErrorText>{errors?.password}</StyledErrorText>
-            )}
+            {errors?.password && <ErrorText message={errors?.password} />}
             <Button
                 type='submit'
                 fullWidth
