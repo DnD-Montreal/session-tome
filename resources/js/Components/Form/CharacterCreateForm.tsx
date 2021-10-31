@@ -265,7 +265,7 @@ const CharacterCreateForm = ({
                             <Button
                                 variant='contained'
                                 fullWidth
-                                onClick={() => post(route('character.create'))}>
+                                onClick={() => post(route('character.store'))}>
                                 {type === 'Create' ? 'Create' : 'Save'}
                             </Button>
                         </Grid>
