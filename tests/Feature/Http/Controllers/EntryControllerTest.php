@@ -230,6 +230,21 @@ class EntryControllerTest extends TestCase
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $response->assertForbidden();
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -259,6 +274,123 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($gp, $entry->gp);
     }
 
+    /**
+     * @test
+     */
+    public function store_dm_entry_on_character_updates_level()
+    {
+        $character = Character::factory()->create([
+            'level' => 1,
+        ]);
+
+        $character->user()->associate($this->user)->save();
+
+        $oldLevel = $character->level;
+
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = Entry::TYPE_DM;
+        $levels = 5;
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $character->refresh();
+
+        $this->assertEquals($oldLevel + $levels, $character->level);
+    }
+
+    /**
+     * @test
+     */
+    public function update_dm_entry_on_character_updates_level()
+    {
+        $character = Character::factory()->create([
+            'level' => 0,
+        ]);
+
+        $entry = Entry::factory()->create([
+            'type' => Entry::TYPE_DM,
+            'levels' => 3,
+        ]);
+
+        $character->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+        $oldLevel = $character->level;
+
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = Entry::TYPE_DM;
+        $levels = 5;
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $character->refresh();
+
+        $this->assertEquals(5, $character->level);
+    }
+
+    /**
+     * @test
+     */
+    public function update_entry_with_character_updates_level()
+    {
+        $character = Character::factory()->create([
+            'level' => 1,
+            ]);
+
+        $entry = Entry::factory()->create([
+            'character_id' => null,
+            'type' => Entry::TYPE_DM,
+            'levels' => 3,
+        ]);
+
+        $character->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+
+        $oldLevel = $character->level;
+
+        $character->refresh();
+
+        $this->assertEquals($entry->level + $oldLevel, $character->level);
+    }
 
     /**
      * @test
