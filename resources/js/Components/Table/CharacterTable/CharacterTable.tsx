@@ -75,12 +75,14 @@ type CharTablePropType = {
     rows: CharacterRowData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
+    setEditData: (payload: CharacterRowData) => void
 }
 
 const CharacterTable = ({
     rows,
     setIsEditDrawerOpen,
     setEditId,
+    setEditData,
 }: CharTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
@@ -227,8 +229,9 @@ const CharacterTable = ({
                                         <TableCell align='center'>
                                             <IconButton
                                                 onClick={() => {
+                                                    setEditData(row)
+                                                    setEditId(row.id)
                                                     setIsEditDrawerOpen(true)
-                                                    setEditId(index)
                                                 }}
                                                 aria-label='edit'>
                                                 <EditIcon />
