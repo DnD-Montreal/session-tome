@@ -39,7 +39,7 @@ const Character = ({characters}: CharacterPropType) => {
                 content={
                     <CharacterCreateForm
                         type='Edit'
-                        onCloserDrawer={() => setIsEditDrawerOpen(false)}
+                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}
                         editId={editId}
                     />

@@ -18,3 +18,7 @@ export type UsePageType = {
         [key: string]: any
     }
 } & Page
+
+export type GeneralConnectedPropType = {
+    auth: UserType
+}

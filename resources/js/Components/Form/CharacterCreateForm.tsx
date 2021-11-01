@@ -17,7 +17,7 @@ import {CharacterRowData} from 'Types/character-row-data'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
-    onCloserDrawer?: () => void
+    onCloseDrawer?: () => void
     editData?: CharacterRowData
     editId?: number
 }
@@ -51,7 +51,7 @@ const StyledFooter = styled(Grid)`
 
 const CharacterCreateForm = ({
     type,
-    onCloserDrawer = () => {},
+    onCloseDrawer = () => {},
     editData,
     editId = 0,
 }: CharacterCreateFormPropType) => {
@@ -170,7 +170,7 @@ const CharacterCreateForm = ({
                                 <TextField
                                     margin='normal'
                                     fullWidth
-                                    id='race'
+                                    id='level'
                                     label='Level'
                                     name='Level'
                                     type='number'
@@ -229,6 +229,7 @@ const CharacterCreateForm = ({
                             Do you want this character to be public?
                         </Typography>
                         <Switch
+                            id='status'
                             value={data.status === 'public'}
                             onChange={(e) => {
                                 if (e.target.checked) {
@@ -251,7 +252,7 @@ const CharacterCreateForm = ({
                                 </Link>
                             ) : (
                                 <Button
-                                    onClick={() => onCloserDrawer()}
+                                    onClick={() => onCloseDrawer()}
                                     fullWidth>
                                     Cancel
                                 </Button>
@@ -286,7 +287,7 @@ const CharacterCreateForm = ({
                                     }
                                     if (type === 'Edit') {
                                         put(route('character.update', [editId]))
-                                        onCloserDrawer()
+                                        onCloseDrawer()
                                     }
                                 }}>
                                 {type === 'Create' ? 'Create' : 'Save'}
