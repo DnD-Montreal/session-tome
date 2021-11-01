@@ -42,8 +42,8 @@ class BeyondImportControllerTest extends TestCase
             ->actingAs($user)
             ->post('/beyond-import', ['beyond_link' => "https://www.dndbeyond.com/characters/5441197"]);
 
-        $response->assertOk();
-        $content = $response->getOriginalContent()['data'];
+        $response->assertRedirect();
+        $content = Character::first();
         $this->assertCount($data['level'], $content->entries);
         $this->assertEquals($data['user_id'], $content->user_id);
         $this->assertEquals($data['name'], $content->name);

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\Assert;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -33,5 +34,15 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertGuest();
+    }
+
+    /**
+     * @test
+     */
+    public function unauthenticated_users_get_redirected_with_proper_flash_data()
+    {
+        $response = $this->get(route('character.index'));
+
+        $response->assertRedirect();
     }
 }

@@ -6,6 +6,9 @@ type FactionChipPropType = {
 }
 
 const FactionChip = ({fname}: FactionChipPropType) => {
+    if (fname == null) {
+        return null
+    }
     let colorObj
     switch (fname) {
         case 'The Harpers':
