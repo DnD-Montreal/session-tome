@@ -9,7 +9,7 @@ use App\Models\Entry;
 class CharacterBulkAttachDMEntryController extends Controller
 {
     /**
-     * @param \App\Http\Requests\AttachDMEntryRequestController $request
+     * @param \App\Http\Requests\AttachDMEntryRequest $request
      * @param \App\Models\Character $character
      * @return \Illuminate\Http\Response
      */
