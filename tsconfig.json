@@ -24,7 +24,8 @@
             "Utils": ["resources/js/Utils"],
             "Icons/*": ["resources/icons/*"],
             "Mock/*": ["resources/mock/*"],
-            "Types/*": ["resources/js/Types/*"]
+            "Types/*": ["resources/js/Types/*"],
+            "hoc/*": ["resources/js/hoc/*"]
         }
     },
     "include": ["./resources", "**/*.ts", "./custom.d.ts"],

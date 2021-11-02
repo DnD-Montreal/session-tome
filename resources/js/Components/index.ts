@@ -2,6 +2,7 @@
 export {default as Authentication} from './Authentication'
 export {default as EditDrawer} from './EditDrawer'
 export {default as ErrorText} from './ErrorText'
+export {default as DeleteModal} from './DeleteModal'
 
 // Chips
 export {default as FactionChip} from './FactionChip'

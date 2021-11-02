@@ -20,11 +20,19 @@ import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {FactionChip} from 'Components'
+import {DeleteModal, FactionChip} from 'Components'
 import {CharacterRowData} from 'Types/character-row-data'
 import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
+import {useForm} from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
 
-const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
+const EnhancedTableToolbar = ({
+    numSelected,
+    openModal,
+}: {
+    numSelected: number
+    openModal: () => void
+}) => (
     <Toolbar
         sx={{
             pl: {sm: 2},
@@ -63,7 +71,7 @@ const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
                 </Tooltip>
                 <Tooltip title='Delete'>
                     <IconButton>
-                        <DeleteIcon />
+                        <DeleteIcon onClick={() => openModal()} />
                     </IconButton>
                 </Tooltip>
             </Stack>
@@ -78,6 +86,10 @@ type CharTablePropType = {
     setEditData: (payload: CharacterRowData) => void
 }
 
+type FormDataType = {
+    characters: number[]
+}
+
 const CharacterTable = ({
     rows,
     setIsEditDrawerOpen,
@@ -87,6 +99,8 @@ const CharacterTable = ({
     const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+    const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
@@ -126,7 +140,24 @@ const CharacterTable = ({
     }
     return (
         <Box>
-            <EnhancedTableToolbar numSelected={selected.length} />
+            <DeleteModal
+                open={isDeleteModalOpen}
+                warningMessage='Are you sure you want to delete this/these character(s)?'
+                onClose={() => setIsDeleteModalOpen(false)}
+                onDelete={() => {
+                    destroy(route('character.destroy'))
+                    if (selected) {
+                        setSelected([])
+                    }
+                }}
+            />
+            <EnhancedTableToolbar
+                numSelected={selected.length}
+                openModal={() => {
+                    setData('characters', selected)
+                    setIsDeleteModalOpen(true)
+                }}
+            />
             <TableContainer>
                 <Table sx={{minWidth: 650}} aria-label='simple table'>
                     <TableHead>
@@ -237,7 +268,16 @@ const CharacterTable = ({
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton aria-label='delete'>
-                                                <DeleteIcon />
+                                                <DeleteIcon
+                                                    onClick={() => {
+                                                        setData('characters', [
+                                                            row.id,
+                                                        ])
+                                                        setIsDeleteModalOpen(
+                                                            true,
+                                                        )
+                                                    }}
+                                                />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
