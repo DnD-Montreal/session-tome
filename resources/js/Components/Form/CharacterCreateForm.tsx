@@ -1,19 +1,20 @@
-import React, {useState} from 'react'
+import {Link, useForm} from '@inertiajs/inertia-react'
 import {
     Box,
     Button,
     Grid,
-    Stepper,
     Step,
     StepLabel,
+    Stepper,
     Switch,
     TextField,
     Typography,
 } from '@mui/material'
+import {ErrorText} from 'Components'
+import React, {useState} from 'react'
 import styled from 'styled-components'
-import {Link, useForm} from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
 import {CharacterRowData} from 'Types/character-row-data'
+import route from 'ziggy-js'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -77,7 +78,9 @@ const CharacterCreateForm = ({
                   status: editData?.status || 'private',
               }
 
-    const {data, setData, post, put} = useForm(CHARACTER_FORM_INITIAL_VALUE)
+    const {data, setData, errors, clearErrors, post, put} = useForm(
+        CHARACTER_FORM_INITIAL_VALUE,
+    )
     const [activeStep, setActiveStep] = useState<number>(0)
     return (
         <FormBox>
@@ -93,14 +96,11 @@ const CharacterCreateForm = ({
                 {activeStep === 0 && (
                     <>
                         <Typography>
-                            Fill out the following fields with your
-                            character&apos;s details.
+                            Fill out the following fields with your character&apos;s
+                            details.
                         </Typography>
                         <Grid container>
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -108,16 +108,12 @@ const CharacterCreateForm = ({
                                     label='Name'
                                     name='Name'
                                     value={data.name}
-                                    onChange={(e) =>
-                                        setData('name', e.target.value)
-                                    }
+                                    onChange={(e) => setData('name', e.target.value)}
                                 />
+                                {errors?.name && <ErrorText message={errors?.name} />}
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -125,15 +121,11 @@ const CharacterCreateForm = ({
                                     label='Race'
                                     name='Race'
                                     value={data.race}
-                                    onChange={(e) =>
-                                        setData('race', e.target.value)
-                                    }
+                                    onChange={(e) => setData('race', e.target.value)}
                                 />
+                                {errors?.race && <ErrorText message={errors?.race} />}
                             </StyledGrid>
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -141,16 +133,12 @@ const CharacterCreateForm = ({
                                     label='Class'
                                     name='Class'
                                     value={data.class}
-                                    onChange={(e) =>
-                                        setData('class', e.target.value)
-                                    }
+                                    onChange={(e) => setData('class', e.target.value)}
                                 />
+                                {errors?.class && <ErrorText message={errors?.class} />}
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -158,15 +146,13 @@ const CharacterCreateForm = ({
                                     label='Faction'
                                     name='Faction'
                                     value={data.faction}
-                                    onChange={(e) =>
-                                        setData('faction', e.target.value)
-                                    }
+                                    onChange={(e) => setData('faction', e.target.value)}
                                 />
+                                {errors?.faction && (
+                                    <ErrorText message={errors?.faction} />
+                                )}
                             </StyledGrid>
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -193,12 +179,10 @@ const CharacterCreateForm = ({
                                         }
                                     }}
                                 />
+                                {errors?.level && <ErrorText message={errors?.level} />}
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid
-                                item
-                                xs={12}
-                                md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
@@ -213,21 +197,19 @@ const CharacterCreateForm = ({
                                     }}
                                     value={data.downtime.toString()}
                                     onChange={(e) =>
-                                        setData(
-                                            'downtime',
-                                            parseInt(e.target.value),
-                                        )
+                                        setData('downtime', parseInt(e.target.value))
                                     }
                                 />
+                                {errors?.downtime && (
+                                    <ErrorText message={errors?.downtime} />
+                                )}
                             </StyledGrid>
                         </Grid>
                     </>
                 )}
                 {activeStep === 1 && (
-                    <>
-                        <Typography>
-                            Do you want this character to be public?
-                        </Typography>
+                    <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}}>
+                        <Typography>Do you want this character to be public?</Typography>
                         <Switch
                             id='status'
                             value={data.status === 'public'}
@@ -239,7 +221,7 @@ const CharacterCreateForm = ({
                                 }
                             }}
                         />
-                    </>
+                    </Box>
                 )}
             </StyledBox>
             <StyledFooter container>
@@ -251,9 +233,7 @@ const CharacterCreateForm = ({
                                     <Button fullWidth>Cancel</Button>
                                 </Link>
                             ) : (
-                                <Button
-                                    onClick={() => onCloseDrawer()}
-                                    fullWidth>
+                                <Button onClick={() => onCloseDrawer()} fullWidth>
                                     Cancel
                                 </Button>
                             )}
@@ -284,10 +264,20 @@ const CharacterCreateForm = ({
                                 onClick={() => {
                                     if (type === 'Create') {
                                         post(route('character.store'))
+                                        if (errors) {
+                                            setActiveStep(0)
+                                        } else {
+                                            clearErrors()
+                                        }
                                     }
                                     if (type === 'Edit') {
                                         put(route('character.update', [editId]))
-                                        onCloseDrawer()
+                                        if (errors) {
+                                            setActiveStep(0)
+                                        } else {
+                                            clearErrors()
+                                            onCloseDrawer()
+                                        }
                                     }
                                 }}>
                                 {type === 'Create' ? 'Create' : 'Save'}
