@@ -87,11 +87,23 @@ class CharacterController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, Character $character)
+    public function destroy(Request $request, Character $character = null)
     {
-        if ($request->user()->can('delete', $character)) {
+        $user = $request->user();
+        if ($request->has('characters')) {
+            $characters = Character::whereIn('id', $request->get('characters', []))->get();
+            // Foreach over all the characters so that we can check the policy against them.
+            // Purposely not calling $characters->delete() here.
+            foreach ($characters as $char) {
+                $user->can('delete', $char);
+                $char->delete();
+            }
+            return redirect()->route('character.index');
+        }
+
+        if ($user->can('delete', $character)) {
             $character->delete();
         }
 
