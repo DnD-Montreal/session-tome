@@ -1,13 +1,5 @@
 import React, {useState} from 'react'
-import {
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-} from '@mui/material'
+import {Table, TableBody, TableRow, TableCell, TableContainer, TableHead, TablePagination} from '@mui/material'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -26,31 +18,17 @@ import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 import {useForm} from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
 
-const EnhancedTableToolbar = ({
-    numSelected,
-    openModal,
-}: {
-    numSelected: number
-    openModal: () => void
-}) => (
+const EnhancedTableToolbar = ({numSelected, openModal}: {numSelected: number; openModal: () => void}) => (
     <Toolbar
         sx={{
             pl: {sm: 2},
             pr: {xs: 1, sm: 1},
             ...(numSelected > 0 && {
-                bgcolor: (theme) =>
-                    alpha(
-                        theme.palette.primary.main,
-                        theme.palette.action.activatedOpacity,
-                    ),
+                bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
             }),
         }}>
         {numSelected > 0 ? (
-            <Typography
-                sx={{flex: '1 1 100%'}}
-                color='inherit'
-                variant='subtitle1'
-                component='div'>
+            <Typography sx={{flex: '1 1 100%'}} color='inherit' variant='subtitle1' component='div'>
                 {numSelected} selected
             </Typography>
         ) : (
@@ -90,54 +68,13 @@ type FormDataType = {
     characters: number[]
 }
 
-const CharacterTable = ({
-    rows,
-    setIsEditDrawerOpen,
-    setEditId,
-    setEditData,
-}: CharTablePropType) => {
+const CharacterTable = ({rows, setIsEditDrawerOpen, setEditId, setEditData}: CharTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage)
-    }
-
-    const handleChangeRowsPerPage = (event: any) => {
-        setRowsPerPage(parseInt(event.target.value, 10))
-        setPage(0)
-    }
-
-    const handleSelectAllClick = (event: any) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.id)
-            setSelected(newSelecteds)
-            return
-        }
-        setSelected([])
-    }
-
-    const handleClick = (event: any, id: number) => {
-        const selectedIndex = selected.indexOf(id)
-        let newSelected: number[] = []
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1))
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            )
-        }
-        setSelected(newSelected)
-    }
     return (
         <Box>
             <DeleteModal
@@ -167,15 +104,16 @@ const CharacterTable = ({
                                     data-testid='header-checkbox'
                                     id='header-checkbox'
                                     color='primary'
-                                    indeterminate={
-                                        selected.length > 0 &&
-                                        selected.length < rows.length
-                                    }
-                                    checked={
-                                        rows.length > 0 &&
-                                        selected.length === rows.length
-                                    }
-                                    onChange={handleSelectAllClick}
+                                    indeterminate={selected.length > 0 && selected.length < rows.length}
+                                    checked={rows.length > 0 && selected.length === rows.length}
+                                    onChange={(event) => {
+                                        if (event.target.checked) {
+                                            const newSelecteds = rows.map((n) => n.id)
+                                            setSelected(newSelecteds)
+                                            return
+                                        }
+                                        setSelected([])
+                                    }}
                                     inputProps={{
                                         'aria-label': 'select all names',
                                     }}
@@ -194,10 +132,7 @@ const CharacterTable = ({
                     </TableHead>
                     <TableBody>
                         {rows
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage,
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: CharacterRowData, index: number) => {
                                 const isItemSelected = selected.includes(row.id)
                                 const labelId = `enhanced-table-checkbox-${index}`
@@ -205,8 +140,7 @@ const CharacterTable = ({
                                     <TableRow
                                         key={row.id}
                                         sx={{
-                                            '&:last-child td, &:last-child th':
-                                                {border: 0},
+                                            '&:last-child td, &:last-child th': {border: 0},
                                         }}
                                         hover
                                         role='checkbox'
@@ -215,9 +149,17 @@ const CharacterTable = ({
                                         selected={isItemSelected}>
                                         <TableCell padding='checkbox'>
                                             <Checkbox
-                                                onClick={(event) =>
-                                                    handleClick(event, row.id)
-                                                }
+                                                onClick={() => {
+                                                    if (selected.includes(row.id)) {
+                                                        setSelected(
+                                                            selected.filter((value: number) => value !== row.id),
+                                                        )
+                                                    } else {
+                                                        const newSelected = selected
+                                                        newSelected.push(row.id)
+                                                        setSelected(newSelected)
+                                                    }
+                                                }}
                                                 color='primary'
                                                 checked={isItemSelected}
                                                 inputProps={{
@@ -227,36 +169,20 @@ const CharacterTable = ({
                                                 data-testid={`checkbox-${index}`}
                                             />
                                         </TableCell>
-                                        <TableCell
-                                            component='th'
-                                            id={labelId}
-                                            scope='row'
-                                            padding='none'>
+                                        <TableCell component='th' id={labelId} scope='row' padding='none'>
                                             {row.name}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <Chip
-                                                label={row.race}
-                                                color='default'
-                                                variant='outlined'
-                                            />
+                                            <Chip label={row.race} color='default' variant='outlined' />
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <Chip
-                                                label={row.class}
-                                                color='default'
-                                                variant='outlined'
-                                            />
+                                            <Chip label={row.class} color='default' variant='outlined' />
                                         </TableCell>
-                                        <TableCell align='center'>
-                                            {row.level}
-                                        </TableCell>
+                                        <TableCell align='center'>{row.level}</TableCell>
                                         <TableCell align='center'>
                                             <FactionChip fname={row.faction} />
                                         </TableCell>
-                                        <TableCell align='center'>
-                                            {row.downtime}
-                                        </TableCell>
+                                        <TableCell align='center'>{row.downtime}</TableCell>
                                         <TableCell align='center'>
                                             <IconButton
                                                 onClick={() => {
@@ -270,12 +196,8 @@ const CharacterTable = ({
                                             <IconButton aria-label='delete'>
                                                 <DeleteIcon
                                                     onClick={() => {
-                                                        setData('characters', [
-                                                            row.id,
-                                                        ])
-                                                        setIsDeleteModalOpen(
-                                                            true,
-                                                        )
+                                                        setData('characters', [row.id])
+                                                        setIsDeleteModalOpen(true)
                                                     }}
                                                 />
                                             </IconButton>
@@ -292,8 +214,13 @@ const CharacterTable = ({
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                onPageChange={(_: any, newPage: number) => {
+                    setPage(newPage)
+                }}
+                onRowsPerPageChange={(event) => {
+                    setRowsPerPage(parseInt(event.target.value, 10))
+                    setPage(0)
+                }}
             />
         </Box>
     )
