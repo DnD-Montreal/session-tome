@@ -57,7 +57,7 @@ class CharacterController extends Controller
             abort(403);
         }
 
-        $entries = $character->entries;
+        $entries = $character->entries()->with('adventure', 'items')->get();
 
         return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries'));
     }
