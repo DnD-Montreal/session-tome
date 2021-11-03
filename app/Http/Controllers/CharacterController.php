@@ -57,7 +57,9 @@ class CharacterController extends Controller
             abort(403);
         }
 
-        return Inertia::render('Character/Detail/CharacterDetail', compact('character'));
+        $entries = $character->entries;
+
+        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries'));
     }
 
     /**
