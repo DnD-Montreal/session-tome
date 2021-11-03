@@ -15,6 +15,8 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import {CharacterRowData} from 'Types/character-row-data'
 import route from 'ziggy-js'
+import {Simulate} from 'react-dom/test-utils'
+import error = Simulate.error
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -272,7 +274,7 @@ const CharacterCreateForm = ({
                                     }
                                     if (type === 'Edit') {
                                         put(route('character.update', [editId]))
-                                        if (errors) {
+                                        if (Object.keys(errors).length) {
                                             setActiveStep(0)
                                         } else {
                                             clearErrors()
