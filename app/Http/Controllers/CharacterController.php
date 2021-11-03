@@ -49,7 +49,7 @@ class CharacterController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Character $character)
     {
