@@ -32,8 +32,10 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "plugins": ["prettier", "cypress"],
+    "plugins": ["prettier", "cypress", "simple-import-sort"],
     "rules": {
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn",
         "array-callback-return": "off",
         "consistent-return": "off",
         "implicit-arrow-linebreak": "off",

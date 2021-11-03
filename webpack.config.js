@@ -11,6 +11,7 @@ module.exports = {
             Icons: path.resolve('resources/icons'),
             Mock: path.resolve('resources/mock/'),
             Types: path.resolve('resources/js/Types/'),
+            hoc: path.resolve('resources/js/hoc/'),
         },
     },
 }

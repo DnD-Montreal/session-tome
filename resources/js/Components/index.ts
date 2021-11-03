@@ -1,7 +1,12 @@
+// Components
 export {default as Authentication} from './Authentication'
+export {default as EditDrawer} from './EditDrawer'
+export {default as ErrorText} from './ErrorText'
+export {default as DeleteModal} from './DeleteModal'
+
+// Chips
 export {default as FactionChip} from './FactionChip'
 export {default as RarityChip} from './RarityChip'
-export {default as EditDrawer} from './EditDrawer'
 
 // Character detail
 export {CharacterDetailBox} from './CharacterDetail'

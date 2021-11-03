@@ -32,4 +32,8 @@ describe('<FactionChip />', () => {
         const component = render(<FactionChip fname='The Zhentarim' />)
         expect(component.findByLabelText('The Zhentarim')).toBeDefined()
     })
+    it('Should not render when the faction is null', () => {
+        const component = render(<FactionChip fname={null} />)
+        expect(component.baseElement.innerHTML).toBe('<div></div>')
+    })
 })

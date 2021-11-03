@@ -42,9 +42,13 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $csv = new UploadedFile(database_path('mocks/grod.csv'), "grod.csv");
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
-        $content = $response->getOriginalContent();
-        $character = $content['data'];
-        $response->assertStatus(200);
+        $character = Character::where('name', "Grod")
+            ->where('race', "Half Orc")
+            ->where('class', "Fighter")
+            ->first();
+
+        $response->assertRedirect(route('character.show', ['character' => $character]));
+        $response->assertStatus(302);
         $this->assertEquals("Grod", $character->name);
         $this->assertEquals("Half orc", $character->race);
         $this->assertEquals("Fighter", $character->class);

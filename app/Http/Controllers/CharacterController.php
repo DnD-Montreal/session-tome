@@ -18,8 +18,9 @@ class CharacterController extends Controller
     public function index(Request $request)
     {
         $characters = Character::where('user_id', Auth::user()->id)->get();
+        $factions = array_values(Character::FACTIONS);
 
-        return Inertia::render('Character/Character', compact('characters'));
+        return Inertia::render('Character/Character', compact('characters', 'factions'));
     }
 
     /**
@@ -28,7 +29,8 @@ class CharacterController extends Controller
      */
     public function create(Request $request)
     {
-        return Inertia::render('Character/Create/CharacterCreate');
+        $factions = array_values(Character::FACTIONS);
+        return Inertia::render('Character/Create/CharacterCreate', compact('factions'));
     }
 
     /**
@@ -85,11 +87,23 @@ class CharacterController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, Character $character)
+    public function destroy(Request $request, Character $character = null)
     {
-        if ($request->user()->can('delete', $character)) {
+        $user = $request->user();
+        if ($request->has('characters')) {
+            $characters = Character::whereIn('id', $request->get('characters', []))->get();
+            // Foreach over all the characters so that we can check the policy against them.
+            // Purposely not calling $characters->delete() here.
+            foreach ($characters as $char) {
+                $user->can('delete', $char);
+                $char->delete();
+            }
+            return redirect()->route('character.index');
+        }
+
+        if ($user->can('delete', $character)) {
             $character->delete();
         }
 
