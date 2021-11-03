@@ -57,7 +57,7 @@ class CharacterController extends Controller
             abort(403);
         }
 
-        return view('character.show', compact('character'));
+        return Inertia::render('Character/Detail/CharacterDetail', compact('character'));
     }
 
     /**
