@@ -50,6 +50,8 @@ class Entry extends Model
         'downtime' => 'integer',
     ];
 
+    protected $appends = ['session'];
+
     public const TYPE_GAME = 'game';
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
