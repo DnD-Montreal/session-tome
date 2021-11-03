@@ -91,8 +91,11 @@ class Entry extends Model
 
     public function getSessionAttribute()
     {
-        return $this->character
-            ->entries()
+        if (is_null($this->character_id)) {
+            return null;
+        }
+
+        return self::where('character_id', $this->character_id)
             ->where('adventure_id', $this->adventure_id)
             ->where('date_played', ">", $this->date_played)
             ->count() + 1;
