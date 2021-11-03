@@ -88,4 +88,13 @@ class Entry extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+    public function getSessionAttribute()
+    {
+        return $this->character
+            ->entries()
+            ->where('adventure_id', $this->adventure_id)
+            ->where('date_played', ">", $this->date_played)
+            ->count() + 1;
+    }
 }
