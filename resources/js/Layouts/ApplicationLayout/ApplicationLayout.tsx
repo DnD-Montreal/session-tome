@@ -8,6 +8,7 @@ import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {UsePageType} from 'Types/global'
+import './ApplicationLayout.css'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 
@@ -98,7 +99,6 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         }
         return 'Login'
     }
-
     return (
         <ThemeProvider theme={theme}>
             <MainGrid container>
@@ -159,27 +159,53 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     spacing={0}
                     justifyContent='center'>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={window.location.pathname === '/' ? 'active' : ''}
+                            color='white'
+                            href='/#'>
                             Home
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href={route('character.index')}>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('character') ||
+                                route().current()?.includes('item')
+                                    ? 'active'
+                                    : ''
+                            }
+                            color='white'
+                            href={route('character.index')}>
                             Characters
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('trade') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Item Shop
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('campgaign') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Campaigns
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('rating') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Ratings
                         </InertiaLink>
                     </PaddingGrid>
