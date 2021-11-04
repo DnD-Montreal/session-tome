@@ -83,11 +83,14 @@ jobs:
         run: chmod -R 777 storage
 
       - name: Serve Site
-        run: nohup php artisan serve &
+        run: php artisan serve > /dev/null 2>&1 &
 
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
+          browser: chrome
+          install: false
+          wait-on: http://localhost:8000
           config: baseUrl=http://127.0.0.1:8000
 
   Psalm:
