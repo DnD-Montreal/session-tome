@@ -10,6 +10,7 @@ import route from 'ziggy-js'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 import {UsePageType} from 'Types/global'
+import './ApplicationLayout.css'
 
 const theme = getFontTheme('Normal')
 
@@ -92,7 +93,6 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         }
         return 'Login'
     }
-
     return (
         <ThemeProvider theme={theme}>
             <MainGrid container>
@@ -112,11 +112,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             href='https://dndmtl.com/'
                             target='_blank'
                             rel='noopener noreferrer'>
-                            <SVG
-                                src={associationLogo}
-                                width={130}
-                                height={60}
-                            />
+                            <SVG src={associationLogo} width={130} height={60} />
                         </Link>
                     </PaddingGrid>
                     <PaddingGrid
@@ -127,11 +123,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         alignItems='center'
                         justifyContent='center'>
                         <InertiaLink href='/#'>
-                            <SVG
-                                src={applicationLogo}
-                                width={278}
-                                height={51}
-                            />
+                            <SVG src={applicationLogo} width={278} height={51} />
                         </InertiaLink>
                     </PaddingGrid>
                     <Authentication
@@ -150,10 +142,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         alignItems='center'>
                         <Grid item container xs md={6} justifyContent='center'>
                             <Username>{getUsername()}</Username>
-                            <Avatar
-                                onClick={handleClick}
-                                sx={{bgcolor: '#4E302E'}}
-                            />
+                            <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
                         </Grid>
                     </UserAvatarColumn>
                 </PrimaryRow>
@@ -164,29 +153,53 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                     spacing={0}
                     justifyContent='center'>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={window.location.pathname === '/' ? 'active' : ''}
+                            color='white'
+                            href='/#'>
                             Home
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
                         <InertiaLink
+                            className={
+                                route().current()?.includes('character') ||
+                                route().current()?.includes('item')
+                                    ? 'active'
+                                    : ''
+                            }
                             color='white'
                             href={route('character.index')}>
                             Characters
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('trade') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Item Shop
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('campgaign') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Campaigns
                         </InertiaLink>
                     </PaddingGrid>
                     <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink color='white' href='/#'>
+                        <InertiaLink
+                            className={
+                                route().current()?.includes('rating') ? 'active' : ''
+                            }
+                            color='white'
+                            href='/#'>
                             Ratings
                         </InertiaLink>
                     </PaddingGrid>
