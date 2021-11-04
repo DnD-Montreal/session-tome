@@ -147,7 +147,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='space-evenly'
                         alignItems='center'>
                         <Grid item container xs md={6} justifyContent='center'>
-                            <Username id='user'>{getUsername()}</Username>
+                            <Username data-cy='user'>{getUsername()}</Username>
                             <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
                         </Grid>
                     </UserAvatarColumn>
