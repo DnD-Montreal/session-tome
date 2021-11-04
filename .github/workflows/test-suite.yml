@@ -91,7 +91,22 @@ jobs:
           browser: chrome
           install: false
           wait-on: http://localhost:8000
-          config: baseUrl=http://127.0.0.1:8000
+          config: baseUrl=http://localhost:8000
+
+      - uses: actions/upload-artifact@master
+          # there might be no screenshots created when:
+          # - there are no test failures
+          # so only upload screenshots if previous step has failed
+        if: failure()
+        with:
+          name: screenshots
+          path: cypress/screenshots
+
+        # video should always be generated
+      - uses: actions/upload-artifact@master
+        with:
+          name: videos
+          path: cypress/videos
 
   Psalm:
     name: Psalm
