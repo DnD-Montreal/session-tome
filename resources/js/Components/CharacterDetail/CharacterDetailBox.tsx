@@ -1,9 +1,11 @@
-import React from 'react'
-import {Box, Grid, Stack, Typography, Button} from '@mui/material'
-import styled from 'styled-components'
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
+import {Box, Button, Grid, Stack, Typography} from '@mui/material'
+import React from 'react'
+import styled from 'styled-components'
+// eslint-disable-next-line no-unused-vars
+import {CharacterRowData} from 'Types/character-row-data'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -17,7 +19,19 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
-const CharacterDetailBox = () => (
+type CharDetailBoxPropType = {
+    character: any
+    setIsEditDrawerOpen: (payload: boolean) => void
+    setEditId: (payload: number) => void
+    setEditData: (payload: CharacterRowData) => void
+}
+
+const CharacterDetailBox = ({
+    character,
+    setIsEditDrawerOpen,
+    setEditId,
+    setEditData,
+}: CharDetailBoxPropType) => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container spacing={6}>
             <Grid item xs={4}>
@@ -29,37 +43,42 @@ const CharacterDetailBox = () => (
             <Grid item container columnSpacing={1} rowSpacing={5} xs={8}>
                 <Grid item xs={12}>
                     <StyledTypography>NAME</StyledTypography>
-                    <Typography>Name 4</Typography>
+                    <Typography>{character.name}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>RACE</StyledTypography>
-                    <Typography>Deep Gnome</Typography>
+                    <Typography>{character.race}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>CLASS</StyledTypography>
-                    <Typography>Wizard</Typography>
+                    <Typography>{character.class}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>FACTION</StyledTypography>
-                    <Typography>The Zhentarim</Typography>
+                    <Typography>{character.faction}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>LEVEL</StyledTypography>
-                    <Typography>19</Typography>
+                    <Typography>{character.level}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>DOWNTIME</StyledTypography>
-                    <Typography>81</Typography>
+                    <Typography>{character.downtime}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>STATUS</StyledTypography>
-                    <Typography style={{color: '#a0a2a3'}}>Public</Typography>
+                    <Typography style={{color: '#a0a2a3'}}>d</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
                         <Button
                             variant='contained'
-                            startIcon={<CreateIcon fontSize='small' />}>
+                            startIcon={<CreateIcon fontSize='small' />}
+                            onClick={() => {
+                                setEditData(character)
+                                setEditId(character.id)
+                                setIsEditDrawerOpen(true)
+                            }}>
                             UPDATE
                         </Button>
                         <Button

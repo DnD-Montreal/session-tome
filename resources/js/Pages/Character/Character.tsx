@@ -1,21 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {
-    Button,
-    Stack,
-    Grid,
-    Autocomplete,
-    TextField,
-    Typography,
-} from '@mui/material'
+import {Link} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import route from 'ziggy-js'
-import {Link} from '@inertiajs/inertia-react'
+import {Autocomplete, Button, Grid, Stack, TextField, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterTable, EditDrawer, CharacterCreateForm} from 'Components'
+import {CharacterCreateForm, CharacterTable, EditDrawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import {getFontTheme} from 'Utils'
+import React, {useEffect, useState} from 'react'
 import {CharacterRowData} from 'Types/character-row-data'
+import {getFontTheme} from 'Utils'
+import route from 'ziggy-js'
 
 const theme = getFontTheme('Form', 16)
 
@@ -44,9 +37,7 @@ const Character = ({characters}: CharacterPropType) => {
                         editId={editId}
                     />
                 }
-                title={
-                    <Typography>Edit character with id: {editId}</Typography>
-                }
+                title={<Typography>Edit character</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
@@ -63,14 +54,11 @@ const Character = ({characters}: CharacterPropType) => {
                             <Link href={route('character.create')}>Create</Link>
                         </Button>
                         <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link
-                                href={route('adventures-league-import.index')}>
+                            <Link href={route('adventures-league-import.index')}>
                                 Import
                             </Link>
                         </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<FileDownloadIcon />}>
+                        <Button variant='contained' startIcon={<FileDownloadIcon />}>
                             Export
                         </Button>
                     </Stack>
@@ -80,11 +68,7 @@ const Character = ({characters}: CharacterPropType) => {
                         id='character-search'
                         options={rows.map((option) => option.name)}
                         renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                fullWidth
-                                label='Search Character'
-                            />
+                            <TextField {...params} fullWidth label='Search Character' />
                         )}
                         sx={{width: '100%'}}
                         onInputChange={(e: {target: any}) => {

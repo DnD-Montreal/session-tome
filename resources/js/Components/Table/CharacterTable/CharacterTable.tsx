@@ -1,4 +1,4 @@
-import {useForm} from '@inertiajs/inertia-react'
+import {Link, useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -162,6 +162,7 @@ const CharacterTable = ({
                             <TableCell align='center'>Actions</TableCell>
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -209,7 +210,10 @@ const CharacterTable = ({
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.name}
+                                            <Link
+                                                href={route('character.show', [row.id])}>
+                                                {row.name}
+                                            </Link>
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip

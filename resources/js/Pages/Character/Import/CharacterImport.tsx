@@ -1,8 +1,8 @@
-import React from 'react'
-import {ApplicationLayout} from 'Layouts'
-import {getFontTheme} from 'Utils'
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterImportForm} from 'Components'
+import {ApplicationLayout} from 'Layouts'
+import React from 'react'
+import {getFontTheme} from 'Utils'
 
 const CharacterImport = () => (
     <ThemeProvider theme={getFontTheme('Form')}>
@@ -11,7 +11,5 @@ const CharacterImport = () => (
 )
 
 CharacterImport.displayName = 'CharacterImport'
-CharacterImport.layout = (page: any) => (
-    <ApplicationLayout>{page}</ApplicationLayout>
-)
+CharacterImport.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default CharacterImport
