@@ -1,4 +1,5 @@
 import {Link as InertiaLink, useForm} from '@inertiajs/inertia-react'
+import ClearIcon from '@mui/icons-material/Clear'
 import {Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
@@ -22,6 +23,10 @@ const StyledFooter = styled(Grid)`
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
+`
+
+const StyledIcon = styled(ClearIcon)`
+    cursor: pointer;
 `
 
 type CharacterImportFormData = {
@@ -63,6 +68,14 @@ const CharacterImportForm = () => {
                         Upload
                     </Button>
                 </Label>
+                {data?.logs && (
+                    <Grid>
+                        <Typography>
+                            <StyledIcon onClick={() => setData('logs', null)} />
+                            {data.logs.name}
+                        </Typography>
+                    </Grid>
+                )}
             </ButtonContainer>
             <Typography>OR</Typography>
             <TextField
