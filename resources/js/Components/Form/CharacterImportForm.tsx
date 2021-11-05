@@ -50,14 +50,14 @@ const CharacterImportForm = () => {
                 <Link href='https://www.dndbeyond.com/'>D&D Beyond</Link> link.
             </Typography>
             <ButtonContainer>
-                <Label htmlFor='contained-button-file'>
+                <Label htmlFor='ALimport'>
                     <Input
                         onChange={(e) => {
                             if (!e.target.files) return
                             setData('logs', e.target.files[0])
                         }}
                         accept='csv'
-                        id='contained-button-file'
+                        id='ALimport'
                         multiple={false}
                         type='file'
                     />
