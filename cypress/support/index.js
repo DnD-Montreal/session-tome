@@ -22,7 +22,7 @@ before(() => {
     // cy.task('activateCypressEnvFile', {}, {log: false})
     // cy.artisan('config:clear', {}, {log: false})
     //
-    // cy.refreshRoutes()
+    cy.refreshRoutes()
 })
 
 after(() => {

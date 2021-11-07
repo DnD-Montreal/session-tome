@@ -131,8 +131,12 @@ class CharacterControllerTest extends TestCase
 
         $badResponse->assertStatus(403);
         $response->assertOk();
-        $response->assertViewIs('character.show');
-        $response->assertViewHas('character');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/CharacterDetail')
+                ->has('character')
+                ->has('entries')
+        );
     }
 
 
@@ -178,7 +182,9 @@ class CharacterControllerTest extends TestCase
         $status = $this->faker->randomElement(["private", "public"]);
         $user = $character->user;
 
-        $response = $this->actingAs($user)->put(route('character.update', $character), [
+        $response = $this->actingAs($user)
+            ->from(route('character.index'))
+            ->put(route('character.update', $character), [
             'name' => $name,
             'race' => $race,
             'class' => $class,
