@@ -6,6 +6,7 @@ use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EntryController extends Controller
 {
@@ -15,7 +16,11 @@ class EntryController extends Controller
      */
     public function index(Request $request)
     {
-        $entries = Entry::all();
+        if ($userId = $request->get('user_id')) {
+            $entries = Entry::where('user_id', $userId)->get();
+        } else {
+            $entries = Entry::where('user_id', Auth::user()->id)->get();
+        }
 
         return view('entry.index', compact('entries'));
     }
@@ -74,8 +79,11 @@ class EntryController extends Controller
     public function update(EntryUpdateRequest $request, Entry $entry)
     {
         $entry->update($request->validated());
-
         $request->session()->flash('entry.id', $entry->id);
+
+        if ($request->type == Entry::TYPE_DM) {
+            return redirect()->route('dm-entry.index');
+        }
 
         return redirect()->route('entry.index');
     }

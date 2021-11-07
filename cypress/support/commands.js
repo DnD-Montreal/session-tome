@@ -1,25 +1,17 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('registerAndLoginUser', (testusername, testemail, testpassword) => {
+    cy.session([testemail, testpassword], () => {
+        cy.intercept('GET', '/').as('landingpage')
+        cy.intercept('POST', '/register').as('register')
+        cy.visit('/')
+        cy.wait('@landingpage')
+        cy.get('[data-testid="PersonIcon"]').click()
+        cy.contains('button', 'Register').click()
+        cy.get('#username').type(testusername)
+        cy.get('#email').type(testemail)
+        cy.get('#password').type(testpassword)
+        cy.get('#confirmPassword').type(testpassword)
+        cy.get('button[type="submit"]').click()
+        cy.get('[data-cy="user"]').should('contain', testusername)
+        cy.wait('@register')
+    })
+})

@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\Character;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Entry;
 use App\Policies\CharacterPolicy;
+use App\Policies\EntryPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\ItemPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Character::class => CharacterPolicy::class,
         User::class => UserPolicy::class,
         Item::class => ItemPolicy::class,
+        Entry::class => EntryPolicy::class,
     ];
 
     /**
