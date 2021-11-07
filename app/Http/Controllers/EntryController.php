@@ -18,10 +18,8 @@ class EntryController extends Controller
     {
         if ($userId = $request->get('user_id')) {
             $entries = Entry::where('user_id', $userId)->get();
-        } elseif (is_null($request->get('user_id'))) {
-            $entries = Entry::where('user_id', Auth::user()->id)->get();
         } else {
-            $entries = [];
+            $entries = Entry::where('user_id', Auth::user()->id)->get();
         }
 
         return view('entry.index', compact('entries'));
