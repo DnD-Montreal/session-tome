@@ -47,6 +47,71 @@ class EntryControllerTest extends TestCase
         $response->assertViewHas('entries');
     }
 
+    /**
+     * @test
+     */
+    public function index_scopes_to_user()
+    {
+        $entries = Entry::factory()->count(2)->create();
+        $entry3 = Entry::factory()->create(); //for user2, should not appear in index for user1
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $entries[0]->user()->associate($user1)->save();
+        $entries[1]->user()->associate($user1)->save();
+        $entry3->user()->associate($user2)->save();
+
+        $response = $this->get(route('entry.index') . "?user_id={$user1->id}");
+
+        $response->assertOk();
+        $response->assertViewIs('entry.index');
+        $response->assertViewHas('entries');
+
+        $response->assertViewHas('entries', function ($entries) use ($user1) {
+            $result = true;
+            foreach ($entries->pluck('user_id') as $uid) {
+                $result = $result && $uid = $user1->id;
+            }
+            return $result;
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function update_redirects_to_dm_entry_index()
+    {
+        $dm_entry = Entry::factory()->create([
+            'type' => Entry::TYPE_DM,
+            'character_id' => null,
+        ]);
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $dm_entry->user()->associate($dungeon_master_user)->save();
+
+        $response = $this->actingAs($dungeon_master_user)->put(route('entry.update', $dm_entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'levels' => $levels,
+            'gp' => $gp,
+            'type' => Entry::TYPE_DM,
+        ]);
+
+        $response->assertRedirect(route('dm-entry.index'));
+    }
 
     /**
      * @test
