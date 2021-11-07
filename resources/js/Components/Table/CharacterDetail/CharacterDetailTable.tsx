@@ -3,7 +3,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {
     Box,
-    Button,
     Checkbox,
     IconButton,
     styled,
@@ -26,16 +25,6 @@ type CharacterDetailPropType = {
 
 const StyledTableCell = styled(TableCell)({
     padding: '5px 25px',
-})
-
-const ColorButton = styled(Button)({
-    color: '#8da57c',
-    borderColor: '#8da57c',
-    '&:hover': {
-        color: 'white',
-        borderColor: '#a2bf8e',
-        backgroundColor: '#a2bf8e',
-    },
 })
 
 const CharacterDetailTable = ({entries}: CharacterDetailPropType) => {
@@ -166,9 +155,7 @@ const CharacterDetailTable = ({entries}: CharacterDetailPropType) => {
                                         <StyledTableCell>{row.levels}</StyledTableCell>
                                         <StyledTableCell>{row.gp}</StyledTableCell>
                                         <StyledTableCell>{row.downtime}</StyledTableCell>
-                                        <StyledTableCell>
-                                            <ColorButton>hi</ColorButton>
-                                        </StyledTableCell>
+                                        <StyledTableCell>Magic items</StyledTableCell>
                                         <StyledTableCell>
                                             <IconButton
                                                 aria-label='share'

@@ -1,4 +1,4 @@
-export type CharacterRowData = {
+export type CharacterData = {
     background: null
     character_sheet: string
     class: string

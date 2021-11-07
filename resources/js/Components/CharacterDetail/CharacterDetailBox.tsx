@@ -4,8 +4,6 @@ import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
-// eslint-disable-next-line no-unused-vars
-import {CharacterRowData} from 'Types/character-row-data'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -19,19 +17,16 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
+const StyledStatus = styled(Typography)({
+    color: '#a0a2a3',
+})
+
 type CharDetailBoxPropType = {
     character: any
     setIsEditDrawerOpen: (payload: boolean) => void
-    setEditId: (payload: number) => void
-    setEditData: (payload: CharacterRowData) => void
 }
 
-const CharacterDetailBox = ({
-    character,
-    setIsEditDrawerOpen,
-    setEditId,
-    setEditData,
-}: CharDetailBoxPropType) => (
+const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropType) => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container spacing={6}>
             <Grid item xs={4}>
@@ -67,7 +62,7 @@ const CharacterDetailBox = ({
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>STATUS</StyledTypography>
-                    <Typography style={{color: '#a0a2a3'}}>{character.status}</Typography>
+                    <StyledStatus>{character.status}</StyledStatus>
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
@@ -75,8 +70,6 @@ const CharacterDetailBox = ({
                             variant='contained'
                             startIcon={<CreateIcon fontSize='small' />}
                             onClick={() => {
-                                setEditData(character)
-                                setEditId(character.id)
                                 setIsEditDrawerOpen(true)
                             }}>
                             UPDATE
