@@ -1,8 +1,5 @@
 describe('Character Management Test Suite', () => {
     const testusername = 'testuser'
-    const testemail = 'testuser@email.com'
-    const testpassword = 'testpass'
-    let character = null
     const character_name = 'John'
     const character_race = 'Smith'
     const character_class = 'Upper'
@@ -11,26 +8,19 @@ describe('Character Management Test Suite', () => {
     const character_downtime = 30
 
     before(() => {
-        // In the future, this will be preceded with a cy.refreshRoutes() call.
-        // The routes will be defined as Cypress.Laravel.route('route_name')
-        character = {
-            index: '/character',
-            create: '/character/create',
-        }
-        // In the future, this will be preceded with a cy.refreshDatabase() call.
-        // cy.registerTestUser(testusername, testemail, testpassword)
+        cy.refreshDatabase()
     })
 
     beforeEach(() => {
-        cy.registerAndLoginUser(testusername, testemail, testpassword)
-        cy.intercept('GET', character.index).as('character')
-        cy.visit(character.index)
+        cy.login({name: testusername})
+        cy.intercept('GET', Cypress.Laravel.route('character.index')).as('character')
+        cy.visit(Cypress.Laravel.route('character.index'))
         cy.wait('@character')
     })
 
     it('Character Create', () => {
         cy.contains('a', 'Create').click()
-        cy.url().should('include', character.create)
+        cy.url().should('include', Cypress.Laravel.route('character.create'))
         cy.get('#name').type(character_name)
         cy.get('#race').type(character_race)
         cy.get('#class').type(character_class)
@@ -40,7 +30,7 @@ describe('Character Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.get('#status').check()
         cy.contains('button', 'Create').click()
-        cy.url().should('include', character.index)
+        cy.url().should('include', Cypress.Laravel.route('character.index'))
         cy.contains('1-1 of 1')
     })
 
@@ -51,18 +41,14 @@ describe('Character Management Test Suite', () => {
             .type(character_downtime + 9)
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
-        cy.url().should('include', character.index)
+        cy.url().should('include', Cypress.Laravel.route('character.index'))
         cy.contains(character_downtime + 9)
     })
 
     it('Character Delete', () => {
         cy.get('button[aria-label="delete"]').click()
         cy.contains('button', 'Delete').click()
-        cy.url().should('include', character.index)
+        cy.url().should('include', Cypress.Laravel.route('character.index'))
         cy.contains('0-0 of 0')
-    })
-
-    after(() => {
-        Cypress.session.clearAllSavedSessions()
     })
 })
