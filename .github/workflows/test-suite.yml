@@ -19,7 +19,7 @@ jobs:
           MYSQL_PASSWORD: secret
           MYSQL_ROOT_PASSWORD: secretroot
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -79,13 +79,36 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate --force
 
+      - name: Fix directory permission
+        run: chmod -R 777 storage
+
       - name: Serve Site
-        run: nohup php artisan serve &
+        run: php artisan serve > /dev/null 2>&1 &
 
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
-          config: baseUrl=http://127.0.0.1:8000
+          browser: chrome
+          install: false
+          wait-on: http://localhost:8000
+          config: baseUrl=http://localhost:8000
+
+      - name: Upload Cypress Images
+        uses: actions/upload-artifact@master
+          # there might be no screenshots created when:
+          # - there are no test failures
+          # so only upload screenshots if previous step has failed
+        if: failure()
+        with:
+          name: screenshots
+          path: cypress/screenshots
+
+        # video should always be generated
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@master
+        with:
+          name: videos
+          path: cypress/videos
 
   Psalm:
     name: Psalm
