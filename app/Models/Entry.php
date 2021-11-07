@@ -93,10 +93,11 @@ class Entry extends Model
 
     public function getSessionAttribute()
     {
-        if (is_null($this->character_id)) {
+        if (is_null($this->character_id) || is_null($this->adventure_id) || is_null($this->date_played)) {
             return null;
         }
 
+        // refactor to scope query?
         return self::where('character_id', $this->character_id)
             ->where('adventure_id', $this->adventure_id)
             ->where('date_played', ">", $this->date_played)
