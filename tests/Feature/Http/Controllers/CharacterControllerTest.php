@@ -131,8 +131,12 @@ class CharacterControllerTest extends TestCase
 
         $badResponse->assertStatus(403);
         $response->assertOk();
-        $response->assertViewIs('character.show');
-        $response->assertViewHas('character');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/CharacterDetail')
+                ->has('character')
+                ->has('entries')
+        );
     }
 
 
