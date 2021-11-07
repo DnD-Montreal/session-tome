@@ -182,7 +182,9 @@ class CharacterControllerTest extends TestCase
         $status = $this->faker->randomElement(["private", "public"]);
         $user = $character->user;
 
-        $response = $this->actingAs($user)->put(route('character.update', $character), [
+        $response = $this->actingAs($user)
+            ->from(route('character.index'))
+            ->put(route('character.update', $character), [
             'name' => $name,
             'race' => $race,
             'class' => $class,
