@@ -149,7 +149,7 @@ const CharacterDetailTable = ({entries}: CharacterDetailPropType) => {
                                             {row.date_played}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.adventure.title}
+                                            {row.adventure ? row.adventure.title : ''}
                                         </StyledTableCell>
                                         <StyledTableCell>{row.session}</StyledTableCell>
                                         <StyledTableCell>{row.levels}</StyledTableCell>
