@@ -75,7 +75,7 @@ class CharacterController extends Controller
     /**
      * @param \App\Http\Requests\CharacterUpdateRequest $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CharacterUpdateRequest $request, Character $character)
     {
@@ -83,7 +83,8 @@ class CharacterController extends Controller
 
         $request->session()->flash('character.id', $character->id);
 
-        return redirect()->route('character.index');
+
+        return redirect()->back();
     }
 
     /**
