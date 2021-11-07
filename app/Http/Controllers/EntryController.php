@@ -6,6 +6,7 @@ use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EntryController extends Controller
 {
@@ -15,7 +16,13 @@ class EntryController extends Controller
      */
     public function index(Request $request)
     {
-        $entries = Entry::all();
+        if ($userId = $request->get('user_id')) {
+            $entries = Entry::where('user_id', $userId)->get();
+        } elseif (is_null($request->get('user_id'))) {
+            $entries = Entry::where('user_id', Auth::user()->id)->get();
+        } else {
+            $entries = [];
+        }
 
         return view('entry.index', compact('entries'));
     }
