@@ -1,7 +1,7 @@
-import React from 'react'
-import {Box, Button, TextField, Typography} from '@mui/material'
-import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
+import {Box, Button, TextField, Typography} from '@mui/material'
+import React from 'react'
+import styled from 'styled-components'
 import route from 'ziggy-js'
 
 const StyledErrorText = styled(Typography)`
@@ -23,9 +23,7 @@ const LoginForm = () => {
         name: '',
         password_confirmation: '',
     }
-    const {data, setData, post, errors, reset} = useForm(
-        registerFormInitialValues,
-    )
+    const {data, setData, post, errors, reset} = useForm(registerFormInitialValues)
 
     return (
         <Box>
@@ -52,9 +50,7 @@ const LoginForm = () => {
                 onChange={(e) => setData('email', e.target.value)}
                 value={data.email}
             />
-            {errors?.email && (
-                <StyledErrorText>{errors?.email}</StyledErrorText>
-            )}
+            {errors?.email && <StyledErrorText>{errors?.email}</StyledErrorText>}
             <TextField
                 margin='normal'
                 required
@@ -68,9 +64,7 @@ const LoginForm = () => {
                 value={data.password}
                 error={data.password ? data.password.length < 8 : false}
             />
-            {errors?.password && (
-                <StyledErrorText>{errors?.password}</StyledErrorText>
-            )}
+            {errors?.password && <StyledErrorText>{errors?.password}</StyledErrorText>}
             <TextField
                 margin='normal'
                 required
@@ -79,9 +73,7 @@ const LoginForm = () => {
                 label='Confirm password'
                 name='confirmPassword'
                 type='password'
-                onChange={(e) =>
-                    setData('password_confirmation', e.target.value)
-                }
+                onChange={(e) => setData('password_confirmation', e.target.value)}
                 value={data.password_confirmation}
                 error={
                     data.password_confirmation
@@ -90,9 +82,7 @@ const LoginForm = () => {
                 }
             />
             {errors?.password_confirmation && (
-                <StyledErrorText>
-                    {errors?.password_confirmation}
-                </StyledErrorText>
+                <StyledErrorText>{errors?.password_confirmation}</StyledErrorText>
             )}
             <Button
                 type='submit'

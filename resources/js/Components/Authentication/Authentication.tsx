@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {Box, Button, Popover, Tabs, Tab} from '@mui/material'
-import styled from 'styled-components'
 import {useForm} from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
+import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {getFontTheme} from 'Utils'
 import {LoginForm, RegistrationForm} from 'Components'
+import React, {useEffect, useState} from 'react'
+import styled from 'styled-components'
+import {getFontTheme} from 'Utils'
+import route from 'ziggy-js'
 
 const StyledBox = styled(Box)`
     padding: 0px 16px 0px 16px;
@@ -68,18 +68,12 @@ const Authentication = ({
                             }}>
                             <Tabs
                                 value={selectedTab}
-                                onChange={(e, newValue) =>
-                                    setSelectedTab(newValue)
-                                }>
+                                onChange={(e, newValue) => setSelectedTab(newValue)}>
                                 <Tab label='Login' />
                                 <Tab label='Register' />
                             </Tabs>
                         </Box>
-                        {selectedTab === 0 ? (
-                            <LoginForm />
-                        ) : (
-                            <RegistrationForm />
-                        )}
+                        {selectedTab === 0 ? <LoginForm /> : <RegistrationForm />}
                     </StyledBox>
                 )}
             </Popover>

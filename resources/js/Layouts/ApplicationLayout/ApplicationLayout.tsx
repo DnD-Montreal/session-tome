@@ -1,3 +1,5 @@
+import './ApplicationLayout.css'
+
 import styled from '@emotion/styled'
 import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
@@ -8,7 +10,6 @@ import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 import React, {ReactNode, useState} from 'react'
 import SVG from 'react-inlinesvg'
 import {UsePageType} from 'Types/global'
-import './ApplicationLayout.css'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 

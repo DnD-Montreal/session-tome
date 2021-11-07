@@ -1,5 +1,6 @@
+import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
-import {render, screen, fireEvent} from '@testing-library/react'
+
 import CharacterCreate from './CharacterCreate'
 
 const step2Text = `Do you want this character to be public\?`
