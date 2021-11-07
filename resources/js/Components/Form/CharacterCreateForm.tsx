@@ -212,7 +212,7 @@ const CharacterCreateForm = ({
                         <Typography>Do you want this character to be public?</Typography>
                         <Switch
                             id='status'
-                            value={data.status === 'public'}
+                            checked={data.status === 'public'}
                             onChange={(e) => {
                                 if (e.target.checked) {
                                     setData('status', 'public')

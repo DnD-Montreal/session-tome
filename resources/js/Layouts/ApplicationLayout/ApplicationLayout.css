@@ -1,7 +1,4 @@
 .active {
-    background-image: linear-gradient(white, white);
-    background-position: bottom center;
-    background-size: 100% 2px;
-    background-repeat: no-repeat;
-    padding-bottom: 15px;
+    text-decoration-line: underline;
+    text-underline-offset: 2px;
 }

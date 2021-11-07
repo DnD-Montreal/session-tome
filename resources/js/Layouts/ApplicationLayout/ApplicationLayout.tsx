@@ -15,21 +15,21 @@ import route from 'ziggy-js'
 
 const theme = getFontTheme('Normal')
 
-const MainGrid = styled(Grid)`
+const MainGrid = styled.div`
     background-color: #232b2b;
     color: white;
     font-family: 'Cinzel Decorative', cursive;
     font-size: 0.8em;
-    flex-grow: 1;
     overflow-y: auto;
+    min-height: 100vh;
 `
 
 const PrimaryRow = styled(Grid)`
     @media only screen and (min-width: 900px) {
-        height: 10vh;
+        height: 127px;
     }
     @media only screen and (max-height: 900px) {
-        height: 120px;
+        height: 280px;
     }
     text-align: center;
     padding: 16px;
@@ -38,10 +38,10 @@ const PrimaryRow = styled(Grid)`
 const SecondaryRow = styled(Grid)`
     text-align: center;
     @media only screen and (min-width: 900px) {
-        height: 5vh;
+        height: 96px;
     }
     @media only screen and (max-height: 900px) {
-        height: 60px;
+        height: 120px;
     }
 `
 
@@ -53,7 +53,7 @@ const UserAvatarColumn = styled(Grid)`
 `
 
 const ContentRow = styled(Grid)`
-    min-height: 85vh;
+    overflow-x: auto;
 `
 
 const ContentContainer = styled.div`
@@ -102,118 +102,124 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     }
     return (
         <ThemeProvider theme={theme}>
-            <MainGrid container>
-                <PrimaryRow
-                    item
-                    container
-                    justifyContent='space-between'
-                    alignItems='center'>
-                    <PaddingGrid
+            <MainGrid>
+                <Grid container>
+                    <PrimaryRow
                         item
                         container
-                        xs={12}
-                        md={3}
-                        alignItems='center'
-                        justifyContent='center'>
-                        <Link
-                            href='https://dndmtl.com/'
-                            target='_blank'
-                            rel='noopener noreferrer'>
-                            <SVG src={associationLogo} width={130} height={60} />
-                        </Link>
-                    </PaddingGrid>
-                    <PaddingGrid
-                        item
-                        container
-                        xs={12}
-                        md={6}
-                        alignItems='center'
-                        justifyContent='center'>
-                        <InertiaLink href='/#'>
-                            <SVG src={applicationLogo} width={278} height={51} />
-                        </InertiaLink>
-                    </PaddingGrid>
-                    <Authentication
-                        anchorEl={anchorEl}
-                        handleClose={handleClose}
-                        setAnchorEl={setAnchorEl}
-                        user={user}
-                    />
-                    <UserAvatarColumn
-                        item
-                        container
-                        xs={12}
-                        md={3}
-                        spacing={6}
-                        justifyContent='space-evenly'
+                        justifyContent='space-between'
                         alignItems='center'>
-                        <Grid item container xs md={6} justifyContent='center'>
-                            <Username data-cy='user'>{getUsername()}</Username>
-                            <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
-                        </Grid>
-                    </UserAvatarColumn>
-                </PrimaryRow>
-                <SecondaryRow
-                    item
-                    container
-                    direction='row'
-                    spacing={0}
-                    justifyContent='center'>
-                    <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink
-                            className={window.location.pathname === '/' ? 'active' : ''}
-                            color='white'
-                            href='/#'>
-                            Home
-                        </InertiaLink>
-                    </PaddingGrid>
-                    <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink
-                            className={
-                                route().current()?.includes('character') ||
-                                route().current()?.includes('item')
-                                    ? 'active'
-                                    : ''
-                            }
-                            color='white'
-                            href={route('character.index')}>
-                            Characters
-                        </InertiaLink>
-                    </PaddingGrid>
-                    <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink
-                            className={
-                                route().current()?.includes('trade') ? 'active' : ''
-                            }
-                            color='white'
-                            href='/#'>
-                            Item Shop
-                        </InertiaLink>
-                    </PaddingGrid>
-                    <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink
-                            className={
-                                route().current()?.includes('campgaign') ? 'active' : ''
-                            }
-                            color='white'
-                            href='/#'>
-                            Campaigns
-                        </InertiaLink>
-                    </PaddingGrid>
-                    <PaddingGrid item xs={12} md={2}>
-                        <InertiaLink
-                            className={
-                                route().current()?.includes('rating') ? 'active' : ''
-                            }
-                            color='white'
-                            href='/#'>
-                            Ratings
-                        </InertiaLink>
-                    </PaddingGrid>
-                </SecondaryRow>
-                <ContentRow item container>
-                    <ContentContainer id='content'>{children}</ContentContainer>
-                </ContentRow>
+                        <PaddingGrid
+                            item
+                            container
+                            xs={12}
+                            md={3}
+                            alignItems='center'
+                            justifyContent='center'>
+                            <Link
+                                href='https://dndmtl.com/'
+                                target='_blank'
+                                rel='noopener noreferrer'>
+                                <SVG src={associationLogo} width={130} height={60} />
+                            </Link>
+                        </PaddingGrid>
+                        <PaddingGrid
+                            item
+                            container
+                            xs={12}
+                            md={6}
+                            alignItems='center'
+                            justifyContent='center'>
+                            <InertiaLink href='/#'>
+                                <SVG src={applicationLogo} width={278} height={51} />
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <Authentication
+                            anchorEl={anchorEl}
+                            handleClose={handleClose}
+                            setAnchorEl={setAnchorEl}
+                            user={user}
+                        />
+                        <UserAvatarColumn
+                            item
+                            container
+                            xs={12}
+                            md={3}
+                            spacing={6}
+                            justifyContent='space-evenly'
+                            alignItems='center'>
+                            <Grid item container xs md={6} justifyContent='center'>
+                                <Username data-cy='user'>{getUsername()}</Username>
+                                <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
+                            </Grid>
+                        </UserAvatarColumn>
+                    </PrimaryRow>
+                    <SecondaryRow
+                        item
+                        container
+                        direction='row'
+                        spacing={0}
+                        justifyContent='center'>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    window.location.pathname === '/' ? 'active' : ''
+                                }
+                                color='white'
+                                href='/#'>
+                                Home
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    route().current()?.includes('character') ||
+                                    route().current()?.includes('item')
+                                        ? 'active'
+                                        : ''
+                                }
+                                color='white'
+                                href={route('character.index')}>
+                                Characters
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    route().current()?.includes('trade') ? 'active' : ''
+                                }
+                                color='white'
+                                href='/#'>
+                                Item Shop
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    route().current()?.includes('campgaign')
+                                        ? 'active'
+                                        : ''
+                                }
+                                color='white'
+                                href='/#'>
+                                Campaigns
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    route().current()?.includes('rating') ? 'active' : ''
+                                }
+                                color='white'
+                                href='/#'>
+                                Ratings
+                            </InertiaLink>
+                        </PaddingGrid>
+                    </SecondaryRow>
+                    <ContentRow item container>
+                        <ContentContainer id='content'>{children}</ContentContainer>
+                    </ContentRow>
+                </Grid>
             </MainGrid>
         </ThemeProvider>
     )
