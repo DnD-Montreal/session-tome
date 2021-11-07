@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Character;
 use App\Models\User;
 use App\Models\Item;
-use App\Models\User;
+use App\Models\Entry;
 use App\Policies\CharacterPolicy;
 use App\Policies\EntryPolicy;
 use App\Policies\UserPolicy;
