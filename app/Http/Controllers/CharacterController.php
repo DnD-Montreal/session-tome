@@ -49,7 +49,7 @@ class CharacterController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Character $character)
     {
@@ -57,7 +57,9 @@ class CharacterController extends Controller
             abort(403);
         }
 
-        return view('character.show', compact('character'));
+        $entries = $character->entries()->with('adventure', 'items')->get();
+
+        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries'));
     }
 
     /**
@@ -73,7 +75,7 @@ class CharacterController extends Controller
     /**
      * @param \App\Http\Requests\CharacterUpdateRequest $request
      * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CharacterUpdateRequest $request, Character $character)
     {
@@ -81,7 +83,8 @@ class CharacterController extends Controller
 
         $request->session()->flash('character.id', $character->id);
 
-        return redirect()->route('character.index');
+
+        return redirect()->back();
     }
 
     /**

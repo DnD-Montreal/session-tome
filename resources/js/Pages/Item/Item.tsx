@@ -1,20 +1,20 @@
-import React, {useState} from 'react'
-import {
-    Button,
-    Stack,
-    Grid,
-    Autocomplete,
-    TextField,
-    Breadcrumbs,
-    Typography,
-} from '@mui/material'
+import {Link} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {Link} from '@inertiajs/inertia-react'
+import {
+    Autocomplete,
+    Breadcrumbs,
+    Button,
+    Grid,
+    Stack,
+    TextField,
+    Typography,
+} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {ItemTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {itemData, RowData} from 'Mock/item-data'
+import React, {useState} from 'react'
 import {getFontTheme} from 'Utils'
 
 const Item = () => {
@@ -65,9 +65,7 @@ const Item = () => {
                         <Button variant='contained' startIcon={<AddIcon />}>
                             <Link href='/'>Create</Link>
                         </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<FileDownloadIcon />}>
+                        <Button variant='contained' startIcon={<FileDownloadIcon />}>
                             Export
                         </Button>
                     </Stack>
@@ -77,11 +75,7 @@ const Item = () => {
                         id='item-search'
                         options={rows.map((option) => option.iname)}
                         renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                fullWidth
-                                label='Search Items'
-                            />
+                            <TextField {...params} fullWidth label='Search Items' />
                         )}
                         sx={{width: '100%'}}
                         onInputChange={onChangeSearch}

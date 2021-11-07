@@ -1,14 +1,7 @@
-import React from 'react'
-import {
-    Toolbar,
-    Typography,
-    Stack,
-    Tooltip,
-    IconButton,
-    alpha,
-} from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import {alpha, IconButton, Stack, Toolbar, Tooltip, Typography} from '@mui/material'
+import React from 'react'
 
 const TableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar

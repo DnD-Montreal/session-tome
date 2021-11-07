@@ -1,16 +1,11 @@
+import {fireEvent, render, screen} from '@testing-library/react'
+import {entriesData} from 'Mock/entries-data'
 import React from 'react'
-import {render, fireEvent, screen} from '@testing-library/react'
-import {CharacterDetailData} from 'Mock/character-detail-data'
+
 import CharacterDetailTable from './CharacterDetailTable'
 
-const isSelectedtest = (name) => [].indexOf(name) !== -1
-
 const props = {
-    isSelected: isSelectedtest,
-    rows: CharacterDetailData,
-    selected: [],
-    handleClick: jest.fn(),
-    handleSelectAllClick: jest.fn(),
+    entries: entriesData,
 }
 
 describe('CharacterDetailTable', () => {
@@ -31,8 +26,8 @@ describe('CharacterDetailTable', () => {
         const checkbox1 = screen
             .getByTestId('checkbox-1')
             .querySelector('input[type="checkbox"]')
-        fireEvent.click(screen.getByTestId('checkbox-1'))
-        expect(checkbox1).toHaveProperty('checked', false)
+        fireEvent.click(checkbox1)
+        expect(checkbox1).toHaveProperty('checked', true)
     })
 
     it('If select all checkbox is select then handleSelectAllClick should work', () => {

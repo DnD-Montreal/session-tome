@@ -1,4 +1,4 @@
-import {useForm} from '@inertiajs/inertia-react'
+import {Link, useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -22,7 +22,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import {DeleteModal, FactionChip} from 'Components'
 import React, {useState} from 'react'
-import {CharacterRowData} from 'Types/character-row-data'
+import {CharacterData} from 'Types/character-data'
 import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 import route from 'ziggy-js'
 
@@ -80,10 +80,10 @@ const EnhancedTableToolbar = ({
 )
 
 type CharTablePropType = {
-    rows: CharacterRowData[]
+    rows: CharacterData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
-    setEditData: (payload: CharacterRowData) => void
+    setEditData: (payload: CharacterData) => void
 }
 
 type FormDataType = {
@@ -162,10 +162,11 @@ const CharacterTable = ({
                             <TableCell align='center'>Actions</TableCell>
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row: CharacterRowData, index: number) => {
+                            .map((row: CharacterData, index: number) => {
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 const isRowSelected = selected.includes(row.id)
                                 return (
@@ -209,7 +210,10 @@ const CharacterTable = ({
                                             id={labelId}
                                             scope='row'
                                             padding='none'>
-                                            {row.name}
+                                            <Link
+                                                href={route('character.show', [row.id])}>
+                                                {row.name}
+                                            </Link>
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip

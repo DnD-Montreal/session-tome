@@ -1,19 +1,11 @@
-import React from 'react'
-import {
-    Grid,
-    Typography,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-} from '@mui/material'
-import {ApplicationLayout} from 'Layouts'
-import {ThemeProvider} from '@mui/material/styles'
 import RoomIcon from '@mui/icons-material/Room'
-import {eventData} from 'Mock/EventData'
-import {getFontTheme} from 'Utils'
+import {Box, Button, Card, CardContent, Container, Grid, Typography} from '@mui/material'
+import {ThemeProvider} from '@mui/material/styles'
+import {ApplicationLayout} from 'Layouts'
+import {eventData} from 'Mock/event-data'
+import React from 'react'
 import styled from 'styled-components'
+import {getFontTheme} from 'Utils'
 
 const StyledBox = styled(Box)`
     font-family: 'Cinzel Decorative', cursive;
@@ -52,42 +44,34 @@ const Welcome = () => {
                     <Grid item xs={12}>
                         <Typography sx={{textAlign: 'center'}} component='div'>
                             Welcome to{' '}
-                            <StyledBox display='inline'>Session Tome</StyledBox>
-                            . Create an account to manage your characters,
-                            campaigns, and items at D&D MLT events.
+                            <StyledBox display='inline'>Session Tome</StyledBox>. Create
+                            an account to manage your characters, campaigns, and items at
+                            D&D MLT events.
                         </Typography>
                     </Grid>
-                    <StyledCardContainer
-                        item
-                        xs
-                        container
-                        direction='row'
-                        spacing={2}>
+                    <StyledCardContainer item xs container direction='row' spacing={2}>
                         <Grid item xs={12}>
                             <StyledBox>Upcoming Events</StyledBox>
                         </Grid>
-                        {eventData.map(
-                            (event: {ename: string; date: string}) => (
-                                <Grid item xs={4} key={event.ename}>
-                                    <StyledCard>
-                                        <StyledCardContent>
-                                            <RoomIcon color='primary' />
-                                            <Typography
-                                                variant='body2'
-                                                color='text.secondary'>
-                                                {event.ename} - {event.date}
-                                            </Typography>
-                                        </StyledCardContent>
-                                    </StyledCard>
-                                </Grid>
-                            ),
-                        )}
+                        {eventData.map((event: {ename: string; date: string}) => (
+                            <Grid item xs={4} key={event.ename}>
+                                <StyledCard>
+                                    <StyledCardContent>
+                                        <RoomIcon color='primary' />
+                                        <Typography
+                                            variant='body2'
+                                            color='text.secondary'>
+                                            {event.ename} - {event.date}
+                                        </Typography>
+                                    </StyledCardContent>
+                                </StyledCard>
+                            </Grid>
+                        ))}
                     </StyledCardContainer>
                     <CenteredGrid item xs container direction='row' spacing={2}>
                         <Grid item xs={12}>
                             <Typography sx={{textAlign: 'center'}}>
-                                Click on the CHECK IN button to check in at an
-                                event.
+                                Click on the CHECK IN button to check in at an event.
                             </Typography>
                         </Grid>
                         <Grid sx={{textAlign: 'center'}} item xs={12}>

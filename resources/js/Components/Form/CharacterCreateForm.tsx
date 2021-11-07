@@ -13,13 +13,13 @@ import {
 import {ErrorText} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
-import {CharacterRowData} from 'Types/character-row-data'
+import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
 type CharacterCreateFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
-    editData?: CharacterRowData
+    editData?: CharacterData
     editId?: number
 }
 
