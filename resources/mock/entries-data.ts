@@ -1,4 +1,4 @@
-export const CharacterDetailData = [
+export const entriesData = [
     {
         date: '5-10-2021',
         adventure: 'Cupcake',
@@ -63,13 +63,3 @@ export const CharacterDetailData = [
         magicItems: ['Item 7'],
     },
 ]
-
-export type RowData = {
-    date: string
-    adventure: string
-    session: number
-    level: number
-    gp: number
-    downtime: number
-    magicItems: string[]
-}
