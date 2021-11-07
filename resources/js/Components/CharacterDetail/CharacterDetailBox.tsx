@@ -67,7 +67,7 @@ const CharacterDetailBox = ({
                 </Grid>
                 <Grid item xs={4}>
                     <StyledTypography>STATUS</StyledTypography>
-                    <Typography style={{color: '#a0a2a3'}}>d</Typography>
+                    <Typography style={{color: '#a0a2a3'}}>{character.status}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
