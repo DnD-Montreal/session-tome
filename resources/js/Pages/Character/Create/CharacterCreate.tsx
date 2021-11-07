@@ -1,8 +1,8 @@
-import React from 'react'
 import {ThemeProvider} from '@mui/material/styles'
-import {ApplicationLayout} from 'Layouts'
-import {getFontTheme} from 'Utils'
 import {CharacterCreateForm} from 'Components'
+import {ApplicationLayout} from 'Layouts'
+import React from 'react'
+import {getFontTheme} from 'Utils'
 
 const CharacterCreate = () => {
     const theme = getFontTheme('Form', 16)
@@ -15,8 +15,6 @@ const CharacterCreate = () => {
 }
 
 CharacterCreate.displayName = 'CharacterCreate'
-CharacterCreate.layout = (page: any) => (
-    <ApplicationLayout>{page}</ApplicationLayout>
-)
+CharacterCreate.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default CharacterCreate

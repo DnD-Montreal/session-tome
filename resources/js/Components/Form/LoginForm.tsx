@@ -1,8 +1,8 @@
-import React from 'react'
-import {Box, Button, TextField} from '@mui/material'
 import {useForm} from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
+import {Box, Button, TextField} from '@mui/material'
 import {ErrorText} from 'Components'
+import React from 'react'
+import route from 'ziggy-js'
 
 type LoginFormDataType = {
     email: string
@@ -14,9 +14,7 @@ const LoginForm = () => {
         email: '',
         password: '',
     }
-    const {data, setData, post, errors, reset} = useForm(
-        LOGIN_FORM_INITIAL_VALUE,
-    )
+    const {data, setData, post, errors, reset} = useForm(LOGIN_FORM_INITIAL_VALUE)
     return (
         <Box>
             <TextField

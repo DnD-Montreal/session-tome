@@ -1,6 +1,7 @@
-import React from 'react'
-import {render, screen, fireEvent} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
+import React from 'react'
+
 import Character from './Character'
 
 const props = {
@@ -15,10 +16,7 @@ describe('Character', () => {
 
     it('buttons should lead to respective places', () => {
         render(<Character {...props} />)
-        expect(screen.getByText('Create')).toHaveAttribute(
-            'href',
-            'character.create',
-        )
+        expect(screen.getByText('Create')).toHaveAttribute('href', 'character.create')
         expect(screen.getByText('Import')).toHaveAttribute(
             'href',
             'adventures-league-import.index',

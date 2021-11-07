@@ -50,6 +50,8 @@ class Entry extends Model
         'downtime' => 'integer',
     ];
 
+    protected $appends = ['session'];
+
     public const TYPE_GAME = 'game';
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
@@ -87,5 +89,18 @@ class Entry extends Model
     public function dungeonMaster()
     {
         return $this->belongsTo(\App\Models\User::class);
+    }
+
+    public function getSessionAttribute()
+    {
+        if (is_null($this->character_id) || is_null($this->adventure_id) || is_null($this->date_played)) {
+            return null;
+        }
+
+        // refactor to scope query?
+        return self::where('character_id', $this->character_id)
+            ->where('adventure_id', $this->adventure_id)
+            ->where('date_played', ">", $this->date_played)
+            ->count() + 1;
     }
 }

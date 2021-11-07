@@ -1,7 +1,7 @@
-import React from 'react'
-import {Avatar, Box, Grid, Modal, Typography, Button} from '@mui/material'
-import styled from 'styled-components'
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
+import {Avatar, Box, Button, Grid, Modal, Typography} from '@mui/material'
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -29,12 +29,7 @@ type DeleteModalPropType = {
     warningMessage: string
 }
 
-const DeleteModal = ({
-    open,
-    onClose,
-    onDelete,
-    warningMessage,
-}: DeleteModalPropType) => (
+const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropType) => (
     <Modal open={open} onClose={onClose}>
         <StyledBox>
             <Grid container>

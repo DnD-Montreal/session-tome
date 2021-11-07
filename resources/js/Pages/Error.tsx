@@ -1,8 +1,8 @@
-import React from 'react'
 import {usePage} from '@inertiajs/inertia-react'
 import {Box} from '@mui/material'
-import {UsePageType} from 'Types/global'
+import React from 'react'
 import styled, {keyframes} from 'styled-components'
+import {UsePageType} from 'Types/global'
 
 const Sketch = styled.div`
     height: 400px;

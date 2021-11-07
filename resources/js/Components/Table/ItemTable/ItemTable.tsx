@@ -1,27 +1,27 @@
-import React, {useState} from 'react'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {
+    Stack,
     Table,
     TableBody,
-    TableRow,
     TableCell,
     TableContainer,
     TableHead,
     TablePagination,
-    Stack,
+    TableRow,
 } from '@mui/material'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import Checkbox from '@mui/material/Checkbox'
-import Tooltip from '@mui/material/Tooltip'
 import {alpha} from '@mui/material/styles'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 import {RarityChip} from 'Components'
 import {RowData} from 'Mock/item-data'
+import React, {useState} from 'react'
 
 const EnhancedTableToolbar = ({numSelected}: {numSelected: number}) => (
     <Toolbar
@@ -135,8 +135,7 @@ const ItemTable = ({rows}: ItemTablePropType) => {
                                         selected.length < rows.length
                                     }
                                     checked={
-                                        rows.length > 0 &&
-                                        selected.length === rows.length
+                                        rows.length > 0 && selected.length === rows.length
                                     }
                                     onChange={handleSelectAllClick}
                                     inputProps={{
@@ -155,10 +154,7 @@ const ItemTable = ({rows}: ItemTablePropType) => {
                     </TableHead>
                     <TableBody>
                         {rows
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage,
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: RowData, index: number) => {
                                 const isItemSelected = isSelected(row.iname)
                                 const labelId = `enhanced-table-checkbox-${index}`
@@ -166,13 +162,12 @@ const ItemTable = ({rows}: ItemTablePropType) => {
                                     <TableRow
                                         key={row.iname}
                                         sx={{
-                                            '&:last-child td, &:last-child th':
-                                                {border: 0},
+                                            '&:last-child td, &:last-child th': {
+                                                border: 0,
+                                            },
                                         }}
                                         hover
-                                        onClick={(event) =>
-                                            handleClick(event, row.iname)
-                                        }
+                                        onClick={(event) => handleClick(event, row.iname)}
                                         role='checkbox'
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
