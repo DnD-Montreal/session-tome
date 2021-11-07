@@ -6,21 +6,21 @@ import {ThemeProvider} from '@mui/material/styles'
 import {CharacterCreateForm, CharacterTable, EditDrawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useEffect, useState} from 'react'
-import {CharacterRowData} from 'Types/character-row-data'
+import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 
 const theme = getFontTheme('Form', 16)
 
 type CharacterPropType = {
-    characters: CharacterRowData[]
+    characters: CharacterData[]
 }
 
 const Character = ({characters}: CharacterPropType) => {
-    const [rows, setRows] = useState<CharacterRowData[]>(characters)
+    const [rows, setRows] = useState<CharacterData[]>(characters)
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number>()
-    const [editData, setEditData] = useState<CharacterRowData>()
+    const [editData, setEditData] = useState<CharacterData>()
 
     useEffect(() => {
         setRows(characters)
@@ -72,11 +72,10 @@ const Character = ({characters}: CharacterPropType) => {
                         )}
                         sx={{width: '100%'}}
                         onInputChange={(e: {target: any}) => {
-                            const filteredRows = characters.filter(
-                                (row: CharacterRowData) =>
-                                    row.name
-                                        .toLowerCase()
-                                        .includes(e.target.value.toLowerCase()),
+                            const filteredRows = characters.filter((row: CharacterData) =>
+                                row.name
+                                    .toLowerCase()
+                                    .includes(e.target.value.toLowerCase()),
                             )
                             setRows(filteredRows)
                         }}

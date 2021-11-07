@@ -8,43 +8,43 @@ import {
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
-import {CharacterRowData} from 'Types/character-row-data'
+import {CharacterData} from 'Types/character-data'
+import {EntriesData} from 'Types/entries-data'
 import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 14)
 
-const CharacterDetail = ({character, entries}: any) => {
+type CharacterDetailPropType = {
+    character: CharacterData
+    entries: EntriesData[]
+}
+
+const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editId, setEditId] = useState<number>()
-    const [editData, setEditData] = useState<CharacterRowData>()
 
     return (
-        <>
-            <ThemeProvider theme={theme}>
-                <EditDrawer
-                    content={
-                        <CharacterCreateForm
-                            type='Edit'
-                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                            editData={editData}
-                            editId={editId}
-                        />
-                    }
-                    title={<Typography>Edit character</Typography>}
-                    isOpen={isEditDrawerOpen}
-                    onClose={() => {
-                        setIsEditDrawerOpen(false)
-                    }}
-                />
-                <CharacterDetailBox
-                    character={character}
-                    setIsEditDrawerOpen={setIsEditDrawerOpen}
-                    setEditId={setEditId}
-                    setEditData={setEditData}
-                />
-                <CharacterDetailTable entries={entries} />
-            </ThemeProvider>
-        </>
+        <ThemeProvider theme={theme}>
+            <EditDrawer
+                content={
+                    <CharacterCreateForm
+                        type='Edit'
+                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        editData={character}
+                        editId={character.id}
+                    />
+                }
+                title={<Typography>Edit character</Typography>}
+                isOpen={isEditDrawerOpen}
+                onClose={() => {
+                    setIsEditDrawerOpen(false)
+                }}
+            />
+            <CharacterDetailBox
+                character={character}
+                setIsEditDrawerOpen={setIsEditDrawerOpen}
+            />
+            <CharacterDetailTable entries={entries} />
+        </ThemeProvider>
     )
 }
 

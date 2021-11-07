@@ -22,7 +22,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import {DeleteModal, FactionChip} from 'Components'
 import React, {useState} from 'react'
-import {CharacterRowData} from 'Types/character-row-data'
+import {CharacterData} from 'Types/character-data'
 import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
 import route from 'ziggy-js'
 
@@ -80,10 +80,10 @@ const EnhancedTableToolbar = ({
 )
 
 type CharTablePropType = {
-    rows: CharacterRowData[]
+    rows: CharacterData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
-    setEditData: (payload: CharacterRowData) => void
+    setEditData: (payload: CharacterData) => void
 }
 
 type FormDataType = {
@@ -166,7 +166,7 @@ const CharacterTable = ({
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row: CharacterRowData, index: number) => {
+                            .map((row: CharacterData, index: number) => {
                                 const labelId = `enhanced-table-checkbox-${index}`
                                 const isRowSelected = selected.includes(row.id)
                                 return (
