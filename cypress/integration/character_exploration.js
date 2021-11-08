@@ -75,14 +75,6 @@ describe('Character Management Test Suite', () => {
 
     it('Explore Private Character', () => {
         cy.login({name: characterExplorer})
-        cy.intercept(
-            'GET',
-            Cypress.Laravel.route('character.show').replace(
-                '{character}',
-                character_exploration_id,
-            ),
-            {statusCode: 403},
-        ).as('getPrivateCharacter')
         cy.request({
             method: 'GET',
             url: Cypress.Laravel.route('character.show').replace(
