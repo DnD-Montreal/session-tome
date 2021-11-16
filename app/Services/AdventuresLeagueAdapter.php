@@ -67,10 +67,13 @@ class AdventuresLeagueAdapter
         $character = new Character($characterData);
         $character->save();
 
+        //dd($character);
+
         // Get the entries from the file
         $entries = $this->getEntries($data, $character->id);
 
         $character->entries()->saveMany($entries);
+
         return $character;
     }
 
@@ -83,33 +86,77 @@ class AdventuresLeagueAdapter
     private function getEntries($data, $characterId)
     {
         $entries = [];
-        for ($i = 4; $i < count($data); $i++) {
-            //Check if row is a magic item entry
-            $isItemEntry = ($data[$i][0] == "MAGIC ITEM");
 
-            if (!$isItemEntry) {
+        // entries only begin on line 5 (index 4) of the exported csv
+        for ($i = 4; $i < count($data); $i++) {
+            $isItemEntry = ($data[$i][0] == "MAGIC ITEM");
+            $isCharacterLogEntry = ($data[$i][0] == "CharacterLogEntry");
+            $isCampaignLogEntry = ($data[$i][0] == "CampaignLogEntry");
+            $isDmLogEntry = ($data[$i][0] == "DmLogEntry");
+            $isTradeLogEntry = ($data[$i][0] == "TradeLogEntry");
+            $isPurchaseLogEntry = ($data[$i][0] == "PurchaseLogEntry");
+
+            $isEntryLine = ($isCharacterLogEntry || $isDmLogEntry || $isCampaignLogEntry || $isTradeLogEntry || $isPurchaseLogEntry);
+
+            if ($isEntryLine) {
+                $type = "";
+                if ($isDmLogEntry) {
+                    $type = Entry::TYPE_DM;
+                } elseif ($isCampaignLogEntry || $isCharacterLogEntry) {
+                    $type = Entry::TYPE_GAME;
+                } else {
+                    $type = Entry::TYPE_DOWNTIME;
+                }
                 $entryData = [
                     'user_id' => Auth::id(),
+                    'adventure_id' => null,
+                    'campaign_id' => null,
                     'character_id' => $characterId,
-                    'date_played' => (array_key_exists(3, $data[$i])) ? $data[$i][3] : now(),
-                    'type' => Entry::TYPE_GAME,
+                    'event_id' => null,
+                    'dungeon_master_id' => null,
+                    'dungeon_master' => (array_key_exists(12, $data[$i])) ? (float)$data[$i][12] : "",
+                    'location' => (array_key_exists(11, $data[$i])) ? (float)$data[$i][11] : "",
+                    'levels' => 0,
+                    'date_played' => ($data[$i][3] == "") ? now() : $data[$i][3],
                     'gp' => (array_key_exists(7, $data[$i])) ? (float)$data[$i][7] : 0,
+                    'downtime' => (array_key_exists(8, $data[$i])) ? (float)$data[$i][8] : 0,
+                    'type' => $type,
                 ];
-                array_push($entries, new Entry($entryData));
-            }
-            // Item importing to be refactored
-            /*else {
-                //create the item and attach it to the last entry
-                $latestEntry = end($entries);
-                if (is_null($latestEntry)) {
-                    continue;
+                $entry = Entry::factory()->create($entryData);
+                $entry->save();
+                array_push($entries, $entry);
+            } else {
+                if (count($entries) == 0) {
+                    $e = Entry::factory()->create([
+                        'user_id' => Auth::id(),
+                        'adventure_id' => null,
+                        'campaign_id' => null,
+                        'character_id' => $characterId,
+                        'event_id' => null,
+                        'dungeon_master_id' => null,
+                        'levels' => 0,
+                        'date_played' => now(),
+                        'gp' => 0,
+                        'downtime' => 0,
+                        'type' => Entry::TYPE_GAME,
+                    ]);
+                    $e->save();
+                    array_push($entries, $e);
                 }
+                $lastEntry = $entries[array_key_last($entries)];
                 $itemData = [
-                    'name' => $data[$i][1],
-                    'rarity' => $data[$i][2],
+                    'entry_id' => $lastEntry->id,
+                    'character_id' => $characterId,
+                    'name' => (array_key_exists(1, $data[$i])) ? $data[$i][1] : "",
+                    //'rarity' => (array_key_exists(2, $data[$i])) ? $data[$i][2] : "common", //need enum
+                    'description' => (array_key_exists(6, $data[$i])) ? $data[$i][6] : "",
+                    'author_id' => Auth::id(),
+                    'tier' => 0,
+                    'counted' => 0,
                 ];
-                $latestEntry->items()->save(new Item($itemData));
-            }*/
+                $item = new Item($itemData);
+                $item->save();
+            }
         }
         return $entries;
     }
