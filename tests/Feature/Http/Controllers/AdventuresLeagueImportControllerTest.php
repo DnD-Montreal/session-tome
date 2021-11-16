@@ -39,18 +39,18 @@ class AdventuresLeagueImportControllerTest extends TestCase
     public function a_user_can_import_an_adventures_league_character()
     {
         $user = User::factory()->create();
-        $csv = new UploadedFile(database_path('mocks/grod.csv'), "grod.csv");
+        $csv = new UploadedFile(database_path('mocks/dante.csv'), "dante.csv");
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
-        $character = Character::where('name', "Grod")
-            ->where('race', "Half Orc")
+        $character = Character::where('name', "Donte Greysor")
+            ->where('race', "V. Human")
             ->where('class', "Fighter")
             ->first();
 
         $response->assertRedirect(route('character.show', ['character' => $character]));
         $response->assertStatus(302);
-        $this->assertEquals("Grod", $character->name);
-        $this->assertEquals("Half orc", $character->race);
+        $this->assertEquals("Donte Greysor", $character->name);
+        $this->assertEquals("V. Human", $character->race);
         $this->assertEquals("Fighter", $character->class);
         $this->assertEquals(1, $character->level);
     }
