@@ -55,6 +55,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals("Fighter", $character->class);
         $this->assertEquals(1, $character->level);
         $this->assertEquals("Shield +1", $firstItem->name);
+        $this->assertCount(18, $character->items);
     }
 
     /**
