@@ -47,12 +47,14 @@ class AdventuresLeagueImportControllerTest extends TestCase
             ->where('class', "Fighter")
             ->first();
 
+        $firstItem = $character->items()->first();
         $response->assertRedirect(route('character.show', ['character' => $character]));
         $response->assertStatus(302);
         $this->assertEquals("Donte Greysor", $character->name);
         $this->assertEquals("V. Human", $character->race);
         $this->assertEquals("Fighter", $character->class);
         $this->assertEquals(1, $character->level);
+        $this->assertEquals("Shield +1", $firstItem->name);
     }
 
     /**
