@@ -67,8 +67,6 @@ class AdventuresLeagueAdapter
         $character = new Character($characterData);
         $character->save();
 
-        //dd($character);
-
         // Get the entries from the file
         $entries = $this->getEntries($data, $character->id);
 
@@ -89,7 +87,7 @@ class AdventuresLeagueAdapter
 
         // entries only begin on line 5 (index 4) of the exported csv
         for ($i = 4; $i < count($data); $i++) {
-            $isItemEntry = ($data[$i][0] == "MAGIC ITEM");
+            $isItemEntry = ($data[$i][0] == "MAGIC ITEM") || ($data[$i][0] == "TRADED MAGIC ITEM");
             $isCharacterLogEntry = ($data[$i][0] == "CharacterLogEntry");
             $isCampaignLogEntry = ($data[$i][0] == "CampaignLogEntry");
             $isDmLogEntry = ($data[$i][0] == "DmLogEntry");
@@ -125,7 +123,7 @@ class AdventuresLeagueAdapter
                 $entry = Entry::factory()->create($entryData);
                 $entry->save();
                 array_push($entries, $entry);
-            } else {
+            } elseif ($isItemEntry) {
                 if (count($entries) == 0) {
                     $e = Entry::factory()->create([
                         'user_id' => Auth::id(),
