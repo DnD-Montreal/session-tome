@@ -19,13 +19,13 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->foreignId('entry_id')->constrained();
             $table->foreignId('character_id')->constrained();
+            $table->foreignId('author_id')->constrained('users', 'id');
             $table->string('name');
             $table->enum('rarity', ["common","uncommon","rare","very_rare","legendary"]);
             $table->string('tier');
             $table->text('description');
             $table->string('counted');
             $table->timestamps();
-            $table->foreignId('author_id')->constrained('users', 'id');
         });
 
         Schema::enableForeignKeyConstraints();
