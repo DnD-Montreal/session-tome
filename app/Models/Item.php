@@ -37,6 +37,8 @@ class Item extends Model
         'author_id' => 'integer',
     ];
 
+    public const RARITY = ["common","uncommon","rare","very_rare","legendary"];
+
 
     public function trades()
     {
