@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateEntryItems;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
@@ -40,7 +41,11 @@ class EntryController extends Controller
      */
     public function store(EntryStoreRequest $request)
     {
-        $entry = Entry::create($request->validated());
+        $entryData = collect($request->validated())->except('items');
+        $itemData = collect($request->validated())->only('items');
+        $entry = Entry::create($entryData);
+        // attach any associated items to the entry in question.
+        CreateEntryItems::run($entry, $itemData);
 
         $request->session()->flash('entry.id', $entry->id);
 
