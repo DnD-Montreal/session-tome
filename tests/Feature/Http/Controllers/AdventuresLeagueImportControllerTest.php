@@ -61,6 +61,31 @@ class AdventuresLeagueImportControllerTest extends TestCase
     /**
      * @test
      */
+    public function first_line_item_creates_entry()
+    {
+        $user = User::factory()->create();
+        $csv = new UploadedFile(database_path('mocks/dante-bad.csv'), "dante.csv");
+        $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
+
+        $character = Character::where('name', "Donte Greysor")
+            ->where('race', "V. Human")
+            ->where('class', "Fighter")
+            ->first();
+
+        $firstItem = $character->items()->first();
+        $response->assertRedirect(route('character.show', ['character' => $character]));
+        $response->assertStatus(302);
+        $this->assertEquals("Donte Greysor", $character->name);
+        $this->assertEquals("V. Human", $character->race);
+        $this->assertEquals("Fighter", $character->class);
+        $this->assertEquals(1, $character->level);
+        $this->assertEquals("Shield +1", $firstItem->name);
+        $this->assertCount(19, $character->items);
+    }
+
+    /**
+     * @test
+     */
     public function response_failure_if_invalid_file_format()
     {
         $user = User::factory()->create();
