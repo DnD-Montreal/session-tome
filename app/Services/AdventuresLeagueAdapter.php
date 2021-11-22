@@ -141,12 +141,15 @@ class AdventuresLeagueAdapter
                     $e->save();
                     array_push($entries, $e);
                 }
+
+                $rarity = ((array_key_exists(2, $data[$i])) ? (string) $data[$i][2] : "common");
                 $lastEntry = $entries[array_key_last($entries)];
+
                 $itemData = [
                     'entry_id' => $lastEntry->id,
                     'character_id' => $characterId,
                     'name' => (array_key_exists(1, $data[$i])) ? $data[$i][1] : "",
-                    //'rarity' => (array_key_exists(2, $data[$i])) ? $data[$i][2] : "common", //need enum
+                    'rarity' => in_array($rarity, Item::RARITY) ? $rarity : "uncommon", //need enum
                     'description' => (array_key_exists(6, $data[$i])) ? $data[$i][6] : "",
                     'author_id' => Auth::id(),
                     'tier' => 0,
