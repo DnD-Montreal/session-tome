@@ -120,12 +120,12 @@ class AdventuresLeagueAdapter
                     'downtime' => (array_key_exists(8, $data[$i])) ? (float)$data[$i][8] : 0,
                     'type' => $type,
                 ];
-                $entry = Entry::factory()->create($entryData);
+                $entry = Entry::create($entryData);
                 $entry->save();
                 array_push($entries, $entry);
             } elseif ($isItemEntry) {
                 if (count($entries) == 0) {
-                    $e = Entry::factory()->create([
+                    $e = Entry::create([
                         'user_id' => Auth::id(),
                         'adventure_id' => null,
                         'campaign_id' => null,
