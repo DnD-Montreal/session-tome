@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->foreignId('entry_id')->constrained();
             $table->foreignId('character_id')->constrained();
-            $table->text('name');
+            $table->string('name', 500);
             $table->enum('rarity', ["common","uncommon","rare","very_rare","legendary"]);
             $table->string('tier');
             $table->text('description');
