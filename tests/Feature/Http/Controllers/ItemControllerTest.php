@@ -93,7 +93,6 @@ class ItemControllerTest extends TestCase
         $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
         $tier = $this->faker->word;
         $description = $this->faker->text;
-        $counted = $this->faker->word;
         $author = User::factory()->create();
 
         $response = $this->actingAs($character->user)->post(route('item.store'), [
@@ -103,7 +102,6 @@ class ItemControllerTest extends TestCase
             'rarity' => $rarity,
             'tier' => $tier,
             'description' => $description,
-            'counted' => $counted,
             'author_id' => $author->id
         ]);
 
@@ -114,7 +112,6 @@ class ItemControllerTest extends TestCase
             ->where('rarity', $rarity)
             ->where('tier', $tier)
             ->where('description', $description)
-            ->where('counted', $counted)
             ->where('author_id', $author->id)
             ->get();
 
@@ -180,7 +177,6 @@ class ItemControllerTest extends TestCase
         $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
         $tier = $this->faker->word;
         $description = $this->faker->text;
-        $counted = $this->faker->word;
         $author = User::factory()->create();
 
         $response = $this->actingAs($item->user())->put(route('item.update', $item), [
@@ -190,7 +186,6 @@ class ItemControllerTest extends TestCase
             'rarity' => $rarity,
             'tier' => $tier,
             'description' => $description,
-            'counted' => $counted,
             'author_id' => $author->id
         ]);
 
@@ -205,7 +200,6 @@ class ItemControllerTest extends TestCase
         $this->assertEquals($rarity, $item->rarity);
         $this->assertEquals($tier, $item->tier);
         $this->assertEquals($description, $item->description);
-        $this->assertEquals($counted, $item->counted);
         $this->assertEquals($author->id, $item->author_id);
     }
 
