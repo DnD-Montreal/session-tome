@@ -19,8 +19,9 @@ class CreateEntryItems
      */
     public function handle(Entry $entry, array $items)
     {
+        $out = collect();
         foreach ($items as $item) {
-            Item::create(
+            $out[] = Item::create(
                 array_merge([
                     'author_id' => Auth::id(),
                     'entry_id' => $entry->id,
@@ -28,5 +29,7 @@ class CreateEntryItems
                 ], $item)
             );
         }
+
+        return $out;
     }
 }
