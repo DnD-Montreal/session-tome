@@ -191,7 +191,7 @@ class ItemControllerTest extends TestCase
 
         $item->refresh();
 
-        $response->assertRedirect(route('item.index'));
+        $response->assertRedirect(route('character.show', $character->id));
         $response->assertSessionHas('item.id', $item->id);
 
         $this->assertEquals($entry->id, $item->entry_id);
@@ -210,10 +210,11 @@ class ItemControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $item = Item::factory()->create();
+        $characterId = $item->character_id;
 
         $response = $this->delete(route('item.destroy', $item));
 
-        $response->assertRedirect(route('item.index'));
+        $response->assertRedirect(route('character.show', $characterId));
 
         $this->assertDeleted($item);
     }
