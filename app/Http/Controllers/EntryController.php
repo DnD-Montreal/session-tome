@@ -45,7 +45,7 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
-        CreateEntryItems::run($entry, $itemData['items']);
+        CreateEntryItems::run($entry, $itemData['items'] ?? []);
 
         $request->session()->flash('entry.id', $entry->id);
 
