@@ -37,7 +37,7 @@ class EntryController extends Controller
 
     /**
      * @param \App\Http\Requests\EntryStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(EntryStoreRequest $request)
     {
@@ -45,7 +45,7 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
-        CreateEntryItems::run($entry, $itemData->toArray());
+        CreateEntryItems::run($entry, $itemData['items']);
 
         $request->session()->flash('entry.id', $entry->id);
 
@@ -53,7 +53,7 @@ class EntryController extends Controller
             return redirect()->route('dm-entry.index');
         }
 
-        return redirect()->route('entry.index');
+        return redirect()->route('character.show', $entry->character_id);
     }
 
     /**
