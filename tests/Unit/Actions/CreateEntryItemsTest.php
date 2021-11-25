@@ -43,5 +43,10 @@ class CreateEntryItemsTest extends TestCase
         $this->assertCount(2, $items);
         $this->assertDatabaseHas('items', $itemData[0]);
         $this->assertDatabaseHas('items', $itemData[1]);
+        $this->assertEquals($itemData[0]['name'], $items[0]['name']);
+        $this->assertEquals($itemData[0]['rarity'], $items[0]['rarity']);
+        $this->assertEquals($itemData[1]['name'], $items[1]['name']);
+        $this->assertEquals($itemData[1]['rarity'], $items[1]['rarity']);
+        $this->assertEquals($itemData[1]['description'], $items[1]['description']);
     }
 }
