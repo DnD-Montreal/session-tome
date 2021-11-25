@@ -79,11 +79,14 @@ class EntryController extends Controller
     /**
      * @param \App\Http\Requests\EntryUpdateRequest $request
      * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(EntryUpdateRequest $request, Entry $entry)
     {
-        $entry->update($request->validated());
+        $entryData = collect($request->validated())->except('items');
+        $itemData = collect($request->validated())->only('items');
+        $entry->update($entryData->toArray());
+        CreateEntryItems::run($entry, $itemData['items'] ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         if ($request->type == Entry::TYPE_DM) {
