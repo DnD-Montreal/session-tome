@@ -20,16 +20,21 @@ class CreateEntryItems
     public function handle(Entry $entry, array $items)
     {
         $out = collect();
+
+        if ($entry->items()->count() >= count($items)) {
+            // This is probably a "sync" so clear the existing items
+            $entry->items()->delete();
+        }
+
         foreach ($items as $item) {
-            $out[] = Item::create(
+            $out[] = new Item(
                 array_merge([
                     'author_id' => Auth::id(),
-                    'entry_id' => $entry->id,
                     'character_id' => $entry->character_id
                 ], $item)
             );
         }
 
-        return $out;
+        return $entry->items()->saveMany($out);
     }
 }
