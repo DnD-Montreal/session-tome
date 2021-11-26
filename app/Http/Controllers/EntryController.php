@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateEntryItems;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
@@ -36,11 +37,15 @@ class EntryController extends Controller
 
     /**
      * @param \App\Http\Requests\EntryStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(EntryStoreRequest $request)
     {
-        $entry = Entry::create($request->validated());
+        $entryData = collect($request->validated())->except('items');
+        $itemData = collect($request->validated())->only('items');
+        $entry = Entry::create($entryData->toArray());
+        // attach any associated items to the entry in question.
+        CreateEntryItems::run($entry, $itemData['items'] ?? []);
 
         $request->session()->flash('entry.id', $entry->id);
 
@@ -48,7 +53,7 @@ class EntryController extends Controller
             return redirect()->route('dm-entry.index');
         }
 
-        return redirect()->route('entry.index');
+        return redirect()->route('character.show', $entry->character_id);
     }
 
     /**
@@ -74,11 +79,14 @@ class EntryController extends Controller
     /**
      * @param \App\Http\Requests\EntryUpdateRequest $request
      * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(EntryUpdateRequest $request, Entry $entry)
     {
-        $entry->update($request->validated());
+        $entryData = collect($request->validated())->except('items');
+        $itemData = collect($request->validated())->only('items');
+        $entry->update($entryData->toArray());
+        CreateEntryItems::run($entry, $itemData['items'] ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         if ($request->type == Entry::TYPE_DM) {
@@ -91,7 +99,7 @@ class EntryController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Entry $entry)
     {
