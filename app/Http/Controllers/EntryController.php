@@ -99,7 +99,7 @@ class EntryController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Entry $entry)
     {
