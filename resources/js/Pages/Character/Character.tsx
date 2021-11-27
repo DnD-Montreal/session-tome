@@ -1,7 +1,7 @@
 import {Link} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {Autocomplete, Button, Grid, Stack, TextField, Typography} from '@mui/material'
+import {Button, Grid, Stack, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterCreateForm, CharacterTable, EditDrawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
@@ -63,24 +63,7 @@ const Character = ({characters}: CharacterPropType) => {
                         </Button>
                     </Stack>
                 </Grid>
-                <Grid item xs={4}>
-                    <Autocomplete
-                        id='character-search'
-                        options={rows.map((option) => option.name)}
-                        renderInput={(params) => (
-                            <TextField {...params} fullWidth label='Search Character' />
-                        )}
-                        sx={{width: '100%'}}
-                        onInputChange={(e: {target: any}) => {
-                            const filteredRows = characters.filter((row: CharacterData) =>
-                                row.name
-                                    .toLowerCase()
-                                    .includes(e.target.value.toLowerCase()),
-                            )
-                            setRows(filteredRows)
-                        }}
-                    />
-                </Grid>
+                <Grid item xs={4} />
                 <Grid item xs={12}>
                     <CharacterTable
                         rows={rows}

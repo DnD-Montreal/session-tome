@@ -1,5 +1,6 @@
 import {
     Checkbox,
+    Grid,
     Table,
     TableBody,
     TableCell,
@@ -7,6 +8,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
     Toolbar,
     Typography,
 } from '@mui/material'
@@ -21,6 +23,7 @@ type DataTablePropType = {
     setSelected?: (payload: any) => void
     tableName: string
     bulkSelectActions: ReactNode
+    filterProperties?: string[]
 }
 
 type ColumnType = {
@@ -37,30 +40,68 @@ const DataTable = ({
     setSelected,
     tableName,
     bulkSelectActions,
+    filterProperties,
 }: DataTablePropType) => {
+    const [currentRows, setCurrentRows] = useState(data)
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
+    const filter = (row: any, target: string) => {
+        let isFilter = false
+        Object.entries(row).forEach(([key, value]) => {
+            if (filterProperties?.includes(key)) {
+                if (typeof value === 'string') {
+                    isFilter = value.toLowerCase().includes(target.toLowerCase())
+                }
+            }
+        })
+        return isFilter
+    }
     return (
         <>
             <Toolbar>
-                {selected && selected.length > 0 ? (
-                    <Typography
-                        sx={{flex: '1 1 100%'}}
-                        color='inherit'
-                        variant='subtitle1'
-                        component='div'>
-                        {selected?.length} selected
-                    </Typography>
-                ) : (
-                    <Typography
-                        sx={{flex: '1 1 100%', fontFamily: 'Cinzel Decorative'}}
-                        variant='h6'
-                        id='tableTitle'
-                        component='div'>
-                        {tableName}
-                    </Typography>
-                )}
-                {bulkSelectActions}
+                <Grid container>
+                    <Grid item xs={6}>
+                        {selected && selected.length > 0 ? (
+                            <Typography
+                                sx={{flex: '1 1 100%'}}
+                                color='inherit'
+                                variant='subtitle1'
+                                component='div'>
+                                {selected?.length} selected
+                            </Typography>
+                        ) : (
+                            <Typography
+                                sx={{flex: '1 1 100%', fontFamily: 'Cinzel Decorative'}}
+                                variant='h6'
+                                id='tableTitle'
+                                component='div'>
+                                {tableName}
+                            </Typography>
+                        )}
+                    </Grid>
+                    <Grid item xs={6}>
+                        {bulkSelectActions}
+                    </Grid>
+                    {filterProperties && (
+                        <Grid item xs={6} style={{padding: '8px 0px'}}>
+                            <TextField
+                                fullWidth
+                                label='Search Character'
+                                onChange={(e: any) => {
+                                    if (e.target.value === '' || !e.target.value) {
+                                        setCurrentRows(data)
+                                    }
+                                    const filteredRows = data.filter((item: any) =>
+                                        filter(item, e.target.value),
+                                    )
+                                    if (filteredRows.length > 0) {
+                                        setCurrentRows(filteredRows)
+                                    }
+                                }}
+                            />
+                        </Grid>
+                    )}
+                </Grid>
             </Toolbar>
             <TableContainer>
                 <Table sx={{minWidth: 650}} aria-label='simple table'>
@@ -79,7 +120,7 @@ const DataTable = ({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data
+                        {currentRows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: any) => {
                                 const isRowSelected =

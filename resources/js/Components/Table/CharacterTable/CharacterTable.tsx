@@ -85,7 +85,7 @@ const CharacterTable = ({
         },
     ]
     const bulkSelectActions = selected.length > 0 && (
-        <Stack direction='row'>
+        <Stack direction='row' justifyContent='end'>
             <Tooltip title='Delete'>
                 <IconButton>
                     <DeleteIcon
@@ -120,6 +120,7 @@ const CharacterTable = ({
                 columns={columns}
                 tableName='Characters'
                 bulkSelectActions={bulkSelectActions}
+                filterProperties={['name']}
             />
         </Box>
     )
