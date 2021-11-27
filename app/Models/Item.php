@@ -21,7 +21,6 @@ class Item extends Model
         'rarity',
         'tier',
         'description',
-        'counted',
         'author_id',
     ];
 

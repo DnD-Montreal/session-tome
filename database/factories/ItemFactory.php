@@ -32,7 +32,6 @@ class ItemFactory extends Factory
             'rarity' => $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]),
             'tier' => $this->faker->word(),
             'description' => $this->faker->text(),
-            'counted' => $this->faker->word(),
             'author_id' => User::factory()
         ];
     }
