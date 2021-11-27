@@ -12,6 +12,7 @@ export {default as RarityChip} from './RarityChip'
 export {CharacterDetailBox} from './CharacterDetail'
 
 // Tables
+export {default as DataTable} from './DataTable'
 export {CharacterDetailTable} from './Table/CharacterDetail'
 export {TableToolbar} from './Table/CharacterDetail'
 export {default as CharacterTable} from './Table/CharacterTable'
