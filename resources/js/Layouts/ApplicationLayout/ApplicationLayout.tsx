@@ -57,7 +57,7 @@ const ContentRow = styled(Grid)`
 `
 
 const ContentContainer = styled.div`
-    padding-top: 3em;
+    padding: 3em 16px 0px 16px;
     @media only screen and (min-width: 900px) {
         margin: 0px auto 0px auto;
     }

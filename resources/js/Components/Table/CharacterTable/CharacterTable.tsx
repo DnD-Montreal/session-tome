@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {Box, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip} from 'Components'
-import React, {useState} from 'react'
+import React, {ReactNodeArray, useState} from 'react'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
@@ -12,6 +12,7 @@ type CharTablePropType = {
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
     setEditData: (payload: CharacterData) => void
+    actions: ReactNodeArray
 }
 
 type FormDataType = {
@@ -23,6 +24,7 @@ const CharacterTable = ({
     setIsEditDrawerOpen,
     setEditId,
     setEditData,
+    actions,
 }: CharTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -85,7 +87,7 @@ const CharacterTable = ({
         },
     ]
     const bulkSelectActions = selected.length > 0 && (
-        <Stack direction='row' justifyContent='end'>
+        <Stack direction='row' justifyContent='flex-end'>
             <Tooltip title='Delete'>
                 <IconButton>
                     <DeleteIcon
@@ -113,6 +115,7 @@ const CharacterTable = ({
                 }}
             />
             <DataTable
+                actions={actions}
                 selected={selected}
                 setSelected={setSelected}
                 hasCheckbox
@@ -120,7 +123,7 @@ const CharacterTable = ({
                 columns={columns}
                 tableName='Characters'
                 bulkSelectActions={bulkSelectActions}
-                filterProperties={['name']}
+                filterProperties={['name', 'race']}
             />
         </Box>
     )

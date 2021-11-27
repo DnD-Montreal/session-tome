@@ -1,14 +1,19 @@
 import {Link} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {Button, Grid, Stack, Typography} from '@mui/material'
+import {Button, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterCreateForm, CharacterTable, EditDrawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useEffect, useState} from 'react'
+import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
+
+const StyledButton = styled(Button)`
+    margin: 8px;
+`
 
 const theme = getFontTheme('Form', 16)
 
@@ -25,7 +30,17 @@ const Character = ({characters}: CharacterPropType) => {
     useEffect(() => {
         setRows(characters)
     }, [characters])
-
+    const actions = [
+        <StyledButton variant='contained' startIcon={<AddIcon />}>
+            <Link href={route('character.create')}>Create</Link>
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<AddIcon />}>
+            <Link href={route('adventures-league-import.index')}>Import</Link>
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<FileDownloadIcon />}>
+            Export
+        </StyledButton>,
+    ]
     return (
         <ThemeProvider theme={theme}>
             <EditDrawer
@@ -43,36 +58,13 @@ const Character = ({characters}: CharacterPropType) => {
                     setIsEditDrawerOpen(false)
                 }}
             />
-            <Grid
-                container
-                rowSpacing={{xs: 1, sm: 2, md: 3}}
-                alignItems='center'
-                justifyContent='center'>
-                <Grid item xs={8} alignItems='center' justifyContent='center'>
-                    <Stack direction='row' spacing={4}>
-                        <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href={route('character.create')}>Create</Link>
-                        </Button>
-                        <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href={route('adventures-league-import.index')}>
-                                Import
-                            </Link>
-                        </Button>
-                        <Button variant='contained' startIcon={<FileDownloadIcon />}>
-                            Export
-                        </Button>
-                    </Stack>
-                </Grid>
-                <Grid item xs={4} />
-                <Grid item xs={12}>
-                    <CharacterTable
-                        rows={rows}
-                        setIsEditDrawerOpen={setIsEditDrawerOpen}
-                        setEditId={setEditId}
-                        setEditData={setEditData}
-                    />
-                </Grid>
-            </Grid>
+            <CharacterTable
+                actions={actions}
+                rows={rows}
+                setIsEditDrawerOpen={setIsEditDrawerOpen}
+                setEditId={setEditId}
+                setEditData={setEditData}
+            />
         </ThemeProvider>
     )
 }

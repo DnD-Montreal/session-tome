@@ -12,8 +12,13 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import React, {ReactNode, useState} from 'react'
+import React, {ReactNode, ReactNodeArray, useState} from 'react'
+import styled from 'styled-components'
 import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
+
+const Container = styled.div`
+    min-width: 66vw;
+`
 
 type DataTablePropType = {
     hasCheckbox: boolean
@@ -24,6 +29,7 @@ type DataTablePropType = {
     tableName: string
     bulkSelectActions: ReactNode
     filterProperties?: string[]
+    actions?: ReactNodeArray
 }
 
 type ColumnType = {
@@ -41,6 +47,7 @@ const DataTable = ({
     tableName,
     bulkSelectActions,
     filterProperties,
+    actions,
 }: DataTablePropType) => {
     const [currentRows, setCurrentRows] = useState(data)
     const [page, setPage] = useState(0)
@@ -57,7 +64,27 @@ const DataTable = ({
         return isFilter
     }
     return (
-        <>
+        <Container>
+            <Grid container>
+                <Grid item xs={8}>
+                    {actions}
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField
+                        fullWidth
+                        label='Search Character'
+                        onChange={(e: any) => {
+                            if (e.target.value === '' || !e.target.value) {
+                                setCurrentRows(data)
+                            }
+                            const filteredRows = data.filter((item: any) =>
+                                filter(item, e.target.value),
+                            )
+                            setCurrentRows(filteredRows)
+                        }}
+                    />
+                </Grid>
+            </Grid>
             <Toolbar>
                 <Grid container>
                     <Grid item xs={6}>
@@ -82,29 +109,10 @@ const DataTable = ({
                     <Grid item xs={6}>
                         {bulkSelectActions}
                     </Grid>
-                    {filterProperties && (
-                        <Grid item xs={6} style={{padding: '8px 0px'}}>
-                            <TextField
-                                fullWidth
-                                label='Search Character'
-                                onChange={(e: any) => {
-                                    if (e.target.value === '' || !e.target.value) {
-                                        setCurrentRows(data)
-                                    }
-                                    const filteredRows = data.filter((item: any) =>
-                                        filter(item, e.target.value),
-                                    )
-                                    if (filteredRows.length > 0) {
-                                        setCurrentRows(filteredRows)
-                                    }
-                                }}
-                            />
-                        </Grid>
-                    )}
                 </Grid>
             </Toolbar>
             <TableContainer>
-                <Table sx={{minWidth: 650}} aria-label='simple table'>
+                <Table aria-label='simple table'>
                     <TableHead>
                         <TableRow>
                             {hasCheckbox && <TableCell />}
@@ -206,7 +214,7 @@ const DataTable = ({
                     setPage(0)
                 }}
             />
-        </>
+        </Container>
     )
 }
 
