@@ -12,7 +12,6 @@ export {default as RarityChip} from './RarityChip'
 export {CharacterDetailBox} from './CharacterDetail'
 
 // Tables
-export {default as DataTable} from './DataTable'
 export {CharacterDetailTable} from './Table/CharacterDetail'
 export {TableToolbar} from './Table/CharacterDetail'
 export {default as CharacterTable} from './Table/CharacterTable'
@@ -27,4 +26,4 @@ export {
 } from './Form'
 
 // Atoms
-export {Link} from './Atom'
+export {DataTable, Link} from './Atom'
