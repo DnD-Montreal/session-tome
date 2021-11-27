@@ -1,18 +1,24 @@
 import {Link, useForm} from '@inertiajs/inertia-react'
+import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Box, Chip, IconButton, Stack, Tooltip} from '@mui/material'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip} from 'Components'
-import React, {ReactNodeArray, useState} from 'react'
+import React, {useState} from 'react'
+import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
+const StyledButton = styled(Button)`
+    margin: 8px;
+`
+
 type CharTablePropType = {
-    rows: CharacterData[]
+    data: CharacterData[]
     setIsEditDrawerOpen: (payload: boolean) => void
     setEditId: (payload: number) => void
     setEditData: (payload: CharacterData) => void
-    actions: ReactNodeArray
 }
 
 type FormDataType = {
@@ -20,15 +26,27 @@ type FormDataType = {
 }
 
 const CharacterTable = ({
-    rows,
+    data,
     setIsEditDrawerOpen,
     setEditId,
     setEditData,
-    actions,
 }: CharTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
+
+    const actions = [
+        <StyledButton variant='contained' startIcon={<AddIcon />}>
+            <Link href={route('character.create')}>Create</Link>
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<AddIcon />}>
+            <Link href={route('adventures-league-import.index')}>Import</Link>
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<FileDownloadIcon />}>
+            Export
+        </StyledButton>,
+    ]
+
     const columns = [
         {
             property: 'name',
@@ -118,8 +136,8 @@ const CharacterTable = ({
                 actions={actions}
                 selected={selected}
                 setSelected={setSelected}
-                hasCheckbox
-                data={rows}
+                isSelectable
+                data={data}
                 columns={columns}
                 tableName='Characters'
                 bulkSelectActions={bulkSelectActions}

@@ -1,6 +1,8 @@
+import SearchIcon from '@mui/icons-material/Search'
 import {
     Checkbox,
     Grid,
+    InputAdornment,
     Table,
     TableBody,
     TableCell,
@@ -14,22 +16,31 @@ import {
 } from '@mui/material'
 import React, {ReactNode, ReactNodeArray, useState} from 'react'
 import styled from 'styled-components'
-import {DEFAULT_ROWS_PER_PAGE} from 'Utils'
+import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
 const Container = styled.div`
     min-width: 66vw;
 `
 
 type DataTablePropType = {
-    hasCheckbox: boolean
-    columns: ColumnType[]
-    data: any[]
+    // selectable table, if it's `true`, we should pass down selected, setSelected and bulkSelectActions from parent component
+    isSelectable: boolean
     selected?: number[]
     setSelected?: (payload: any) => void
+    bulkSelectActions?: ReactNode
+    // custom columns to be displayed and how it should be displayed
+    columns: ColumnType[]
+    data: DataType[]
+    // table name to be specified
     tableName: string
-    bulkSelectActions: ReactNode
+    // array of keys that can be searched using filter input
     filterProperties?: string[]
+    // buttons to be included on top of the table component
     actions?: ReactNodeArray
+}
+
+type DataType = {
+    [key: string]: any
 }
 
 type ColumnType = {
@@ -39,7 +50,7 @@ type ColumnType = {
 }
 
 const DataTable = ({
-    hasCheckbox,
+    isSelectable,
     columns,
     data,
     selected,
@@ -49,11 +60,15 @@ const DataTable = ({
     filterProperties,
     actions,
 }: DataTablePropType) => {
+    // Table states
     const [currentRows, setCurrentRows] = useState(data)
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(DEFAULT_PAGE)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
-    const filter = (row: any, target: string) => {
+
+    // filter function
+    const filter = (row: DataType, target: string) => {
         let isFilter = false
+        if (!filterProperties) return isFilter
         Object.entries(row).forEach(([key, value]) => {
             if (filterProperties?.includes(key)) {
                 if (typeof value === 'string') {
@@ -69,10 +84,17 @@ const DataTable = ({
                 <Grid item xs={8}>
                     {actions}
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} alignItems='flex-end' display='flex'>
                     <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
                         fullWidth
-                        label='Search Character'
+                        label='Search table'
                         onChange={(e: any) => {
                             if (e.target.value === '' || !e.target.value) {
                                 setCurrentRows(data)
@@ -106,20 +128,22 @@ const DataTable = ({
                             </Typography>
                         )}
                     </Grid>
-                    <Grid item xs={6}>
-                        {bulkSelectActions}
-                    </Grid>
+                    {bulkSelectActions && (
+                        <Grid item xs={6}>
+                            {bulkSelectActions}
+                        </Grid>
+                    )}
                 </Grid>
             </Toolbar>
             <TableContainer>
                 <Table aria-label='simple table'>
                     <TableHead>
                         <TableRow>
-                            {hasCheckbox && <TableCell />}
+                            {isSelectable && <TableCell />}
                             {columns.map((column: any, index: number) => (
                                 <TableCell
                                     padding={
-                                        !hasCheckbox && index === 0 ? 'none' : undefined
+                                        !isSelectable && index === 0 ? 'none' : undefined
                                     }
                                     align='center'>
                                     {column.title}
@@ -146,7 +170,7 @@ const DataTable = ({
                                         aria-checked={isRowSelected}
                                         tabIndex={-1}
                                         selected={isRowSelected}>
-                                        {hasCheckbox && selected && setSelected && (
+                                        {isSelectable && selected && setSelected && (
                                             <TableCell padding='checkbox'>
                                                 <Checkbox
                                                     onClick={() => {
