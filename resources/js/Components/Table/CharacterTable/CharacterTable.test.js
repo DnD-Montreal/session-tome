@@ -8,7 +8,7 @@ const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
     isSelected: isSelectedtest,
-    rows: characterData,
+    data: characterData,
     selected: [],
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
