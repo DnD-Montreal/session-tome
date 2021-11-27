@@ -1,10 +1,10 @@
 import './ApplicationLayout.css'
 
 import styled from '@emotion/styled'
-import {Link as InertiaLink, usePage} from '@inertiajs/inertia-react'
+import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {Authentication} from 'Components'
+import {Authentication, Link as InertiaLink} from 'Components'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 import React, {ReactNode, useState} from 'react'
@@ -130,9 +130,12 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             md={6}
                             alignItems='center'
                             justifyContent='center'>
-                            <InertiaLink href='/#'>
-                                <SVG src={applicationLogo} width={278} height={51} />
-                            </InertiaLink>
+                            <InertiaLink
+                                href='/#'
+                                child={
+                                    <SVG src={applicationLogo} width={278} height={51} />
+                                }
+                            />
                         </PaddingGrid>
                         <Authentication
                             anchorEl={anchorEl}
@@ -166,9 +169,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     window.location.pathname === '/' ? 'active' : ''
                                 }
                                 color='white'
-                                href='/#'>
-                                Home
-                            </InertiaLink>
+                                child='Home'
+                                href='/#'
+                            />
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -179,9 +182,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                href={route('character.index')}>
-                                Characters
-                            </InertiaLink>
+                                href={route('character.index')}
+                                child='Characters'
+                            />
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -189,9 +192,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('trade') ? 'active' : ''
                                 }
                                 color='white'
-                                href='/#'>
-                                Item Shop
-                            </InertiaLink>
+                                child='Item Shop'
+                                href='/#'
+                            />
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -201,9 +204,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                href='/#'>
-                                Campaigns
-                            </InertiaLink>
+                                child='Campaigns'
+                                href='/#'
+                            />
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -211,9 +214,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('rating') ? 'active' : ''
                                 }
                                 color='white'
-                                href='/#'>
-                                Ratings
-                            </InertiaLink>
+                                child='Ratings'
+                                href='/#'
+                            />
                         </PaddingGrid>
                     </SecondaryRow>
                     <ContentRow item container>

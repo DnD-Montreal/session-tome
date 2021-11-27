@@ -1,10 +1,10 @@
-import {Link, useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
-import {DataTable, DeleteModal, FactionChip} from 'Components'
+import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -37,10 +37,10 @@ const CharacterTable = ({
 
     const actions = [
         <StyledButton variant='contained' startIcon={<AddIcon />}>
-            <Link href={route('character.create')}>Create</Link>
+            <Link href={route('character.create')} child='Create' />
         </StyledButton>,
         <StyledButton variant='contained' startIcon={<AddIcon />}>
-            <Link href={route('adventures-league-import.index')}>Import</Link>
+            <Link href={route('adventures-league-import.index')} child='Import' />
         </StyledButton>,
         <StyledButton variant='contained' startIcon={<FileDownloadIcon />}>
             Export
@@ -52,7 +52,7 @@ const CharacterTable = ({
             property: 'name',
             title: 'Name',
             render: (value: string, row: CharacterData) => (
-                <Link href={route('character.show', [row.id])}>{value}</Link>
+                <Link href={route('character.show', [row.id])} child={value} />
             ),
         },
         {

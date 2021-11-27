@@ -6,13 +6,6 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
     switch (type) {
         case 'Form':
             return createTheme({
-                components: {
-                    MuiTextField: {
-                        defaultProps: {
-                            color: 'secondary',
-                        },
-                    },
-                },
                 typography: {
                     fontFamily: 'Roboto',
                     fontSize,
