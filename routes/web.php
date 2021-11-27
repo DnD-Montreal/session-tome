@@ -85,7 +85,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());
-    Route::get('/dev/{path}', fn ($path) => Inertia::render(Str::of($path)->replace('/', ' ')->title()->replace(' ', '/')))
+    Route::get('/dev/{path}', fn ($path) => Inertia::render($path))
         ->where(['path' => '.*']);
     Route::get('/dev-auth/{id}', fn ($id) => \Illuminate\Support\Facades\Auth::loginUsingId($id));
 }
