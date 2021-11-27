@@ -7,6 +7,7 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,6 +18,19 @@ class AdventuresLeagueImportControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public $donteName;
+    public $donteClass;
+    public $donteRace;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->donteClass = "Fighter";
+        $this->donteName = "Donte Greysor";
+        $this->donteRace = "V. Human";
+    }
+
 
     /**
      * @test
@@ -42,17 +56,17 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $csv = new UploadedFile(database_path('mocks/dante.csv'), "dante.csv");
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
-        $character = Character::where('name', "Donte Greysor")
-            ->where('race', "V. Human")
-            ->where('class', "Fighter")
+        $character = Character::where('name', $this->donteName)
+            ->where('race', $this->donteRace)
+            ->where('class', $this->donteClass)
             ->first();
 
         $firstItem = $character->items()->first();
         $response->assertRedirect(route('character.show', ['character' => $character]));
         $response->assertStatus(302);
-        $this->assertEquals("Donte Greysor", $character->name);
-        $this->assertEquals("V. Human", $character->race);
-        $this->assertEquals("Fighter", $character->class);
+        $this->assertEquals($this->donteName, $character->name);
+        $this->assertEquals($this->donteRace, $character->race);
+        $this->assertEquals($this->donteClass, $character->class);
         $this->assertEquals(1, $character->level);
         $this->assertEquals("Shield +1", $firstItem->name);
         $this->assertCount(18, $character->items);
@@ -67,17 +81,17 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $csv = new UploadedFile(database_path('mocks/dante-bad.csv'), "dante.csv");
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
-        $character = Character::where('name', "Donte Greysor")
-            ->where('race', "V. Human")
-            ->where('class', "Fighter")
+        $character = Character::where('name', $this->donteName)
+            ->where('race', $this->donteRace)
+            ->where('class', $this->donteClass)
             ->first();
 
         $firstItem = $character->items()->first();
         $response->assertRedirect(route('character.show', ['character' => $character]));
         $response->assertStatus(302);
-        $this->assertEquals("Donte Greysor", $character->name);
-        $this->assertEquals("V. Human", $character->race);
-        $this->assertEquals("Fighter", $character->class);
+        $this->assertEquals($this->donteName, $character->name);
+        $this->assertEquals($this->donteRace, $character->race);
+        $this->assertEquals($this->donteClass, $character->class);
         $this->assertEquals(1, $character->level);
         $this->assertEquals("Shield +1", $firstItem->name);
         $this->assertCount(19, $character->items);
