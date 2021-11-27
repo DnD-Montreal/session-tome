@@ -2,7 +2,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import {
     Checkbox,
     Grid,
-    InputAdornment,
     Table,
     TableBody,
     TableCell,
@@ -85,14 +84,8 @@ const DataTable = ({
                     {actions}
                 </Grid>
                 <Grid item xs={4} alignItems='flex-end' display='flex'>
+                    <SearchIcon style={{marginBottom: 16, marginRight: 16}} />
                     <TextField
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position='start'>
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
                         fullWidth
                         label='Search table'
                         onChange={(e: any) => {
