@@ -228,8 +228,9 @@ const DataTable = ({
                                                         {item.render(row)}
                                                     </TableCell>
                                                 )
-                                            if (!row[item.property]) return <TableCell />
-                                            if (!item.render)
+                                            if (!item.render) {
+                                                if (!row[item.property])
+                                                    return <TableCell />
                                                 return (
                                                     <TableCell
                                                         key={item.property}
@@ -239,6 +240,7 @@ const DataTable = ({
                                                         </Typography>
                                                     </TableCell>
                                                 )
+                                            }
                                             return (
                                                 <TableCell
                                                     key={item.property}
