@@ -87,7 +87,8 @@ const DataTable = ({
                     <SearchIcon style={{marginBottom: 16, marginRight: 16}} />
                     <TextField
                         fullWidth
-                        label='Search table'
+                        label={`Search ${tableName}`}
+                        id='search-filter'
                         onChange={(e: any) => {
                             if (e.target.value === '' || !e.target.value) {
                                 setCurrentRows(data)
