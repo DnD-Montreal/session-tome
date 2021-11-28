@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -56,6 +57,17 @@ class DMEntryControllerTest extends TestCase
         }
 
         $this->assertTrue($responseEntries->count() >= 2);
+    }
+
+    public function create_displays_view()
+    {
+        $response = $this->get(route('dm-entry.create'));
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component("Entry/Create/DmEntryCreate")
+                ->has('adventures')
+        );
     }
 
     /**
