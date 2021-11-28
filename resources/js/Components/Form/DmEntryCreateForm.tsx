@@ -183,7 +183,7 @@ const DmEntryCreateForm = ({
                                     onChange={(e) =>
                                         setData('adventure_id', parseInt(e.target.value))
                                     }>
-                                    {adventures.map(
+                                    {adventures?.map(
                                         (option: {id: number; title: string}) => (
                                             <MenuItem key={option.id} value={option.id}>
                                                 {option.title}
