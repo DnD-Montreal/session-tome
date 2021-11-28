@@ -64,8 +64,7 @@ class AdventuresLeagueAdapter
         ];
 
         // Hydrate Model
-        $character = new Character($characterData);
-        $character->save();
+        $character = Character::create($characterData);
 
         // Get the entries from the file
         $entries = $this->getEntries($data, $character->id);
@@ -105,39 +104,14 @@ class AdventuresLeagueAdapter
                 } else {
                     $type = Entry::TYPE_DOWNTIME;
                 }
-                $entryData = [
-                    'user_id' => Auth::id(),
-                    'adventure_id' => null,
-                    'campaign_id' => null,
-                    'character_id' => $characterId,
-                    'event_id' => null,
-                    'dungeon_master_id' => null,
-                    'dungeon_master' => (array_key_exists(12, $data[$i])) ? (float)$data[$i][12] : "",
-                    'location' => (array_key_exists(11, $data[$i])) ? (float)$data[$i][11] : "",
-                    'levels' => 0,
-                    'date_played' => ($data[$i][3] == "") ? now() : $data[$i][3],
-                    'gp' => (array_key_exists(7, $data[$i])) ? (float)$data[$i][7] : 0,
-                    'downtime' => (array_key_exists(8, $data[$i])) ? (float)$data[$i][8] : 0,
-                    'type' => $type,
-                ];
+                $entryData = $this->getEntryData($characterId, $data[$i], $type);
                 $entry = Entry::create($entryData);
                 $entry->save();
                 array_push($entries, $entry);
             } elseif ($isItemEntry) {
                 if (count($entries) == 0) {
-                    $e = Entry::create([
-                        'user_id' => Auth::id(),
-                        'adventure_id' => null,
-                        'campaign_id' => null,
-                        'character_id' => $characterId,
-                        'event_id' => null,
-                        'dungeon_master_id' => null,
-                        'levels' => 0,
-                        'date_played' => now(),
-                        'gp' => 0,
-                        'downtime' => 0,
-                        'type' => Entry::TYPE_GAME,
-                    ]);
+                    $entryData = $this->getEntryData($characterId, null, null);
+                    $e = Entry::create($entryData);
                     $e->save();
                     array_push($entries, $e);
                 }
@@ -154,10 +128,44 @@ class AdventuresLeagueAdapter
                     'author_id' => Auth::id(),
                     'tier' => 0,
                 ];
-                $item = new Item($itemData);
-                $item->save();
+                Item::create($itemData);
             }
         }
         return $entries;
+    }
+
+    private function getEntryData($characterId, $data, $type)
+    {
+        if (is_null($data)) {
+            return [
+                'user_id' => Auth::id(),
+                'adventure_id' => null,
+                'campaign_id' => null,
+                'character_id' => $characterId,
+                'event_id' => null,
+                'dungeon_master_id' => null,
+                'levels' => 0,
+                'date_played' => now(),
+                'gp' => 0,
+                'downtime' => 0,
+                'type' => Entry::TYPE_GAME,
+            ];
+        } else {
+            return [
+                'user_id' => Auth::id(),
+                'adventure_id' => null,
+                'campaign_id' => null,
+                'character_id' => $characterId,
+                'event_id' => null,
+                'dungeon_master_id' => null,
+                'dungeon_master' => (array_key_exists(12, $data)) ? (float)$data[12] : "",
+                'location' => (array_key_exists(11, $data)) ? (float)$data[11] : "",
+                'levels' => 0,
+                'date_played' => ($data[3] == "") ? now() : $data[3],
+                'gp' => (array_key_exists(7, $data)) ? (float)$data[7] : 0,
+                'downtime' => (array_key_exists(8, $data)) ? (float)$data[8] : 0,
+                'type' => $type,
+            ];
+        }
     }
 }
