@@ -28,9 +28,9 @@ class ItemFactory extends Factory
         return [
             'entry_id' => Entry::factory(),
             'character_id' => Character::factory(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->words(rand(1, 3), true),
             'rarity' => $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]),
-            'tier' => $this->faker->word(),
+            'tier' => $this->faker->numberBetween(1, 4),
             'description' => $this->faker->text(),
             'author_id' => User::factory()
         ];

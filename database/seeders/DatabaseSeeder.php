@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Character;
 use App\Models\Entry;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +26,13 @@ class DatabaseSeeder extends Seeder
                  'user_id' => $user->id,
                  'level' => 1
              ])->merge($characters);
+
+            Entry::factory(rand(1, 7))->create([
+                'user_id' => $user->id,
+                'type' => Entry::TYPE_DM,
+                'levels' => rand(0, 1),
+                'character_id' => null
+            ]);
         }
 
         foreach ($characters as $character) {
@@ -34,6 +42,16 @@ class DatabaseSeeder extends Seeder
                 'levels' => random_int(0, 1),
                 'dungeon_master_id' => $dm->id
             ]);
+        }
+
+        foreach (Entry::all() as $entry) {
+            if ($entry->type == Entry::TYPE_DM && $entry->levels < 1) {
+                Item::factory(rand(0, 1))->create([
+                    'entry_id' => $entry->id,
+                    'character_id' => $entry->character_id,
+                    'author_id' => $entry->user_id
+                ]);
+            }
         }
     }
 }
