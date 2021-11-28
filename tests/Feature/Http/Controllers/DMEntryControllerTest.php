@@ -59,6 +59,9 @@ class DMEntryControllerTest extends TestCase
         $this->assertTrue($responseEntries->count() >= 2);
     }
 
+    /**
+     * @test
+     */
     public function create_displays_view()
     {
         $response = $this->get(route('dm-entry.create'));
