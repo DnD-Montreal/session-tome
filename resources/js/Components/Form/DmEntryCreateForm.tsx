@@ -1,21 +1,21 @@
-import {Link, useForm, usePage} from '@inertiajs/inertia-react'
+import {useForm, usePage} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {
+    Alert,
     Box,
     Button,
+    Chip,
+    FormControl,
     Grid,
+    MenuItem,
     Step,
     StepLabel,
     Stepper,
     TextField,
     Typography,
 } from '@mui/material'
-import Alert from '@mui/material/Alert'
-import Chip from '@mui/material/Chip'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
 import {ErrorText} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -23,6 +23,8 @@ import {EntriesData} from 'Types/entries-data'
 import {UsePageType} from 'Types/global'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
+
+import Link from '../Atom/Link'
 
 type DmEntryCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -130,6 +132,10 @@ const DmEntryCreateForm = ({
 
     const handleDelete = (chipToDelete: ItemData) => () => {
         setItems((chips) => chips.filter((chip) => chip.name !== chipToDelete.name))
+        setData(
+            'items',
+            items.filter((item) => item.name !== chipToDelete.name),
+        )
     }
     return (
         <FormBox>
@@ -353,9 +359,10 @@ const DmEntryCreateForm = ({
                         <Grid container spacing={2} />
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
-                                <Link href={route('character.index')}>
-                                    <Button fullWidth>Cancel</Button>
-                                </Link>
+                                <Link
+                                    href={route('character.index')}
+                                    child={<Button fullWidth>Cancel</Button>}
+                                />
                             ) : (
                                 <Button onClick={() => onCloseDrawer()} fullWidth>
                                     Cancel
@@ -388,7 +395,7 @@ const DmEntryCreateForm = ({
                             </Grid>
                             <Grid item md={type === 'Edit' ? 4 : 6} />
                             <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
-                                {type === 'Create' ? (
+                                {type === 'Create' && (
                                     <Button
                                         variant='contained'
                                         fullWidth
@@ -413,7 +420,7 @@ const DmEntryCreateForm = ({
                                         }}>
                                         Add Item
                                     </Button>
-                                ) : null}
+                                )}
                             </Grid>
                             <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                                 <Button
@@ -447,18 +454,18 @@ const DmEntryCreateForm = ({
                     </>
                 )}
             </StyledFooter>
-            {isItemsVisible ? (
+            {isItemsVisible && (
                 <StyledItemsFooter container spacing={1}>
                     <StyledGrid item xs={12}>
                         <Typography variant='body2'>New Magic Items</Typography>
                     </StyledGrid>
-                    {error ? (
+                    {error && (
                         <StyledGrid item xs={12}>
                             <Alert variant='outlined' severity='error'>
                                 Magic item already exists!
                             </Alert>
                         </StyledGrid>
-                    ) : null}
+                    )}
                     {items.map((item) => (
                         <StyledGrid item xs='auto' key={item.name}>
                             <Chip
@@ -470,7 +477,7 @@ const DmEntryCreateForm = ({
                         </StyledGrid>
                     ))}
                 </StyledItemsFooter>
-            ) : null}
+            )}
         </FormBox>
     )
 }
