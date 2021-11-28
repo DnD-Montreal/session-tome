@@ -72,7 +72,7 @@ const CharacterTable = ({
         {
             property: 'faction',
             title: 'Faction',
-            render: (value: string) => <FactionChip fname={value} />,
+            render: (value: string) => <FactionChip value={value} />,
         },
         {
             property: 'downtime',

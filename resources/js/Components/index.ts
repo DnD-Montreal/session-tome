@@ -1,21 +1,14 @@
 // Components
 export {default as Authentication} from './Authentication'
+export {CharacterDetailBox} from './CharacterDetail'
 export {default as DeleteModal} from './DeleteModal'
-export {default as EditDrawer} from './EditDrawer'
 export {default as ErrorText} from './ErrorText'
 
 // Chips
-export {default as FactionChip} from './FactionChip'
-export {default as RarityChip} from './RarityChip'
-
-// Character detail
-export {CharacterDetailBox} from './CharacterDetail'
+export {FactionChip, RarityChip} from './Chips'
 
 // Tables
-export {CharacterDetailTable} from './Table/CharacterDetail'
-export {TableToolbar} from './Table/CharacterDetail'
-export {default as CharacterTable} from './Table/CharacterTable'
-export {default as ItemTable} from './Table/ItemTable'
+export {CharacterDetailTable, CharacterTable, ItemTable, TableToolbar} from './Table'
 
 // Forms
 export {
@@ -26,4 +19,4 @@ export {
 } from './Form'
 
 // Atoms
-export {DataTable, Link} from './Atom'
+export {DataTable, Drawer, Link} from './Atom'
