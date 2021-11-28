@@ -153,7 +153,6 @@ class AdventuresLeagueAdapter
                     'description' => (array_key_exists(6, $data[$i])) ? $data[$i][6] : "",
                     'author_id' => Auth::id(),
                     'tier' => 0,
-                    'counted' => 0,
                 ];
                 $item = new Item($itemData);
                 $item->save();
