@@ -1,0 +1,128 @@
+name,race,class_and_levels,faction,background,lifestyle,portrait_url,publicly_visible
+Donte Greysor,V. Human,Fighter,,Child Adventurer (Folk Hero),#<Lifestyle:0x000055670f3ab710>,"",false
+type,adventure_title,session_num,date_played,session_length_hours,player_level,xp_gained,gp_gained,downtime_gained,renown_gained,num_secret_missions,location_played,dm_name,dm_dci_number,notes,date_dmed,campaign_id
+MAGIC ITEM,name,rarity,location_found,table,table_result,notes
+TRADED MAGIC ITEM,Shield +1,uncommon,"","","",""
+DmLogEntry,DDAL08-04 Wrinkle in the Weave,1,,,,,,5.0,1.0,,Mythcon 2018,,,"",2018-10-06 14:34:00 UTC,
+DmLogEntry,DDAL08-03 Dockward Double-Cross,1,,,,,,,,,Mythcon 2018,,,"",2018-10-06 15:05:00 UTC,
+DmLogEntry,DDAL08-03 Dockward Double Cross,,,,,,,5.0,1.0,,Concordia University,,,"",2018-11-07 14:30:00 UTC,
+CharacterLogEntry,Waterdeep: Dragon Heist ,,2018-10-31 19:00:00 UTC,,,,75.0,10.0,1.0,,"",Johan Elder,"","",,
+CharacterLogEntry,Waterdeep: Dragon Heist,,2018-11-14 19:00:00 UTC,,,,75.0,10.0,1.0,,"",Johan Elder,"","",,
+CharacterLogEntry,Waterdeep: Dragon Heist,3,2018-11-21 08:23:00 UTC,,,,,10.0,1.0,,"",Johan Elder,"","",,
+CharacterLogEntry,Waterdeep: Dungeon of the Mad Mage,,2019-03-13 17:52:00 UTC,,,,,10.0,1.0,,"",Steve,7731390024,"",,
+TradeLogEntry,,,2019-03-27 18:34:00 UTC,,,,,-15.0,,,,,,"",,
+TRADED MAGIC ITEM,Shield +1,uncommon,"","","",""
+MAGIC ITEM,Gauntlets of Ogre Power,uncommon,"","","",""
+PurchaseLogEntry,,,2019-03-27 18:01:00 UTC,,,,,,,,,,,"",,
+MAGIC ITEM,Shield +1,uncommon,"","","",""
+CharacterLogEntry,Waterdeep: Dungeon of the Mad Mage,,2019-03-27 19:00:00 UTC,,,,,10.0,1.0,,"",Steve,7731390024,"",,
+CharacterLogEntry,Dungeon of the Mad Mage,,2019-04-03 13:07:00 UTC,,,,,10.0,1.0,,"",Steve,7731390024,"",,
+CharacterLogEntry,Waterdeep: Dungeon of the Mad Mage,,2019-05-08 00:46:00 UTC,,,,,10.0,1.0,,"",Steve,7731390024,"",,
+MAGIC ITEM,Candle of Invocation,rare,"","","",""
+MAGIC ITEM,Headband of Intellect,uncommon,"","","",""
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-05-15 00:03:00 UTC,,,,240.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-05-22 00:04:00 UTC,,,,240.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-05-29 00:05:00 UTC,,,,240.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-06-05 00:06:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-06-12 00:06:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-06-19 00:07:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-06-26 00:07:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-07-03 00:08:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-07-10 00:08:00 UTC,,,,1600.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-07-17 00:09:00 UTC,,,,6000.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-07-24 00:09:00 UTC,,,,6000.0,20.0,,,"",Steve,7731390024,"",,
+CharacterLogEntry,DDHC-DMM Dungeon of the Mad Mage,,2019-07-31 00:10:00 UTC,,,,6000.0,20.0,,,"",Steve,7731390024,"",,
+MAGIC ITEM,Staff of the Magi,legendary,"","","","Requires Attunement by a Sorcerer, Warlock, or Wizard
+
+This staff can be wielded as a magic Quarterstaff that grants a +2 bonus to Attack and Damage Rolls made with it. While you hold it, you gain a +2 bonus to spell Attack rolls.
+
+The staff has 50 Charges for the following properties. It regains 4d6 + 2 expended Charges daily at dawn. If you expend the last charge, roll a d20. On a 20, the staff regains 1d12 + 1 Charges.
+
+Spell Absorption: While holding the staff, you have advantage on Saving Throws against Spells. In addition, you can use your Reaction when another creature casts a spell that Targets only you. If you do, the staff absorbs the magic of the spell, canceling its Effect and gaining a number of Charges equal to the absorbed spell's level. However, if doing so brings the staff's total number of Charges above 50, the staff explodes as if you activated its retributive strike (see below).
+
+Spells: While holding the staff, you can use an action to expend some of its Charges to cast one of the following Spells from it, using your spell save DC and Spellcasting ability: Conjure Elemental (7 charges), Dispel Magic (3 charges), Fireball (7th-level version, 7 charges), Flaming Sphere (2 charges), Ice Storm (4 charges), Invisibility (2 charges), knock (2 charges), Lightning Bolt (7th-level version, 7 charges), Passwall (5 charges), Plane Shift (7 charges), Telekinesis (5 charges), Wall of Fire (4 charges), or web (2 charges).
+
+You can also use an action to cast one of the following Spells from the staff without using any charges: Arcane Lock, Detect Magic, enlarge/reduce, light, Mage Hand, or Protection from Evil and Good.
+
+Retributive Strike: You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius Sphere centered on it.
+
+You have a 50 percent chance to instantly Travel to a random plane of existence, avoiding the explosion. If you fail to avoid the Effect, you take force damage equal to 16 x the number of Charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of Origin, as shown in the following table. On a successful save, a creature takes half as much damage.
+
+Distance from Origin — Damage:
+
+10 ft. away or closer — 8 x the number of Charges in the staff
+
+11 to 20 ft. away — 6 x the number of Charges in the staff
+
+21 to 30 ft. away — 4 x the number of Charges in the staff
+"
+MAGIC ITEM,Vorpal Scimitar,legendary,Trade - Alex Romero,"","","You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.
+
+When you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the GM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra 6d8 slashing damage from the hit."
+MAGIC ITEM,Rod of Lordly Might,legendary,"","","","This rod has a flanged head, and it functions as a magic mace that grants a +3 bonus to attack and damage rolls made with it. The rod has properties associated with six different buttons that are set in a row along the haft. It has three other properties as well, detailed below.
+
+Six Buttons. You can press one of the rod's six buttons as a bonus action. A button's effect lasts until you push a different button or until you push the same button again, which causes the rod to revert to its normal form.
+
+If you press button 1, the rod becomes a flame tongue, as a fiery blade sprouts from the end opposite the rod's flanged head (you choose the type of sword).
+
+If you press button 2, the rod's flanged head folds down and two crescent-shaped blades spring out, transforming the rod into a magic battleaxe that grants a +3 bonus to attack and damage rolls made with it.
+
+If you press button 3, the rod's flanged head folds down, a spear point springs from the rod's tip, and the rod's handle lengthens into a 6-foot haft, transforming the rod into a magic spear that grants a +3 bonus to attack and damage rolls made with it.
+
+If you press button 4, the rod transforms into a climbing pole up to 50 feet long, as you specify. In surfaces as hard as granite, a spike at the bottom and three hooks at the top anchor the pole. Horizontal bars 3 inches long fold out from the sides, 1 foot apart, forming a ladder. The pole can bear up to 4,000 pounds. More weight or lack of solid anchoring causes the rod to revert to its normal form.
+
+If you press button 5, the rod transforms into a handheld battering ram and grants its user a +10 bonus to Strength checks made to break through doors, barricades, and other barriers.
+
+If you press button 6, the rod assumes or remains in its normal form and indicates magnetic north. (Nothing happens if this function of the rod is used in a location that has no magnetic north.) The rod also gives you knowledge of your approximate depth beneath the ground or your height above it.
+
+Drain Life. When you hit a creature with a melee attack using the rod, you can force the target to make a DC 17 Constitution saving throw. On a failure, the target takes an extra 4d6 necrotic damage, and you regain a number of hit points equal to half that necrotic damage. This property can't be used again until the next dawn.
+
+Paralyze. When you hit a creature with a melee attack using the rod, you can force the target to make a DC 17 Strength saving throw. On a failure, the target is paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on a success. This property can't be used again until the next dawn.
+
+Terrify. While holding the rod, you can use an action to force each creature you can see within 30 feet of you to make a DC 17 Wisdom saving throw. On a failure, a target is frightened of you for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. This property can't be used again until the next dawn."
+MAGIC ITEM,"Shield, +3",very_rare,"","","","While holding this shield, you have a +3 bonus to AC. This bonus is in addition to the shield's normal bonus to AC."
+MAGIC ITEM,Cape of the Mountebank,rare,"","","","This cape smells faintly of brimstone. While wearing it, you can use it to cast the dimension door spell as an action. This property of the cape can't be used again until the next dawn.
+
+When you disappear, you leave behind a cloud of smoke, and you appear in a similar cloud of smoke at your destination. The smoke lightly obscures the space you left and the space you appear in, and it dissipates at the end of your next turn. A light or stronger wind disperses the smoke."
+MAGIC ITEM,Heward's Handy Haversack,rare,"","","","This backpack has a central pouch and two side pouches, each of which is an extradimensional space. Each side pouch can hold up to 20 pounds of material, not exceeding a volume of 2 cubic feet. The large central pouch can hold up to 8 cubic feet or 80 pounds of material. The backpack always weighs 5 pounds, regardless of its contents.
+
+Placing an object in the haversack follows the normal rules for interacting with objects. Retrieving an item from the haversack requires you to use an action. When you reach into the haversack for a specific item, the item is always magically on top.
+
+The haversack has a few limitations. If it is overloaded, or if a sharp object pierces it or tears it, the haversack ruptures and is destroyed. If the haversack is destroyed, its contents are lost forever, although an artifact always turns up again somewhere. If the haversack is turned inside out, its contents spill forth, unharmed, and the haversack must be put right before it can be used again. If a breathing creature is placed within the haversack, the creature can survive for up to 10 minutes, after which time it begins to suffocate.
+
+Placing the haversack inside an extradimensional space created by a bag of holding, portable hole, or similar item instantly destroys both items and opens a gate to the Astral Plane. The gate originates where the one item was placed inside the other. Any creature within 10 feet of the gate is sucked through it and deposited in a random location on the Astral Plane. The gate then closes. The gate is one-way only and can't be reopened."
+MAGIC ITEM,Ring of Spell Storing,rare,"","","","This ring stores spells cast into it, holding them until the attuned wearer uses them. The ring can store up to 5 levels worth of spells at a time. When found, it contains 1d6 − 1 levels of stored spells chosen by the GM.
+
+Any creature can cast a spell of 1st through 5th level into the ring by touching the ring as the spell is cast. The spell has no effect, other than to be stored in the ring. If the ring can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses.
+
+While wearing this ring, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the ring is no longer stored in it, freeing up space."
+MAGIC ITEM,Mithral Plate,uncommon,"","","","Mithral is a light, flexible metal. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't."
+MAGIC ITEM,Staff of Power,very_rare,"","","","This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.
+
+The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.
+
+Power Strike. When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.
+
+Spells. While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).
+
+Retributive Strike. You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.
+
+You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.
+"
+TradeLogEntry,,,,,,,,15.0,,,,,,"",,
+TRADED MAGIC ITEM,Staff of Power,very_rare,"","","","This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While holding it, you gain a +2 bonus to Armor Class, saving throws, and spell attack rolls.
+
+The staff has 20 charges for the following properties. The staff regains 2d8 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff retains its +2 bonus to attack and damage rolls but loses all other properties. On a 20, the staff regains 1d8 + 2 charges.
+
+Power Strike. When you hit with a melee attack using the staff, you can expend 1 charge to deal an extra 1d6 force damage to the target.
+
+Spells. While holding this staff, you can use an action to expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC and spell attack bonus: cone of cold (5 charges), fireball (5th-level version, 5 charges), globe of invulnerability (6 charges), hold monster (5 charges), levitate (2 charges), lightning bolt (5th-level version, 5 charges), magic missile (1 charge), ray of enfeeblement (1 charge), or wall of force (5 charges).
+
+Retributive Strike. You can use an action to break the staff over your knee or against a solid surface, performing a retributive strike. The staff is destroyed and releases its remaining magic in an explosion that expands to fill a 30-foot-radius sphere centered on it.
+
+You have a 50 percent chance to instantly travel to a random plane of existence, avoiding the explosion. If you fail to avoid the effect, you take force damage equal to 16 × the number of charges in the staff. Every other creature in the area must make a DC 17 Dexterity saving throw. On a failed save, a creature takes an amount of damage based on how far away it is from the point of origin, as shown in the following table. On a successful save, a creature takes half as much damage.
+"
+MAGIC ITEM,Belt of Fire Giant Strength,very_rare,"","","","While wearing this belt, your Strength score changes to 25.  The item has no effect on you if your Strength without the belt is equal to or greater than 25."
+TradeLogEntry,,,2020-10-08 00:42:00 UTC,,,,,15.0,,,,,,"",,
+TRADED MAGIC ITEM,Gauntlets of Ogre Power,uncommon,"","","",""
+MAGIC ITEM,Tan Bag of Tricks,uncommon,"","","",""
