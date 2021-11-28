@@ -13,7 +13,7 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import React, {ReactNode, ReactNodeArray, useState} from 'react'
+import React, {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
@@ -63,6 +63,10 @@ const DataTable = ({
     const [currentRows, setCurrentRows] = useState(data)
     const [page, setPage] = useState(DEFAULT_PAGE)
     const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
+
+    useEffect(() => {
+        setCurrentRows(data)
+    }, [data])
 
     // filter function
     const filter = (row: DataType, target: string) => {
