@@ -19,6 +19,7 @@ class DMEntryController extends Controller
     {
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
+            ->with('character', 'adventure')
             ->get();
 
         return Inertia::render('DMEntry/DMEntry', compact('entries'));
