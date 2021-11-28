@@ -40,23 +40,23 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'adventure',
             title: 'Adventure Title',
-            render: (value: string) => <Chip label={value} variant='outlined' />,
+            render: (value: any) => <Chip label={value.title} variant='outlined' />,
         },
         {
             property: 'session',
             title: 'Session',
         },
         {
-            property: 'character_id',
+            property: 'character',
             title: 'Character',
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
-            property: 'items',
+            property: 'reward',
             title: 'Reward',
         },
         {
-            property: '',
+            property: null,
             title: 'Magic Items',
         },
         {
