@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -155,12 +156,13 @@ class AdventuresLeagueAdapter
             ];
             return array_merge($entryData, $defaultEntryData);
         } else {
+            $data = collect($data);
             $populatedEntryData = [
-                'dungeon_master' => (array_key_exists(12, $data)) ? (float)$data[12] : "",
-                'location' => (array_key_exists(11, $data)) ? (float)$data[11] : "",
-                'date_played' => ($data[3] == "") ? now() : $data[3],
-                'gp' => (array_key_exists(7, $data)) ? (float)$data[7] : 0,
-                'downtime' => (array_key_exists(8, $data)) ? (float)$data[8] : 0,
+                'dungeon_master' => (string) $data->get(12),
+                'location' => (string) $data->get(11),
+                'date_played' => Carbon::parse($data->get(3)),
+                'gp' => (float) $data->get(7, 0),
+                'downtime' => (float) $data->get(8, 0),
                 'type' => $type,
             ];
             return array_merge($entryData, $populatedEntryData);
