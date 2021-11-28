@@ -24,3 +24,6 @@ export {
     LoginForm,
     RegistrationForm,
 } from './Form'
+
+// Atoms
+export {DataTable, Link} from './Atom'
