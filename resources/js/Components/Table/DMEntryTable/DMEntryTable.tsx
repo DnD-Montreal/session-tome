@@ -52,11 +52,11 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
-            property: 'reward',
+            property: 'items',
             title: 'Reward',
         },
         {
-            property: 'items',
+            property: '',
             title: 'Magic Items',
         },
         {
