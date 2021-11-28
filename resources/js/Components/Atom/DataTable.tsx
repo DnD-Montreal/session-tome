@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import {
     Checkbox,
     Grid,
+    InputAdornment,
     Table,
     TableBody,
     TableCell,
@@ -21,6 +22,10 @@ const Container = styled.div`
     min-width: 66vw;
 `
 
+const ButtonContainer = styled(Grid)`
+    margin: 0px 8px 0px 8px;
+`
+
 type DataTablePropType = {
     // selectable table, if it's `true`, we should pass down selected, setSelected and bulkSelectActions from parent component
     isSelectable: boolean
@@ -36,6 +41,7 @@ type DataTablePropType = {
     filterProperties?: string[]
     // buttons to be included on top of the table component
     actions?: ReactNodeArray
+    rightActions?: ReactNodeArray
 }
 
 type DataType = {
@@ -58,6 +64,7 @@ const DataTable = ({
     bulkSelectActions,
     filterProperties,
     actions,
+    rightActions,
 }: DataTablePropType) => {
     // Table states
     const [currentRows, setCurrentRows] = useState(data)
@@ -83,13 +90,36 @@ const DataTable = ({
     }
     return (
         <Container>
-            <Grid container>
-                <Grid item xs={8}>
-                    {actions}
+            <Grid container direction='row' alignItems='center'>
+                <Grid item xs={rightActions ? 6 : 8}>
+                    <Grid container direction='row' alignItems='center'>
+                        {actions?.map((component) => (
+                            <ButtonContainer item>{component}</ButtonContainer>
+                        ))}
+                    </Grid>
                 </Grid>
-                <Grid item xs={4} alignItems='flex-end' display='flex'>
-                    <SearchIcon style={{marginBottom: 16, marginRight: 16}} />
+                {rightActions && (
+                    <Grid item xs={2}>
+                        <Grid
+                            container
+                            direction='row'
+                            alignItems='center'
+                            justifyContent='flex-end'>
+                            {rightActions?.map((component) => (
+                                <ButtonContainer item>{component}</ButtonContainer>
+                            ))}
+                        </Grid>
+                    </Grid>
+                )}
+                <Grid item xs={4}>
                     <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
                         fullWidth
                         label={`Search ${tableName}`}
                         id='search-filter'
