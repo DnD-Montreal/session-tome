@@ -22,7 +22,7 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
-    const actions = [
+    const leftActions = [
         <Button variant='contained' startIcon={<HistoryEduIcon />}>
             Create
         </Button>,
@@ -104,7 +104,7 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
                 }}
             />
             <DataTable
-                actions={actions}
+                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable

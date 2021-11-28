@@ -40,7 +40,7 @@ type DataTablePropType = {
     // array of keys that can be searched using filter input
     filterProperties?: string[]
     // buttons to be included on top of the table component
-    actions?: ReactNodeArray
+    leftActions?: ReactNodeArray
     rightActions?: ReactNodeArray
 }
 
@@ -63,7 +63,7 @@ const DataTable = ({
     tableName,
     bulkSelectActions,
     filterProperties,
-    actions,
+    leftActions,
     rightActions,
 }: DataTablePropType) => {
     // Table states
@@ -93,7 +93,7 @@ const DataTable = ({
             <Grid container direction='row' alignItems='center'>
                 <Grid item xs={rightActions ? 6 : 8}>
                     <Grid container direction='row' alignItems='center'>
-                        {actions?.map((component) => (
+                        {leftActions?.map((component) => (
                             <ButtonContainer item>{component}</ButtonContainer>
                         ))}
                     </Grid>

@@ -31,7 +31,7 @@ const CharacterTable = ({
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
 
-    const actions = [
+    const leftActions = [
         <Button variant='contained' startIcon={<AddIcon />}>
             <Link href={route('character.create')} child='Create' />
         </Button>,
@@ -136,7 +136,7 @@ const CharacterTable = ({
             />
             <DataTable
                 rightActions={rightActions}
-                actions={actions}
+                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable
