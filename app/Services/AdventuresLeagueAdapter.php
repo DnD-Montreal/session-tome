@@ -136,36 +136,34 @@ class AdventuresLeagueAdapter
 
     private function getEntryData($characterId, $data, $type)
     {
+        $entryData = [
+            'user_id' => Auth::id(),
+            'adventure_id' => null,
+            'campaign_id' => null,
+            'character_id' => $characterId,
+            'event_id' => null,
+            'dungeon_master_id' => null,
+            'levels' => 0,
+            ];
+
         if (is_null($data)) {
-            return [
-                'user_id' => Auth::id(),
-                'adventure_id' => null,
-                'campaign_id' => null,
-                'character_id' => $characterId,
-                'event_id' => null,
-                'dungeon_master_id' => null,
-                'levels' => 0,
+            $defaultEntryData = [
                 'date_played' => now(),
                 'gp' => 0,
                 'downtime' => 0,
                 'type' => Entry::TYPE_GAME,
             ];
+            return array_merge($entryData, $defaultEntryData);
         } else {
-            return [
-                'user_id' => Auth::id(),
-                'adventure_id' => null,
-                'campaign_id' => null,
-                'character_id' => $characterId,
-                'event_id' => null,
-                'dungeon_master_id' => null,
+            $populatedEntryData = [
                 'dungeon_master' => (array_key_exists(12, $data)) ? (float)$data[12] : "",
                 'location' => (array_key_exists(11, $data)) ? (float)$data[11] : "",
-                'levels' => 0,
                 'date_played' => ($data[3] == "") ? now() : $data[3],
                 'gp' => (array_key_exists(7, $data)) ? (float)$data[7] : 0,
                 'downtime' => (array_key_exists(8, $data)) ? (float)$data[8] : 0,
                 'type' => $type,
             ];
+            return array_merge($entryData, $populatedEntryData);
         }
     }
 }
