@@ -53,15 +53,15 @@ class AdventuresLeagueAdapter
             $levelSum = array_sum($classLevels[0]);
             $characterLevel = $levelSum > 0 ? $levelSum : 1;
         }
-
+        $characterLine = collect($data[1]);
         $characterData = [
             'user_id' => Auth::id(),
-            'name' => (array_key_exists(0, $data[1])) ? $data[1][0] : "",
-            'race' => (array_key_exists(1, $data[1])) ? $data[1][1] : "",
-            'class' => (array_key_exists(2, $data[1])) ? $data[1][2] : "",
+            'name' => (string) $characterLine->get(0),
+            'race' => (string) $characterLine->get(1),
+            'class' => (string) $characterLine->get(2),
             'level' => $characterLevel,
-            'faction' => substr($data[1][3], 0, 1) == "#" ? "" : $data[1][3], //Sometimes export has faction as a strange code such as #<...>
-            'background' => (array_key_exists(4, $data[1])) ? $data[1][4] : "",
+            'faction' => substr($data[1][3], 0, 1) == "#" ? "" : $characterLine->get(3), //Sometimes export has faction as a strange code such as #<...>
+            'background' => (string) $characterLine->get(4),
         ];
 
         // Hydrate Model
