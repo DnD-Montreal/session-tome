@@ -87,6 +87,7 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData['items'] ?? []);
+
         $request->session()->flash('entry.id', $entry->id);
 
         if ($request->type == Entry::TYPE_DM) {
