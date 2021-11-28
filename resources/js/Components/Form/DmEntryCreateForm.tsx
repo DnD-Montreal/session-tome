@@ -16,15 +16,13 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
+import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {EntriesData} from 'Types/entries-data'
 import {UsePageType} from 'Types/global'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
-
-import Link from '../Atom/Link'
 
 type DmEntryCreateFormPropType = {
     type: 'Edit' | 'Create'
