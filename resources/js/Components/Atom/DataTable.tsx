@@ -222,12 +222,14 @@ const DataTable = ({
                                             </TableCell>
                                         )}
                                         {columns.map((item: any) => {
-                                            if (!item.property)
+                                            if (!item.property) {
+                                                if (!item.render) return <TableCell />
                                                 return (
                                                     <TableCell align='center'>
                                                         {item.render(row)}
                                                     </TableCell>
                                                 )
+                                            }
                                             if (!item.render) {
                                                 return (
                                                     <TableCell
@@ -239,7 +241,8 @@ const DataTable = ({
                                                     </TableCell>
                                                 )
                                             }
-                                            if (!row[item.property]) return <TableCell />
+                                            if (!Object.keys(row).includes(item.property))
+                                                return <TableCell />
                                             return (
                                                 <TableCell
                                                     key={item.property}
