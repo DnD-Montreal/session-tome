@@ -1,5 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -44,6 +45,9 @@ const CharacterTable = ({
         </StyledButton>,
         <StyledButton variant='contained' startIcon={<FileDownloadIcon />}>
             Export
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<AutoStoriesIcon />}>
+            <Link href={route('dm-entry.index')} child='DM Entry' />
         </StyledButton>,
     ]
 
