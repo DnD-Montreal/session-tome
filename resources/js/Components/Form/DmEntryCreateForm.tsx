@@ -325,7 +325,7 @@ const DmEntryCreateForm = ({
                                 </FormControl>
                             </StyledGrid>
 
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 12}>
+                            <StyledGrid item xs={12} md={12}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
