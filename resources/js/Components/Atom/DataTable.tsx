@@ -228,6 +228,7 @@ const DataTable = ({
                                                         {item.render(row)}
                                                     </TableCell>
                                                 )
+                                            if (!row[item.property]) return <TableCell />
                                             if (!item.render)
                                                 return (
                                                     <TableCell
