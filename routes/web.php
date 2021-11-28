@@ -74,7 +74,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->only(['index', 'store']);
 
     Route::resource('dm-entry', \App\Http\Controllers\DMEntryController::class)
-        ->only('index');
+        ->only('index', 'create');
 
     Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
         'attach-entry-to-character' => 'character'
