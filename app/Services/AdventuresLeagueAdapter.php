@@ -111,7 +111,7 @@ class AdventuresLeagueAdapter
                 array_push($entries, $entry);
             } elseif ($isItemEntry) {
                 if (count($entries) == 0) {
-                    $entryData = $this->getEntryData($characterId, null, null);
+                    $entryData = $this->getEntryData($characterId);
                     $e = Entry::create($entryData);
                     $e->save();
                     array_push($entries, $e);
@@ -135,7 +135,7 @@ class AdventuresLeagueAdapter
         return $entries;
     }
 
-    private function getEntryData($characterId, $data, $type)
+    private function getEntryData($characterId, $data=null, $type=null)
     {
         $entryData = [
             'user_id' => Auth::id(),
