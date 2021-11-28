@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Entry;
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EntryUpdateRequest extends FormRequest
@@ -27,6 +28,7 @@ class EntryUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $rarities = implode(",", Item::RARITY);
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
@@ -40,6 +42,9 @@ class EntryUpdateRequest extends FormRequest
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
+            'items' => ['sometimes', 'array'],
+            'items.*.name' => ['string', 'required_with:items'],
+            'items.*.rarity' => ["in:{$rarities}", 'required_with:items']
         ];
     }
 }

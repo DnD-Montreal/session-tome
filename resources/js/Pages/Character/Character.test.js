@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
 import React from 'react'
 
@@ -21,22 +21,5 @@ describe('Character', () => {
             'href',
             'adventures-league-import.index',
         )
-    })
-
-    it('should input Name 6 in Search Character', () => {
-        const setup = () => {
-            const utils = render(<Character {...props} />)
-            const input = utils.getByLabelText('Search Character')
-            return {
-                input,
-                ...utils,
-            }
-        }
-        const {input} = setup()
-        input.focus()
-        fireEvent.change(document.activeElement, {target: {value: 'Name 6'}})
-        fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
-        fireEvent.keyDown(document.activeElement, {key: 'Enter'})
-        expect(screen.getByText('Name 6')).toBeInTheDocument()
     })
 })

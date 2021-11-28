@@ -207,8 +207,67 @@ class EntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect(route('character.show', $character->id));
         $response->assertSessionHas('entry.id', $entry->id);
+    }
+
+    /**
+     * @test
+     */
+    public function store_saves_entry_with_items()
+    {
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $character = Character::factory()->create(['user_id' => $this->user->id]);
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+        $itemData = [
+            ['name' => "Longsword +1", 'rarity' => "uncommon"],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+        ];
+
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+            'items' => $itemData
+        ]);
+
+        $entry = Entry::query()
+            ->where('user_id', $this->user->id)
+            ->where('adventure_id', $adventure->id)
+            ->where('campaign_id', $campaign->id)
+            ->where('character_id', $character->id)
+            ->where('event_id', $event->id)
+            ->where('dungeon_master_id', $dungeon_master_user->id)
+            ->where('dungeon_master', $dungeon_master)
+            ->where('date_played', $date_played)
+            ->where('location', $location)
+            ->where('type', $type)
+            ->where('levels', $levels)
+            ->where('gp', $gp)
+            ->first();
+
+        $response->assertRedirect(route('character.show', $character->id));
+        $this->assertDatabaseHas('items', $itemData[0]);
+        $this->assertDatabaseHas('items', $itemData[1]);
+        $this->assertCount(2, $entry->items);
     }
 
 

@@ -1,4 +1,4 @@
-import {Link, useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/inertia-react'
 import {
     Box,
     Button,
@@ -10,7 +10,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
+import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -229,9 +229,10 @@ const CharacterCreateForm = ({
                     <>
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
-                                <Link href={route('character.index')}>
-                                    <Button fullWidth>Cancel</Button>
-                                </Link>
+                                <Link
+                                    href={route('character.index')}
+                                    child={<Button fullWidth>Cancel</Button>}
+                                />
                             ) : (
                                 <Button onClick={() => onCloseDrawer()} fullWidth>
                                     Cancel

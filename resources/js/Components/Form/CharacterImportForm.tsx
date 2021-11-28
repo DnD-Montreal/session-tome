@@ -1,6 +1,7 @@
-import {Link as InertiaLink, useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/inertia-react'
 import ClearIcon from '@mui/icons-material/Clear'
 import {Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
+import {Link as InertiaLink} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -91,9 +92,10 @@ const CharacterImportForm = () => {
             />
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
-                    <InertiaLink href={route('character.index')}>
-                        <Button fullWidth>Cancel</Button>
-                    </InertiaLink>
+                    <InertiaLink
+                        href={route('character.index')}
+                        child={<Button fullWidth>Cancel</Button>}
+                    />
                 </Grid>
                 <Grid item md={8} />
                 <Grid item md={2} xs={6}>

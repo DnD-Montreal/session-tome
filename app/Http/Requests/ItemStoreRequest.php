@@ -31,7 +31,6 @@ class ItemStoreRequest extends FormRequest
             'rarity' => ['required', 'in:common,uncommon,rare,very_rare,legendary'],
             'tier' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'counted' => ['required', 'string'],
             'author_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }

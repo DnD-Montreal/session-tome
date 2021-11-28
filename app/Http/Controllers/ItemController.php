@@ -77,7 +77,11 @@ class ItemController extends Controller
 
         $request->session()->flash('item.id', $item->id);
 
-        return redirect()->route('item.index');
+        if ($charId = $item->character_id) {
+            return redirect()->route('character.show', $charId);
+        } else {
+            return redirect()->route('dm-entry.index');
+        }
     }
 
     /**
@@ -87,8 +91,13 @@ class ItemController extends Controller
      */
     public function destroy(Request $request, Item $item)
     {
+        $charId = $item->character_id;
         $item->delete();
 
-        return redirect()->route('item.index');
+        if ($charId) {
+            return redirect()->route('character.show', $charId);
+        } else {
+            return redirect()->route('dm-entry.index');
+        }
     }
 }

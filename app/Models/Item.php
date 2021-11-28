@@ -21,7 +21,6 @@ class Item extends Model
         'rarity',
         'tier',
         'description',
-        'counted',
         'author_id',
     ];
 
@@ -36,6 +35,8 @@ class Item extends Model
         'character_id' => 'integer',
         'author_id' => 'integer',
     ];
+
+    public const RARITY = ["common","uncommon","rare","very_rare","legendary"];
 
 
     public function trades()
