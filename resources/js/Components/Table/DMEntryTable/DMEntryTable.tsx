@@ -2,16 +2,12 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Box, Button, Chip, IconButton, Stack, styled, Tooltip} from '@mui/material'
+import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal} from 'Components'
 // import {DMEntryData} from 'Mock/dmentry-data'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
-
-const StyledButton = styled(Button)`
-    margin: 8px;
-`
 
 type DMEntryPropType = {
     data: EntriesData[]
@@ -26,10 +22,10 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
-    const actions = [
-        <StyledButton variant='contained' startIcon={<HistoryEduIcon />}>
+    const leftActions = [
+        <Button variant='contained' startIcon={<HistoryEduIcon />}>
             Create
-        </StyledButton>,
+        </Button>,
     ]
 
     const columns = [
@@ -108,7 +104,7 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
                 }}
             />
             <DataTable
-                actions={actions}
+                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable

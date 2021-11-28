@@ -71,7 +71,7 @@ const selectableTableProps = {
     selected: [],
     setSelected: jest.fn(),
     bulkSelectActions: <div />,
-    actions: <div />,
+    leftActions: <div />,
     filterProperties: ['name'],
 }
 
