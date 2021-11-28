@@ -91,7 +91,7 @@ const DataTable = ({
     return (
         <Container>
             <Grid container direction='row' alignItems='center'>
-                <Grid item xs={rightActions ? 6 : 8}>
+                <Grid item xs={rightActions ? 4 : 8}>
                     <Grid container direction='row' alignItems='center'>
                         {leftActions?.map((component) => (
                             <ButtonContainer item>{component}</ButtonContainer>
@@ -99,7 +99,7 @@ const DataTable = ({
                     </Grid>
                 </Grid>
                 {rightActions && (
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <Grid
                             container
                             direction='row'
