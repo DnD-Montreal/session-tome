@@ -21,6 +21,7 @@ export {default as ItemTable} from './Table/ItemTable'
 export {
     CharacterCreateForm,
     CharacterImportForm,
+    DmEntryCreateForm,
     LoginForm,
     RegistrationForm,
 } from './Form'
