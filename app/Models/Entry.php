@@ -56,6 +56,10 @@ class Entry extends Model
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
 
+    public const REWARD_ADVANCEMENT = "Advancement";
+    public const REWARD_MAGIC_ITEM = "Magic Item";
+    public const REWARD_CAMPAIGN = "Campaign Reward";
+
     public function items()
     {
         return $this->hasMany(\App\Models\Item::class);
@@ -112,12 +116,12 @@ class Entry extends Model
 
         if ($this->type == self::TYPE_DM) {
             if ($this->levels >= 1) {
-                return "Advancement";
+                return self::REWARD_ADVANCEMENT;
             } elseif ($this->items()->count() >= 1) {
-                return "Magic Item";
+                return self::REWARD_MAGIC_ITEM;
             }
 
-            return "Campaign Reward";
+            return self::REWARD_CAMPAIGN;
         }
     }
 }
