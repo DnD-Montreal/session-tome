@@ -42,6 +42,7 @@ class DMEntryControllerTest extends TestCase
     {
         $entry = Entry::factory(2)->create([
             'type' => Entry::TYPE_DM,
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->get(route('dm-entry.index'));
