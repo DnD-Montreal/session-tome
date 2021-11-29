@@ -2,8 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -84,5 +86,35 @@ class EntryTest extends TestCase
         $entry = Entry::factory(1)->create()[0];
 
         $this->assertCount(1, $entry->dungeonMaster()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_distinguish_between_reward_types()
+    {
+        $character = Character::factory()->create();
+        $defaults = [
+            'character_id' => $character->id,
+            'user_id' => $character->user->id,
+            'type' => Entry::TYPE_DM,
+            'levels' => 0
+        ];
+        $advancement = Entry::factory()->create(array_merge($defaults, ['levels' => 1]));
+        $magicItem = Entry::factory()->create($defaults);
+        Item::factory()->create([
+            'character_id' => $character->id,
+            'entry_id' => $magicItem->id,
+            'author_id' => $character->user->id,
+        ]);
+        $campaign = Entry::factory()->create($defaults);
+
+        $isAdvancement = $advancement->reward == Entry::REWARD_ADVANCEMENT;
+        $isMagicItem = $magicItem->reward == Entry::REWARD_MAGIC_ITEM;
+        $isCampaign = $campaign->reward == Entry::REWARD_CAMPAIGN;
+
+        $this->assertTrue($isAdvancement);
+        $this->assertTrue($isMagicItem);
+        $this->assertTrue($isCampaign);
     }
 }
