@@ -47,11 +47,7 @@ class DMEntryControllerTest extends TestCase
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component('DMEntry/DMEntry')
-                ->has(
-                    'entries',
-                    fn (Assert $prop) => $prop
-                    ->whereAll(['type' => Entry::TYPE_DM])
-                )
+                ->has('entries')
         );
     }
 
