@@ -2,15 +2,15 @@ import Chip from '@mui/material/Chip'
 import React from 'react'
 
 type FactionChipPropType = {
-    fname: string
+    value: string
 }
 
-const FactionChip = ({fname}: FactionChipPropType) => {
-    if (fname == null) {
+const FactionChip = ({value}: FactionChipPropType) => {
+    if (value == null) {
         return null
     }
     let colorObj
-    switch (fname) {
+    switch (value) {
         case 'The Harpers':
             colorObj = {color: '#86B8F4', borderColor: '#86B8F4'}
             break
@@ -34,7 +34,7 @@ const FactionChip = ({fname}: FactionChipPropType) => {
         default:
             colorObj = {color: 'primary', borderColor: 'primary'}
     }
-    return <Chip label={fname} sx={colorObj} variant='outlined' />
+    return <Chip label={value} sx={colorObj} variant='outlined' />
 }
 
 FactionChip.displayName = 'FactionChip'
