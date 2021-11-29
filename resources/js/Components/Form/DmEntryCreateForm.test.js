@@ -93,7 +93,6 @@ describe('<DmEntryCreateForm />', () => {
             }),
         )
         fireEvent.change(notesField, {target: {value: '1332'}})
-        fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Save'))
     })
 })
