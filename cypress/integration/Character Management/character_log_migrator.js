@@ -1,4 +1,4 @@
-describe('Character Management Test Suite', () => {
+describe('Character Log Migrator Test Suite', () => {
     const testusername = 'testuser'
     const ALCharacterName = 'Grod'
     const csvPath = '../../database/mocks/grod.csv'
