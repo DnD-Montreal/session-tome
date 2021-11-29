@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterCreateForm, CharacterTable, EditDrawer} from 'Components'
+import {CharacterCreateForm, CharacterTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
@@ -19,7 +19,7 @@ const Character = ({characters}: CharacterPropType) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <EditDrawer
+            <Drawer
                 content={
                     <CharacterCreateForm
                         type='Edit'

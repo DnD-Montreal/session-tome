@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -52,20 +53,19 @@ class AdventuresLeagueAdapter
             $levelSum = array_sum($classLevels[0]);
             $characterLevel = $levelSum > 0 ? $levelSum : 1;
         }
-
+        $characterLine = collect($data[1]);
         $characterData = [
             'user_id' => Auth::id(),
-            'name' => (array_key_exists(0, $data[1])) ? $data[1][0] : "",
-            'race' => (array_key_exists(1, $data[1])) ? $data[1][1] : "",
-            'class' => (array_key_exists(2, $data[1])) ? $data[1][2] : "",
+            'name' => (string) $characterLine->get(0),
+            'race' => (string) $characterLine->get(1),
+            'class' => (string) $characterLine->get(2),
             'level' => $characterLevel,
-            'faction' => substr($data[1][3], 0, 1) == "#" ? "" : $data[1][3], //Sometimes export has faction as a strange code such as #<...>
-            'background' => (array_key_exists(4, $data[1])) ? $data[1][4] : "",
+            'faction' => substr($data[1][3], 0, 1) == "#" ? "" : $characterLine->get(3), //Sometimes export has faction as a strange code such as #<...>
+            'background' => (string) $characterLine->get(4),
         ];
 
         // Hydrate Model
-        $character = new Character($characterData);
-        $character->save();
+        $character = Character::create($characterData);
 
         // Get the entries from the file
         $entries = $this->getEntries($data, $character->id);
@@ -105,39 +105,14 @@ class AdventuresLeagueAdapter
                 } else {
                     $type = Entry::TYPE_DOWNTIME;
                 }
-                $entryData = [
-                    'user_id' => Auth::id(),
-                    'adventure_id' => null,
-                    'campaign_id' => null,
-                    'character_id' => $characterId,
-                    'event_id' => null,
-                    'dungeon_master_id' => null,
-                    'dungeon_master' => (array_key_exists(12, $data[$i])) ? (float)$data[$i][12] : "",
-                    'location' => (array_key_exists(11, $data[$i])) ? (float)$data[$i][11] : "",
-                    'levels' => 0,
-                    'date_played' => ($data[$i][3] == "") ? now() : $data[$i][3],
-                    'gp' => (array_key_exists(7, $data[$i])) ? (float)$data[$i][7] : 0,
-                    'downtime' => (array_key_exists(8, $data[$i])) ? (float)$data[$i][8] : 0,
-                    'type' => $type,
-                ];
+                $entryData = $this->getEntryData($characterId, $data[$i], $type);
                 $entry = Entry::create($entryData);
                 $entry->save();
                 array_push($entries, $entry);
             } elseif ($isItemEntry) {
                 if (count($entries) == 0) {
-                    $e = Entry::create([
-                        'user_id' => Auth::id(),
-                        'adventure_id' => null,
-                        'campaign_id' => null,
-                        'character_id' => $characterId,
-                        'event_id' => null,
-                        'dungeon_master_id' => null,
-                        'levels' => 0,
-                        'date_played' => now(),
-                        'gp' => 0,
-                        'downtime' => 0,
-                        'type' => Entry::TYPE_GAME,
-                    ]);
+                    $entryData = $this->getEntryData($characterId);
+                    $e = Entry::create($entryData);
                     $e->save();
                     array_push($entries, $e);
                 }
@@ -145,20 +120,53 @@ class AdventuresLeagueAdapter
                 $rarity = ((array_key_exists(2, $data[$i])) ? (string) $data[$i][2] : "common");
                 $lastEntry = $entries[array_key_last($entries)];
 
+                $itemLine = collect($data[$i]);
                 $itemData = [
                     'entry_id' => $lastEntry->id,
                     'character_id' => $characterId,
-                    'name' => (array_key_exists(1, $data[$i])) ? $data[$i][1] : "",
+                    'name' => (string) $itemLine->get(1),
                     'rarity' => in_array($rarity, Item::RARITY) ? $rarity : "uncommon", //need enum
-                    'description' => (array_key_exists(6, $data[$i])) ? $data[$i][6] : "",
+                    'description' => (string) $itemLine->get(6),
                     'author_id' => Auth::id(),
                     'tier' => 0,
-                    'counted' => 0,
                 ];
-                $item = new Item($itemData);
-                $item->save();
+                Item::create($itemData);
             }
         }
         return $entries;
+    }
+
+    private function getEntryData($characterId, $data=null, $type=null)
+    {
+        $entryData = [
+            'user_id' => Auth::id(),
+            'adventure_id' => null,
+            'campaign_id' => null,
+            'character_id' => $characterId,
+            'event_id' => null,
+            'dungeon_master_id' => null,
+            'levels' => 0,
+            ];
+
+        if (is_null($data)) {
+            $defaultEntryData = [
+                'date_played' => now(),
+                'gp' => 0,
+                'downtime' => 0,
+                'type' => Entry::TYPE_GAME,
+            ];
+            return array_merge($entryData, $defaultEntryData);
+        } else {
+            $data = collect($data);
+            $populatedEntryData = [
+                'dungeon_master' => (string) $data->get(12),
+                'location' => (string) $data->get(11),
+                'date_played' => Carbon::parse($data->get(3)),
+                'gp' => (float) $data->get(7, 0),
+                'downtime' => (float) $data->get(8, 0),
+                'type' => $type,
+            ];
+            return array_merge($entryData, $populatedEntryData);
+        }
     }
 }

@@ -191,7 +191,7 @@ const ItemTable = ({rows}: ItemTablePropType) => {
                                             {row.iname}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            <RarityChip fname={row.rarity} />
+                                            <RarityChip value={row.rarity} />
                                         </TableCell>
                                         <TableCell align='center'>
                                             <Chip

@@ -2,12 +2,12 @@ import Chip from '@mui/material/Chip'
 import React from 'react'
 
 type RarityChipPropType = {
-    fname: string
+    value: string
 }
 
-const RarityChip = ({fname}: RarityChipPropType) => {
+const RarityChip = ({value}: RarityChipPropType) => {
     let colorObj
-    switch (fname) {
+    switch (value) {
         case 'Common':
             colorObj = {color: '#bdbdbd', borderColor: '#bdbdbd'}
             break
@@ -35,7 +35,7 @@ const RarityChip = ({fname}: RarityChipPropType) => {
         default:
             colorObj = {color: 'primary', borderColor: 'primary'}
     }
-    return <Chip label={fname} sx={colorObj} variant='outlined' />
+    return <Chip label={value} sx={colorObj} variant='outlined' />
 }
 
 RarityChip.displayName = 'RarityChip'

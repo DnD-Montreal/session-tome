@@ -4,6 +4,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
 import React, {useState} from 'react'
@@ -34,8 +35,8 @@ const CharacterTable = ({
     const leftActions = [
         <Button variant='contained' startIcon={<AddIcon />}>
             <Link href={route('character.create')} child='Create' />
-        </Button>,
-        <Button variant='contained' startIcon={<AddIcon />}>
+        </StyledButton>,
+        <StyledButton variant='contained' startIcon={<PublishIcon />}>
             <Link href={route('adventures-league-import.index')} child='Import' />
         </Button>,
         <Button variant='contained' startIcon={<FileDownloadIcon />}>
@@ -74,7 +75,7 @@ const CharacterTable = ({
         {
             property: 'faction',
             title: 'Faction',
-            render: (value: string) => <FactionChip fname={value} />,
+            render: (value: string) => <FactionChip value={value} />,
         },
         {
             property: 'downtime',

@@ -4,7 +4,7 @@ import {
     CharacterCreateForm,
     CharacterDetailBox,
     CharacterDetailTable,
-    EditDrawer,
+    Drawer,
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
@@ -24,7 +24,7 @@ const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <EditDrawer
+            <Drawer
                 content={
                     <CharacterCreateForm
                         type='Edit'
