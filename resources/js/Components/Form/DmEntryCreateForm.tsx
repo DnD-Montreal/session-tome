@@ -3,7 +3,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {
-    Alert,
     Box,
     Button,
     Chip,
@@ -107,7 +106,6 @@ const DmEntryCreateForm = ({
         DM_ENTRY_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
-    const [isDuplicate, setIsDuplicate] = useState<boolean>(false)
 
     const handleDeleteItem = (chipToDelete: ItemData) => {
         setData(
@@ -117,12 +115,7 @@ const DmEntryCreateForm = ({
     }
 
     const handleAddItem = (item_data: ItemData) => {
-        if (!(data.items.filter((e) => e.name === item_data.name).length > 0)) {
-            setIsDuplicate(false)
-            setData('items', [...data.items, item_data])
-        } else {
-            setIsDuplicate(true)
-        }
+        setData('items', [...data.items, item_data])
     }
     return (
         <FormBox>
@@ -316,13 +309,6 @@ const DmEntryCreateForm = ({
                             <StyledGrid item xs={12}>
                                 <Typography variant='body2'>New Magic Items</Typography>
                             </StyledGrid>
-                            {isDuplicate && (
-                                <StyledGrid item xs={12}>
-                                    <Alert variant='outlined' severity='error'>
-                                        Magic item already exists!
-                                    </Alert>
-                                </StyledGrid>
-                            )}
                             {data.items.map((item) => (
                                 <StyledGrid item xs='auto' key={item.name}>
                                     <Chip
