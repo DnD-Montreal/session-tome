@@ -54,7 +54,16 @@ describe('<DmEntryCreateForm />', () => {
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(<DmEntryCreateForm {...createProps} />)
+        render(
+            <DmEntryCreateForm
+                adventures={[
+                    {id: 1, title: 'adventure1'},
+                    {id: 2, title: 'adventure2'},
+                ]}
+                {...createProps}
+            />,
+        )
+        const adventureField = document.querySelector('#adventure_id')
         const lengthField = document.querySelector('#length')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
@@ -74,6 +83,7 @@ describe('<DmEntryCreateForm />', () => {
                 }, ${new Date().getFullYear()}`}`,
             }),
         )
+        fireEvent.mouseDown(adventureField)
         fireEvent.change(notesField, {target: {value: '12'}})
         fireEvent.click(screen.getByText('Continue'))
         const nameField = document.querySelector('#name')
@@ -82,6 +92,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(nameField, {target: {value: 'name'}})
         fireEvent.change(descriptionField, {target: {value: 'description'}})
         fireEvent.change(tierField, {target: {value: 2}})
+        fireEvent.click(screen.getByLabelText('Rarity'))
         fireEvent.click(screen.getByText('Add Item'))
         fireEvent.click(screen.getByTestId('CancelIcon'))
         fireEvent.click(screen.getByText('Create'))
