@@ -8,7 +8,13 @@ export {default as ErrorText} from './ErrorText'
 export {FactionChip, RarityChip} from './Chips'
 
 // Tables
-export {CharacterDetailTable, CharacterTable, ItemTable, DMEntryTable, TableToolbar} from './Table'
+export {
+    CharacterDetailTable,
+    CharacterTable,
+    DMEntryTable,
+    ItemTable,
+    TableToolbar,
+} from './Table'
 
 // Forms
 export {

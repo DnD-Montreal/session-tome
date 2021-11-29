@@ -35,8 +35,8 @@ const CharacterTable = ({
     const leftActions = [
         <Button variant='contained' startIcon={<AddIcon />}>
             <Link href={route('character.create')} child='Create' />
-        </StyledButton>,
-        <StyledButton variant='contained' startIcon={<PublishIcon />}>
+        </Button>,
+        <Button variant='contained' startIcon={<PublishIcon />}>
             <Link href={route('adventures-league-import.index')} child='Import' />
         </Button>,
         <Button variant='contained' startIcon={<FileDownloadIcon />}>
