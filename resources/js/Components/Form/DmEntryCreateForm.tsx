@@ -255,7 +255,7 @@ const DmEntryCreateForm = ({
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
                                 <Link
-                                    href={route('character.index')}
+                                    href={route('entry.index')}
                                     child={<Button fullWidth>Cancel</Button>}
                                 />
                             ) : (
