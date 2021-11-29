@@ -1,4 +1,4 @@
-describe('Character Management Test Suite', () => {
+describe('Manage Characters Test Suite', () => {
     const testusername = 'testuser'
     const character_name = 'John'
     const character_race = 'Smith'

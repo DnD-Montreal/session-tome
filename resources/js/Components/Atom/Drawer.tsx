@@ -1,4 +1,4 @@
-import {Drawer, Paper} from '@mui/material'
+import {Drawer as MuiDrawer, Paper} from '@mui/material'
 import React, {ReactNode} from 'react'
 import styled from 'styled-components'
 
@@ -19,14 +19,14 @@ type EditDrawerPropType = {
     title: ReactNode
 }
 
-const EditDrawer = ({content, onClose, isOpen, title}: EditDrawerPropType) => (
-    <Drawer anchor='right' onClose={onClose} open={isOpen}>
+const Drawer = ({content, onClose, isOpen, title}: EditDrawerPropType) => (
+    <MuiDrawer anchor='right' onClose={onClose} open={isOpen}>
         <StyledDrawerContent>
             {title}
             {content}
         </StyledDrawerContent>
-    </Drawer>
+    </MuiDrawer>
 )
 
-EditDrawer.displayName = 'EditDrawer'
-export default EditDrawer
+Drawer.displayName = 'Drawer'
+export default Drawer
