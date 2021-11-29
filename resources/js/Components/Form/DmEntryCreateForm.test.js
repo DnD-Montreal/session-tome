@@ -2,6 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
 
 import DmEntryCreateForm from './DmEntryCreateForm'
+import ItemCreateForm from './ItemCreateForm'
 
 const mockFunction = jest.fn()
 const editProps = {
@@ -16,7 +17,12 @@ const editProps = {
         items: [],
         type: 'dm',
     },
-    editItemData: {
+    editId: 0,
+}
+const editItemProps = {
+    type: 'Edit',
+    onCloserDrawer: mockFunction,
+    editData: {
         name: '',
         description: '',
         rarity: '',
@@ -42,6 +48,10 @@ const monthNames = [
 
 const createProps = {
     type: 'Create',
+    adventures: [
+        {id: 1, title: 'adventure1'},
+        {id: 2, title: 'adventure2'},
+    ],
 }
 
 describe('<DmEntryCreateForm />', () => {
@@ -54,15 +64,7 @@ describe('<DmEntryCreateForm />', () => {
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(
-            <DmEntryCreateForm
-                adventures={[
-                    {id: 1, title: 'adventure1'},
-                    {id: 2, title: 'adventure2'},
-                ]}
-                {...createProps}
-            />,
-        )
+        render(<DmEntryCreateForm {...createProps} />)
         const adventureField = document.querySelector('#adventure_id')
         const lengthField = document.querySelector('#length')
         const locationField = document.querySelector('#location')
@@ -111,7 +113,18 @@ describe('<DmEntryCreateForm />', () => {
                 } ${new Date().getDate()}, ${new Date().getFullYear()}`}`,
             }),
         )
+        fireEvent.click(
+            screen.getByRole('button', {
+                name: `${`${monthNames[new Date().getMonth()]} ${
+                    new Date().getDate() + 1
+                }, ${new Date().getFullYear()}`}`,
+            }),
+        )
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Save'))
+    })
+    it('cancel edit item test', () => {
+        render(<ItemCreateForm {...editItemProps} />)
+        fireEvent.click(screen.getByText('Cancel'))
     })
 })
