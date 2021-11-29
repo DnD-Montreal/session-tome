@@ -17,6 +17,7 @@ import {
 import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import {adventureType} from 'Types/adventure-data'
 import {EntriesData} from 'Types/entries-data'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -29,7 +30,7 @@ type DmEntryCreateFormPropType = {
     editData?: EntriesData
     editId?: number
     user_id?: number
-    adventures?: any
+    adventures?: adventureType[]
 }
 
 type DmEntryFormDataType = {

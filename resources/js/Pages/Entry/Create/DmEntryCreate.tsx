@@ -2,15 +2,9 @@ import {ThemeProvider} from '@mui/material/styles'
 import {DmEntryCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
+import {adventureType} from 'Types/adventure-data'
 import {UserType} from 'Types/global'
 import {getFontTheme} from 'Utils'
-
-type adventureType = {
-    id: number
-    title: string
-    code: string
-    description: string
-}
 
 type DmEntryCreateType = {
     auth: UserType
