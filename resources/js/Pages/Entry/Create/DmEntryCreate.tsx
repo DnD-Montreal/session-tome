@@ -1,14 +1,24 @@
-import {usePage} from '@inertiajs/inertia-react'
 import {ThemeProvider} from '@mui/material/styles'
 import {DmEntryCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
-import {UsePageType} from 'Types/global'
+import {UserType} from 'Types/global'
 import {getFontTheme} from 'Utils'
 
-const DmEntryCreate = () => {
+type adventureType = {
+    id: number
+    title: string
+    code: string
+    description: string
+}
+
+type DmEntryCreateType = {
+    auth: UserType
+    adventures: adventureType[]
+}
+
+const DmEntryCreate = ({auth, adventures}: DmEntryCreateType) => {
     const theme = getFontTheme('Form', 16)
-    const {auth, adventures} = usePage<UsePageType>().props
     const {user} = auth
 
     return (

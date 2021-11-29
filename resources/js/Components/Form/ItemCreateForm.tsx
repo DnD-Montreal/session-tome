@@ -86,14 +86,7 @@ const ItemCreateForm = ({
                             label='Name'
                             name='Name'
                             value={data.name}
-                            onChange={(e) =>
-                                setData({
-                                    name: e.target.value,
-                                    description: data.description,
-                                    rarity: data.rarity,
-                                    tier: data.tier,
-                                })
-                            }
+                            onChange={(e) => setData('name', e.target.value)}
                         />
                         {errors?.name && <ErrorText message={errors?.name} />}
                     </StyledGrid>
@@ -113,14 +106,7 @@ const ItemCreateForm = ({
                                 },
                             }}
                             value={data.tier.toString()}
-                            onChange={(e) =>
-                                setData({
-                                    name: data.name,
-                                    description: data.description,
-                                    rarity: data.rarity,
-                                    tier: parseInt(e.target.value),
-                                })
-                            }
+                            onChange={(e) => setData('tier', parseInt(e.target.value))}
                         />
                         {errors?.tier && <ErrorText message={errors?.tier} />}
                     </StyledGrid>
@@ -135,14 +121,7 @@ const ItemCreateForm = ({
                                 label='Rarity'
                                 name='Rarity'
                                 value={data.rarity}
-                                onChange={(e) =>
-                                    setData({
-                                        name: data.name,
-                                        description: data.description,
-                                        rarity: e.target.value,
-                                        tier: data.tier,
-                                    })
-                                }>
+                                onChange={(e) => setData('rarity', e.target.value)}>
                                 {RARITY.map((option) => (
                                     <MenuItem key={option} value={option}>
                                         {option.replace('_', ' ')}
@@ -160,14 +139,7 @@ const ItemCreateForm = ({
                             label='Description'
                             name='Description'
                             value={data.description}
-                            onChange={(e) =>
-                                setData({
-                                    name: data.name,
-                                    description: e.target.value,
-                                    rarity: data.rarity,
-                                    tier: data.tier,
-                                })
-                            }
+                            onChange={(e) => setData('description', e.target.value)}
                         />
                         {errors?.description && (
                             <ErrorText message={errors?.description} />
