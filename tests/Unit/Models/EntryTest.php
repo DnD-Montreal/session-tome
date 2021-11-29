@@ -2,8 +2,11 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Adventure;
+use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -84,5 +87,32 @@ class EntryTest extends TestCase
         $entry = Entry::factory(1)->create()[0];
 
         $this->assertCount(1, $entry->dungeonMaster()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function counts_sessions_properly()
+    {
+        $user = User::factory()->create();
+        $dm = User::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $character = Character::factory()->create([
+            'user_id' => $user->id
+        ]);
+        $date = now()->subDays(3);
+        $data = [
+            'adventure_id' => $adventure->id,
+            'character_id' => $character->id,
+            'dungeon_master_id' => $dm->id,
+        ];
+
+        $sessionThree = Entry::factory()->create(array_merge($data, ['date_played' => $date]));
+        $sessionTwo = Entry::factory()->create(array_merge($data, ['date_played' => $date->addDay()]));
+        $sessionOne = Entry::factory()->create(array_merge($data, ['date_played' => $date->addDays(2)]));
+
+        $this->assertEquals(1, $sessionOne->session);
+        $this->assertEquals(2, $sessionTwo->session);
+        $this->assertEquals(3, $sessionThree->session);
     }
 }
