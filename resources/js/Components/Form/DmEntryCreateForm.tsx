@@ -1,4 +1,4 @@
-import {useForm, usePage} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -19,7 +19,6 @@ import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {EntriesData} from 'Types/entries-data'
-import {UsePageType} from 'Types/global'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
 
@@ -30,6 +29,8 @@ type DmEntryCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
+    user_id?: number
+    adventures?: any
 }
 
 type DmEntryFormDataType = {
@@ -75,12 +76,12 @@ const DmEntryCreateForm = ({
     onCloseDrawer = () => {},
     editData,
     editId = 0,
+    user_id,
+    adventures,
 }: DmEntryCreateFormPropType) => {
-    const {auth, adventures} = usePage<UsePageType>().props
-    const {user} = auth
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         adventure_id: 0,
-        user_id: user?.id,
+        user_id,
         length: 0,
         location: '',
         date_played: new Date().toDateString(),
@@ -99,7 +100,7 @@ const DmEntryCreateForm = ({
                   notes: editData?.notes || '',
                   items: editData?.items || [],
                   type: 'dm',
-                  user_id: user?.id,
+                  user_id,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(
