@@ -67,6 +67,13 @@ describe('<DmEntryCreateForm />', () => {
                 } ${new Date().getDate()}, ${new Date().getFullYear()}`}`,
             }),
         )
+        fireEvent.click(
+            screen.getByRole('button', {
+                name: `${`${monthNames[new Date().getMonth()]} ${
+                    new Date().getDate() + 1
+                }, ${new Date().getFullYear()}`}`,
+            }),
+        )
         fireEvent.change(notesField, {target: {value: '12'}})
         fireEvent.click(screen.getByText('Continue'))
         const nameField = document.querySelector('#name')
@@ -76,6 +83,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(descriptionField, {target: {value: 'description'}})
         fireEvent.change(tierField, {target: {value: 2}})
         fireEvent.click(screen.getByText('Add Item'))
+        fireEvent.click(screen.getByTestId('CancelIcon'))
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
