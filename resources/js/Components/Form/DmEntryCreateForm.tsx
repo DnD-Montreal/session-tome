@@ -109,7 +109,7 @@ const DmEntryCreateForm = ({
     const [activeStep, setActiveStep] = useState<number>(0)
     const [items, setItems] = useState<ItemData[]>([])
     const [isItemsVisible, setIsItemsVisible] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
+    const [isDuplicate, setIsDuplicate] = useState<boolean>(false)
 
     const handleDeleteItem = (chipToDelete: ItemData) => {
         setItems((chips) => chips.filter((chip) => chip.name !== chipToDelete.name))
@@ -124,26 +124,24 @@ const DmEntryCreateForm = ({
 
     const handleAddItem = (item_data: ItemData) => {
         if (!(items.filter((e) => e.name === item_data.name).length > 0)) {
-            setError(false)
+            setIsDuplicate(false)
             setItems([...items, item_data])
             setData('items', [...items, item_data])
             setIsItemsVisible(true)
         } else {
-            setError(true)
+            setIsDuplicate(true)
         }
     }
     return (
         <FormBox>
-            {type === 'Create' && (
-                <Stepper activeStep={activeStep}>
-                    <Step completed={activeStep > 0}>
-                        <StepLabel>Details</StepLabel>
-                    </Step>
-                    <Step completed={activeStep > 1}>
-                        <StepLabel>Magic Items</StepLabel>
-                    </Step>
-                </Stepper>
-            )}
+            <Stepper activeStep={activeStep}>
+                <Step completed={activeStep > 0}>
+                    <StepLabel>Details</StepLabel>
+                </Step>
+                <Step completed={activeStep > 1}>
+                    <StepLabel>Magic Items</StepLabel>
+                </Step>
+            </Stepper>
             <StyledBox>
                 {activeStep === 0 && (
                     <>
@@ -296,45 +294,43 @@ const DmEntryCreateForm = ({
             </StyledFooter>
             {activeStep === 1 && (
                 <>
-                    {type === 'Create' && (
-                        <ItemCreateForm
-                            type={type}
-                            onCloseDrawer={onCloseDrawer}
-                            childButton={
-                                <Button
-                                    onClick={() => {
-                                        setActiveStep(0)
+                    <ItemCreateForm
+                        type='Create'
+                        onCloseDrawer={onCloseDrawer}
+                        childButton={
+                            <Button
+                                onClick={() => {
+                                    setActiveStep(0)
+                                    setIsItemsVisible(false)
+                                }}
+                                fullWidth>
+                                Previous
+                            </Button>
+                        }
+                        handleAddItem={handleAddItem}
+                        createEntryButton={
+                            <Button
+                                variant='contained'
+                                fullWidth
+                                onClick={() => {
+                                    post(route('entry.store'))
+                                    if (errors) {
                                         setIsItemsVisible(false)
-                                    }}
-                                    fullWidth>
-                                    Previous
-                                </Button>
-                            }
-                            handleAddItem={handleAddItem}
-                            createEntryButton={
-                                <Button
-                                    variant='contained'
-                                    fullWidth
-                                    onClick={() => {
-                                        post(route('entry.store'))
-                                        if (errors) {
-                                            setIsItemsVisible(false)
-                                            setActiveStep(0)
-                                        } else {
-                                            clearErrors()
-                                        }
-                                    }}>
-                                    Create
-                                </Button>
-                            }
-                        />
-                    )}
+                                        setActiveStep(0)
+                                    } else {
+                                        clearErrors()
+                                    }
+                                }}>
+                                {type === 'Create' ? 'Create' : 'Save'}
+                            </Button>
+                        }
+                    />
                     {isItemsVisible && (
                         <StyledItemsFooter container spacing={1}>
                             <StyledGrid item xs={12}>
                                 <Typography variant='body2'>New Magic Items</Typography>
                             </StyledGrid>
-                            {error && (
+                            {isDuplicate && (
                                 <StyledGrid item xs={12}>
                                     <Alert variant='outlined' severity='error'>
                                         Magic item already exists!
