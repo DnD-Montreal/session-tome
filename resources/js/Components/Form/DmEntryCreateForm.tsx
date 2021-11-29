@@ -107,27 +107,19 @@ const DmEntryCreateForm = ({
         DM_ENTRY_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
-    const [items, setItems] = useState<ItemData[]>([])
-    const [isItemsVisible, setIsItemsVisible] = useState<boolean>(false)
     const [isDuplicate, setIsDuplicate] = useState<boolean>(false)
 
     const handleDeleteItem = (chipToDelete: ItemData) => {
-        setItems((chips) => chips.filter((chip) => chip.name !== chipToDelete.name))
         setData(
             'items',
-            items.filter((item) => item.name !== chipToDelete.name),
+            data.items.filter((item) => item.name !== chipToDelete.name),
         )
-        if (items.length === 0) {
-            setIsItemsVisible(false)
-        }
     }
 
     const handleAddItem = (item_data: ItemData) => {
-        if (!(items.filter((e) => e.name === item_data.name).length > 0)) {
+        if (!(data.items.filter((e) => e.name === item_data.name).length > 0)) {
             setIsDuplicate(false)
-            setItems([...items, item_data])
-            setData('items', [...items, item_data])
-            setIsItemsVisible(true)
+            setData('items', [...data.items, item_data])
         } else {
             setIsDuplicate(true)
         }
@@ -298,12 +290,7 @@ const DmEntryCreateForm = ({
                         type='Create'
                         onCloseDrawer={onCloseDrawer}
                         childButton={
-                            <Button
-                                onClick={() => {
-                                    setActiveStep(0)
-                                    setIsItemsVisible(false)
-                                }}
-                                fullWidth>
+                            <Button onClick={() => setActiveStep(0)} fullWidth>
                                 Previous
                             </Button>
                         }
@@ -315,7 +302,6 @@ const DmEntryCreateForm = ({
                                 onClick={() => {
                                     post(route('entry.store'))
                                     if (errors) {
-                                        setIsItemsVisible(false)
                                         setActiveStep(0)
                                     } else {
                                         clearErrors()
@@ -325,7 +311,7 @@ const DmEntryCreateForm = ({
                             </Button>
                         }
                     />
-                    {isItemsVisible && (
+                    {activeStep === 1 && data.items.length > 0 && (
                         <StyledItemsFooter container spacing={1}>
                             <StyledGrid item xs={12}>
                                 <Typography variant='body2'>New Magic Items</Typography>
@@ -337,7 +323,7 @@ const DmEntryCreateForm = ({
                                     </Alert>
                                 </StyledGrid>
                             )}
-                            {items.map((item) => (
+                            {data.items.map((item) => (
                                 <StyledGrid item xs='auto' key={item.name}>
                                     <Chip
                                         variant='outlined'
