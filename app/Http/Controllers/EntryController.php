@@ -7,6 +7,7 @@ use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class EntryController extends Controller
@@ -43,10 +44,33 @@ class EntryController extends Controller
     {
         $entryData = collect($request->validated())->except('items');
         $itemData = collect($request->validated())->only('items');
+
+        if ($itemData->has('items')) {
+            $itemData = $itemData['items'];
+        }
+
+        if ($itemData instanceof Collection) {
+            $itemData = $itemData->toArray();
+        }
+
+        //possibly implement as function for reusability
+        if ($entryData->get('choice') == 'advancement') {
+            // advancement: increment character's level
+            $entryData['levels'] = 1;
+            $itemData = [];
+        } elseif ($entryData->get('choice') == 'magic_item') {
+            // magic_item: attach item to character of choice, and set entry's levels to 0
+            $itemData = [$itemData[0] ?? []];
+            $entryData['levels'] = 0;
+        } elseif ($entryData->get('choice') == 'campaign_reward') {
+            // campaign reward: set levels = 0, no item(s), should contain custom note
+            $itemData = [];
+            $entryData['levels'] = 0;
+        }
+
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
-        CreateEntryItems::run($entry, $itemData['items'] ?? []);
-
+        CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         if ($request->type == Entry::TYPE_DM) {
@@ -85,8 +109,32 @@ class EntryController extends Controller
     {
         $entryData = collect($request->validated())->except('items');
         $itemData = collect($request->validated())->only('items');
+
+        if ($itemData->has('items')) {
+            $itemData = $itemData['items'];
+        }
+
+        if ($itemData instanceof Collection) {
+            $itemData = $itemData->toArray();
+        }
+
+        //replace with function call when implemented
+        if ($entryData->get('choice') == 'advancement') {
+            // advancement: increment character's level
+            $entryData['levels'] = 1;
+            $itemData = [];
+        } elseif ($entryData->get('choice') == 'magic_item') {
+            // magic_item: attach item to character of choice, and set entry's levels to 0
+            $itemData = [$itemData[0] ?? []];
+            $entryData['levels'] = 0;
+        } elseif ($entryData->get('choice') == 'campaign_reward') {
+            // campaign reward: set levels = 0, no item(s), should contain custom note
+            $itemData = [];
+            $entryData['levels'] = 0;
+        }
+
         $entry->update($entryData->toArray());
-        CreateEntryItems::run($entry, $itemData['items'] ?? []);
+        CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         if ($request->type == Entry::TYPE_DM) {

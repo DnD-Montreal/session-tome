@@ -44,7 +44,8 @@ class EntryUpdateRequest extends FormRequest
             'downtime' => ['sometimes', 'integer'],
             'items' => ['sometimes', 'array'],
             'items.*.name' => ['string', 'required_with:items'],
-            'items.*.rarity' => ["in:{$rarities}", 'required_with:items']
+            'items.*.rarity' => ["in:{$rarities}", 'required_with:items'],
+            'choice' => ['sometimes', 'string']
         ];
     }
 }

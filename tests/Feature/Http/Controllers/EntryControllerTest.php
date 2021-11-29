@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
+use App\Models\Item;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,8 +93,8 @@ class EntryControllerTest extends TestCase
         $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
-        $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+        $choice = 'advancement';
 
         $dm_entry->user()->associate($dungeon_master_user)->save();
 
@@ -105,9 +106,9 @@ class EntryControllerTest extends TestCase
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
             'location' => $location,
-            'levels' => $levels,
             'gp' => $gp,
             'type' => Entry::TYPE_DM,
+            'choice' => $choice
         ]);
 
         $response->assertRedirect(route('dm-entry.index'));
@@ -270,6 +271,112 @@ class EntryControllerTest extends TestCase
         $this->assertCount(2, $entry->items);
     }
 
+    /**
+     * @test
+     */
+    public function store_handles_dm_reward_choice()
+    {
+        // Set Default Values for All Required Attributes of Entry
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $character_adv = Character::factory()->create(['user_id' => $this->user->id]);
+        $character_MI = Character::factory()->create(['user_id' => $this->user->id]);
+        $character_CR = Character::factory()->create(['user_id' => $this->user->id]);
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = Entry::TYPE_DM;
+        $levels = $this->faker->numberBetween(1, 20);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+        $itemData = [
+            ['name' => "Longsword +1", 'rarity' => "uncommon"],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+        ];
+        $choice_advancement = 'advancement';
+        $choice_item = 'magic_item';
+        $choice_rewards = 'campaign_reward';
+
+        //post request entry.store for each of them
+        $response_advancement = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character_adv->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+            'choice' => $choice_advancement,
+
+        ]);
+
+        $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character_MI->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+            'items' => $itemData,
+            'choice' => $choice_item,
+
+        ]);
+
+        $response_CR = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'character_id' => $character_CR->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+            'choice' => $choice_rewards,
+
+        ]);
+
+        //Create the DM Entry for each of the above requests
+        $advancement_entry = Entry::query()
+            ->where('character_id', $character_adv->id)
+            ->first();
+
+        $magic_item_entry = Entry::query()
+            ->where('character_id', $character_MI->id)
+            ->first();
+
+        $campaign_reward_entry = Entry::query()
+            ->where('character_id', $character_CR->id)
+            ->first();
+
+        //advancement assertions
+        $this->assertEquals(1, $advancement_entry->levels);
+        $this->assertCount(0, $advancement_entry->items);
+
+        //reward_item assertions
+        $this->assertEquals(0, $magic_item_entry->levels);
+        $this->assertCount(1, $magic_item_entry->items);
+
+        //campaign_reward assertions
+        $this->assertEquals(0, $campaign_reward_entry->levels);
+        $this->assertCount(0, $campaign_reward_entry->items);
+    }
+
 
     /**
      * @test
@@ -419,7 +526,6 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
-        $levels = 5;
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
@@ -433,13 +539,12 @@ class EntryControllerTest extends TestCase
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
-            'levels' => $levels,
             'gp' => $gp,
+            'choice' => 'advancement'
         ]);
 
         $character->refresh();
-
-        $this->assertEquals($oldLevel + $levels, $character->level);
+        $this->assertEquals($oldLevel + 1, $character->level);
     }
 
     /**
@@ -453,7 +558,6 @@ class EntryControllerTest extends TestCase
 
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
-            'levels' => 3,
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -469,7 +573,6 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
-        $levels = 5;
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
@@ -481,13 +584,13 @@ class EntryControllerTest extends TestCase
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
-            'levels' => $levels,
             'gp' => $gp,
+            'choice' => 'advancement',
         ]);
 
         $character->refresh();
 
-        $this->assertEquals(5, $character->level);
+        $this->assertEquals(1, $character->level);
     }
 
     /**
@@ -514,6 +617,56 @@ class EntryControllerTest extends TestCase
         $character->refresh();
 
         $this->assertEquals($entry->level + $oldLevel, $character->level);
+    }
+
+    /**
+     * @test
+     */
+    public function update_campaign_reward_clears_items_and_levels()
+    {
+        $items = Item::factory()->count(2)->create();
+
+        $character = Character::factory()->create([
+            'level' => 0,
+        ]);
+
+        $entry = Entry::factory()->create([
+            'type' => Entry::TYPE_DM,
+            'levels' => 5,
+        ]);
+
+        $character->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+        $entry->items()->saveMany($items);
+        $entry->save();
+
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = Entry::TYPE_DM;
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $adventure->id,
+            'campaign_id' => $campaign->id,
+            'event_id' => $event->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'gp' => $gp,
+            'choice' => 'campaign_reward',
+        ]);
+
+        $character->refresh();
+
+        $this->assertEquals(0, $character->levels);
+        $this->assertCount(0, $entry->items);
     }
 
     /**

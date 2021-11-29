@@ -71,8 +71,8 @@ class DMEntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
-        $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+        $choice = 'advancement';
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
@@ -84,8 +84,8 @@ class DMEntryControllerTest extends TestCase
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
-            'levels' => $levels,
             'gp' => $gp,
+            'choice' => $choice,
         ]);
 
         $entries = Entry::query()
