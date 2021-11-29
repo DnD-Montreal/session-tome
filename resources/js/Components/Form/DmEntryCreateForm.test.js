@@ -54,6 +54,14 @@ const createProps = {
     ],
 }
 
+const today = `${
+    monthNames[new Date().getMonth()]
+} ${new Date().getDate()}, ${new Date().getFullYear()}`
+
+const tomorrow = `${`${monthNames[new Date().getMonth()]} ${
+    new Date().getDate() + 1
+}, ${new Date().getFullYear()}`}`
+
 describe('<DmEntryCreateForm />', () => {
     it('edit component should render', () => {
         const component = render(<DmEntryCreateForm {...editProps} />)
@@ -73,16 +81,12 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.click(
             screen.getByRole('textbox', {
-                name: `Choose date, selected date is ${`${
-                    monthNames[new Date().getMonth()]
-                } ${new Date().getDate()}, ${new Date().getFullYear()}`}`,
+                name: `Choose date, selected date is ${today}`,
             }),
         )
         fireEvent.click(
             screen.getByRole('button', {
-                name: `${`${monthNames[new Date().getMonth()]} ${
-                    new Date().getDate() + 1
-                }, ${new Date().getFullYear()}`}`,
+                name: tomorrow,
             }),
         )
         fireEvent.mouseDown(adventureField)
@@ -106,20 +110,6 @@ describe('<DmEntryCreateForm />', () => {
         const notesField = document.querySelector('#notes')
         fireEvent.change(lengthField, {target: {value: 3}})
         fireEvent.change(locationField, {target: {value: '12333'}})
-        fireEvent.click(
-            screen.getByRole('textbox', {
-                name: `Choose date, selected date is ${`${
-                    monthNames[new Date().getMonth()]
-                } ${new Date().getDate()}, ${new Date().getFullYear()}`}`,
-            }),
-        )
-        fireEvent.click(
-            screen.getByRole('button', {
-                name: `${`${monthNames[new Date().getMonth()]} ${
-                    new Date().getDate() + 1
-                }, ${new Date().getFullYear()}`}`,
-            }),
-        )
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Save'))
     })
