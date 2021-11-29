@@ -63,13 +63,13 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
                     <IconButton aria-label='edit'>
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label='delete'>
-                        <DeleteIcon
-                            onClick={() => {
-                                setData('entries', [row.id])
-                                setIsDeleteModalOpen(true)
-                            }}
-                        />
+                    <IconButton
+                        aria-label='delete'
+                        onClick={() => {
+                            setData('entries', [row.id])
+                            setIsDeleteModalOpen(true)
+                        }}>
+                        <DeleteIcon />
                     </IconButton>
                 </>
             ),
@@ -78,13 +78,13 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
             <Tooltip title='Delete'>
-                <IconButton>
-                    <DeleteIcon
-                        onClick={() => {
-                            setData('entries', selected)
-                            setIsDeleteModalOpen(true)
-                        }}
-                    />
+                <IconButton
+                    aria-label='bulkdelete'
+                    onClick={() => {
+                        setData('entries', selected)
+                        setIsDeleteModalOpen(true)
+                    }}>
+                    <DeleteIcon />
                 </IconButton>
             </Tooltip>
         </Stack>
@@ -103,6 +103,7 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
                     }
                 }}
             />
+
             <DataTable
                 leftActions={leftActions}
                 selected={selected}

@@ -21,5 +21,6 @@ describe('Character', () => {
             'href',
             'adventures-league-import.index',
         )
+        expect(screen.getByText('DM Entry')).toHaveAttribute('href', 'dm-entry.index')
     })
 })
