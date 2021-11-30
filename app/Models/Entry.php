@@ -50,11 +50,15 @@ class Entry extends Model
         'downtime' => 'integer',
     ];
 
-    protected $appends = ['session'];
+    protected $appends = ['session', 'reward'];
 
     public const TYPE_GAME = 'game';
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
+
+    public const REWARD_ADVANCEMENT = "Advancement";
+    public const REWARD_MAGIC_ITEM = "Magic Item";
+    public const REWARD_CAMPAIGN = "Campaign Reward";
 
     public function items()
     {
@@ -102,5 +106,22 @@ class Entry extends Model
             ->where('adventure_id', $this->adventure_id)
             ->where('date_played', ">", $this->date_played)
             ->count() + 1;
+    }
+
+    public function getRewardAttribute()
+    {
+        if (is_null($this->character_id)) {
+            return "-";
+        }
+
+        if ($this->type == self::TYPE_DM) {
+            if ($this->levels >= 1) {
+                return self::REWARD_ADVANCEMENT;
+            } elseif ($this->items()->count() >= 1) {
+                return self::REWARD_MAGIC_ITEM;
+            }
+
+            return self::REWARD_CAMPAIGN;
+        }
     }
 }
