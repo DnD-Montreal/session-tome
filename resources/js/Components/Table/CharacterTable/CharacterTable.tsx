@@ -1,5 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -7,13 +8,8 @@ import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
 import React, {useState} from 'react'
-import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
-
-const StyledButton = styled(Button)`
-    margin: 8px;
-`
 
 type CharTablePropType = {
     data: CharacterData[]
@@ -36,16 +32,22 @@ const CharacterTable = ({
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
 
-    const actions = [
-        <StyledButton variant='contained' startIcon={<AddIcon />}>
+    const leftActions = [
+        <Button variant='contained' startIcon={<AddIcon />}>
             <Link href={route('character.create')} child='Create' />
-        </StyledButton>,
-        <StyledButton variant='contained' startIcon={<PublishIcon />}>
+        </Button>,
+        <Button variant='contained' startIcon={<PublishIcon />}>
             <Link href={route('adventures-league-import.index')} child='Import' />
-        </StyledButton>,
-        <StyledButton variant='contained' startIcon={<FileDownloadIcon />}>
+        </Button>,
+        <Button variant='contained' startIcon={<FileDownloadIcon />}>
             Export
-        </StyledButton>,
+        </Button>,
+    ]
+
+    const rightActions = [
+        <Button variant='contained' startIcon={<AutoStoriesIcon />}>
+            <Link href={route('dm-entry.index')} child='DM Entry' />
+        </Button>,
     ]
 
     const columns = [
@@ -134,7 +136,8 @@ const CharacterTable = ({
                 }}
             />
             <DataTable
-                actions={actions}
+                rightActions={rightActions}
+                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable

@@ -18,6 +18,7 @@ export type EntriesData = {
     levels: number | null
     location: string | null
     notes: string | null
+    reward: string | null
     session: number | null
     type: 'game' | 'downtime' | 'dm' | string
     updated_at: string

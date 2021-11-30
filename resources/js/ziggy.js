@@ -300,7 +300,6 @@ const Ziggy = {
             methods: ['POST'],
         },
         'dm-entry.index': {uri: 'dm-entry', methods: ['GET', 'HEAD']},
-        'dm-entry.create': {uri: 'dm-entry/create', methods: ['GET', 'HEAD']},
         'attach-entry-to-character.update': {
             uri: 'attach-entry-to-character/{character}',
             methods: ['PUT', 'PATCH'],

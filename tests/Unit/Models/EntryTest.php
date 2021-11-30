@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Adventure;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
@@ -92,27 +91,30 @@ class EntryTest extends TestCase
     /**
      * @test
      */
-    public function counts_sessions_properly()
+    public function can_distinguish_between_reward_types()
     {
-        $user = User::factory()->create();
-        $dm = User::factory()->create();
-        $adventure = Adventure::factory()->create();
-        $character = Character::factory()->create([
-            'user_id' => $user->id
-        ]);
-        $date = now()->subDays(3);
-        $data = [
-            'adventure_id' => $adventure->id,
+        $character = Character::factory()->create();
+        $defaults = [
             'character_id' => $character->id,
-            'dungeon_master_id' => $dm->id,
+            'user_id' => $character->user->id,
+            'type' => Entry::TYPE_DM,
+            'levels' => 0
         ];
+        $advancement = Entry::factory()->create(array_merge($defaults, ['levels' => 1]));
+        $magicItem = Entry::factory()->create($defaults);
+        Item::factory()->create([
+            'character_id' => $character->id,
+            'entry_id' => $magicItem->id,
+            'author_id' => $character->user->id,
+        ]);
+        $campaign = Entry::factory()->create($defaults);
 
-        $sessionThree = Entry::factory()->create(array_merge($data, ['date_played' => $date]));
-        $sessionTwo = Entry::factory()->create(array_merge($data, ['date_played' => $date->addDay()]));
-        $sessionOne = Entry::factory()->create(array_merge($data, ['date_played' => $date->addDays(2)]));
+        $isAdvancement = $advancement->reward == Entry::REWARD_ADVANCEMENT;
+        $isMagicItem = $magicItem->reward == Entry::REWARD_MAGIC_ITEM;
+        $isCampaign = $campaign->reward == Entry::REWARD_CAMPAIGN;
 
-        $this->assertEquals(1, $sessionOne->session);
-        $this->assertEquals(2, $sessionTwo->session);
-        $this->assertEquals(3, $sessionThree->session);
+        $this->assertTrue($isAdvancement);
+        $this->assertTrue($isMagicItem);
+        $this->assertTrue($isCampaign);
     }
 }

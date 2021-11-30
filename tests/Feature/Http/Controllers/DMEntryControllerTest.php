@@ -2,23 +2,19 @@
 
 namespace Http\Controllers;
 
-use App\Http\Requests\AttachDMEntryRequest;
-use App\Http\Controllers\DMEntryController;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-
-use function PHPUnit\Framework\assertEquals;
 
 class DMEntryControllerTest extends TestCase
 {
@@ -48,16 +44,11 @@ class DMEntryControllerTest extends TestCase
         $response = $this->get(route('dm-entry.index'));
 
         $response->assertOk();
-        $response->assertViewIs('entry.index');
-        $response->assertViewHas('entries');
-
-        $responseEntries = $response->viewData('entries');
-
-        foreach ($responseEntries as $responseEntry) {
-            $this->assertEquals(Entry::TYPE_DM, $responseEntry->type);
-        }
-
-        $this->assertTrue($responseEntries->count() >= 2);
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('DMEntry/DMEntry')
+                ->has('entries')
+        );
     }
 
     /**

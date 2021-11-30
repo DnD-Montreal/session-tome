@@ -13,17 +13,16 @@ class DMEntryController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
+            ->with('character', 'adventure')
             ->get();
 
-        // this should maybe have its own view..
-        // potential fix in the future
-        return view('entry.index', compact('entries'));
+        return Inertia::render('DMEntry/DMEntry', compact('entries'));
     }
 
     /**
