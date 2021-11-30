@@ -58,9 +58,11 @@ const today = `${
     monthNames[new Date().getMonth()]
 } ${new Date().getDate()}, ${new Date().getFullYear()}`
 
-const tomorrow = `${`${monthNames[new Date().getMonth()]} ${
-    new Date().getDate() + 1
-}, ${new Date().getFullYear()}`}`
+const tomorrowDate = new Date()
+tomorrowDate.setDate(new Date().getDate() + 1)
+const tomorrow = `${`${
+    monthNames[tomorrowDate.getMonth()]
+} ${tomorrowDate.getDate()}, ${tomorrowDate.getFullYear()}`}`
 
 describe('<DmEntryCreateForm />', () => {
     it('edit component should render', () => {
@@ -84,6 +86,9 @@ describe('<DmEntryCreateForm />', () => {
                 name: `Choose date, selected date is ${today}`,
             }),
         )
+        if (new Date().getMonth() !== tomorrowDate.getMonth()) {
+            fireEvent.click(screen.getByTitle('Next month'))
+        }
         fireEvent.click(
             screen.getByRole('button', {
                 name: tomorrow,
