@@ -30,7 +30,7 @@ type DmEntryCreateFormPropType = {
     editData?: EntriesData
     editId?: number
     user_id?: number
-    adventures?: adventureType[]
+    adventures: adventureType[]
 }
 
 type DmEntryFormDataType = {
