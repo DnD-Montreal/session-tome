@@ -166,24 +166,6 @@ const ItemCreateForm = ({
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             <Button
                                 variant='contained'
-                                onClick={() => setActiveStep(1)}
-                                fullWidth>
-                                Continue
-                            </Button>
-                        </Grid>
-                    </>
-                )}
-                {activeStep === 1 && (
-                    <>
-                        <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
-                            <Button onClick={() => setActiveStep(0)} fullWidth>
-                                Previous
-                            </Button>
-                        </Grid>
-                        <Grid item md={type === 'Edit' ? 4 : 8} />
-                        <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
-                            <Button
-                                variant='contained'
                                 fullWidth
                                 onClick={() => {
                                     if (type === 'Create') {
