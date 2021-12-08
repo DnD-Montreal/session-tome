@@ -16,12 +16,12 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
-type itemDetailBoxPropType = {
+type ItemDetailBoxPropType = {
     item: any
     setIsEditDrawerOpen: (payload: boolean) => void
 }
 
-const ItemDetailBox = ({item, setIsEditDrawerOpen}: itemDetailBoxPropType) => (
+const ItemDetailBox = ({item, setIsEditDrawerOpen}: ItemDetailBoxPropType) => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container spacing={6}>
             <Grid item xs={4}>
