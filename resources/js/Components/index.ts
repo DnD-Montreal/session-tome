@@ -3,6 +3,7 @@ export {default as Authentication} from './Authentication'
 export {CharacterDetailBox} from './CharacterDetail'
 export {default as DeleteModal} from './DeleteModal'
 export {default as ErrorText} from './ErrorText'
+export {ItemDetailBox} from './ItemDetail'
 
 // Chips
 export {FactionChip, RarityChip} from './Chips'
@@ -20,6 +21,7 @@ export {
 export {
     CharacterCreateForm,
     CharacterImportForm,
+    ItemCreateForm,
     LoginForm,
     RegistrationForm,
 } from './Form'
