@@ -7,6 +7,7 @@ import {DataTable, DeleteModal} from 'Components'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
+import {Link} from '../../Atom'
 
 type DMEntryPropType = {
     data: EntriesData[]
@@ -23,7 +24,7 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
 
     const leftActions = [
         <Button variant='contained' startIcon={<HistoryEduIcon />}>
-            Create
+            <Link href={route('dm-entry.create')} child='Create' />
         </Button>,
     ]
 
