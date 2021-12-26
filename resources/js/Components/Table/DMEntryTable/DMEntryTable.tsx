@@ -45,7 +45,9 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'character',
             title: 'Character',
-            render: (value: string) => <Chip label={value} variant='outlined' />,
+            render: (value: string) => (
+                <Chip label={value ?? 'Unassigned'} variant='outlined' />
+            ),
         },
         {
             property: 'reward',
