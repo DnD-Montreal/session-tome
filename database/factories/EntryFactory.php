@@ -38,6 +38,7 @@ class EntryFactory extends Factory
             'date_played' => $this->faker->dateTime(),
             'location' => $this->faker->word(),
             'type' => $this->faker->word(),
+            'length' => $this->faker->numberBetween(0, 10),
             'levels' => $this->faker->numberBetween(1, 20),
             'gp' => $this->faker->randomFloat(2, 0, 9999.99),
             'downtime' => $this->faker->numberBetween(1, 1000),
