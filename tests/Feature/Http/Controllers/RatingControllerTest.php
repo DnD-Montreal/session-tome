@@ -76,20 +76,20 @@ class RatingControllerTest extends TestCase
         $entry = Entry::factory()->create();
         $user = User::factory()->create();
         $author = User::factory()->create();
-        $score = $this->faker->word;
+        $categories = 0;
 
         $response = $this->post(route('rating.store'), [
             'entry_id' => $entry->id,
             'user_id' => $user->id,
             'author_id' => $author->id,
-            'score' => $score,
+            'categories' => $categories,
         ]);
 
         $ratings = Rating::query()
             ->where('entry_id', $entry->id)
             ->where('user_id', $user->id)
             ->where('author_id', $author->id)
-            ->where('score', $score)
+            ->where('categories', $categories)
             ->get();
         $this->assertCount(1, $ratings);
         $rating = $ratings->first();
@@ -150,13 +150,13 @@ class RatingControllerTest extends TestCase
         $entry = Entry::factory()->create();
         $user = User::factory()->create();
         $author = User::factory()->create();
-        $score = $this->faker->word;
+        $categories = 4;
 
         $response = $this->put(route('rating.update', $rating), [
             'entry_id' => $entry->id,
             'user_id' => $user->id,
             'author_id' => $author->id,
-            'score' => $score,
+            'categories' => $categories,
         ]);
 
         $rating->refresh();
@@ -167,7 +167,7 @@ class RatingControllerTest extends TestCase
         $this->assertEquals($entry->id, $rating->entry_id);
         $this->assertEquals($user->id, $rating->user_id);
         $this->assertEquals($author->id, $rating->author_id);
-        $this->assertEquals($score, $rating->score);
+        $this->assertEquals($categories, $rating->categories);
     }
 
 
