@@ -27,6 +27,7 @@ class RatingUpdateRequest extends FormRequest
             'entry_id' => ['required', 'integer', 'exists:entries,id'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'author_id' => ['required', 'integer', 'exists:users,id'],
+            'categories' => ['required', 'integer'],
         ];
     }
 }
