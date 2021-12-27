@@ -123,24 +123,31 @@ class Rating extends Model
      */
     private function getCategoryLabelFromMask($mask)
     {
+        $label = "";
         switch ($mask) {
             case self::CREATIVE_BITMASK:
-                return self::CREATIVE_LABEL;
+                $label = self::CREATIVE_LABEL;
+                break;
 
             case self::FLEXIBLE_BITMASK:
-                return self::FLEXIBLE_LABEL;
+                $label = self::FLEXIBLE_LABEL;
+                break;
 
             case self::FRIENDLY_BITMASK:
-                return self::FRIENDLY_LABEL;
+                $label = self::FRIENDLY_LABEL;
+                break;
 
             case self::HELPFUL_BITMASK:
-                return self::HELPFUL_LABEL;
+                $label = self::HELPFUL_LABEL;
+                break;
 
             case self::PREPARED_BITMASK:
-                return self::PREPARED_LABEL;
+                $label = self::PREPARED_LABEL;
+                break;
 
             default:
-                return "";
+                $label = "";
         }
+        return $label;
     }
 }
