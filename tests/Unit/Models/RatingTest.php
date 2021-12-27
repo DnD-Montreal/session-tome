@@ -91,13 +91,15 @@ class RatingTest extends TestCase
      */
     public function can_get_category_labels()
     {
-        $categories = Rating::FLEXIBLE_BITMASK + Rating::HELPFUL_BITMASK + Rating::PREPARED_BITMASK;
+        $categories = Rating::FLEXIBLE_BITMASK + Rating::FRIENDLY_BITMASK + Rating::CREATIVE_BITMASK + Rating::HELPFUL_BITMASK + Rating::PREPARED_BITMASK;
         $rating = Rating::factory()->create(['categories' => $categories]);
         $labels = $rating->getCategoryLabels();
 
         $this->assertContains(Rating::FLEXIBLE_LABEL, $labels);
         $this->assertContains(Rating::HELPFUL_LABEL, $labels);
         $this->assertContains(Rating::PREPARED_LABEL, $labels);
-        $this->assertCount(3, $labels);
+        $this->assertContains(Rating::FRIENDLY_LABEL, $labels);
+        $this->assertContains(Rating::CREATIVE_LABEL, $labels);
+        $this->assertCount(5, $labels);
     }
 }
