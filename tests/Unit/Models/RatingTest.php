@@ -40,4 +40,37 @@ class RatingTest extends TestCase
         $rating = Rating::factory(1)->create()[0];
         $this->assertCount(1, $rating->author()->get());
     }
+
+    /**
+     * @test
+     */
+    public function can_add_categories()
+    {
+        $rating = Rating::factory()->create(['categories' => 0]);
+        $rating->addCategory(Rating::CREATIVE_BITMASK);
+        $this->assertTrue($rating->hasCategory(Rating::CREATIVE_BITMASK));
+    }
+
+    /**
+     * @test
+     */
+    public function has_category_helper_function_test()
+    {
+        $rating = Rating::factory()->create(['categories' => 0]);
+        $rating->categories = Rating::FRIENDLY_BITMASK;
+        $rating->save();
+        $this->assertTrue($rating->hasCategory(Rating::FRIENDLY_BITMASK));
+        $this->assertFalse($rating->hasCategory(Rating::CREATIVE_BITMASK));
+    }
+
+    /**
+     * @test
+     */
+    public function can_have_multiple_categories()
+    {
+        $categories = Rating::CREATIVE_BITMASK + Rating::FRIENDLY_BITMASK;
+        $rating = Rating::factory()->create(['categories' => $categories]);
+        $this->assertTrue($rating->hasCategory(Rating::CREATIVE_BITMASK));
+        $this->assertTrue($rating->hasCategory(Rating::FRIENDLY_BITMASK));
+    }
 }
