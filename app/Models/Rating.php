@@ -18,7 +18,6 @@ class Rating extends Model
         'entry_id',
         'user_id',
         'author_id',
-        'score',
         'categories',
     ];
 
