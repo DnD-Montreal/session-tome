@@ -73,4 +73,31 @@ class RatingTest extends TestCase
         $this->assertTrue($rating->hasCategory(Rating::CREATIVE_BITMASK));
         $this->assertTrue($rating->hasCategory(Rating::FRIENDLY_BITMASK));
     }
+
+    /**
+     * @test
+     */
+    public function can_remove_categories()
+    {
+        $categories = Rating::CREATIVE_BITMASK + Rating::FRIENDLY_BITMASK;
+        $rating = Rating::factory()->create(['categories' => $categories]);
+        $rating->removeCategory(Rating::FRIENDLY_BITMASK);
+        $this->assertTrue($rating->hasCategory(Rating::CREATIVE_BITMASK));
+        $this->assertFalse($rating->hasCategory(Rating::FRIENDLY_BITMASK));
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_category_labels()
+    {
+        $categories = Rating::FLEXIBLE_BITMASK + Rating::HELPFUL_BITMASK + Rating::PREPARED_BITMASK;
+        $rating = Rating::factory()->create(['categories' => $categories]);
+        $labels = $rating->getCategoryLabels();
+
+        $this->assertContains(Rating::FLEXIBLE_LABEL, $labels);
+        $this->assertContains(Rating::HELPFUL_LABEL, $labels);
+        $this->assertContains(Rating::PREPARED_LABEL, $labels);
+        $this->assertCount(3, $labels);
+    }
 }
