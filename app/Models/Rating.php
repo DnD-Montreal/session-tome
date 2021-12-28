@@ -96,58 +96,27 @@ class Rating extends Model
      * Returns category labels. Not recommended for large batches of requests, instead use hasCategory with bitmask
      * @returns Collection of strings corresponding to the rating categories of this entity
      */
-    public function getCategoryLabels()
+    public function getLabelsAttribute()
     {
         $labels = collect();
         $bitmasks = collect([
-            self::CREATIVE_BITMASK,
-            self::FLEXIBLE_BITMASK,
-            self::FRIENDLY_BITMASK,
-            self::HELPFUL_BITMASK,
-            self::PREPARED_BITMASK,
+            self::CREATIVE_BITMASK => self::CREATIVE_LABEL,
+            self::FLEXIBLE_BITMASK => self::FLEXIBLE_LABEL,
+            self::FRIENDLY_BITMASK => self::FRIENDLY_LABEL,
+            self::HELPFUL_BITMASK => self::HELPFUL_LABEL,
+            self::PREPARED_BITMASK => self::PREPARED_LABEL,
         ]);
 
-        foreach ($bitmasks as $mask) {
-            if ($this->hasCategory($mask)) {
-                $labels->push($this->getCategoryLabelFromMask($mask));
+        //bit decomposition of the categories
+        $bitFilter = 1;
+        $bits = [];
+        while ($bitFilter <= $this->categories) {
+            if ($bitFilter & $this->categories) {
+                $bits[] = $bitFilter;
             }
+            $bitFilter = $bitFilter << 1;
         }
 
-        return $labels;
-    }
-
-    /**
-     * Get category label corresponding to a bitmask
-     * @param $mask integer The bitmask
-     * @return string The Label
-     */
-    private function getCategoryLabelFromMask($mask)
-    {
-        $label = "";
-        switch ($mask) {
-            case self::CREATIVE_BITMASK:
-                $label = self::CREATIVE_LABEL;
-                break;
-
-            case self::FLEXIBLE_BITMASK:
-                $label = self::FLEXIBLE_LABEL;
-                break;
-
-            case self::FRIENDLY_BITMASK:
-                $label = self::FRIENDLY_LABEL;
-                break;
-
-            case self::HELPFUL_BITMASK:
-                $label = self::HELPFUL_LABEL;
-                break;
-
-            case self::PREPARED_BITMASK:
-                $label = self::PREPARED_LABEL;
-                break;
-
-            default:
-                $label = "";
-        }
-        return $label;
+        return $bitmasks->only($bits);
     }
 }
