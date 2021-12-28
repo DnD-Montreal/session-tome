@@ -121,12 +121,12 @@ class Rating extends Model
         return $bitmasks->only($bits);
     }
 
-    public function scopeHasCategories($query, $bits)
+    public function scopeWithCategories($query, $bits)
     {
         $this->queryCategoriesBitmask($query, $bits, $containsCategories = true);
     }
 
-    public function scopeMissingCategories($query, $bits)
+    public function scopeWithoutCategories($query, $bits)
     {
         $this->queryCategoriesBitmask($query, $bits, $containsCategories = false);
     }
