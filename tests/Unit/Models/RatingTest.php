@@ -102,4 +102,30 @@ class RatingTest extends TestCase
         $this->assertContains(Rating::CREATIVE_LABEL, $labels);
         $this->assertCount(5, $labels);
     }
+
+    /**
+     * @test
+     */
+    public function can_scope_queries_to_categories()
+    {
+        $categories1 = Rating::FLEXIBLE_BITMASK + Rating::FRIENDLY_BITMASK;
+        $categories2 = Rating::HELPFUL_BITMASK + Rating::FRIENDLY_BITMASK;
+        $categories3 = Rating::PREPARED_BITMASK + Rating::HELPFUL_BITMASK;
+
+        $rating1 = Rating::factory()->create(['categories' => $categories1]);
+        $rating2 = Rating::factory()->create(['categories' => $categories2]);
+        $rating3 = Rating::factory()->create(['categories' => $categories3]);
+
+        $friendlyHelpfulRating = Rating::hasCategories([
+            Rating::FRIENDLY_BITMASK,
+            Rating::HELPFUL_BITMASK,
+        ])->first();
+
+        $this->assertTrue($friendlyHelpfulRating->hasCategory(Rating::FRIENDLY_BITMASK));
+        $this->assertTrue($friendlyHelpfulRating->hasCategory(Rating::HELPFUL_BITMASK));
+
+        $notFriendlyRating = Rating::missingCategories(Rating::FRIENDLY_BITMASK)->first();
+
+        $this->assertFalse($notFriendlyRating->hasCategory(Rating::FRIENDLY_BITMASK));
+    }
 }
