@@ -116,7 +116,7 @@ class RatingTest extends TestCase
         $rating2 = Rating::factory()->create(['categories' => $categories2]);
         $rating3 = Rating::factory()->create(['categories' => $categories3]);
 
-        $friendlyHelpfulRating = Rating::hasCategories([
+        $friendlyHelpfulRating = Rating::withCategories([
             Rating::FRIENDLY_BITMASK,
             Rating::HELPFUL_BITMASK,
         ])->first();
@@ -124,7 +124,7 @@ class RatingTest extends TestCase
         $this->assertTrue($friendlyHelpfulRating->hasCategory(Rating::FRIENDLY_BITMASK));
         $this->assertTrue($friendlyHelpfulRating->hasCategory(Rating::HELPFUL_BITMASK));
 
-        $notFriendlyRating = Rating::missingCategories(Rating::FRIENDLY_BITMASK)->first();
+        $notFriendlyRating = Rating::withoutCategories(Rating::FRIENDLY_BITMASK)->first();
 
         $this->assertFalse($notFriendlyRating->hasCategory(Rating::FRIENDLY_BITMASK));
     }
