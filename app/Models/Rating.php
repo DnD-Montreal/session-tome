@@ -119,4 +119,25 @@ class Rating extends Model
 
         return $bitmasks->only($bits);
     }
+
+    public function scopeHasCategories($query, $bits)
+    {
+        $this->queryCategoriesBitmask($query, $bits, $containsCategories = true);
+    }
+
+    public function scopeMissingCategories($query, $bits)
+    {
+        $this->queryCategoriesBitmask($query, $bits, $containsCategories = true);
+    }
+
+    protected function queryCategoriesBitmask($query, $bits, $containsCategories)
+    {
+        $bits = array_sum(Arr::wrap($bits));
+
+        $queryOperator = $containsCategories ? '=' : '!=';
+
+        //build the query
+        // (categories & bits) <operator> bits
+        $query->whereRaw("categories & $bits $queryOperator $bits");
+    }
 }
