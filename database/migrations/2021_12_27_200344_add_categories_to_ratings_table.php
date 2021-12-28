@@ -26,7 +26,7 @@ class AddCategoriesToRatingsTable extends Migration
     public function down()
     {
         Schema::table('ratings', function (Blueprint $table) {
-            $table->dropColumn('length');
+            $table->dropColumn('categories');
         });
     }
 }
