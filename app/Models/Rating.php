@@ -99,7 +99,6 @@ class Rating extends Model
      */
     public function getLabelsAttribute()
     {
-        $labels = collect();
         $bitmasks = collect([
             self::CREATIVE_BITMASK => self::CREATIVE_LABEL,
             self::FLEXIBLE_BITMASK => self::FLEXIBLE_LABEL,

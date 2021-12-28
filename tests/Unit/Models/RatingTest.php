@@ -112,9 +112,9 @@ class RatingTest extends TestCase
         $categories2 = Rating::HELPFUL_BITMASK + Rating::FRIENDLY_BITMASK;
         $categories3 = Rating::PREPARED_BITMASK + Rating::HELPFUL_BITMASK;
 
-        $rating1 = Rating::factory()->create(['categories' => $categories1]);
-        $rating2 = Rating::factory()->create(['categories' => $categories2]);
-        $rating3 = Rating::factory()->create(['categories' => $categories3]);
+        Rating::factory()->create(['categories' => $categories1]);
+        Rating::factory()->create(['categories' => $categories2]);
+        Rating::factory()->create(['categories' => $categories3]);
 
         $friendlyHelpfulRating = Rating::withCategories([
             Rating::FRIENDLY_BITMASK,
