@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Rating extends Model
 {
@@ -127,17 +128,16 @@ class Rating extends Model
 
     public function scopeMissingCategories($query, $bits)
     {
-        $this->queryCategoriesBitmask($query, $bits, $containsCategories = true);
+        $this->queryCategoriesBitmask($query, $bits, $containsCategories = false);
     }
 
     protected function queryCategoriesBitmask($query, $bits, $containsCategories)
     {
         $bits = array_sum(Arr::wrap($bits));
-
         $queryOperator = $containsCategories ? '=' : '!=';
 
         //build the query
-        // (categories & bits) <operator> bits
+        //(categories & bits) <operator> bits
         $query->whereRaw("categories & $bits $queryOperator $bits");
     }
 }
