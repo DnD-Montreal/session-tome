@@ -130,12 +130,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             md={6}
                             alignItems='center'
                             justifyContent='center'>
-                            <InertiaLink
-                                href='/#'
-                                child={
-                                    <SVG src={applicationLogo} width={278} height={51} />
-                                }
-                            />
+                            <InertiaLink href='/#'>
+                                <SVG src={applicationLogo} width={278} height={51} />
+                            </InertiaLink>
                         </PaddingGrid>
                         <Authentication
                             anchorEl={anchorEl}
@@ -169,9 +166,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     window.location.pathname === '/' ? 'active' : ''
                                 }
                                 color='white'
-                                child='Home'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Home
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -182,9 +179,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                href={route('character.index')}
-                                child='Characters'
-                            />
+                                href={route('character.index')}>
+                                Characters
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -204,9 +201,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                child='Campaigns'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Campaigns
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -214,9 +211,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('rating') ? 'active' : ''
                                 }
                                 color='white'
-                                child='Ratings'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Ratings
+                            </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>
                     <ContentRow item container>
