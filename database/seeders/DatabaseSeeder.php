@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
         $sessions = $this->generateSessions($events, $dm);
         $characters = $this->generateCharacters($users->merge($dm), $events);
-        $entries = $this->generateEntries($characters, $sessions);
+        $entries = $this->generateEntries($characters, $sessions, $dm);
         $this->generateEntryMeta($entries);
     }
 
@@ -72,22 +72,35 @@ class DatabaseSeeder extends Seeder
     /**
      * @param Collection $characters
      * @param Collection $sessions
+     * @param Collection $dms
      * @return Collection
      * @throws \Exception
      */
-    private function generateEntries(Collection $characters, Collection $sessions): Collection
+    private function generateEntries(Collection $characters, Collection $sessions, Collection $dms): Collection
     {
         $entries = [];
 
         foreach ($characters as $character) {
             $session = $sessions->random();
-            $entries = Entry::factory(10)->create([
+            $dm = $dms->random();
+            $defaults = [
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
+            ];
+
+            // Session Entries --> Player played this character at an event
+            $entries = Entry::factory(2)->create(array_merge([
+                'adventure_id' => $session->adventure_id,
                 'dungeon_master_id' => $session->dungeon_master_id,
                 'event_id' => $session->event_id
-            ])->merge($entries);
+            ], $defaults))->merge($entries);
+
+            // Regular Entries --> Home games
+            $entries = Entry::factory(8)->create(array_merge([
+                'dungeon_master_id' => $dm->id,
+                'event_id' => null
+            ], $defaults))->merge($entries);
         }
 
         return $entries;
