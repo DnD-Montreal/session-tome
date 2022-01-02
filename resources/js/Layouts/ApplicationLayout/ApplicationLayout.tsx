@@ -49,7 +49,6 @@ const UserAvatarColumn = styled(Grid)`
     @media only screen and (max-width: 900px) {
         padding-top: 16px;
     }
-    cursor: pointer;
 `
 
 const ContentRow = styled(Grid)`
@@ -143,17 +142,18 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             setAnchorEl={setAnchorEl}
                             user={user}
                         />
-                        <UserAvatarColumn
-                            item
-                            container
-                            xs={12}
-                            md={3}
-                            spacing={6}
-                            justifyContent='space-evenly'
-                            alignItems='center'>
-                            <Grid item container xs md={6} justifyContent='center'>
+                        <UserAvatarColumn item container xs={12} md={3}>
+                            <Grid md={3} />
+                            <Grid
+                                item
+                                container
+                                xs
+                                md={3}
+                                justifyContent='end'
+                                style={{cursor: 'pointer'}}
+                                onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>
-                                <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
+                                <Avatar sx={{bgcolor: '#4E302E'}} />
                             </Grid>
                         </UserAvatarColumn>
                     </PrimaryRow>
