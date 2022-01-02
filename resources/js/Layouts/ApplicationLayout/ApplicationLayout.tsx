@@ -189,9 +189,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('trade') ? 'active' : ''
                                 }
                                 color='white'
-                                child='Item Shop'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Item Shop
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink

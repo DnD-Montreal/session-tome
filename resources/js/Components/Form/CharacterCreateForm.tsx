@@ -229,10 +229,9 @@ const CharacterCreateForm = ({
                     <>
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
-                                <Link
-                                    href={route('character.index')}
-                                    child={<Button fullWidth>Cancel</Button>}
-                                />
+                                <Link href={route('character.index')}>
+                                    <Button fullWidth>Cancel</Button>
+                                </Link>
                             ) : (
                                 <Button onClick={() => onCloseDrawer()} fullWidth>
                                     Cancel

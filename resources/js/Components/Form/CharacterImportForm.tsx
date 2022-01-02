@@ -92,10 +92,9 @@ const CharacterImportForm = () => {
             />
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
-                    <InertiaLink
-                        href={route('character.index')}
-                        child={<Button fullWidth>Cancel</Button>}
-                    />
+                    <InertiaLink href={route('character.index')}>
+                        <Button fullWidth>Cancel</Button>
+                    </InertiaLink>
                 </Grid>
                 <Grid item md={8} />
                 <Grid item md={2} xs={6}>
