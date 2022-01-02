@@ -61,7 +61,7 @@ const CharacterTable = ({
             property: 'name',
             title: 'Name',
             render: (value: string, row: CharacterData) => (
-                <Link href={route('character.show', [row.id])} child={value} />
+                <Link href={route('character.show', [row.id])}>{value}</Link>
             ),
         },
         {
