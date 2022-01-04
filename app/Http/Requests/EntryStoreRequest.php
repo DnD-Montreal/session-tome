@@ -40,7 +40,7 @@ class EntryStoreRequest extends FormRequest
             'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes', 'string'],
             'date_played' => ['required', 'date'],
-            'location' => ['sometimes', 'string'],
+            'location' => ['nullable', 'string'],
             'type' => ['required', 'string'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],

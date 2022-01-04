@@ -1,6 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
+import InputLabel from '@mui/material/InputLabel'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {
     Box,
@@ -18,6 +19,7 @@ import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
+import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -31,18 +33,38 @@ type DmEntryCreateFormPropType = {
     editId?: number
     user_id?: number
     adventures: adventureType[]
+    characters: CharacterData[]
 }
 
 type DmEntryFormDataType = {
     adventure_id: number
     length: number
-    location: string
+    levels: number
+    gp: number
+    location: string | null
     date_played: string | null
+    choice: string | null
+    character_id: number | null
     notes: string
     items: ItemData[]
     type: string
     user_id: number | null | undefined
 }
+
+const choices = [
+    {
+        value: 'advancement',
+        text: 'Advancement',
+    },
+    {
+        value: 'magic_item',
+        text: 'Magic Item',
+    },
+    {
+        value: 'campaign_reward',
+        text: 'Campaign Reward',
+    },
+]
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 16px 0px;
@@ -58,10 +80,6 @@ const StyledGrid = styled(Grid)`
     justify-content: center;
     margin-bottom: 16px;
 `
-const StyledDateGrid = styled(Grid)`
-    margin-top: 32px;
-    margin-bottom: 23px;
-`
 
 const StyledFooter = styled(Grid)`
     min-width: 25vw;
@@ -71,6 +89,12 @@ const StyledItemsFooter = styled(Grid)`
     min-width: 25vw;
 `
 
+const StyledSelect = styled(TextField)`
+    background-color: #8da57c;
+    border-radius: 4px;
+    margin-top: 4px;
+`
+
 const DmEntryCreateForm = ({
     type,
     onCloseDrawer = () => {},
@@ -78,13 +102,18 @@ const DmEntryCreateForm = ({
     editId = 0,
     user_id,
     adventures,
+    characters,
 }: DmEntryCreateFormPropType) => {
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         adventure_id: 0,
         user_id,
         length: 0,
-        location: '',
+        levels: 0,
+        gp: 0,
+        location: null,
         date_played: new Date().toDateString(),
+        choice: '',
+        character_id: null,
         notes: '',
         items: [],
         type: 'dm',
@@ -95,8 +124,12 @@ const DmEntryCreateForm = ({
             : {
                   adventure_id: editData?.adventure || 0,
                   length: editData?.length || 0,
+                  levels: 0,
+                  gp: 0,
                   location: editData?.location || '',
                   date_played: editData?.date_played || new Date().toDateString(),
+                  choice: '',
+                  character_id: null,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
                   type: 'dm',
@@ -134,26 +167,7 @@ const DmEntryCreateForm = ({
                         <Typography>
                             Fill out the following fields with your DM Entry details.
                         </Typography>
-                        <Grid container>
-                            <StyledDateGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        label='Date'
-                                        value={data.date_played}
-                                        inputFormat='yyyy-MM-dd'
-                                        onChange={(e) => {
-                                            setData('date_played', e)
-                                        }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} />
-                                        )}
-                                    />
-                                </LocalizationProvider>
-                                {errors?.date_played && (
-                                    <ErrorText message={errors?.date_played} />
-                                )}
-                            </StyledDateGrid>
-                            {type === 'Create' && <StyledGrid item md={4} />}
+                        <Grid container spacing={2}>
                             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                                 <TextField
                                     margin='normal'
@@ -187,6 +201,20 @@ const DmEntryCreateForm = ({
                                 <TextField
                                     margin='normal'
                                     fullWidth
+                                    id='location'
+                                    label='Location'
+                                    name='Location'
+                                    value={data.location}
+                                    onChange={(e) => setData('location', e.target.value)}
+                                />
+                                {errors?.location && (
+                                    <ErrorText message={errors?.location} />
+                                )}
+                            </StyledGrid>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+                                <TextField
+                                    margin='normal'
+                                    fullWidth
                                     id='length'
                                     label='Length'
                                     name='Length'
@@ -203,22 +231,125 @@ const DmEntryCreateForm = ({
                                 />
                                 {errors?.length && <ErrorText message={errors?.length} />}
                             </StyledGrid>
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
                                 <TextField
                                     margin='normal'
                                     fullWidth
-                                    id='location'
-                                    label='Location'
-                                    name='Location'
-                                    value={data.location}
-                                    onChange={(e) => setData('location', e.target.value)}
+                                    id='levels'
+                                    label='Levels'
+                                    name='Levels'
+                                    type='number'
+                                    InputProps={{
+                                        inputProps: {
+                                            min: 0,
+                                        },
+                                    }}
+                                    value={data.levels.toString()}
+                                    onChange={(e) =>
+                                        setData('levels', parseInt(e.target.value))
+                                    }
                                 />
-                                {errors?.location && (
-                                    <ErrorText message={errors?.location} />
+                                {errors?.levels && <ErrorText message={errors?.levels} />}
+                            </StyledGrid>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+                                <TextField
+                                    margin='normal'
+                                    fullWidth
+                                    id='gp'
+                                    label='GP'
+                                    name='GP'
+                                    type='number'
+                                    InputProps={{
+                                        inputProps: {
+                                            min: 0,
+                                        },
+                                    }}
+                                    value={data.gp.toString()}
+                                    onChange={(e) =>
+                                        setData('gp', parseInt(e.target.value))
+                                    }
+                                />
+                                {errors?.gp && <ErrorText message={errors?.gp} />}
+                            </StyledGrid>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <DatePicker
+                                        label='Date'
+                                        value={data.date_played}
+                                        inputFormat='yyyy-MM-dd'
+                                        onChange={(e) => {
+                                            setData('date_played', e)
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                margin='normal'
+                                                fullWidth
+                                            />
+                                        )}
+                                    />
+                                </LocalizationProvider>
+                                {errors?.date_played && (
+                                    <ErrorText message={errors?.date_played} />
                                 )}
                             </StyledGrid>
                             {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                                <InputLabel shrink>Reward Choice</InputLabel>
+                                <StyledSelect
+                                    margin='normal'
+                                    fullWidth
+                                    size='small'
+                                    id='choice'
+                                    select
+                                    name='Reward Choice'
+                                    SelectProps={{
+                                        MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
+                                    }}
+                                    value={data.choice}
+                                    onChange={(e) => setData('choice', e.target.value)}>
+                                    {choices?.map(
+                                        (choice: {value: string; text: string}) => (
+                                            <MenuItem
+                                                key={choice.value}
+                                                value={choice.value}>
+                                                {choice.text}
+                                            </MenuItem>
+                                        ),
+                                    )}
+                                </StyledSelect>
+                                {errors?.choice && <ErrorText message={errors?.choice} />}
+                            </StyledGrid>
+                            {type === 'Create' && <StyledGrid item md={1} />}
+                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                                <InputLabel shrink>Assigned Character</InputLabel>
+                                <StyledSelect
+                                    margin='normal'
+                                    fullWidth
+                                    size='small'
+                                    id='character_id'
+                                    select
+                                    name='Assigned Character'
+                                    SelectProps={{
+                                        MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
+                                    }}
+                                    value={data.character_id}
+                                    onChange={(e) =>
+                                        setData('character_id', parseInt(e.target.value))
+                                    }>
+                                    {characters?.map(
+                                        (option: {id: number; name: string}) => (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
+                                            </MenuItem>
+                                        ),
+                                    )}
+                                </StyledSelect>
+                                {errors?.character_id && (
+                                    <ErrorText message={errors?.character_id} />
+                                )}
+                            </StyledGrid>
+                            <StyledGrid item xs={12}>
                                 <TextField
                                     margin='normal'
                                     fullWidth

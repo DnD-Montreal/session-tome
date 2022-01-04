@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EntryStoreRequest;
 use App\Models\Adventure;
 use App\Models\Entry;
+use App\Models\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -32,6 +33,7 @@ class DMEntryController extends Controller
     public function create(Request $request)
     {
         $adventures = Adventure::all();
-        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures'));
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures', 'characters'));
     }
 }

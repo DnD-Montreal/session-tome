@@ -1,10 +1,12 @@
 import {ItemData} from 'Types/item-data'
+import {CharacterData} from 'Types/character-data'
 
 export type EntriesData = {
     adventure: any
     adventure_id: number | null
     campaign_id: number | null
     character_id: number | null
+    character: CharacterData | null
     created_at: string
     date_played: string
     downtime: number | null
