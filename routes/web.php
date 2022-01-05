@@ -28,13 +28,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+})->name('homepage');
 
 Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('user', App\Http\Controllers\UserController::class);
