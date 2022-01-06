@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Actions\CreateEntryItems;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Character;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class EntryController extends Controller
 {
@@ -33,7 +35,14 @@ class EntryController extends Controller
      */
     public function create(Request $request)
     {
-        return view('entry.create');
+        $charId = $request->validate([
+            'character_id' => "required|exists:characters,id|integer"
+        ])[0];
+
+        $character = Character::where('user_id', Auth::id())
+            ->findOrFail($charId);
+
+        return Inertia::render('Entry/Create/EntryCreate', compact('character'));
     }
 
     /**
