@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -119,10 +120,15 @@ class EntryControllerTest extends TestCase
      */
     public function create_displays_view()
     {
-        $response = $this->get(route('entry.create'));
+        $character = Character::factory()->create();
+        $response = $this->get(route('entry.create', ['character_id' => $character->id]));
 
         $response->assertOk();
-        $response->assertViewIs('entry.create');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Entry/Create/EntryCreate')
+                ->has('character')
+        );
     }
 
 
