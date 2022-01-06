@@ -16,11 +16,17 @@ describe('Character', () => {
 
     it('buttons should lead to respective places', () => {
         render(<Character {...props} />)
-        expect(screen.getByText('Create')).toHaveAttribute('href', 'character.create')
-        expect(screen.getByText('Import')).toHaveAttribute(
+        expect(screen.getByText('Create').parentNode).toHaveAttribute(
+            'href',
+            'character.create',
+        )
+        expect(screen.getByText('Import').parentNode).toHaveAttribute(
             'href',
             'adventures-league-import.index',
         )
-        expect(screen.getByText('DM Entry')).toHaveAttribute('href', 'dm-entry.index')
+        expect(screen.getByText('DM Entry').parentNode).toHaveAttribute(
+            'href',
+            'dm-entry.index',
+        )
     })
 })
