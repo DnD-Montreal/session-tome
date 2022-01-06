@@ -57,7 +57,7 @@ const ContentRow = styled(Grid)`
 
 const ContentContainer = styled.div`
     padding: 3em 16px 0px 16px;
-    @media only screen and (min-width: 900px) {
+    @media only screen and (min-width: 768px) {
         margin: 0px auto 0px auto;
     }
 `
@@ -146,7 +146,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 container
                                 xs
                                 md={3}
-                                justifyContent='end'
+                                justifyContent={
+                                    window.innerWidth > 768 ? 'end' : 'center'
+                                }
                                 style={{cursor: 'pointer'}}
                                 onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>
