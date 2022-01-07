@@ -21,6 +21,13 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                     },
                     mode: 'dark',
                 },
+                components: {
+                    MuiGrid: {
+                        defaultProps: {
+                            spacing: 1,
+                        },
+                    },
+                },
             })
         default:
         case 'Normal':

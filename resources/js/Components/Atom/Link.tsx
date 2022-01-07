@@ -10,13 +10,14 @@ const StyledLink = styled(inertiaLink)`
 
 type LinkPropType = {
     href: any
-    child: any
     [key: string]: any
 }
 
-const Link = ({href, child, ...props}: LinkPropType) => (
+// props.children is the content passed between the component tags, don't need to be passed down explicitly
+
+const Link = ({href, children, ...props}: LinkPropType) => (
     <StyledLink href={href} {...props}>
-        {child}
+        {children}
     </StyledLink>
 )
 

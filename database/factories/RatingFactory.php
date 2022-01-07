@@ -28,7 +28,7 @@ class RatingFactory extends Factory
             'entry_id' => Entry::factory(),
             'user_id' => User::factory(),
             'author_id' => User::factory(),
-            'score' => $this->faker->word(),
+            'categories' => $this->faker->numberBetween(1, 31) //31 hardcoded because 5 categories all active would be 31 in binary (11111)
         ];
     }
 }
