@@ -8,11 +8,18 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class GenerateRatingReport
 {
     use AsAction;
 
+    /**
+     * Generates a CSV Report that tallies a users ratings on each dimension of their play style
+     *
+     * @param bool $onlyEventRatings
+     * @return StreamedResponse
+     */
     public function handle($onlyEventRatings = true)
     {
         $columns = $this->prepareColumns();
@@ -42,6 +49,7 @@ class GenerateRatingReport
     }
 
     /**
+     * Format the column text for the CSV to be
      * @return string[]
      */
     private function prepareColumns(): array
