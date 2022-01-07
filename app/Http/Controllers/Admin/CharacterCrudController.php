@@ -67,7 +67,7 @@ class CharacterCrudController extends CrudController
     {
         CRUD::setValidation(CharacterRequest::class);
 
-        //CRUD::field('user_id');
+        CRUD::field('user_id');
         CRUD::field('name');
         CRUD::field('race');
         CRUD::field('class');
