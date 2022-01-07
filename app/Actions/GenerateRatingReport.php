@@ -13,10 +13,17 @@ class GenerateRatingReport
 {
     use AsAction;
 
-    public function handle()
+    public function handle($onlyEventRatings = true)
     {
         $columns = $this->prepareColumns();
-        $ratings = Rating::with('user')->whereNotNull('entry_id')->get();
+        $ratings = Rating::with('user')
+            ->whereNotNull('entry_id');
+
+        if ($onlyEventRatings) {
+            $ratings = $ratings->has('entry.event');
+        }
+
+        $ratings = $ratings->get();
         $data = [];
 
         foreach ($ratings as $rating) {
@@ -31,7 +38,7 @@ class GenerateRatingReport
             }
         }
 
-        return $data;
+        return StreamCSVFile::run($columns, $data, "rating-report");
     }
 
     /**
