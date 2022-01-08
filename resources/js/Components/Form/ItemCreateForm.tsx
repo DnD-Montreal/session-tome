@@ -33,17 +33,11 @@ type ItemDataType = {
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 0px 0px;
-    flexgrow: 1;
-    min-width: 100%;
 `
 
 const StyledGrid = styled(Grid)`
     flexgrow: 1;
     margin-bottom: 16px;
-`
-
-const StyledFooter = styled(Grid)`
-    min-width: 25vw;
 `
 
 const ItemCreateForm = ({
@@ -149,7 +143,7 @@ const ItemCreateForm = ({
                     </StyledGrid>
                 </Grid>
             </StyledBox>
-            <StyledFooter container>
+            <Grid container>
                 <Grid container spacing={2}>
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         {type === 'Create' ? (
@@ -189,7 +183,7 @@ const ItemCreateForm = ({
                         {createEntryButton}
                     </Grid>
                 </Grid>
-            </StyledFooter>
+            </Grid>
         </Container>
     )
 }

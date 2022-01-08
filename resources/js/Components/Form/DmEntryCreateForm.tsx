@@ -1,9 +1,9 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
-import InputLabel from '@mui/material/InputLabel'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Chip, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import InputLabel from '@mui/material/InputLabel'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -63,7 +63,6 @@ const StyledGrid = styled(Grid)`
 
 const StyledItemsFooter = styled(Grid)`
     margin-top: 16px;
-    min-width: 25vw;
 `
 
 const StyledSelect = styled(TextField)`
@@ -74,7 +73,7 @@ const StyledSelect = styled(TextField)`
 
 const DmEntryCreateForm = ({
     type,
-    onCloseDrawer = () => {},
+    onCloseDrawer,
     editData,
     editId = 0,
     user_id,
@@ -357,21 +356,20 @@ const DmEntryCreateForm = ({
     const stepContent = [stepOneContent, stepTwoContent]
 
     const stepOneFooter = (
-        <>
-            <Grid container spacing={2} />
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+        <Grid container spacing={4}>
+            <Grid item xs={4}>
                 {type === 'Create' ? (
                     <Link href={route('dm-entry.index')}>
                         <Button fullWidth>Cancel</Button>
                     </Link>
                 ) : (
-                    <Button onClick={() => onCloseDrawer()} fullWidth>
+                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
                         Cancel
                     </Button>
                 )}
             </Grid>
-            <Grid item md={type === 'Edit' ? 4 : 8} />
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item xs={4} />
+            <Grid item xs={4}>
                 <Button variant='contained' onClick={() => setActiveStep(1)} fullWidth>
                     Continue
                 </Button>
@@ -385,17 +383,19 @@ const DmEntryCreateForm = ({
                             put(route('entry.update', [editId]))
                             if (!Object.keys(errors).length) {
                                 clearErrors()
-                                onCloseDrawer()
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
                             }
                         }}>
                         Save
                     </Button>
                 </Grid>
             )}
-        </>
+        </Grid>
     )
 
-    const stepFooter = [stepOneFooter, stepOneFooter]
+    const stepFooter = [stepOneFooter]
 
     return (
         <StepperForm
