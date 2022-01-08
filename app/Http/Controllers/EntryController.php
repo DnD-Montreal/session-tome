@@ -42,7 +42,7 @@ class EntryController extends Controller
         $character = Character::where('user_id', Auth::id())
             ->findOrFail($charId);
 
-        return Inertia::render('Character/Detail/Create/EntryCreate', compact('character'));
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('character'));
     }
 
     /**
