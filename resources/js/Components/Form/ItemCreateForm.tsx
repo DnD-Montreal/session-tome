@@ -75,7 +75,9 @@ const ItemCreateForm = ({
         <>
             <StyledBox>
                 <Typography>
-                    Fill out the following fields with your DM Entry details.
+                    Fill out the following fields with your Magic Item details. Please
+                    note that the first item is the one that gets attached to a character
+                    should you choose to accept the Magic item as a reward.
                 </Typography>
                 <Grid container>
                     <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>

@@ -1,9 +1,12 @@
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
+import {Link} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
+import route from 'ziggy-js'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -83,6 +86,14 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                             variant='contained'
                             startIcon={<IosShareIcon fontSize='small' />}>
                             ITEMS
+                        </Button>
+                        <Button
+                            variant='contained'
+                            startIcon={<HistoryEduIcon fontSize='small' />}>
+                            <Link
+                                href={route('entry.create', [character.id])}
+                                child='ENTRY'
+                            />
                         </Button>
                     </Stack>
                 </Grid>
