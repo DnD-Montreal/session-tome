@@ -43,7 +43,7 @@ class CheckIfAdmin
         if ($request->ajax() || $request->wantsJson()) {
             return redirect()->route('homepage');
         } else {
-            return redirect()->guest(backpack_url('login'));
+            return redirect()->guest(url('/admin/login'));
         }
     }
 
@@ -56,11 +56,11 @@ class CheckIfAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (backpack_auth()->guest()) {
+        if (auth()->guest()) {
             return $this->respondToUnauthorizedRequest($request);
         }
 
-        if (! $this->checkIfUserIsAdmin(backpack_user())) {
+        if (! $this->checkIfUserIsAdmin(auth()->user())) {
             return $this->respondToUnauthorizedRequest($request);
         }
 
