@@ -3,4 +3,5 @@ export type ItemData = {
     description: string | null
     rarity: string
     tier: number
+    id: number
 }
