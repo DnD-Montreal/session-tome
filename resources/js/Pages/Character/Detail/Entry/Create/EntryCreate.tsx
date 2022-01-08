@@ -1,5 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
-import {EntryForm} from 'Components'
+import {EntryCreateForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
@@ -16,7 +16,11 @@ const EntryCreate = ({character, adventures}: EntryCreatePropType) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <EntryForm type='Create' character={character} adventures={adventures} />
+            <EntryCreateForm
+                type='Create'
+                character={character}
+                adventures={adventures}
+            />
         </ThemeProvider>
     )
 }

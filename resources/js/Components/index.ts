@@ -21,7 +21,7 @@ export {
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
-    EntryForm,
+    EntryCreateForm,
     LoginForm,
     RegistrationForm,
 } from './Form'

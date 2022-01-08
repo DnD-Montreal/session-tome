@@ -32,7 +32,7 @@ import route from 'ziggy-js'
 
 import ItemCreateForm from './ItemCreateForm'
 
-type EntryFormPropType = {
+type EntryCreateFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
     editData?: EntriesData
@@ -87,14 +87,14 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
-const EntryForm = ({
+const EntryCreateForm = ({
     type,
     onCloseDrawer = () => {},
     editData,
     editId = 0,
     character,
     adventures,
-}: EntryFormPropType) => {
+}: EntryCreateFormPropType) => {
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
         adventure_id: 0,
         location: '',
@@ -543,5 +543,5 @@ const EntryForm = ({
     )
 }
 
-EntryForm.displayName = 'EntryForm'
-export default EntryForm
+EntryCreateForm.displayName = 'EntryCreateForm'
+export default EntryCreateForm
