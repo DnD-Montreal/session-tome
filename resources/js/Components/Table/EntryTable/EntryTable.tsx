@@ -1,14 +1,13 @@
 import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
-import {DataTable, DeleteModal, Link} from 'Components'
+import {Box, Chip, IconButton, Stack, Tooltip} from '@mui/material'
+import {DataTable, DeleteModal} from 'Components'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
-type DMEntryPropType = {
+type EntryPropType = {
     data: EntriesData[]
 }
 
@@ -16,16 +15,10 @@ type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({data}: DMEntryPropType) => {
+const EntryTable = ({data}: EntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
-
-    const leftActions = [
-        <Button variant='contained' startIcon={<HistoryEduIcon />}>
-            <Link href={route('dm-entry.create')} child='Create' />
-        </Button>,
-    ]
 
     const columns = [
         {
@@ -40,13 +33,6 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'session',
             title: 'Session',
-        },
-        {
-            property: 'character',
-            title: 'Character',
-            render: (value: string) => (
-                <Chip label={value ?? 'Unassigned'} variant='outlined' />
-            ),
         },
         {
             property: 'reward',
@@ -106,13 +92,12 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             />
 
             <DataTable
-                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='DM Entries'
+                tableName='Entries'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['adventure']}
             />
@@ -120,5 +105,5 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     )
 }
 
-DMEntryTable.displayName = 'DMEntryTable'
-export default DMEntryTable
+EntryTable.displayName = 'EntryTable'
+export default EntryTable
