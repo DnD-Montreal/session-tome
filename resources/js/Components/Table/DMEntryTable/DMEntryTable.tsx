@@ -8,6 +8,8 @@ import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
+import {Link} from '../../Atom'
+
 type DMEntryPropType = {
     data: EntriesData[]
 }
@@ -22,9 +24,11 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
     const leftActions = [
-        <Button variant='contained' startIcon={<HistoryEduIcon />}>
-            Create
-        </Button>,
+        <Link href={route('dm-entry.create')}>
+            <Button variant='contained' startIcon={<HistoryEduIcon />}>
+                Create
+            </Button>
+        </Link>,
     ]
 
     const columns = [
@@ -44,7 +48,9 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'character',
             title: 'Character',
-            render: (value: string) => <Chip label={value} variant='outlined' />,
+            render: (value: string) => (
+                <Chip label={value ?? 'Unassigned'} variant='outlined' />
+            ),
         },
         {
             property: 'reward',

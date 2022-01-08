@@ -54,6 +54,20 @@ class DMEntryControllerTest extends TestCase
     /**
      * @test
      */
+    public function create_displays_view()
+    {
+        $response = $this->get(route('dm-entry.create'));
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component("Entry/Create/DmEntryCreate")
+                ->has('adventures')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function storing_dm_entries_redirects()
     {
         $adventure = Adventure::factory()->create();

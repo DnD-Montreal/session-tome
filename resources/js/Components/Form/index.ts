@@ -1,5 +1,5 @@
 export {default as CharacterCreateForm} from './CharacterCreateForm'
 export {default as CharacterImportForm} from './CharacterImportForm'
-export {default as ItemCreateForm} from './ItemCreateForm'
+export {default as DmEntryCreateForm} from './DmEntryCreateForm'
 export {default as LoginForm} from './LoginForm'
 export {default as RegistrationForm} from './RegistrationForm'

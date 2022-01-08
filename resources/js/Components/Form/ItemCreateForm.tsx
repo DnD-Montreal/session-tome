@@ -2,15 +2,14 @@ import {useForm} from '@inertiajs/inertia-react'
 import {
     Box,
     Button,
+    FormControl,
     Grid,
-    Step,
-    StepLabel,
-    Stepper,
+    MenuItem,
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText, Link} from 'Components'
-import React, {useState} from 'react'
+import {ErrorText} from 'Components'
+import React from 'react'
 import styled from 'styled-components'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -20,25 +19,24 @@ type ItemCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: ItemData
     editId?: number
+    childButton: any
+    handleAddItem: (item: ItemData) => void
+    createEntryButton?: any
 }
-
-type ItemFormDataType = {
+type ItemDataType = {
     name: string
+    description: string | null
     rarity: string
-    tier: string
-    description: string
+    tier: number
 }
 
 const StyledBox = styled(Box)`
-    padding: 32px 0px 16px 0px;
-`
-
-const FormBox = styled(Box)`
-    margin-top: 16px;
-    width: 100%;
+    padding: 32px 0px 0px 0px;
 `
 
 const StyledGrid = styled(Grid)`
+    align-items: center;
+    justify-content: center;
     margin-bottom: 16px;
 `
 
@@ -51,148 +49,146 @@ const ItemCreateForm = ({
     onCloseDrawer = () => {},
     editData,
     editId = 0,
+    childButton,
+    handleAddItem,
+    createEntryButton,
 }: ItemCreateFormPropType) => {
-    const ITEM_CREATE_FORM_INITIAL_VALUE: ItemFormDataType = {
+    const RARITY = ['common', 'uncommon', 'rare', 'very_rare', 'legendary']
+    const ITEM_CREATE_FORM_INITIAL_VALUE: ItemDataType = {
         name: '',
-        rarity: '',
-        tier: '',
         description: '',
+        rarity: '',
+        tier: 1,
     }
-    const ITEM_FORM_INITIAL_VALUE: ItemFormDataType =
+    const ITEM_FORM_INITIAL_VALUE: ItemDataType =
         type === 'Create'
             ? ITEM_CREATE_FORM_INITIAL_VALUE
             : {
                   name: editData?.name || '',
-                  rarity: editData?.rarity || '',
-                  tier: editData?.tier || '',
                   description: editData?.description || '',
+                  rarity: editData?.rarity || 'common',
+                  tier: editData?.tier || 1,
               }
 
-    const {data, setData, errors, clearErrors, post, put} = useForm(
-        ITEM_FORM_INITIAL_VALUE,
-    )
-    const [activeStep, setActiveStep] = useState<number>(0)
+    const {data, setData, errors, clearErrors, put} = useForm(ITEM_FORM_INITIAL_VALUE)
     return (
-        <FormBox>
-            <Stepper activeStep={activeStep}>
-                <Step completed={activeStep > 0}>
-                    <StepLabel>Enter details</StepLabel>
-                </Step>
-                <Step completed={activeStep > 1}>
-                    <StepLabel>Privacy details</StepLabel>
-                </Step>
-            </Stepper>
+        <>
             <StyledBox>
-                {activeStep === 0 && (
-                    <>
-                        <Typography>
-                            Fill out the following fields with your item&apos;s details.
-                        </Typography>
-                        <Grid container>
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                                <TextField
-                                    margin='normal'
-                                    fullWidth
-                                    id='name'
-                                    label='Name'
-                                    name='Name'
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                />
-                                {errors?.name && <ErrorText message={errors?.name} />}
-                            </StyledGrid>
-                            {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                                <TextField
-                                    margin='normal'
-                                    fullWidth
-                                    id='rarity'
-                                    label='Rarity'
-                                    name='Rarity'
-                                    value={data.rarity}
-                                    onChange={(e) => setData('rarity', e.target.value)}
-                                />
-                                {errors?.rarity && <ErrorText message={errors?.rarity} />}
-                            </StyledGrid>
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                                <TextField
-                                    margin='normal'
-                                    fullWidth
-                                    id='tier'
-                                    label='Tier'
-                                    name='Tier'
-                                    value={data.tier}
-                                    onChange={(e) => setData('tier', e.target.value)}
-                                />
-                                {errors?.tier && <ErrorText message={errors?.tier} />}
-                            </StyledGrid>
-                            {type === 'Create' && <StyledGrid item md={2} />}
-                            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                                <TextField
-                                    margin='normal'
-                                    fullWidth
-                                    id='description'
-                                    label='Description'
-                                    name='Faction'
-                                    value={data.description}
-                                    onChange={(e) =>
-                                        setData('description', e.target.value)
-                                    }
-                                />
-                                {errors?.description && (
-                                    <ErrorText message={errors?.description} />
-                                )}
-                            </StyledGrid>
-                        </Grid>
-                    </>
-                )}
+                <Typography>
+                    Fill out the following fields with your DM Entry details.
+                </Typography>
+                <Grid container>
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            id='name'
+                            label='Name'
+                            name='Name'
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
+                        />
+                        {errors?.name && <ErrorText message={errors?.name} />}
+                    </StyledGrid>
+                    {type === 'Create' && <StyledGrid item md={5} />}
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            id='tier'
+                            label='Tier'
+                            name='Tier'
+                            type='number'
+                            InputProps={{
+                                inputProps: {
+                                    min: 1,
+                                    max: 4,
+                                },
+                            }}
+                            value={data.tier.toString()}
+                            onChange={(e) => setData('tier', parseInt(e.target.value))}
+                        />
+                        {errors?.tier && <ErrorText message={errors?.tier} />}
+                    </StyledGrid>
+                    {type === 'Create' && <StyledGrid item md={2} />}
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                        <FormControl fullWidth>
+                            <TextField
+                                margin='normal'
+                                fullWidth
+                                id='rarity'
+                                select
+                                label='Rarity'
+                                name='Rarity'
+                                value={data.rarity}
+                                onChange={(e) => setData('rarity', e.target.value)}>
+                                {RARITY.map((option) => (
+                                    <MenuItem key={option} value={option}>
+                                        {option.replace('_', ' ')}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </FormControl>
+                        {errors?.rarity && <ErrorText message={errors?.rarity} />}
+                    </StyledGrid>
+                    <StyledGrid item xs={12} md={12}>
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            id='description'
+                            label='Description'
+                            name='Description'
+                            value={data.description}
+                            onChange={(e) => setData('description', e.target.value)}
+                        />
+                        {errors?.description && (
+                            <ErrorText message={errors?.description} />
+                        )}
+                    </StyledGrid>
+                </Grid>
             </StyledBox>
             <StyledFooter container>
-                {activeStep === 0 && (
-                    <>
-                        <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
-                            {type === 'Create' ? (
-                                <Link
-                                    href={route('item.index')}
-                                    child={<Button fullWidth>Cancel</Button>}
-                                />
-                            ) : (
-                                <Button onClick={() => onCloseDrawer()} fullWidth>
-                                    Cancel
-                                </Button>
-                            )}
-                        </Grid>
-                        <Grid item md={type === 'Edit' ? 4 : 8} />
-                        <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
-                            <Button
-                                variant='contained'
-                                fullWidth
-                                onClick={() => {
-                                    if (type === 'Create') {
-                                        post(route('item.store'))
-                                        if (errors) {
-                                            setActiveStep(0)
-                                        } else {
-                                            clearErrors()
-                                        }
-                                    }
-                                    if (type === 'Edit') {
-                                        put(route('item.update', [editId]))
-                                        if (Object.keys(errors).length) {
-                                            setActiveStep(0)
-                                        } else {
-                                            clearErrors()
-                                            onCloseDrawer()
-                                        }
-                                    }
-                                }}>
-                                {type === 'Create' ? 'Create' : 'Save'}
+                <Grid container spacing={2}>
+                    <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
+                        {type === 'Create' ? (
+                            childButton
+                        ) : (
+                            <Button onClick={() => onCloseDrawer()} fullWidth>
+                                Cancel
                             </Button>
-                        </Grid>
-                    </>
-                )}
+                        )}
+                    </Grid>
+                    <Grid item md={type === 'Edit' ? 4 : 6} />
+                    <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
+                        <Button
+                            variant='contained'
+                            fullWidth
+                            onClick={() => {
+                                if (type === 'Create') {
+                                    if (errors) {
+                                        handleAddItem(data)
+                                        setData(ITEM_CREATE_FORM_INITIAL_VALUE)
+                                    } else {
+                                        clearErrors()
+                                    }
+                                }
+                                if (type === 'Edit') {
+                                    put(route('item.update', [editId]))
+                                    if (!Object.keys(errors).length) {
+                                        clearErrors()
+                                        onCloseDrawer()
+                                    }
+                                }
+                            }}>
+                            {type === 'Create' ? 'Add Item' : 'Save'}
+                        </Button>
+                    </Grid>
+                    <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
+                        {createEntryButton}
+                    </Grid>
+                </Grid>
             </StyledFooter>
-        </FormBox>
+        </>
     )
 }
 
