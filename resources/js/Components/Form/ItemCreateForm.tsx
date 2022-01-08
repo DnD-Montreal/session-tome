@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import {
     Box,
     Button,
+    Container,
     FormControl,
     Grid,
     MenuItem,
@@ -32,11 +33,12 @@ type ItemDataType = {
 
 const StyledBox = styled(Box)`
     padding: 32px 0px 0px 0px;
+    flexgrow: 1;
+    min-width: 100%;
 `
 
 const StyledGrid = styled(Grid)`
-    align-items: center;
-    justify-content: center;
+    flexgrow: 1;
     margin-bottom: 16px;
 `
 
@@ -72,7 +74,7 @@ const ItemCreateForm = ({
 
     const {data, setData, errors, clearErrors, put} = useForm(ITEM_FORM_INITIAL_VALUE)
     return (
-        <>
+        <Container>
             <StyledBox>
                 <Typography>
                     Fill out the following fields with your DM Entry details.
@@ -90,7 +92,7 @@ const ItemCreateForm = ({
                         />
                         {errors?.name && <ErrorText message={errors?.name} />}
                     </StyledGrid>
-                    {type === 'Create' && <StyledGrid item md={5} />}
+                    {type === 'Create' && <StyledGrid item md={7} />}
                     <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                         <TextField
                             margin='normal'
@@ -188,7 +190,7 @@ const ItemCreateForm = ({
                     </Grid>
                 </Grid>
             </StyledFooter>
-        </>
+        </Container>
     )
 }
 
