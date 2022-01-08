@@ -6,6 +6,7 @@ use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ItemController extends Controller
 {
@@ -21,7 +22,7 @@ class ItemController extends Controller
             $items = [];
         }
 
-        return view('item.index', compact('items'));
+        return Inertia::render('Item/Item', compact('items'));
     }
 
     /**
