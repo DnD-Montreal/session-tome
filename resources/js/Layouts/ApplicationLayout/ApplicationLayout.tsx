@@ -49,7 +49,6 @@ const UserAvatarColumn = styled(Grid)`
     @media only screen and (max-width: 900px) {
         padding-top: 16px;
     }
-    cursor: pointer;
 `
 
 const ContentRow = styled(Grid)`
@@ -58,7 +57,7 @@ const ContentRow = styled(Grid)`
 
 const ContentContainer = styled.div`
     padding: 3em 16px 0px 16px;
-    @media only screen and (min-width: 900px) {
+    @media only screen and (min-width: 768px) {
         margin: 0px auto 0px auto;
     }
 `
@@ -130,12 +129,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             md={6}
                             alignItems='center'
                             justifyContent='center'>
-                            <InertiaLink
-                                href='/#'
-                                child={
-                                    <SVG src={applicationLogo} width={278} height={51} />
-                                }
-                            />
+                            <InertiaLink href='/#'>
+                                <SVG src={applicationLogo} width={278} height={51} />
+                            </InertiaLink>
                         </PaddingGrid>
                         <Authentication
                             anchorEl={anchorEl}
@@ -143,17 +139,20 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             setAnchorEl={setAnchorEl}
                             user={user}
                         />
-                        <UserAvatarColumn
-                            item
-                            container
-                            xs={12}
-                            md={3}
-                            spacing={6}
-                            justifyContent='space-evenly'
-                            alignItems='center'>
-                            <Grid item container xs md={6} justifyContent='center'>
+                        <UserAvatarColumn item container xs={12} md={3}>
+                            <Grid md={3} />
+                            <Grid
+                                item
+                                container
+                                xs
+                                md={3}
+                                justifyContent={
+                                    window.innerWidth > 768 ? 'end' : 'center'
+                                }
+                                style={{cursor: 'pointer'}}
+                                onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>
-                                <Avatar onClick={handleClick} sx={{bgcolor: '#4E302E'}} />
+                                <Avatar sx={{bgcolor: '#4E302E'}} />
                             </Grid>
                         </UserAvatarColumn>
                     </PrimaryRow>
@@ -169,9 +168,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     window.location.pathname === '/' ? 'active' : ''
                                 }
                                 color='white'
-                                child='Home'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Home
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -182,9 +181,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                href={route('character.index')}
-                                child='Characters'
-                            />
+                                href={route('character.index')}>
+                                Characters
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -192,9 +191,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('trade') ? 'active' : ''
                                 }
                                 color='white'
-                                child='Item Shop'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Item Shop
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -204,9 +203,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                child='Campaigns'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Campaigns
+                            </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
@@ -214,9 +213,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('rating') ? 'active' : ''
                                 }
                                 color='white'
-                                child='Ratings'
-                                href='/#'
-                            />
+                                href='/#'>
+                                Ratings
+                            </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>
                     <ContentRow item container>
