@@ -14,8 +14,8 @@ class AdventureRequest extends FormRequest
      */
     public function authorize()
     {
-        // only allow updates if the user is logged in
-        return backpack_auth()->check();
+        // only allow updates if the user is a site admin
+        return $this->user()->isSiteAdmin();
     }
 
     /**
