@@ -87,14 +87,16 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                             startIcon={<IosShareIcon fontSize='small' />}>
                             ITEMS
                         </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<HistoryEduIcon fontSize='small' />}>
-                            <Link
-                                href={route('entry.create', [character.id])}
-                                child='ENTRY'
-                            />
-                        </Button>
+                        <Link
+                            href={route('entry.create').concat(
+                                `?character_id=${character.id}`,
+                            )}>
+                            <Button
+                                variant='contained'
+                                startIcon={<HistoryEduIcon fontSize='small' />}>
+                                Entry
+                            </Button>
+                        </Link>
                     </Stack>
                 </Grid>
             </Grid>

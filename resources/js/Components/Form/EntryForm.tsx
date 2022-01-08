@@ -12,6 +12,7 @@ import {
     Button,
     Chip,
     Grid,
+    MenuItem,
     Step,
     StepLabel,
     Stepper,
@@ -23,6 +24,8 @@ import {
 import {ErrorText, Link} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import {adventureType} from 'Types/adventure-data'
+import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -34,10 +37,12 @@ type EntryFormPropType = {
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
+    character: CharacterData
+    adventures: adventureType[]
 }
 
 type EntryFormDataType = {
-    adventure: string
+    adventure_id: number
     location: string
     length: number
     levels: number
@@ -78,14 +83,20 @@ const StyledTypography = styled(Typography)`
     margin-bottom: 32px;
 `
 
+const StyledTextField = styled(TextField)({
+    background: '#5A7249',
+})
+
 const EntryForm = ({
     type,
     onCloseDrawer = () => {},
     editData,
     editId = 0,
+    character,
+    adventures,
 }: EntryFormPropType) => {
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
-        adventure: '',
+        adventure_id: 0,
         location: '',
         length: 0,
         levels: 1,
@@ -99,7 +110,7 @@ const EntryForm = ({
         type === 'Create'
             ? ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure: editData?.adventure || '',
+                  adventure_id: editData?.adventure || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
                   levels: editData?.levels || 0,
@@ -160,14 +171,28 @@ const EntryForm = ({
                                 <TextField
                                     margin='normal'
                                     fullWidth
-                                    id='adventure'
+                                    id='adventure_id'
+                                    select
+                                    required
                                     label='Adventure Title'
-                                    name='Adventure'
-                                    value={data.adventure}
-                                    onChange={(e) => setData('adventure', e.target.value)}
-                                />
-                                {errors?.adventure && (
-                                    <ErrorText message={errors?.adventure} />
+                                    name='Adventure Title'
+                                    SelectProps={{
+                                        MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
+                                    }}
+                                    value={data.adventure_id}
+                                    onChange={(e) =>
+                                        setData('adventure_id', parseInt(e.target.value))
+                                    }>
+                                    {adventures?.map(
+                                        (option: {id: number; title: string}) => (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.title}
+                                            </MenuItem>
+                                        ),
+                                    )}
+                                </TextField>
+                                {errors?.adventure_id && (
+                                    <ErrorText message={errors?.adventure_id} />
                                 )}
                             </StyledGrid>
 
@@ -312,13 +337,14 @@ const EntryForm = ({
                                         item
                                         xs={12}
                                         md={type === 'Edit' ? 12 : 6}>
-                                        <TextField
+                                        <StyledTextField
                                             disabled
                                             margin='normal'
                                             fullWidth
-                                            id='character_id'
+                                            variant='filled'
+                                            id='id'
                                             label='Assigned Character'
-                                            defaultValue='{editData?.character_id}'
+                                            defaultValue={character.name}
                                         />
                                         {/* {errors?.character_id && <ErrorText message={errors?.character_id} />} */}
                                     </StyledGrid>
@@ -355,23 +381,23 @@ const EntryForm = ({
                             aria-label='game master rating'
                             style={{marginBottom: 32}}>
                             <ToggleButton value='creative' aria-label='creative'>
-                                <BrushIcon />
+                                <BrushIcon fontSize='small' />
                                 Creative
                             </ToggleButton>
                             <ToggleButton value='flexible' aria-label='flexible'>
-                                <CableIcon />
+                                <CableIcon fontSize='small' />
                                 Flexible
                             </ToggleButton>
                             <ToggleButton value='friendly' aria-label='friendly'>
-                                <SentimentSatisfiedAltIcon />
+                                <SentimentSatisfiedAltIcon fontSize='small' />
                                 Friendly
                             </ToggleButton>
                             <ToggleButton value='helpful' aria-label='helpful'>
-                                <EventAvailableIcon />
+                                <EventAvailableIcon fontSize='small' />
                                 Helpful
                             </ToggleButton>
                             <ToggleButton value='prepared' aria-label='prepared'>
-                                <TimerIcon />
+                                <TimerIcon fontSize='small' />
                                 Prepared
                             </ToggleButton>
                         </ToggleButtonGroup>

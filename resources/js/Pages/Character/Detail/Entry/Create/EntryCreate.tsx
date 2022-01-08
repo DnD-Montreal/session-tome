@@ -2,14 +2,21 @@ import {ThemeProvider} from '@mui/material/styles'
 import {EntryForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
+import {adventureType} from 'Types/adventure-data'
+import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
 
-const EntryCreate = () => {
+type EntryCreatePropType = {
+    character: CharacterData
+    adventures: adventureType[]
+}
+
+const EntryCreate = ({character, adventures}: EntryCreatePropType) => {
     const theme = getFontTheme('Form', 16)
 
     return (
         <ThemeProvider theme={theme}>
-            <EntryForm type='Create' />
+            <EntryForm type='Create' character={character} adventures={adventures} />
         </ThemeProvider>
     )
 }
