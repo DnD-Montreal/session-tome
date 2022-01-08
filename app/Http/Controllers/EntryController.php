@@ -37,7 +37,7 @@ class EntryController extends Controller
     {
         $charId = $request->validate([
             'character_id' => "required|exists:characters,id|integer"
-        ])[0];
+        ])['character_id'];
 
         $character = Character::where('user_id', Auth::id())
             ->findOrFail($charId);
