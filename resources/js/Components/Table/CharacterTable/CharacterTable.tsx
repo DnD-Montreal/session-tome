@@ -33,21 +33,27 @@ const CharacterTable = ({
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
 
     const leftActions = [
-        <Button variant='contained' startIcon={<AddIcon />}>
-            <Link href={route('character.create')} child='Create' />
-        </Button>,
-        <Button variant='contained' startIcon={<PublishIcon />}>
-            <Link href={route('adventures-league-import.index')} child='Import' />
-        </Button>,
+        <Link href={route('character.create')}>
+            <Button variant='contained' startIcon={<AddIcon />}>
+                Create
+            </Button>
+        </Link>,
+        <Link href={route('adventures-league-import.index')}>
+            <Button variant='contained' startIcon={<PublishIcon />}>
+                Import
+            </Button>
+        </Link>,
         <Button variant='contained' startIcon={<FileDownloadIcon />}>
             Export
         </Button>,
     ]
 
     const rightActions = [
-        <Button variant='contained' startIcon={<AutoStoriesIcon />}>
-            <Link href={route('dm-entry.index')} child='DM Entry' />
-        </Button>,
+        <Link href={route('dm-entry.index')}>
+            <Button variant='contained' startIcon={<AutoStoriesIcon />}>
+                DM Entry
+            </Button>
+        </Link>,
     ]
 
     const columns = [
@@ -55,7 +61,7 @@ const CharacterTable = ({
             property: 'name',
             title: 'Name',
             render: (value: string, row: CharacterData) => (
-                <Link href={route('character.show', [row.id])} child={value} />
+                <Link href={route('character.show', [row.id])}>{value}</Link>
             ),
         },
         {

@@ -240,10 +240,9 @@ const DmEntryCreateForm = ({
                         <Grid container spacing={2} />
                         <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                             {type === 'Create' ? (
-                                <Link
-                                    href={route('dm-entry.index')}
-                                    child={<Button fullWidth>Cancel</Button>}
-                                />
+                                <Link href={route('dm-entry.index')}>
+                                    <Button fullWidth>Cancel</Button>
+                                </Link>
                             ) : (
                                 <Button onClick={() => onCloseDrawer()} fullWidth>
                                     Cancel
