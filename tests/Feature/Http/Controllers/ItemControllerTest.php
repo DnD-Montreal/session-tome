@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -35,26 +37,41 @@ class ItemControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $items = Item::factory()->count(3)->create();
-        $character = $items[0]->character;
-        $character->items()->saveMany($items);
-        $character->save();
+        $character = Character::factory()->has(Item::factory()->count(3))->create([
+            'user_id' => $this->user->id
+        ]);
+        $items = $character->items;
 
+        $privateCharacter = Character::factory()->has(Item::factory()->count(3))->create([
+            'status' => "private"
+        ]);
 
         $response = $this->get(route('item.index') . "?character_id={$character->id}");
         $responseEmpty = $this->get(route('item.index'));
+//        $this->expectException(UnauthorizedException::class);
+        $responsePrivate = $this->get(route('item.index') . "?character_id={$privateCharacter->id}");
 
         $response->assertOk();
-        $responseEmpty->assertOk();
-        $response->assertViewIs('item.index');
-        // Check the items returned belong to the character we're checking.
-        $response->assertViewHas('items', function ($items) use ($character) {
-            $res = true;
-            foreach ($items->pluck('character_id') as $id) {
-                $res = $res && $id == $character->id;
-            }
-            return $res;
+        $responseEmpty->assertNotFound();
+        ;
+        // This is not right, but for some reason expectException is not catching this?
+        // We expect this except because the exception handler should render the appropriate view in production.
+        $this->assertEquals(UnauthorizedException::class, get_class($responsePrivate->exception));
+        $response->assertInertia(function (Assert $page) use ($character) {
+            $page->component('Item/Item')
+                ->has('items')
+                ->has('character');
         });
+
+        // TODO: re-implement below using has() checks to verify prop contains correct values
+        // Check the items returned belong to the character we're checking.
+//        $response->assertViewHas('items', function ($items) use ($character) {
+//            $res = true;
+//            foreach ($items->pluck('character_id') as $id) {
+//                $res = $res && $id == $character->id;
+//            }
+//            return $res;
+//        });
     }
 
 
