@@ -35,7 +35,7 @@ class EntryStoreRequest extends FormRequest
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
-            'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
+            'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
             'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes', 'string'],
@@ -48,7 +48,7 @@ class EntryStoreRequest extends FormRequest
             'items' => ['sometimes', 'array'],
             'items.*.name' => ['string', 'required_with:items'],
             'items.*.rarity' => ["in:{$rarities}", 'required_with:items'],
-            'choice' => ['sometimes', 'string']
+            'choice' => ['sometimes', 'nullable', 'string']
         ];
     }
 }
