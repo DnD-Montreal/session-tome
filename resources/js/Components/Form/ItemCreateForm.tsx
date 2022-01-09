@@ -20,9 +20,10 @@ type ItemCreateFormPropType = {
     editData?: ItemData
     editId?: number
     childButton: any
-    handleAddItem: (item: ItemData) => void
+    handleAddItem: (item: ItemDataType) => void
     createEntryButton?: any
 }
+
 type ItemDataType = {
     name: string
     description: string | null

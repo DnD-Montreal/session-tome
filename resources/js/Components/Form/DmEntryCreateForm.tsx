@@ -19,7 +19,6 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {EntriesData} from 'Types/entries-data'
-import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
 
 import ItemCreateForm from './ItemCreateForm'
@@ -39,9 +38,16 @@ type DmEntryFormDataType = {
     location: string
     date_played: string | null
     notes: string
-    items: ItemData[]
+    items: ItemDataType[]
     type: string
     user_id: number | null | undefined
+}
+
+type ItemDataType = {
+    name: string
+    description: string | null
+    rarity: string
+    tier: number
 }
 
 const StyledBox = styled(Box)`
@@ -108,14 +114,14 @@ const DmEntryCreateForm = ({
     )
     const [activeStep, setActiveStep] = useState<number>(0)
 
-    const handleDeleteItem = (chipToDelete: ItemData) => {
+    const handleDeleteItem = (chipToDelete: ItemDataType) => {
         setData(
             'items',
             data.items.filter((item) => item.name !== chipToDelete.name),
         )
     }
 
-    const handleAddItem = (item_data: ItemData) => {
+    const handleAddItem = (item_data: ItemDataType) => {
         setData('items', [...data.items, item_data])
     }
     return (
