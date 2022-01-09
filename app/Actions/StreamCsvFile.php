@@ -19,7 +19,7 @@ class StreamCsvFile
     public function handle($columns, $data, $suffix)
     {
         $filename = now()->toDateString() . "-{$suffix}.csv";
-        $headers = ['Content-Disposition' => "attachement; filename={$filename}"];
+        $headers = ['Content-Disposition' => "attachment; filename={$filename}"];
 
         return response()->stream(function () use ($columns, $data) {
             $file = fopen('php://output', 'w+');
