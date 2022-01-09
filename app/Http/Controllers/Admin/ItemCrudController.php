@@ -46,12 +46,6 @@ class ItemCrudController extends CrudController
         CRUD::column('tier');
         CRUD::column('description');
         CRUD::column('author_id');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -71,12 +65,6 @@ class ItemCrudController extends CrudController
         CRUD::field('tier');
         CRUD::field('description');
         CRUD::field('author_id');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

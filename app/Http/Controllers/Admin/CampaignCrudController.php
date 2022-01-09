@@ -41,12 +41,6 @@ class CampaignCrudController extends CrudController
     {
         CRUD::column('adventure_id');
         CRUD::column('title');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -62,12 +56,6 @@ class CampaignCrudController extends CrudController
         CRUD::field('adventure_id');
         CRUD::field('title');
         CRUD::field('characters');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

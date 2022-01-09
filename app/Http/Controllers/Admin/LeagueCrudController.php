@@ -41,12 +41,6 @@ class LeagueCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('description');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -61,12 +55,6 @@ class LeagueCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('description');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

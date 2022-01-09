@@ -43,12 +43,6 @@ class RatingCrudController extends CrudController
         CRUD::column('user_id');
         CRUD::column('author_id');
         CRUD::column('categories'); // TODO: Swap with usage of rating score accessor
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -65,12 +59,6 @@ class RatingCrudController extends CrudController
         CRUD::field('user_id');
         CRUD::field('author_id');
         CRUD::field('categories'); // TODO: Swap with usage of rating score accessor
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

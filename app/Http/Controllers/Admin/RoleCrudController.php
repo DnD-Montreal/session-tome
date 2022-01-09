@@ -41,12 +41,6 @@ class RoleCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('type');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -62,12 +56,6 @@ class RoleCrudController extends CrudController
         CRUD::field('name');
         CRUD::field('type');
         CRUD::field('users');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

@@ -44,12 +44,6 @@ class TradeCrudController extends CrudController
         CRUD::column('requested_items');
         CRUD::column('description');
         CRUD::column('status');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -71,13 +65,6 @@ class TradeCrudController extends CrudController
             'name' => "items",
             'label' => "Trade Offers"
         ]);
-
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

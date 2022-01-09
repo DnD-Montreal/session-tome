@@ -44,12 +44,6 @@ class SessionCrudController extends CrudController
         CRUD::column('dungeonMaster');
         CRUD::column('table');
         CRUD::column('start_time');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -67,12 +61,6 @@ class SessionCrudController extends CrudController
         CRUD::field('dungeonMaster');
         CRUD::field('table');
         CRUD::field('start_time');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

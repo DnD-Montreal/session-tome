@@ -49,12 +49,6 @@ class CharacterCrudController extends CrudController
         CRUD::column('status');
         CRUD::column('character_sheet');
         CRUD::column('background');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -86,12 +80,6 @@ class CharacterCrudController extends CrudController
             'attribute' => "display_title",
             'label' => "Event Inscriptions"
         ]);
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

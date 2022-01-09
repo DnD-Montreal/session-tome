@@ -53,12 +53,6 @@ class EntryCrudController extends CrudController
         CRUD::column('gp');
         CRUD::column('notes');
         CRUD::column('downtime');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -85,12 +79,6 @@ class EntryCrudController extends CrudController
         CRUD::field('gp');
         CRUD::field('notes');
         CRUD::field('downtime');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

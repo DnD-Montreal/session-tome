@@ -43,12 +43,6 @@ class EventCrudController extends CrudController
         CRUD::column('title');
         CRUD::column('description');
         CRUD::column('location');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -71,12 +65,6 @@ class EventCrudController extends CrudController
             'attribute' => "table_title",
             'label' => "Tables",
         ]);
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**
