@@ -36,12 +36,20 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach ($characters as $character) {
-            Entry::factory(10)->create([
+            $entries = Entry::factory(10)->create([
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
                 'dungeon_master_id' => $dm->id
             ]);
+
+            // TODO: refactor away from nested foreach loops for speed.
+            foreach ($entries as $entry) {
+                Item::factory(rand(0, 1))->create([
+                    'entry_id' => $entry->id,
+                    'character_id' => $character->id
+                ]);
+            }
         }
 
         foreach (Entry::all() as $entry) {
