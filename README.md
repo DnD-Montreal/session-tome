@@ -44,6 +44,8 @@ composer install
 php artisan key:generate
 yarn install
 yarn dev
+#To install backpack fully on your local machine you should run the following command
+php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
 ```
 
 
