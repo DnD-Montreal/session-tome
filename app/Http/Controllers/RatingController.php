@@ -13,7 +13,7 @@ class RatingController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -39,6 +39,8 @@ class RatingController extends Controller
             $users = $users->get()->sortByDesc(function ($user) use ($searchCategory) {
                 return $user->total_ratings[$searchCategory];
             });
+        } else {
+            $users = $users->get();
         }
 
         return view('rating.index', compact('users'));
