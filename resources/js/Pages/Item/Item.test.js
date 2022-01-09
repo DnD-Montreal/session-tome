@@ -1,39 +1,32 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import {itemData} from 'Mock/item-data'
 import React from 'react'
 
 import Item from './Item'
 
+const props = {
+    Items: itemData,
+}
+
 describe('Item', () => {
     it('Component should render', () => {
-        const component = render(<Item />)
+        const component = render(<Item {...props} />)
         expect(component).toBeDefined()
     })
 
-    it('create button should lead to home', () => {
-        render(<Item />)
-        fireEvent.click(screen.getByText('Create'))
-        expect(screen.getByText('Create')).toHaveAttribute('href', '/')
-    })
-
-    it('should input Name 6 in Search Items', () => {
-        const setup = () => {
-            const utils = render(<Item />)
-            const input = utils.getByLabelText('Search Items')
-            return {
-                input,
-                ...utils,
-            }
-        }
-        const {input} = setup()
-        input.focus()
-        fireEvent.change(document.activeElement, {target: {value: 'Name 6'}})
-        fireEvent.keyDown(document.activeElement, {key: 'ArrowDown'})
-        fireEvent.keyDown(document.activeElement, {key: 'Enter'})
-        expect(screen.getByText('Name 6')).toBeInTheDocument()
-    })
-    it('should input 0 in Search Items', () => {
-        render(<Item />)
-        fireEvent.click(screen.getByTitle('Open'))
-        fireEvent.click(screen.getByLabelText('Name 2'))
+    it('buttons should lead to respective places', () => {
+        render(<Item {...props} />)
+        expect(screen.getByText('Create').parentNode).toHaveAttribute(
+            'href',
+            'Item.create',
+        )
+        expect(screen.getByText('Import').parentNode).toHaveAttribute(
+            'href',
+            'adventures-league-import.index',
+        )
+        expect(screen.getByText('DM Entry').parentNode).toHaveAttribute(
+            'href',
+            'dm-entry.index',
+        )
     })
 })
