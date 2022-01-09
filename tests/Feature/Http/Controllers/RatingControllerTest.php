@@ -35,8 +35,7 @@ class RatingControllerTest extends TestCase
     public function index_displays_view()
     {
         $ratings = Rating::factory()->count(3)->create();
-        $user = User::factory()->has(Rating::factory()->count(3))->create();
-        $user2 = User::factory()->has(Rating::factory()->count(3))->create();
+        $users = User::factory()->has(Rating::factory()->count(3))->count(3)->create();
 
         $response = $this->get(route('rating.index'));
 
