@@ -32,8 +32,8 @@ const StepperForm = ({
 }: StepperFormPropType) => (
     <FormBox className={isDrawer ? 'DrawerForm' : 'FormBox'}>
         <Stepper activeStep={activeStep}>
-            {stepTitles.map((label: string) => (
-                <Step completed={activeStep > 0}>
+            {stepTitles.map((label: string, index: number) => (
+                <Step completed={activeStep > index}>
                     <StepLabel>{label}</StepLabel>
                 </Step>
             ))}
