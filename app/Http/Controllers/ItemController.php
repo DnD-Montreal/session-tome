@@ -4,25 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\ItemUpdateRequest;
+use App\Models\Character;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
 
 class ItemController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
         if ($characterId = $request->get('character_id')) {
             $items = Item::where('character_id', $characterId)->get();
+            $character = Character::where('user_id', Auth::id())
+                ->orWhere('status', 'public')
+                ->find($characterId);
         } else {
             $items = [];
         }
 
-        return Inertia::render('Item/Item', compact('items'));
+        if (!$character) {
+            throw new UnauthorizedException("You're not allowed to see that character's details.", 401);
+        }
+
+        return Inertia::render('Item/Item', compact('items', 'character'));
     }
 
     /**
