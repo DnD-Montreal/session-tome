@@ -81,7 +81,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                             startIcon={<DownloadIcon fontSize='small' />}>
                             EXPORT
                         </Button>
-                        <Link href={route('item.index')}>
+                        <Link href={route('item.index', {character_id: character.id})}>
                             <Button
                                 variant='contained'
                                 startIcon={<IosShareIcon fontSize='small' />}>
