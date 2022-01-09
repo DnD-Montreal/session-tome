@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 class RatingController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $requestphp artisan key:generate
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
