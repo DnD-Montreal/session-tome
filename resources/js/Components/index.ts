@@ -21,6 +21,7 @@ export {
 export {
     CharacterCreateForm,
     CharacterImportForm,
+    CharacterItemCreateForm,
     DmEntryCreateForm,
     LoginForm,
     RegistrationForm,
