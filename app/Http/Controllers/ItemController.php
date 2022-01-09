@@ -19,16 +19,12 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        if ($characterId = $request->get('character_id')) {
-            $items = Item::where('character_id', $characterId)->get();
-            $character = Character::where('user_id', Auth::id())
-                ->orWhere('status', 'public')
-                ->find($characterId);
-        } else {
-            $items = [];
-        }
+        $character = null;
+        $characterId = $request->get('character_id');
+        $items = Item::where('character_id', $characterId)->get();
+        $character = Character::findOrFail($characterId);
 
-        if (!$character) {
+        if ($character->user_id !== Auth::id() && $character->status == "private") {
             throw new UnauthorizedException("You're not allowed to see that character's details.", 401);
         }
 
@@ -98,7 +94,7 @@ class ItemController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Item $item
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Item $item)
     {
