@@ -20,7 +20,8 @@ type ItemCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: ItemData
     editId?: number
-    childButton: any
+    previousStepButton: any
+    cancelFormButton: any
     handleAddItem: (item: ItemData) => void
     createEntryButton?: any
 }
@@ -32,7 +33,7 @@ type ItemDataType = {
 }
 
 const StyledBox = styled(Box)`
-    padding: 32px 0px 0px 0px;
+    padding: 0px 0px 24px 0px;
 `
 
 const StyledGrid = styled(Grid)`
@@ -45,7 +46,8 @@ const ItemCreateForm = ({
     onCloseDrawer = () => {},
     editData,
     editId = 0,
-    childButton,
+    cancelFormButton,
+    previousStepButton,
     handleAddItem,
     createEntryButton,
 }: ItemCreateFormPropType) => {
@@ -66,13 +68,19 @@ const ItemCreateForm = ({
                   tier: editData?.tier || 1,
               }
 
+    const itemStepAdditionalHint =
+        type === 'Create'
+            ? ' Please note that the first item is the one that gets attached to a character should you choose to accept the Magic item as a reward.'
+            : ''
+    const itemStepHint = {
+        text: `Fill out the following fields with your Magic Item details.${itemStepAdditionalHint}`,
+    }
+
     const {data, setData, errors, clearErrors, put} = useForm(ITEM_FORM_INITIAL_VALUE)
     return (
-        <Container>
+        <Container disableGutters>
             <StyledBox>
-                <Typography>
-                    Fill out the following fields with your DM Entry details.
-                </Typography>
+                <Typography>{itemStepHint.text}</Typography>
                 <Grid container>
                     <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                         <TextField
@@ -86,28 +94,8 @@ const ItemCreateForm = ({
                         />
                         {errors?.name && <ErrorText message={errors?.name} />}
                     </StyledGrid>
-                    {type === 'Create' && <StyledGrid item md={7} />}
-                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                        <TextField
-                            margin='normal'
-                            fullWidth
-                            id='tier'
-                            label='Tier'
-                            name='Tier'
-                            type='number'
-                            InputProps={{
-                                inputProps: {
-                                    min: 1,
-                                    max: 4,
-                                },
-                            }}
-                            value={data.tier.toString()}
-                            onChange={(e) => setData('tier', parseInt(e.target.value))}
-                        />
-                        {errors?.tier && <ErrorText message={errors?.tier} />}
-                    </StyledGrid>
                     {type === 'Create' && <StyledGrid item md={2} />}
-                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                         <FormControl fullWidth>
                             <TextField
                                 margin='normal'
@@ -126,6 +114,26 @@ const ItemCreateForm = ({
                             </TextField>
                         </FormControl>
                         {errors?.rarity && <ErrorText message={errors?.rarity} />}
+                    </StyledGrid>
+                    {type === 'Create' && <StyledGrid item md={1} />}
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            id='tier'
+                            label='Tier'
+                            name='Tier'
+                            type='number'
+                            InputProps={{
+                                inputProps: {
+                                    min: 1,
+                                    max: 4,
+                                },
+                            }}
+                            value={data.tier.toString()}
+                            onChange={(e) => setData('tier', parseInt(e.target.value))}
+                        />
+                        {errors?.tier && <ErrorText message={errors?.tier} />}
                     </StyledGrid>
                     <StyledGrid item xs={12} md={12}>
                         <TextField
@@ -147,14 +155,17 @@ const ItemCreateForm = ({
                 <Grid container spacing={2}>
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         {type === 'Create' ? (
-                            childButton
+                            cancelFormButton
                         ) : (
                             <Button onClick={() => onCloseDrawer()} fullWidth>
                                 Cancel
                             </Button>
                         )}
                     </Grid>
-                    <Grid item md={type === 'Edit' ? 4 : 6} />
+                    <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
+                        {type === 'Create' ? previousStepButton : <></>}
+                    </Grid>
+                    <Grid item md={type === 'Edit' ? 6 : 4} />
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         <Button
                             variant='contained'

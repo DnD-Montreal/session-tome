@@ -89,7 +89,7 @@ const DmEntryCreateForm = ({
         location: null,
         date_played: new Date().toDateString(),
         choice: '',
-        character_id: null,
+        character_id: 0,
         notes: '',
         items: [],
         type: 'dm',
@@ -311,8 +311,13 @@ const DmEntryCreateForm = ({
             <ItemCreateForm
                 type='Create'
                 onCloseDrawer={onCloseDrawer}
-                childButton={
-                    <Button onClick={() => setActiveStep(0)} fullWidth>
+                cancelFormButton={
+                    <Link href={route('dm-entry.index')}>
+                        <Button fullWidth>Cancel</Button>
+                    </Link>
+                }
+                previousStepButton={
+                    <Button fullWidth onClick={() => setActiveStep(0)}>
                         Previous
                     </Button>
                 }
@@ -356,7 +361,7 @@ const DmEntryCreateForm = ({
     const stepContent = [stepOneContent, stepTwoContent]
 
     const stepOneFooter = (
-        <Grid container spacing={4}>
+        <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 {type === 'Create' ? (
                     <Link href={route('dm-entry.index')}>
@@ -392,7 +397,7 @@ const DmEntryCreateForm = ({
                     </Button>
                 </Grid>
             )}
-        </Grid>
+        </StyledGrid>
     )
 
     const stepFooter = [stepOneFooter]
