@@ -42,6 +42,8 @@ class UserCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('email');
+        CRUD::column('roles');
+        CRUD::field('leagues');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -62,6 +64,9 @@ class UserCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('email');
+        CRUD::field('roles');
+        CRUD::field('leagues');
+        CRUD::field('characters');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

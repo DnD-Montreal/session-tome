@@ -39,8 +39,8 @@ class AdventureCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('title');
         CRUD::column('code');
+        CRUD::column('title');
         CRUD::column('description');
 
         /**

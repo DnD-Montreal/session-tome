@@ -61,6 +61,7 @@ class RoleCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('type');
+        CRUD::field('users');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

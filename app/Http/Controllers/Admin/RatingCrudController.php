@@ -40,9 +40,9 @@ class RatingCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('entry_id');
-        //CRUD::column('user_id');
-        //CRUD::column('author_id');
-        CRUD::column('score');
+        CRUD::column('user_id');
+        CRUD::column('author_id');
+        CRUD::column('categories'); // TODO: Swap with usage of rating score accessor
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -64,7 +64,7 @@ class RatingCrudController extends CrudController
         CRUD::field('entry_id');
         CRUD::field('user_id');
         CRUD::field('author_id');
-        CRUD::field('score');
+        CRUD::field('categories'); // TODO: Swap with usage of rating score accessor
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

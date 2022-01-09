@@ -61,6 +61,7 @@ class CampaignCrudController extends CrudController
 
         CRUD::field('adventure_id');
         CRUD::field('title');
+        CRUD::field('characters');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

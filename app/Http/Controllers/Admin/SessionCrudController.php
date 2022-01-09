@@ -41,7 +41,7 @@ class SessionCrudController extends CrudController
     {
         CRUD::column('event_id');
         CRUD::column('adventure_id');
-        CRUD::column('dungeon_master_id');
+        CRUD::column('dungeonMaster');
         CRUD::column('table');
         CRUD::column('start_time');
 
@@ -64,7 +64,7 @@ class SessionCrudController extends CrudController
 
         CRUD::field('event_id');
         CRUD::field('adventure_id');
-        CRUD::field('dungeon_master_id');
+        CRUD::field('dungeonMaster');
         CRUD::field('table');
         CRUD::field('start_time');
 

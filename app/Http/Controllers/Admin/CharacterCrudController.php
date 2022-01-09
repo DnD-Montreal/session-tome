@@ -77,6 +77,15 @@ class CharacterCrudController extends CrudController
         CRUD::field('status');
         CRUD::field('character_sheet');
         CRUD::field('background');
+        CRUD::field('items');
+        CRUD::field('campaigns');
+        CRUD::field('entries');
+        CRUD::addField([
+            'name' => 'sessions',
+            'type' => 'relationship',
+            'attribute' => "display_title",
+            'label' => "Event Inscriptions"
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

@@ -65,6 +65,12 @@ class EventCrudController extends CrudController
         CRUD::field('title');
         CRUD::field('description');
         CRUD::field('location');
+        CRUD::addField([
+            'name' => 'sessions',
+            'type' => 'relationship',
+            'attribute' => "table_title",
+            'label' => "Tables",
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

@@ -67,6 +67,11 @@ class TradeCrudController extends CrudController
         CRUD::field('requested_items');
         CRUD::field('description');
         CRUD::field('status');
+        CRUD::addField([
+            'name' => "items",
+            'label' => "Trade Offers"
+        ]);
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
