@@ -45,7 +45,7 @@ class GenerateRatingReport
             }
         }
 
-        return StreamCSVFile::run($columns, $data, "rating-report");
+        return StreamCsvFile::run($columns, $data, "rating-report");
     }
 
     /**
