@@ -24,13 +24,13 @@ class RatingController extends Controller
         }
 
         if ($searchLanguage = $request->get('search_language')) {
-            $users = $users->whereHas('session', function (Builder $q) use ($searchLanguage) {
+            $users = $users->whereHas('sessions', function (Builder $q) use ($searchLanguage) {
                 $q->whereIn('language', explode(",", $searchLanguage));
             });
         }
 
         if ($request->get('from_event')) {
-            $users = $users->with(['ratings' => function (Builder $q) {
+            $users = $users->with(['ratings' => function ($q) {
                 $q->has('entry.event');
             } ]);
         }
