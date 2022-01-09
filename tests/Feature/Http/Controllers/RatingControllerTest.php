@@ -50,9 +50,14 @@ class RatingControllerTest extends TestCase
             'search_category' => 'CREATIVE',
         ]));
 
+        $responseNoFilter = $this->get(route('rating.index'));
+
         $response->assertOk();
         $response->assertViewIs('rating.index');
         $response->assertViewHas('users');
+        $responseNoFilter->assertOk();
+        $responseNoFilter->assertViewIs('rating.index');
+        $responseNoFilter->assertViewHas('users');
     }
 
 
