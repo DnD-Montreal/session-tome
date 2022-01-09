@@ -38,7 +38,7 @@ class RatingControllerTest extends TestCase
         $ratings = Rating::factory()->count(3)->create();
         $users = User::factory(3)->has(Rating::factory()->count(3))->has(Session::factory())->create();
 
-        $response = $this->withoutExceptionHandling()->get(route('rating.index', [
+        $response = $this->get(route('rating.index', [
             'name' => $users->first()->name,
             'search_language' => $users->first()->sessions->first()->language,
             'from_event' => $users->first()->ratings->first()->entry,
