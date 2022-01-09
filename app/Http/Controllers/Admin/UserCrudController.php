@@ -40,6 +40,8 @@ class UserCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::addButtonFromView('top', 'rating_report', 'rating_report', 'end');
+
         CRUD::column('name');
         CRUD::column('email');
         CRUD::column('roles');

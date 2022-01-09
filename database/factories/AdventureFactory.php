@@ -22,9 +22,10 @@ class AdventureFactory extends Factory
      */
     public function definition()
     {
+        $suffix = ["HC", "AL", "EP"];
         return [
             'title' => $this->faker->sentence(4),
-            'code' => $this->faker->word(),
+            'code' => "DD" . $this->faker->randomElement($suffix) . "-0{$this->faker->numberBetween(1, 9)}",
             'description' => $this->faker->text(),
         ];
     }

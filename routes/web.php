@@ -73,6 +73,10 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
+
+    Route::get('report/rating', App\Actions\GenerateRatingReport::class)
+        ->name('report.rating')
+        ->middleware('admin');
 });
 
 
