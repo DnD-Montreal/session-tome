@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Entry;
+use App\Models\Event;
 use App\Models\Rating;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,13 +36,28 @@ class RatingControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $ratings = Rating::factory()->count(3)->create();
+        $users = User::factory(3)
+            ->has(Rating::factory(3)
+                ->has(Entry::factory()
+                    ->has(Event::factory())))
+            ->has(Session::factory())
+            ->create();
 
-        $response = $this->get(route('rating.index'));
+        $response = $this->get(route('rating.index', [
+            'name' => $users->first()->name,
+            'search_language' => $users->first()->sessions->first()->language,
+            'from_event' => $users->first()->ratings->first()->entry,
+            'search_category' => 'CREATIVE',
+        ]));
+
+        $responseNoFilter = $this->get(route('rating.index'));
 
         $response->assertOk();
         $response->assertViewIs('rating.index');
-        $response->assertViewHas('ratings');
+        $response->assertViewHas('users');
+        $responseNoFilter->assertOk();
+        $responseNoFilter->assertViewIs('rating.index');
+        $responseNoFilter->assertViewHas('users');
     }
 
 

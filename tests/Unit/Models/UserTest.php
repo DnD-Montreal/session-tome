@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Character;
 use App\Models\Role;
 use App\Models\League;
+use App\Models\Rating;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -105,5 +106,27 @@ class UserTest extends TestCase
         $items = $user->items()->get();
 
         $this->assertEquals($items->count(), 3);
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_total_ratings()
+    {
+        $user = User::factory()->create();
+        $rating1 = Rating::factory()->create(['user_id' => $user->id, 'categories' => 16]);
+        $rating2 = Rating::factory()->create(['user_id' => $user->id, 'categories' => 20]);
+
+        $actualTotal = $user->getTotalRatingsAttribute();
+
+        $expectedTotal = collect([
+            Rating::CREATIVE_LABEL => 2,
+            Rating::FLEXIBLE_LABEL => 0,
+            Rating::FRIENDLY_LABEL => 1,
+            Rating::HELPFUL_LABEL => 0,
+            Rating::PREPARED_LABEL => 0,
+        ]);
+
+        $this->assertEquals($expectedTotal, $actualTotal);
     }
 }
