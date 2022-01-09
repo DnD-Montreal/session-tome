@@ -24,6 +24,11 @@ class StreamCsvFileTest extends TestCase
         $data = collect(array_fill(0, 10, 0))->map(function () {
             return $this->faker->words(5);
         });
+        $dataString = $data->prepend($columns)->map(function ($row) {
+            return implode(",", $row);
+        })->implode("\n");
+        // remove the added columns...
+        $data->shift();
         $today = now()->toDateString();
         $suffix = "test";
 
@@ -31,5 +36,6 @@ class StreamCsvFileTest extends TestCase
 
         $responseStream->assertOk();
         $responseStream->assertDownload("{$today}-{$suffix}.csv");
+        $this->assertEquals($dataString, rtrim($responseStream->streamedContent(), "\n"));
     }
 }
