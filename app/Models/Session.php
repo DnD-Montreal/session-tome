@@ -20,6 +20,7 @@ class Session extends Model
         'dungeon_master_id',
         'table',
         'start_time',
+        'language',
     ];
 
     /**
