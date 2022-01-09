@@ -143,10 +143,7 @@ class User extends Authenticatable implements AuthenticatableInterface
             $labels[4] => 0,
         ]);
         foreach ($this->ratings as $rating) {
-            $tempStr = decbin($rating->categories);
-            while (strlen($tempStr) < 5) {
-                $tempStr = "0".$tempStr;
-            }
+            $tempStr = str_pad(decbin($rating->categories), 5, "0", STR_PAD_LEFT);
             for ($i = 0; $i < strlen($tempStr); $i++) {
                 $total[$labels[$i]] += (int) $tempStr[$i];
             }
