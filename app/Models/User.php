@@ -127,13 +127,14 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     public function getTotalRatingsAttribute()
     {
-        $labels = array(
+        $labels = [
             Rating::CREATIVE_LABEL,
             Rating::FLEXIBLE_LABEL,
             Rating::FRIENDLY_LABEL,
             Rating::HELPFUL_LABEL,
             Rating::PREPARED_LABEL
-        );
+        ];
+        
         $total = collect([
             $labels[0] => 0,
             $labels[1] => 0,
