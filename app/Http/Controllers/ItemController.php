@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
+use Log;
 
 class ItemController extends Controller
 {
@@ -63,7 +64,8 @@ class ItemController extends Controller
      */
     public function show(Request $request, Item $item)
     {
-        return Inertia::render('Item/Detail/ItemDetail', compact('item'));
+        $character = $item->character;
+        return Inertia::render('Item/Detail/ItemDetail', compact('item', 'character'));
     }
 
     /**
