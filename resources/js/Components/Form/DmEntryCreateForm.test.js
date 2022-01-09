@@ -79,6 +79,7 @@ describe('<DmEntryCreateForm />', () => {
         const lengthField = document.querySelector('#length')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
+        const choiceField = document.querySelector('#choice')
         fireEvent.change(lengthField, {target: {value: 0}})
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.click(
@@ -96,6 +97,9 @@ describe('<DmEntryCreateForm />', () => {
         )
         fireEvent.mouseDown(adventureField)
         fireEvent.change(notesField, {target: {value: '12'}})
+        fireEvent.click(screen.getByText('Continue'))
+        fireEvent.click(screen.getByText('Previous'))
+        fireEvent.change(choiceField, {target: {value: 'Advancement'}})
         fireEvent.click(screen.getByText('Continue'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
@@ -120,6 +124,11 @@ describe('<DmEntryCreateForm />', () => {
     })
     it('cancel edit item test', () => {
         render(<ItemCreateForm {...editItemProps} />)
+        fireEvent.click(screen.getByText('Cancel'))
+    })
+    it('cancel create item in dm entry form test', () => {
+        render(<ItemCreateForm {...createProps} />)
+        fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('save edit item test', () => {
