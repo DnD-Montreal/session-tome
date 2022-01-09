@@ -36,7 +36,6 @@ class RatingControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-//        $ratings = Rating::factory()->count(3)->create();
         $users = User::factory(3)
             ->has(Rating::factory(3)
                 ->has(Entry::factory()
