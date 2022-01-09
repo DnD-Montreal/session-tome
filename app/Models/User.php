@@ -12,7 +12,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements AuthenticatableInterface
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;

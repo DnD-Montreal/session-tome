@@ -44,8 +44,6 @@ composer install
 php artisan key:generate
 yarn install
 yarn dev
-# To install backpack fully you must publish the front-end assets
-php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
 ```
 
 

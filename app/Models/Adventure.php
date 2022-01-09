@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Adventure extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**

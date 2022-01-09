@@ -27,4 +27,3 @@ draft.yml
 /.blueprint
 /coverage
 cypress/support/routes.json
-/public/packages
