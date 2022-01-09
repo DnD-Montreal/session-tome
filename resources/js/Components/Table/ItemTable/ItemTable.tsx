@@ -2,8 +2,6 @@ import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, Link, RarityChip} from 'Components'
 import React, {useState} from 'react'
@@ -37,14 +35,6 @@ const ItemTable = ({
                 Create
             </Button>
         </Link>,
-        <Link href='./'>
-            <Button variant='contained' startIcon={<PublishIcon />}>
-                Import
-            </Button>
-        </Link>,
-        <Button variant='contained' startIcon={<FileDownloadIcon />}>
-            Export
-        </Button>,
     ]
 
     const columns = [
