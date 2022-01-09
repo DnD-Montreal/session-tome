@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\TestResponse;
 use JMac\Testing\Traits\AdditionalAssertions;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class StreamCsvFileTest extends TestCase
 {
@@ -30,6 +30,6 @@ class StreamCsvFileTest extends TestCase
         $responseStream = TestResponse::fromBaseResponse(StreamCsvFile::run($columns, $data, $suffix));
 
         $responseStream->assertOk();
-        $responseStream->assertDownload("$today}-{$suffix}.csv");
+        $responseStream->assertDownload("{$today}-{$suffix}.csv");
     }
 }

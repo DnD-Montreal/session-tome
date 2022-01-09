@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\TestResponse;
 use JMac\Testing\Traits\AdditionalAssertions;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class GenerateRatingReportTest extends TestCase
 {
@@ -33,6 +33,6 @@ class GenerateRatingReportTest extends TestCase
         $responseStream = TestResponse::fromBaseResponse(GenerateRatingReport::run());
 
         $responseStream->assertOk();
-        $responseStream->assertDownload("$today}-{$suffix}.csv");
+        $responseStream->assertDownload("{$today}-{$suffix}.csv");
     }
 }
