@@ -1,75 +1,87 @@
 export const itemData = [
     {
-        iname: 'Name 1',
+        name: 'Name 1',
+        description: 'A tier 3 Common item',
         rarity: 'Common',
         tier: 'Tier 3',
-        description: 'A tier 3 Common item',
+        id: 1,
     },
     {
-        iname: 'Name 2',
+        name: 'Name 2',
+        description: 'A tier 3 Uncommon item',
         rarity: 'Uncommon',
         tier: 'Tier 3',
-        description: 'A tier 3 Uncommon item',
+        id: 2,
     },
     {
-        iname: 'Name 3',
+        name: 'Name 3',
+        description: 'A tier 2 Rare item',
         rarity: 'Rare',
         tier: 'Tier 2',
-        description: 'A tier 2 Rare item',
+        id: 3,
     },
     {
-        iname: 'Name 4',
+        name: 'Name 4',
+        description: 'A tier 2 Very Rare item',
         rarity: 'Very Rare',
         tier: 'Tier 2',
-        description: 'A tier 2 Very Rare item',
+        id: 4,
     },
     {
-        iname: 'Name 5',
+        name: 'Name 5',
+        description: 'A tier 1 Legendary item',
         rarity: 'Legendary',
         tier: 'Tier 1',
-        description: 'A tier 1 Legendary item',
+        id: 5,
     },
     {
-        iname: 'Name 6',
+        name: 'Name 6',
+        description: 'A tier 1 Artifact item',
         rarity: 'Artifact',
         tier: 'Tier 1',
-        description: 'A tier 1 Artifact item',
+        id: 6,
     },
     {
-        iname: 'Name 7',
+        name: 'Name 7',
+        description: 'A tier 3 Common item',
         rarity: 'Common',
         tier: 'Tier 3',
-        description: 'A tier 3 Common item',
+        id: 7,
     },
     {
-        iname: 'Name 8',
+        name: 'Name 8',
+        description: 'A tier 3 Uncommon item',
         rarity: 'Uncommon',
         tier: 'Tier 3',
-        description: 'A tier 3 Uncommon item',
+        id: 8,
     },
     {
-        iname: 'Name 9',
+        name: 'Name 9',
+        description: 'A tier 2 Rare item',
         rarity: 'Rare',
         tier: 'Tier 2',
-        description: 'A tier 2 Rare item',
+        id: 9,
     },
     {
-        iname: 'Name 10',
+        name: 'Name 10',
+        description: 'A tier 2 Very Rare item',
         rarity: 'Very Rare',
         tier: 'Tier 2',
-        description: 'A tier 2 Very Rare item',
+        id: 10,
     },
     {
-        iname: 'Name 11',
+        name: 'Name 11',
+        description: 'A tier 1 Legendary item',
         rarity: 'Legendary',
         tier: 'Tier 1',
-        description: 'A tier 1 Legendary item',
+        id: 11,
     },
 ]
 
 export type RowData = {
-    iname: string
+    name: string
     rarity: string
     tier: string
     description: string
+    id: number
 }
