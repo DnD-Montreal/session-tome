@@ -32,6 +32,7 @@ class Handler extends ExceptionHandler
     protected $titles = [
         503 => '503: Service Unavailable',
         500 => '500: Server Error',
+        401 => '401: Unauthorized',
         404 => '404: Page Not Found',
         403 => '403: Forbidden',
     ];
@@ -39,6 +40,7 @@ class Handler extends ExceptionHandler
     protected $descriptions = [
         503 => 'Sorry, we are doing some maintenance. Please check back soon.',
         500 => 'Whoops, something went wrong on our servers.',
+        401 => 'Sorry, you\'re not allowed to see that.',
         404 => 'Sorry, the page you are looking for could not be found.',
         403 => 'Sorry, you are forbidden from accessing this page.',
     ];
@@ -65,7 +67,7 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
-        if (!app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
+        if (!app()->environment(['local', 'testing']) && in_array($response->status(), array_keys($this->titles))) {
             return $this->renderError($request, $response);
         } elseif ($response->status() === 419) {
             return back()->with([

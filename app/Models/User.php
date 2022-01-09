@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements AuthenticatableInterface
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
@@ -47,6 +48,13 @@ class User extends Authenticatable implements AuthenticatableInterface
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['total_ratings'];
+
 
     public function leagues()
     {
@@ -76,6 +84,11 @@ class User extends Authenticatable implements AuthenticatableInterface
     public function ratings()
     {
         return $this->hasMany(\App\Models\Rating::class);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(\App\Models\Session::class, "dungeon_master_id");
     }
 
     /**
@@ -111,5 +124,31 @@ class User extends Authenticatable implements AuthenticatableInterface
     public function hasAnyRole(): bool
     {
         return count($this->roles->pluck('name')->toArray()) > 0;
+    }
+
+    public function getTotalRatingsAttribute()
+    {
+        $labels = [
+            Rating::CREATIVE_LABEL,
+            Rating::FLEXIBLE_LABEL,
+            Rating::FRIENDLY_LABEL,
+            Rating::HELPFUL_LABEL,
+            Rating::PREPARED_LABEL
+        ];
+        
+        $total = collect([
+            $labels[0] => 0,
+            $labels[1] => 0,
+            $labels[2] => 0,
+            $labels[3] => 0,
+            $labels[4] => 0,
+        ]);
+        foreach ($this->ratings as $rating) {
+            $tempStr = str_pad(decbin($rating->categories), 5, "0", STR_PAD_LEFT);
+            for ($i = 0; $i < strlen($tempStr); $i++) {
+                $total[$labels[$i]] += (int) $tempStr[$i];
+            }
+        }
+        return $total;
     }
 }
