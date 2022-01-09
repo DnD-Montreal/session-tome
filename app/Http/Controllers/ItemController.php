@@ -24,8 +24,11 @@ class ItemController extends Controller
         $items = Item::where('character_id', $characterId)->get();
         $character = Character::findOrFail($characterId);
 
-        if ($character->user_id !== Auth::id() && $character->status == "private") {
-            throw new UnauthorizedException("You're not allowed to see that character's details.", 401);
+        if ($character->user_id !== Auth::id() && $character->status == 'private') {
+            throw new UnauthorizedException(
+                "You're not allowed to see that character's details.",
+                401
+            );
         }
 
         return Inertia::render('Item/Item', compact('items', 'character'));
@@ -60,7 +63,7 @@ class ItemController extends Controller
      */
     public function show(Request $request, Item $item)
     {
-        return view('item.show', compact('item'));
+        return Inertia::render('Item/Detail/ItemDetail', compact('item'));
     }
 
     /**
