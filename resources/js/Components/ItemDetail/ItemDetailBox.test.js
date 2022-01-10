@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
 import {itemData} from 'Mock/item-data'
 import React from 'react'
@@ -24,5 +24,10 @@ describe('ItemDetailBox', () => {
             'href',
             'character.show',
         )
+    })
+    it('Update button click should work', () => {
+        render(<ItemDetailBox {...props} />)
+        const action = screen.getByTestId('update-button')
+        fireEvent.click(action)
     })
 })

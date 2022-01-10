@@ -69,6 +69,7 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
                         <Button
+                            data-testid='update-button'
                             variant='contained'
                             startIcon={<CreateIcon fontSize='small' />}
                             onClick={() => {
