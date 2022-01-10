@@ -2,8 +2,15 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Chip, Grid, MenuItem, TextField, Typography} from '@mui/material'
-import InputLabel from '@mui/material/InputLabel'
+import {
+    Button,
+    Chip,
+    Grid,
+    InputLabel,
+    MenuItem,
+    TextField,
+    Typography,
+} from '@mui/material'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -311,11 +318,6 @@ const DmEntryCreateForm = ({
             <ItemCreateForm
                 type='Create'
                 onCloseDrawer={onCloseDrawer}
-                cancelFormButton={
-                    <Link href={route('dm-entry.index')}>
-                        <Button fullWidth>Cancel</Button>
-                    </Link>
-                }
                 previousStepButton={
                     <Button fullWidth onClick={() => setActiveStep(0)}>
                         Previous

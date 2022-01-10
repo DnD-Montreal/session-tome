@@ -9,8 +9,8 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
-import React from 'react'
+import {ErrorText, Link} from 'Components'
+import React, {ReactNode} from 'react'
 import styled from 'styled-components'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -20,10 +20,9 @@ type ItemCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: ItemData
     editId?: number
-    previousStepButton: any
-    cancelFormButton: any
+    previousStepButton: ReactNode
     handleAddItem: (item: ItemData) => void
-    createEntryButton?: any
+    createEntryButton?: ReactNode
 }
 type ItemDataType = {
     name: string
@@ -46,7 +45,6 @@ const ItemCreateForm = ({
     onCloseDrawer = () => {},
     editData,
     editId = 0,
-    cancelFormButton,
     previousStepButton,
     handleAddItem,
     createEntryButton,
@@ -68,20 +66,16 @@ const ItemCreateForm = ({
                   tier: editData?.tier || 1,
               }
 
-    const itemStepAdditionalHint =
-        type === 'Create'
-            ? ' Please note that the first item is the one that gets attached to a character should you choose to accept the Magic item as a reward.'
-            : ''
-    const itemStepHint = {
-        text: `Fill out the following fields with your Magic Item details.${itemStepAdditionalHint}`,
-    }
-
     const {data, setData, errors, clearErrors, put} = useForm(ITEM_FORM_INITIAL_VALUE)
     return (
         <Container disableGutters>
             <StyledBox>
-                <Typography>{itemStepHint.text}</Typography>
-                <Grid container>
+                <Typography>
+                    Fill out the following fields with your Magic Item details.
+                    {type === 'Create' &&
+                        ' Please note that the first item is the one that gets attached to a character should you choose to accept the Magic item as a reward.'}
+                </Typography>
+                <Grid container spacing={2}>
                     <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                         <TextField
                             margin='normal'
@@ -152,10 +146,12 @@ const ItemCreateForm = ({
                 </Grid>
             </StyledBox>
             <Grid container>
-                <Grid container spacing={2}>
+                <Grid container spacing={4}>
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         {type === 'Create' ? (
-                            cancelFormButton
+                            <Link href={route('dm-entry.index')}>
+                                <Button fullWidth>Cancel</Button>
+                            </Link>
                         ) : (
                             <Button onClick={() => onCloseDrawer()} fullWidth>
                                 Cancel
@@ -165,7 +161,7 @@ const ItemCreateForm = ({
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         {type === 'Create' ? previousStepButton : <></>}
                     </Grid>
-                    <Grid item md={type === 'Edit' ? 6 : 4} />
+                    <Grid item xs={4} />
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         <Button
                             variant='contained'
