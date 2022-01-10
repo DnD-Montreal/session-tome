@@ -52,7 +52,6 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
                     <StyledTypography>NAME</StyledTypography>
                     <Typography>{item.name}</Typography>
                 </Grid>
-                ..
                 <Grid item xs={6}>
                     <StyledTypography>RARITY</StyledTypography>
                     <Typography>{item.rarity}</Typography>
