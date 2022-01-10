@@ -6,6 +6,7 @@ use App\Actions\CreateEntryItems;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Character;
+use App\Models\Adventure;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -42,7 +43,9 @@ class EntryController extends Controller
         $character = Character::where('user_id', Auth::id())
             ->findOrFail($charId);
 
-        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('character'));
+        $adventures = Adventure::all();
+
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character'));
     }
 
     /**
