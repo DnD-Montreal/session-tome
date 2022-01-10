@@ -28,7 +28,9 @@ const EntryTable = ({data}: EntryPropType) => {
         {
             property: 'adventure',
             title: 'Adventure Title',
-            render: (value: any) => <Chip label={value.title} variant='outlined' />,
+            render: (value: any) => (
+                <Chip label={value ? value.title : 'N/A'} variant='outlined' />
+            ),
         },
         {
             property: 'session',
