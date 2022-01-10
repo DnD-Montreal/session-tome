@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 
 class Rating extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**

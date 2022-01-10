@@ -94,8 +94,16 @@ class Handler extends ExceptionHandler
      * @param null $status
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object|\Symfony\Component\HttpFoundation\Response
      */
-    protected function renderError($request, $response, $title = null, $description = null, $status = null)
+    protected function renderError($request, $response, $meta = null)
     {
+        if (!is_array($meta)) {
+            $meta = func_get_arg(2);
+        }
+
+        $title = $meta[0] ?? null;
+        $description = $meta[1] ?? null;
+        $status = $meta[2] ?? null;
+
         $title = $title ?? $this->titles[$status ?? $response->status()];
         $description = $description ?? $this->descriptions[$status ?? $response->status()];
         return Inertia::render('Error', ['title' => $title, 'description' => $description])

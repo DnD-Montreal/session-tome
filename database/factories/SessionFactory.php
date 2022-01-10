@@ -31,6 +31,7 @@ class SessionFactory extends Factory
             'dungeon_master_id' => User::factory(),
             'table' => $this->faker->randomDigit()+1,
             'start_time' => $this->faker->dateTime(),
+            'language' => $this->faker->randomElement(["FR","EN"]),
         ];
     }
 }
