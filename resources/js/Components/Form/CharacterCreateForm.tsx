@@ -59,7 +59,8 @@ const CharacterCreateForm = ({
         CHARACTER_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
-    const stepTitles = ['Enter details', 'Privacy details']
+
+    const stepTitles = [{label: 'Enter details'}, {label: 'Privacy details'}]
 
     const stepOneContent = (
         <>

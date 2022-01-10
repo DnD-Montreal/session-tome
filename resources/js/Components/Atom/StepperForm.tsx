@@ -2,8 +2,13 @@ import {Box, Step, StepLabel, Stepper} from '@mui/material'
 import React, {ReactNode} from 'react'
 import styled from 'styled-components'
 
+type StepTitleType = {
+    label: string
+    optional?: ReactNode
+}
+
 type StepperFormPropType = {
-    stepTitles: string[]
+    stepTitles: StepTitleType[]
     stepContent: ReactNode[]
     stepFooter: ReactNode[]
     activeStep: number
@@ -32,9 +37,9 @@ const StepperForm = ({
 }: StepperFormPropType) => (
     <FormBox className={isDrawer ? 'DrawerForm' : 'FormBox'}>
         <Stepper activeStep={activeStep}>
-            {stepTitles.map((label: string) => (
+            {stepTitles.map((title: StepTitleType) => (
                 <Step completed={activeStep > 0}>
-                    <StepLabel>{label}</StepLabel>
+                    <StepLabel optional={title.optional}>{title.label}</StepLabel>
                 </Step>
             ))}
         </Stepper>
