@@ -65,9 +65,10 @@ const tomorrow = `${`${
 } ${tomorrowDate.getDate()}, ${tomorrowDate.getFullYear()}`}`
 
 describe('<DmEntryCreateForm />', () => {
-    it('edit component should render', () => {
+    it('edit component should render and close', () => {
         const component = render(<DmEntryCreateForm {...editProps} />)
         expect(component).toBeDefined()
+        fireEvent.click(screen.getByText('Cancel'))
     })
     it('create component should render', () => {
         const component = render(<DmEntryCreateForm {...createProps} />)
@@ -75,12 +76,19 @@ describe('<DmEntryCreateForm />', () => {
     })
     it('create component fields test', () => {
         render(<DmEntryCreateForm {...createProps} />)
-        const adventureField = document.querySelector('#adventure_id')
+        const adventureInputField = document.querySelector(
+            'input[name="Adventure Title"]',
+        )
         const lengthField = document.querySelector('#length')
+        const levelsField = document.querySelector('#levels')
+        const gpField = document.querySelector('#gp')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
         const choiceInputField = document.querySelector('input[name="Reward Choice"]')
-        fireEvent.change(lengthField, {target: {value: 0}})
+        fireEvent.change(adventureInputField, {target: {value: 1}})
+        fireEvent.change(lengthField, {target: {value: 1}})
+        fireEvent.change(levelsField, {target: {value: 1}})
+        fireEvent.change(gpField, {target: {value: 20}})
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.click(
             screen.getByRole('textbox', {
@@ -95,7 +103,6 @@ describe('<DmEntryCreateForm />', () => {
                 name: tomorrow,
             }),
         )
-        fireEvent.mouseDown(adventureField)
         fireEvent.change(notesField, {target: {value: '12'}})
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Previous'))
