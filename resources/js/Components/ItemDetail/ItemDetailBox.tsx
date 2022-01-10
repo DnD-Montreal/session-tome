@@ -5,6 +5,7 @@ import {Link} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
+import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
 
 const Img = styled('img')({
@@ -20,7 +21,7 @@ const StyledTypography = styled(Typography)({
 })
 
 type ItemDetailBoxPropType = {
-    item: any
+    item: ItemData
     character: CharacterData
     setIsEditDrawerOpen: (payload: boolean) => void
 }
