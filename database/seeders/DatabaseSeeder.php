@@ -89,8 +89,14 @@ class DatabaseSeeder extends Seeder
                 'levels' => random_int(0, 1),
             ];
 
+            $items = Item::factory(rand(0, 2))->state([
+                'character_id' => $character->id,
+                'author_id' => $character->user_id
+            ]);
             // Session Entries --> Player played this character at an event
-            $entries = Entry::factory(2)->create(array_merge([
+            $entries = Entry::factory(2)
+                ->has($items)
+                ->create(array_merge([
                 'adventure_id' => $session->adventure_id,
                 'dungeon_master_id' => $session->dungeon_master_id,
                 'event_id' => $session->event_id
