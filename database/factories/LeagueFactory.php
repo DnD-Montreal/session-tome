@@ -23,7 +23,7 @@ class LeagueFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->words(2, true),
             'description' => $this->faker->text(),
         ];
     }

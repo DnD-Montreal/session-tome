@@ -5,19 +5,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RatingStoreRequest;
 use App\Http\Requests\RatingUpdateRequest;
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class RatingController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $ratings = Rating::all();
+        $users = User::with('ratings');
 
-        return view('rating.index', compact('ratings'));
+        if ($searchName = $request->get('name')) {
+            $users = $users->where('name', 'like', "%{$searchName}%");
+        }
+
+        if ($searchLanguage = $request->get('search_language')) {
+            $users = $users->whereHas('sessions', function (Builder $q) use ($searchLanguage) {
+                $q->whereIn('language', explode(",", $searchLanguage));
+            });
+        }
+
+        if ($request->get('from_event')) {
+            $users = $users->with(['ratings' => function ($q) {
+                $q->has('entry.event');
+            } ]);
+        }
+
+        if ($searchCategory = $request->get('search_category')) {
+            $users = $users->get()->sortByDesc(function ($user) use ($searchCategory) {
+                return $user->total_ratings[$searchCategory];
+            });
+        } else {
+            $users = $users->get();
+        }
+
+        return view('rating.index', compact('users'));
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**
@@ -20,6 +21,7 @@ class Session extends Model
         'dungeon_master_id',
         'table',
         'start_time',
+        'language',
     ];
 
     /**
@@ -35,6 +37,7 @@ class Session extends Model
         'start_time' => 'datetime',
     ];
 
+    protected $with = ['event'];
 
     public function characters()
     {
@@ -54,5 +57,15 @@ class Session extends Model
     public function dungeonMaster()
     {
         return $this->belongsTo(\App\Models\User::class);
+    }
+
+    public function getDisplayTitleAttribute()
+    {
+        return "{$this->event->title} - Table {$this->attributes['table']}";
+    }
+
+    public function getTableTitleAttribute()
+    {
+        return "Table {$this->attributes['table']}";
     }
 }

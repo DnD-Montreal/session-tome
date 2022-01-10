@@ -22,9 +22,11 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
     const leftActions = [
-        <Button variant='contained' startIcon={<HistoryEduIcon />}>
-            <Link href={route('dm-entry.create')} child='Create' />
-        </Button>,
+        <Link href={route('dm-entry.create')}>
+            <Button variant='contained' startIcon={<HistoryEduIcon />}>
+                Create
+            </Button>
+        </Link>,
     ]
 
     const columns = [
