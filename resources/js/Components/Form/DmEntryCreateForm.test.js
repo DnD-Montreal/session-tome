@@ -52,6 +52,10 @@ const createProps = {
         {id: 1, title: 'adventure1'},
         {id: 2, title: 'adventure2'},
     ],
+    characters: [
+        {id: 1, name: 'John'},
+        {id: 2, name: 'Smith'},
+    ],
 }
 
 const today = `${
@@ -85,6 +89,9 @@ describe('<DmEntryCreateForm />', () => {
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
         const choiceInputField = document.querySelector('input[name="Reward Choice"]')
+        const characterInputField = document.querySelector(
+            'input[name="Assigned Character"]',
+        )
         fireEvent.change(adventureInputField, {target: {value: 1}})
         fireEvent.change(lengthField, {target: {value: 1}})
         fireEvent.change(levelsField, {target: {value: 1}})
@@ -107,6 +114,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Previous'))
         fireEvent.change(choiceInputField, {target: {value: 'advancement'}})
+        fireEvent.change(characterInputField, {target: {value: 1}})
         fireEvent.click(screen.getByText('Continue'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
