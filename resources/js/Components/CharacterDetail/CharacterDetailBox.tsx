@@ -86,7 +86,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                 variant='contained'
                                 startIcon={<IosShareIcon fontSize='small' />}>
                                 ITEMS
-                            </Button>{' '}
+                            </Button>
                         </Link>
                     </Stack>
                 </Grid>

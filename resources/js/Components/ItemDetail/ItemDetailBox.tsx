@@ -30,18 +30,14 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container rowSpacing={2}>
             <Grid container item xs={5}>
-                <Grid item xs={4}>
+                <Grid item>
                     <Link href={route('character.show', [character.id])}>
                         <Typography>{character.name}</Typography>
                     </Link>
-                </Grid>
-                <Grid item xs={4}>
                     <Typography>
-                        {' '}
                         {'>'} {item.name}
                     </Typography>
                 </Grid>
-                <Grid item xs={4} />
             </Grid>
             <Grid item xs={7} />
             <Grid item xs={12} />
