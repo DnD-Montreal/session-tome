@@ -150,8 +150,12 @@ class ItemControllerTest extends TestCase
         $response = $this->get(route('item.show', $item));
 
         $response->assertOk();
-        $response->assertViewIs('item.show');
-        $response->assertViewHas('item');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+            ->component("Item/Detail/ItemDetail")
+            ->has('item')
+            ->has('character')
+        );
     }
 
 
