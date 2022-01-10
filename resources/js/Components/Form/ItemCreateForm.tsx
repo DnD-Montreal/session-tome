@@ -2,14 +2,15 @@ import {useForm} from '@inertiajs/inertia-react'
 import {
     Box,
     Button,
+    Container,
     FormControl,
     Grid,
     MenuItem,
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
-import React from 'react'
+import {ErrorText, Link} from 'Components'
+import React, {ReactNode} from 'react'
 import styled from 'styled-components'
 import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -19,9 +20,9 @@ type ItemCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: ItemData
     editId?: number
-    childButton: any
+    previousStepButton: ReactNode
     handleAddItem: (item: ItemData) => void
-    createEntryButton?: any
+    createEntryButton?: ReactNode
 }
 type ItemDataType = {
     name: string
@@ -31,17 +32,12 @@ type ItemDataType = {
 }
 
 const StyledBox = styled(Box)`
-    padding: 32px 0px 0px 0px;
+    padding: 0px 0px 24px 0px;
 `
 
 const StyledGrid = styled(Grid)`
-    align-items: center;
-    justify-content: center;
+    flexgrow: 1;
     margin-bottom: 16px;
-`
-
-const StyledFooter = styled(Grid)`
-    min-width: 25vw;
 `
 
 const ItemCreateForm = ({
@@ -49,7 +45,7 @@ const ItemCreateForm = ({
     onCloseDrawer = () => {},
     editData,
     editId = 0,
-    childButton,
+    previousStepButton,
     handleAddItem,
     createEntryButton,
 }: ItemCreateFormPropType) => {
@@ -72,12 +68,14 @@ const ItemCreateForm = ({
 
     const {data, setData, errors, clearErrors, put} = useForm(ITEM_FORM_INITIAL_VALUE)
     return (
-        <>
+        <Container disableGutters>
             <StyledBox>
                 <Typography>
-                    Fill out the following fields with your DM Entry details.
+                    Fill out the following fields with your Magic Item details.
+                    {type === 'Create' &&
+                        ' Please note that the first item is the one that gets attached to a character should you choose to accept the Magic item as a reward.'}
                 </Typography>
-                <Grid container>
+                <Grid container spacing={2}>
                     <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                         <TextField
                             margin='normal'
@@ -90,28 +88,8 @@ const ItemCreateForm = ({
                         />
                         {errors?.name && <ErrorText message={errors?.name} />}
                     </StyledGrid>
-                    {type === 'Create' && <StyledGrid item md={5} />}
-                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                        <TextField
-                            margin='normal'
-                            fullWidth
-                            id='tier'
-                            label='Tier'
-                            name='Tier'
-                            type='number'
-                            InputProps={{
-                                inputProps: {
-                                    min: 1,
-                                    max: 4,
-                                },
-                            }}
-                            value={data.tier.toString()}
-                            onChange={(e) => setData('tier', parseInt(e.target.value))}
-                        />
-                        {errors?.tier && <ErrorText message={errors?.tier} />}
-                    </StyledGrid>
                     {type === 'Create' && <StyledGrid item md={2} />}
-                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                         <FormControl fullWidth>
                             <TextField
                                 margin='normal'
@@ -131,6 +109,26 @@ const ItemCreateForm = ({
                         </FormControl>
                         {errors?.rarity && <ErrorText message={errors?.rarity} />}
                     </StyledGrid>
+                    {type === 'Create' && <StyledGrid item md={1} />}
+                    <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            id='tier'
+                            label='Tier'
+                            name='Tier'
+                            type='number'
+                            InputProps={{
+                                inputProps: {
+                                    min: 1,
+                                    max: 4,
+                                },
+                            }}
+                            value={data.tier.toString()}
+                            onChange={(e) => setData('tier', parseInt(e.target.value))}
+                        />
+                        {errors?.tier && <ErrorText message={errors?.tier} />}
+                    </StyledGrid>
                     <StyledGrid item xs={12} md={12}>
                         <TextField
                             margin='normal'
@@ -147,18 +145,23 @@ const ItemCreateForm = ({
                     </StyledGrid>
                 </Grid>
             </StyledBox>
-            <StyledFooter container>
-                <Grid container spacing={2}>
+            <Grid container>
+                <Grid container spacing={4}>
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         {type === 'Create' ? (
-                            childButton
+                            <Link href={route('dm-entry.index')}>
+                                <Button fullWidth>Cancel</Button>
+                            </Link>
                         ) : (
                             <Button onClick={() => onCloseDrawer()} fullWidth>
                                 Cancel
                             </Button>
                         )}
                     </Grid>
-                    <Grid item md={type === 'Edit' ? 4 : 6} />
+                    <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
+                        {type === 'Create' ? previousStepButton : <></>}
+                    </Grid>
+                    <Grid item xs={4} />
                     <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
                         <Button
                             variant='contained'
@@ -187,8 +190,8 @@ const ItemCreateForm = ({
                         {createEntryButton}
                     </Grid>
                 </Grid>
-            </StyledFooter>
-        </>
+            </Grid>
+        </Container>
     )
 }
 

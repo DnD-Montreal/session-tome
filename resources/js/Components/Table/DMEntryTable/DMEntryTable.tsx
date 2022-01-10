@@ -48,8 +48,8 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'character',
             title: 'Character',
-            render: (value: string) => (
-                <Chip label={value ?? 'Unassigned'} variant='outlined' />
+            render: (value: any) => (
+                <Chip label={value?.name ?? 'Unassigned'} variant='outlined' />
             ),
         },
         {
