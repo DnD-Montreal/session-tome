@@ -55,4 +55,8 @@ describe('ItemTable', () => {
         const actions = screen.getAllByTestId('delete-action')
         fireEvent.click(actions[0])
     })
+    it('buttons should lead to respective places', () => {
+        render(<ItemTable {...props} />)
+        expect(screen.getByText('Create').parentNode).toHaveAttribute('href', '')
+    })
 })

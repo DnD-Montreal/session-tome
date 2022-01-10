@@ -30,7 +30,7 @@ const ItemTable = ({
     const {setData, delete: destroy} = useForm<FormDataType>({items: []})
 
     const leftActions = [
-        <Link href='./'>
+        <Link href='./' data-testid='modal-delete'>
             <Button variant='contained' startIcon={<AddIcon />}>
                 Create
             </Button>
@@ -90,6 +90,7 @@ const ItemTable = ({
             <Tooltip title='Delete'>
                 <IconButton>
                     <DeleteIcon
+                        data-testid='bulk-delete-action'
                         onClick={() => {
                             setData('items', selected)
                             setIsDeleteModalOpen(true)
