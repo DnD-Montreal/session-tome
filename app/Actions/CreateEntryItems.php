@@ -21,10 +21,7 @@ class CreateEntryItems
     {
         $out = collect();
 
-        if ($entry->items()->count() >= count($items)) {
-            // This is probably a "sync" so clear the existing items
-            $entry->items()->delete();
-        }
+        $entry->items()->delete();
 
         foreach ($items as $item) {
             $out[] = new Item(
