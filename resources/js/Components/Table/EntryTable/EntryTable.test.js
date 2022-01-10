@@ -1,17 +1,11 @@
 import {fireEvent, render, screen} from '@testing-library/react'
-import {EntryData} from 'Mock/dmentry-data'
+import {entriesData} from 'Mock/entries-data'
 import React from 'react'
 
 import EntryTable from './EntryTable'
 
-const mockFunction = jest.fn()
-const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
-    isSelected: isSelectedtest,
-    data: EntryData,
-    selected: [],
-    handleClick: mockFunction,
-    handleSelectAllClick: mockFunction,
+    data: entriesData,
 }
 describe('EntryTable', () => {
     it('Component should render', () => {

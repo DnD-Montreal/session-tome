@@ -39,8 +39,11 @@ const EntryTable = ({data}: EntryPropType) => {
             title: 'Reward',
         },
         {
-            property: null,
+            property: 'items.name',
             title: 'Magic Items',
+            render: (value: any) => (
+                <Chip aria-label='item' label={value.items.name} variant='outlined' />
+            ),
         },
         {
             property: null,
