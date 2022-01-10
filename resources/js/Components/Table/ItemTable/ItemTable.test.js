@@ -13,9 +13,32 @@ const props = {
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
 }
+
+const selectableTableProps = {
+    columns: [
+        {
+            property: 'name',
+            title: 'Name',
+            render: () => <div />,
+        },
+    ],
+    data: itemData,
+    tableName: '',
+    isSelectable: true,
+    selected: [],
+    setSelected: jest.fn(),
+    bulkSelectActions: <div />,
+    leftActions: [<div />],
+    filterProperties: ['name'],
+}
+
 describe('ItemTable', () => {
     it('Component should render', () => {
         const component = render(<ItemTable {...props} />)
+        expect(component).toBeDefined()
+    })
+    it('Component should render', () => {
+        const component = render(<ItemTable {...selectableTableProps} />)
         expect(component).toBeDefined()
     })
     it('Pagination handleChangePage should work', () => {
@@ -26,5 +49,14 @@ describe('ItemTable', () => {
         render(<ItemTable {...props} />)
         fireEvent.click(screen.getByLabelText('10'))
         fireEvent.click(screen.getByDisplayValue('10'))
+    })
+    it('Delete Action click should work', () => {
+        render(<ItemTable {...props} />)
+        const actions = screen.getAllByTestId('delete-action')
+        fireEvent.click(actions[0])
+    })
+    it('buttons should lead to respective places', () => {
+        render(<ItemTable {...props} />)
+        expect(screen.getByText('Create').parentNode).toHaveAttribute('href', '')
     })
 })
