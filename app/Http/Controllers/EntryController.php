@@ -9,6 +9,7 @@ use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
 {
@@ -42,8 +43,10 @@ class EntryController extends Controller
      */
     public function store(EntryStoreRequest $request)
     {
-        $entryData = collect($request->validated())->except('items');
+        $entryData = collect($request->validated())->except('items', 'rating_data');
         $itemData = collect($request->validated())->only('items');
+        $ratingData = collect($request->validated())->only('rating_data');
+
 
         if ($itemData->has('items')) {
             $itemData = $itemData['items'];
@@ -53,25 +56,18 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        //possibly implement as function for reusability
-        if ($entryData->get('choice') == 'advancement') {
-            // advancement: increment character's level
-            $entryData['levels'] = 1;
-            $itemData = [];
-        } elseif ($entryData->get('choice') == 'magic_item') {
-            // magic_item: attach item to character of choice, and set entry's levels to 0
-            $itemData = [$itemData[0] ?? []];
-            $entryData['levels'] = 0;
-        } elseif ($entryData->get('choice') == 'campaign_reward') {
-            // campaign reward: set levels = 0, no item(s), should contain custom note
-            $itemData = [];
-            $entryData['levels'] = 0;
-        }
+
+        //run tests to make sure this works
+        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
+
+        if (!isEmpty($ratingData)) {
+            CreateAndAttachRating::run($entry, $ratingData);
+        }
 
         if ($request->type == Entry::TYPE_DM) {
             return redirect()->route('dm-entry.index');
@@ -107,8 +103,9 @@ class EntryController extends Controller
      */
     public function update(EntryUpdateRequest $request, Entry $entry)
     {
-        $entryData = collect($request->validated())->except('items');
+        $entryData = collect($request->validated())->except('items', 'rating_data');
         $itemData = collect($request->validated())->only('items');
+        $ratingData = collect($request->validated())->only('rating_data');
 
         if ($itemData->has('items')) {
             $itemData = $itemData['items'];
@@ -118,24 +115,16 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        //replace with function call when implemented
-        if ($entryData->get('choice') == 'advancement') {
-            // advancement: increment character's level
-            $entryData['levels'] = 1;
-            $itemData = [];
-        } elseif ($entryData->get('choice') == 'magic_item') {
-            // magic_item: attach item to character of choice, and set entry's levels to 0
-            $itemData = [$itemData[0] ?? []];
-            $entryData['levels'] = 0;
-        } elseif ($entryData->get('choice') == 'campaign_reward') {
-            // campaign reward: set levels = 0, no item(s), should contain custom note
-            $itemData = [];
-            $entryData['levels'] = 0;
-        }
+        //run tests to make sure this works
+        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
+
+        if (!isEmpty($ratingData)) {
+            CreateAndAttachRating::run($entry, $ratingData);
+        }
 
         if ($request->type == Entry::TYPE_DM) {
             return redirect()->route('dm-entry.index');
@@ -154,5 +143,28 @@ class EntryController extends Controller
         $entry->delete();
 
         return redirect()->route('entry.index');
+    }
+
+    /**
+     * @param Collection $entryData
+     * @param array $itemData
+     * @return array
+     */
+    private function chooseReward(Collection $entryData, array $itemData): array
+    {
+        if ($entryData->get('choice') == 'advancement') {
+            // advancement: increment character's level
+            $entryData['levels'] = 1;
+            $itemData = [];
+        } elseif ($entryData->get('choice') == 'magic_item') {
+            // magic_item: attach item to character of choice, and set entry's levels to 0
+            $itemData = [$itemData[0] ?? []];
+            $entryData['levels'] = 0;
+        } elseif ($entryData->get('choice') == 'campaign_reward') {
+            // campaign reward: set levels = 0, no item(s), should contain custom note
+            $itemData = [];
+            $entryData['levels'] = 0;
+        }
+        return array($entryData, $itemData);
     }
 }
