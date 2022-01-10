@@ -60,7 +60,7 @@ class ItemController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Item $item
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Item $item)
     {
