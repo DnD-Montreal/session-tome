@@ -2,6 +2,7 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 import CreateIcon from '@mui/icons-material/Create'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
+import whiteBox from 'Images/WhiteBox.png'
 import React from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -44,16 +45,14 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
         </Grid>
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <Img
-                    alt='avatar'
-                    src='https://static.wikia.nocookie.net/eladriells-dd/images/d/d8/Orc.jpg/revision/latest/scale-to-width-down/600?cb=20190330101155'
-                />
+                <Img width='425' alt='avatar' src={whiteBox} />
             </Grid>
             <Grid item container columnSpacing={1} rowSpacing={5} xs={6}>
                 <Grid item xs={12}>
                     <StyledTypography>NAME</StyledTypography>
                     <Typography>{item.name}</Typography>
                 </Grid>
+                ..
                 <Grid item xs={6}>
                     <StyledTypography>RARITY</StyledTypography>
                     <Typography>{item.rarity}</Typography>

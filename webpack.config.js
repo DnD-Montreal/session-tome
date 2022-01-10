@@ -9,6 +9,7 @@ module.exports = {
             Layouts: path.resolve('resources/js/Layouts'),
             Utils: path.resolve('resources/js/Utils'),
             Icons: path.resolve('resources/icons'),
+            Images: path.resolve('resources/images'),
             Mock: path.resolve('resources/mock/'),
             Types: path.resolve('resources/js/Types/'),
             hoc: path.resolve('resources/js/hoc/'),
