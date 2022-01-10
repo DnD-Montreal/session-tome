@@ -1,9 +1,4 @@
 import {useForm} from '@inertiajs/inertia-react'
-import BrushIcon from '@mui/icons-material/Brush'
-import CableIcon from '@mui/icons-material/Cable'
-import EventAvailableIcon from '@mui/icons-material/EventAvailable'
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
-import TimerIcon from '@mui/icons-material/Timer'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -17,8 +12,6 @@ import {
     StepLabel,
     Stepper,
     TextField,
-    ToggleButton,
-    ToggleButtonGroup,
     Typography,
 } from '@mui/material'
 import {ErrorText, Link} from 'Components'
@@ -134,12 +127,6 @@ const EntryCreateForm = ({
 
     const handleAddItem = (item_data: ItemData) => {
         setData('items', [...data.items, item_data])
-    }
-
-    const [formats, setFormats] = useState(() => [''])
-
-    const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
-        setFormats(newFormats)
     }
 
     return (
@@ -369,39 +356,7 @@ const EntryCreateForm = ({
                     </>
                 )}
                 {activeStep === 1 && (
-                    <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}}>
-                        <StyledTypography>
-                            Select what you like about your Game Master.
-                        </StyledTypography>
-                        <ToggleButtonGroup
-                            fullWidth
-                            color='secondary'
-                            value={formats}
-                            onChange={handleFormat}
-                            aria-label='game master rating'
-                            style={{marginBottom: 32}}>
-                            <ToggleButton value='creative' aria-label='creative'>
-                                <BrushIcon fontSize='small' />
-                                Creative
-                            </ToggleButton>
-                            <ToggleButton value='flexible' aria-label='flexible'>
-                                <CableIcon fontSize='small' />
-                                Flexible
-                            </ToggleButton>
-                            <ToggleButton value='friendly' aria-label='friendly'>
-                                <SentimentSatisfiedAltIcon fontSize='small' />
-                                Friendly
-                            </ToggleButton>
-                            <ToggleButton value='helpful' aria-label='helpful'>
-                                <EventAvailableIcon fontSize='small' />
-                                Helpful
-                            </ToggleButton>
-                            <ToggleButton value='prepared' aria-label='prepared'>
-                                <TimerIcon fontSize='small' />
-                                Prepared
-                            </ToggleButton>
-                        </ToggleButtonGroup>
-                    </Box>
+                    <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}} />
                 )}
                 {activeStep === 2 && (
                     <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}}>
