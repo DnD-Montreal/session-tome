@@ -13,9 +13,32 @@ const props = {
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
 }
+
+const selectableTableProps = {
+    columns: [
+        {
+            property: 'name',
+            title: 'Name',
+            render: () => <div />,
+        },
+    ],
+    data: itemData,
+    tableName: '',
+    isSelectable: true,
+    selected: [],
+    setSelected: jest.fn(),
+    bulkSelectActions: <div />,
+    leftActions: [<div />],
+    filterProperties: ['name'],
+}
+
 describe('ItemTable', () => {
     it('Component should render', () => {
         const component = render(<ItemTable {...props} />)
+        expect(component).toBeDefined()
+    })
+    it('Component should render', () => {
+        const component = render(<ItemTable {...selectableTableProps} />)
         expect(component).toBeDefined()
     })
     it('Pagination handleChangePage should work', () => {
