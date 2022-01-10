@@ -50,4 +50,9 @@ describe('ItemTable', () => {
         fireEvent.click(screen.getByLabelText('10'))
         fireEvent.click(screen.getByDisplayValue('10'))
     })
+    it('Delete Action click should work', () => {
+        render(<ItemTable {...props} />)
+        const actions = screen.getAllByTestId('delete-action')
+        fireEvent.click(actions[0])
+    })
 })

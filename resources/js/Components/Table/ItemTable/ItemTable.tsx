@@ -74,6 +74,7 @@ const ItemTable = ({
                     </IconButton>
                     <IconButton aria-label='delete'>
                         <DeleteIcon
+                            data-testid='delete-action'
                             onClick={() => {
                                 setData('items', [row.id])
                                 setIsDeleteModalOpen(true)
