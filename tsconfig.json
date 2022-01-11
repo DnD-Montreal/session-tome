@@ -23,6 +23,7 @@
             "Pages": ["resources/js/Pages"],
             "Utils": ["resources/js/Utils"],
             "Icons/*": ["resources/icons/*"],
+            "Images/*": ["resources/images/*"],
             "Mock/*": ["resources/mock/*"],
             "Types/*": ["resources/js/Types/*"],
             "hoc/*": ["resources/js/hoc/*"]
