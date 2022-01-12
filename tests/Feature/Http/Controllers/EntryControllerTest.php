@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
 use App\Models\Item;
+use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -190,7 +191,6 @@ class EntryControllerTest extends TestCase
             'gp' => $gp,
         ]);
 
-
         $entries = Entry::query()
             ->where('user_id', $this->user->id)
             ->where('adventure_id', $adventure->id)
@@ -247,7 +247,7 @@ class EntryControllerTest extends TestCase
             'type' => $type,
             'levels' => $levels,
             'gp' => $gp,
-            'items' => $itemData
+            'items' => $itemData,
         ]);
 
         $entry = Entry::query()
@@ -540,7 +540,7 @@ class EntryControllerTest extends TestCase
             'location' => $location,
             'type' => $type,
             'gp' => $gp,
-            'choice' => 'advancement'
+            'choice' => 'advancement',
         ]);
 
         $character->refresh();
@@ -681,5 +681,87 @@ class EntryControllerTest extends TestCase
         $response->assertRedirect(route('entry.index'));
 
         $this->assertDeleted($entry);
+    }
+
+    /**
+     * @test
+     */
+    public function store_creates_rating()
+    {
+        $adventure = Adventure::factory()->create();
+        $character = Character::factory()->create(['user_id' => $this->user->id]);
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $this->faker->word;
+        $date_played = $this->faker->dateTime();
+        $type = $this->faker->word;
+
+
+        $ratingData = [
+            "creative" => true,
+            "flexible" => false,
+            "friendly" => true,
+            "helpful" => false,
+            "prepared" => true
+        ];
+
+
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id,
+            'character_id' => $character->id,
+            'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'type' => $type,
+            'rating_data' => [
+                "creative" => true,
+                "flexible" => false,
+                "friendly" => true,
+                "helpful" => false,
+                "prepared" => true
+            ]
+        ]);
+
+        $entry = Entry::first();
+        $rating = Rating::first();
+
+        $this->assertCount(1, Rating::all());
+        $this->assertEquals(21, $rating->categories);
+    }
+
+    /**
+     * @test
+     */
+    public function update_creates_rating()
+    {
+        $entry = Entry::factory()->create();
+        $character = Character::factory()->create();
+
+        $this->assertCount(0, Rating::all());
+
+        $character->user()->associate($this->user)->save();
+        $entry->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure_id' => $entry->adventure_id,
+            'character_id' => $character->id,
+            'date_played' => $entry->date_played,
+            'type' => $entry->type,
+            'rating_data' => [
+                "creative" => true,
+                "flexible" => false,
+                "friendly" => true,
+                "helpful" => false,
+                "prepared" => true
+            ]
+        ]);
+
+        $rating = Rating::first();
+
+        $response->assertRedirect();
+        $this->assertCount(1, Rating::all());
+        $this->assertEquals(21, $rating->categories);
     }
 }

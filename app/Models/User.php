@@ -135,7 +135,7 @@ class User extends Authenticatable implements AuthenticatableInterface
             Rating::HELPFUL_LABEL,
             Rating::PREPARED_LABEL
         ];
-        
+
         $total = collect([
             $labels[0] => 0,
             $labels[1] => 0,
