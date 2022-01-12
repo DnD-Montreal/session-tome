@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
-class CharacterObserver extends TestCase
+class CharacterObserverTest extends TestCase
 {
     use AdditionalAssertions;
     use RefreshDatabase;
@@ -23,7 +23,6 @@ class CharacterObserver extends TestCase
         $character = Character::factory()->has(Entry::factory(3))->create();
 
         $character->delete();
-
 
         $this->assertDatabaseCount(Entry::class, 3);
         Entry::all()->each(function ($entry) {
