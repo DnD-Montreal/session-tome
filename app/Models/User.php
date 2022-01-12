@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableInterface;
 use Illuminate\Notifications\Notifiable;
@@ -16,6 +17,7 @@ class User extends Authenticatable implements AuthenticatableInterface
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -79,6 +81,11 @@ class User extends Authenticatable implements AuthenticatableInterface
     public function items()
     {
         return $this->hasManyThrough(\App\Models\Item::class, \App\Models\Character::class);
+    }
+
+    public function authored_items()
+    {
+        return $this->hasMany(\App\Models\Item::class, "author_id");
     }
 
     public function ratings()
