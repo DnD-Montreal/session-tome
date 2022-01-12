@@ -19,6 +19,30 @@ class EntryObserver
             $character->level += $entry->levels;
             $character->save();
         }
+
+        $inCampaign = !is_null($entry->campaign);
+        if ($inCampaign) {
+            $campaign = $entry->campaign;
+            $campaignCharacters = $campaign->characters;
+
+            foreach ($campaignCharacters as $c) {
+                // Do not duplicate the triggering entry if it was created on a character
+                if (in_array($entry, $c->entries)) {
+                    continue;
+                }
+
+                $newEntryData = [
+                    //TODO: Populate data from existing entry or campaign
+                ];
+
+                /*
+                 * TODO: Create new entry
+                 * TODO: associate new entry with character and with adventure from campaign (if exists)
+                 * TODO: entry->saveQuietly
+                 */
+            }
+            //TODO: create a DM entry for the DM
+        }
     }
 
     /**
