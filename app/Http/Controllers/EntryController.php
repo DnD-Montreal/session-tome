@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateEntryItems;
+use App\Actions\CreateAndAttachRating;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Entry;
@@ -47,6 +48,9 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
+        if ($ratingData->has('rating_data')) {
+            $ratingData = $ratingData['rating_data'];
+        }
 
         if ($itemData->has('items')) {
             $itemData = $itemData['items'];
@@ -56,7 +60,6 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-
         //run tests to make sure this works
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
@@ -65,7 +68,7 @@ class EntryController extends Controller
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!isEmpty($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData)) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
@@ -107,6 +110,10 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
+        if ($ratingData->has('rating_data')) {
+            $ratingData = $ratingData['rating_data'];
+        }
+
         if ($itemData->has('items')) {
             $itemData = $itemData['items'];
         }
@@ -122,7 +129,8 @@ class EntryController extends Controller
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!isEmpty($ratingData)) {
+        // need to find alternative to empty, this is true even if no rating_data found
+        if (!empty($ratingData) && is_array($ratingData)) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
