@@ -133,6 +133,9 @@ class UserTest extends TestCase
         $this->assertEquals($expectedTotal, $actualTotal);
     }
 
+    /**
+     * @test
+     */
     public function user_has_authored_items()
     {
         $user = User::factory()->create();
@@ -141,6 +144,6 @@ class UserTest extends TestCase
         ]);
 
         $this->assertCount(3, $user->authored_items);
-        $this->assertEquals($items, $user->authored_items);
+        $this->assertEquals($items->fresh(), $user->authored_items);
     }
 }
