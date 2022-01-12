@@ -144,6 +144,6 @@ class UserControllerTest extends TestCase
 
         $response->assertRedirect(route('user.index'));
 
-        $this->assertDeleted($user);
+        $this->assertSoftDeleted($user);
     }
 }
