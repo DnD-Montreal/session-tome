@@ -3,12 +3,10 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
-import {DataTable, DeleteModal} from 'Components'
+import {DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
-
-import {Link} from '../../Atom'
 
 type DMEntryPropType = {
     data: EntriesData[]
@@ -48,8 +46,8 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'character',
             title: 'Character',
-            render: (value: string) => (
-                <Chip label={value ?? 'Unassigned'} variant='outlined' />
+            render: (value: any) => (
+                <Chip label={value?.name ?? 'Unassigned'} variant='outlined' />
             ),
         },
         {

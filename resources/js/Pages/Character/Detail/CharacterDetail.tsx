@@ -1,11 +1,6 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {
-    CharacterCreateForm,
-    CharacterDetailBox,
-    CharacterDetailTable,
-    Drawer,
-} from 'Components'
+import {CharacterCreateForm, CharacterDetailBox, Drawer, EntryTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
@@ -43,7 +38,7 @@ const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
                 character={character}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-            <CharacterDetailTable entries={entries} />
+            <EntryTable data={entries} />
         </ThemeProvider>
     )
 }
