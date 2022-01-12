@@ -18,12 +18,15 @@ class AddCascadesToItemsTable extends Migration
             $table->dropForeign('items_character_id_foreign');
             $table->dropForeign('items_entry_id_foreign');
 
+            // If a character with items still attached is deleted, remove the associated items via a cascade constraint.
+
             $table->foreign('character_id')
                 ->references('id')
                 ->on('characters')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
+            // Same concept as above, if an entry is deleted, remove the associated items.
             $table->foreign('entry_id')
                 ->references('id')
                 ->on('entries')

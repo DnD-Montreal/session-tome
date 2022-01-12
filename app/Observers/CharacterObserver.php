@@ -8,6 +8,8 @@ class CharacterObserver
 {
     /**
      * Handle the Character "deleting" event.
+     * Detach all entries from a character marked for deletion.
+     * This allows all rating associated with these entries to remain in our system.
      *
      * @param  \App\Models\Character  $character
      * @return void
