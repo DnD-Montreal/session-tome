@@ -19,7 +19,7 @@ class CreateAndAttachRating
      */
     public function handle(Entry $entry, array $ratingData)
     {
-        $rating = Rating::create([
+        $rating = new Rating([
             'entry_id' => $entry->id,
             'user_id' => $entry->dungeon_master_id,
             'author_id' => $entry->user_id,
