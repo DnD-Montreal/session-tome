@@ -11,6 +11,12 @@ class CreateAndAttachRating
 {
     use AsAction;
 
+    /**
+     * Expect an array of rating_data, create Rating and modify categories as required
+     *
+     * @param Entry $entry
+     * @param array $ratingData
+     */
     public function handle(Entry $entry, array $ratingData)
     {
         $rating = Rating::create([
@@ -19,17 +25,19 @@ class CreateAndAttachRating
             'author_id' => $entry->user_id,
             'categories' => 0,
         ]);
+
+        $ratingMap = collect([
+            Rating::CREATIVE_LABEL  => Rating::CREATIVE_BITMASK ,
+            Rating::FLEXIBLE_LABEL => Rating::FLEXIBLE_BITMASK,
+            Rating::FRIENDLY_LABEL => Rating::FRIENDLY_BITMASK,
+            Rating::HELPFUL_LABEL => Rating::HELPFUL_BITMASK,
+            Rating::PREPARED_LABEL => Rating::PREPARED_BITMASK,
+        ]);
+
         foreach ($ratingData as $category => $value) {
-            if ($category == 'creative' && $value) {
-                $rating->addCategory(CREATIVE_BITMASK);
-            } elseif ($category == 'flexible' && $value) {
-                $rating->addCategory(FLEXIBLE_BITMASK);
-            } elseif ($category == 'friendly' && $value) {
-                $rating->addCategory(FRIENDLY_BITMASK);
-            } elseif ($category == 'helpful' && $value) {
-                $rating->addCategory(HELPFUL_BITMASK);
-            } elseif ($category == 'prepared' && $value) {
-                $rating->addCategory(PREPARED_BITMASK);
+            if ($value) {
+                $key = strtoupper($category);
+                $rating->addCategory($ratingMap[$key]);
             }
         }
 
