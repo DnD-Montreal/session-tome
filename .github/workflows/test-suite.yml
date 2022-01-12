@@ -79,8 +79,8 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run: php artisan migrate --force
 
-      - name: Fix directory permission
-        run: chmod -R 777 storage
+      - name: Fix directory cache and permission
+        run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &

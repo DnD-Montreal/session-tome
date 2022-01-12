@@ -19,6 +19,7 @@ mix.ts('resources/js/app.js', 'public/js')
         require('autoprefixer'), // eslint-disable-line global-require
     ])
     .webpackConfig(require('./webpack.config'))
+    .sourceMaps(process.env.MIX_SOURCE_MAPS, 'source-map')
 
 if (mix.inProduction()) {
     mix.version()

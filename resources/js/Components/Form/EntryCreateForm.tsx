@@ -364,11 +364,6 @@ const EntryCreateForm = ({
                             <ItemCreateForm
                                 type='Create'
                                 onCloseDrawer={onCloseDrawer}
-                                childButton={
-                                    <Button onClick={() => setActiveStep(1)} fullWidth>
-                                        Previous
-                                    </Button>
-                                }
                                 handleAddItem={handleAddItem}
                                 createEntryButton={
                                     <Button
@@ -385,6 +380,7 @@ const EntryCreateForm = ({
                                         {type === 'Create' ? 'Create' : 'Save'}
                                     </Button>
                                 }
+                                previousStepButton={undefined}
                             />
                             {activeStep === 2 && data.items.length > 0 && (
                                 <StyledItemsFooter container spacing={1}>

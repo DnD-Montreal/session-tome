@@ -28,13 +28,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+})->name('homepage');
 
 Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('user', App\Http\Controllers\UserController::class);
@@ -79,6 +73,10 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
+
+    Route::get('report/rating', App\Actions\GenerateRatingReport::class)
+        ->name('report.rating')
+        ->middleware('admin');
 });
 
 
