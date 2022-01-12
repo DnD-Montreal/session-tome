@@ -60,7 +60,6 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        //run tests to make sure this works
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         $entry = Entry::create($entryData->toArray());
@@ -122,7 +121,6 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        //run tests to make sure this works
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         $entry->update($entryData->toArray());
