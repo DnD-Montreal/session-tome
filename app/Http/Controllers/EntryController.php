@@ -97,6 +97,7 @@ class EntryController extends Controller
      */
     public function show(Request $request, Entry $entry)
     {
+        $entry->load('rating');
         return view('entry.show', compact('entry'));
     }
 
