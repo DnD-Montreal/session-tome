@@ -12,6 +12,7 @@ use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
