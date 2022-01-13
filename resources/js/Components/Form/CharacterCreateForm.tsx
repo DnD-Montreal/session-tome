@@ -1,5 +1,5 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
+import {Box, Button, Grid, MenuItem, Switch, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ type CharacterCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: CharacterData
     editId?: number
+    factions: string[]
 }
 
 type CharacterFormDataType = {
@@ -32,6 +33,7 @@ const CharacterCreateForm = ({
     onCloseDrawer,
     editData,
     editId = 0,
+    factions,
 }: CharacterCreateFormPropType) => {
     const CHARACTER_CREATE_FORM_INITIAL_VALUE: CharacterFormDataType = {
         name: '',
@@ -110,11 +112,20 @@ const CharacterCreateForm = ({
                         margin='normal'
                         fullWidth
                         id='faction'
+                        select
                         label='Faction'
                         name='Faction'
+                        SelectProps={{
+                            MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
+                        }}
                         value={data.faction}
-                        onChange={(e) => setData('faction', e.target.value)}
-                    />
+                        onChange={(e) => setData('faction', e.target.value)}>
+                        {factions?.map((option: string) => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                     {errors?.faction && <ErrorText message={errors?.faction} />}
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
