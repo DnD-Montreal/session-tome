@@ -68,4 +68,9 @@ class Session extends Model
     {
         return "Table {$this->attributes['table']}";
     }
+
+    public function getOpenSeatsAttribute()
+    {
+        return $this->seats - $this->characters()->count();
+    }
 }
