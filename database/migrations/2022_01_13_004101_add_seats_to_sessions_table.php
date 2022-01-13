@@ -14,7 +14,7 @@ class AddSeatsToSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->integer('seats')->after('table');
+            $table->integer('seats')->nullable()->after('table');
         });
     }
 
