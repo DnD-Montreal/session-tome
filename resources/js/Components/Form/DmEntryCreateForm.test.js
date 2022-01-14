@@ -19,8 +19,15 @@ const editProps = {
     },
     editId: 0,
 }
-const editItemProps = {
-    items: [],
+const itemProps = {
+    items: [
+        {
+            name: '',
+            rarity: 'common',
+            tier: 0,
+            description: '',
+        },
+    ],
     setData: mockFunction,
 }
 
@@ -109,15 +116,13 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(choiceInputField, {target: {value: 'advancement'}})
         fireEvent.change(characterInputField, {target: {value: 1}})
         fireEvent.click(screen.getByText('Continue'))
+        fireEvent.click(screen.getByText('Add Item'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const tierField = document.querySelector('#tier')
         fireEvent.change(nameField, {target: {value: 'name'}})
         fireEvent.change(descriptionField, {target: {value: 'description'}})
         fireEvent.change(tierField, {target: {value: 2}})
-        fireEvent.click(screen.getByLabelText('Rarity'))
-        fireEvent.click(screen.getByText('Add Item'))
-        fireEvent.click(screen.getByTestId('CancelIcon'))
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
@@ -130,23 +135,14 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Save'))
     })
-    it('cancel edit item test', () => {
-        render(<ItemForm {...editItemProps} />)
-        fireEvent.click(screen.getByText('Cancel'))
-    })
-    it('cancel create item in dm entry form test', () => {
-        render(<DmEntryCreateForm {...createProps} />)
-        fireEvent.click(screen.getByText('Continue'))
-        fireEvent.click(screen.getByText('Cancel'))
-    })
     it('save edit item test', () => {
-        render(<ItemForm {...editItemProps} />)
+        render(<ItemForm {...itemProps} />)
+        fireEvent.click(screen.getByText('Add Item'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const tierField = document.querySelector('#tier')
         fireEvent.change(nameField, {target: {value: 'name'}})
         fireEvent.change(descriptionField, {target: {value: 'description'}})
         fireEvent.change(tierField, {target: {value: 2}})
-        fireEvent.click(screen.getByText('Save'))
     })
 })
