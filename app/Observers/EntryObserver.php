@@ -72,7 +72,7 @@ class EntryObserver
             }
 
             // entry level unchanged but character newly attached -> add level to character
-            elseif ($dirtyCharacter) {
+            elseif (!is_null($character) && $dirtyCharacter) {
                 $character->level = (is_null($character->level))
                     ? $entry->levels
                     : $character->level + $entry->levels;

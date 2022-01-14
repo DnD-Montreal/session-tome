@@ -20,17 +20,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function test_user_is_admin_returns_true_if_admin()
+    public function user_is_admin_returns_true_if_admin()
     {
         $testUser = User::factory()->create();
 
@@ -44,14 +34,20 @@ class UserTest extends TestCase
         $this->assertTrue($testUser->isSiteAdmin());
     }
 
-    public function test_user_is_admin_returns_false_if_not_admin()
+    /**
+     * @test
+     */
+    public function user_is_admin_returns_false_if_not_admin()
     {
         $testUser = User::factory()->create();
 
         $this->assertFalse($testUser->isSiteAdmin());
     }
 
-    public function test_user_has_league_role()
+    /**
+     * @test
+     */
+    public function user_has_league_role()
     {
         $testUser = User::factory()->create();
         $testLeague = League::factory()->create();
@@ -66,7 +62,10 @@ class UserTest extends TestCase
         $this->AssertFalse(User::factory()->create()->isLeagueAdmin($testLeague->id));
     }
 
-    public function test_user_has_any_role_returns_false()
+    /**
+     * @test
+     */
+    public function user_has_any_role_returns_false()
     {
         $testUser = User::factory()->create();
         $testRole = Role::create([
@@ -77,7 +76,11 @@ class UserTest extends TestCase
 
         $this->AssertFalse($testUser->hasAnyRole());
     }
-    public function test_user_has_any_role_returns_true()
+
+    /**
+     * @test
+     */
+    public function user_has_any_role_returns_true()
     {
         $testUser = User::factory()->create();
         $testRole = Role::create([
@@ -128,5 +131,19 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals($expectedTotal, $actualTotal);
+    }
+
+    /**
+     * @test
+     */
+    public function user_has_authored_items()
+    {
+        $user = User::factory()->create();
+        $items = Item::factory(3)->create([
+            'author_id' => $user->id
+        ]);
+
+        $this->assertCount(3, $user->authored_items);
+        $this->assertEquals($items->fresh(), $user->authored_items);
     }
 }
