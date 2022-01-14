@@ -1,8 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
-import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Box, Button, IconButton, Stack, Tooltip} from '@mui/material'
+import {Box, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, Link, RarityChip} from 'Components'
 import React, {useState} from 'react'
 import {ItemData} from 'Types/item-data'
@@ -28,14 +27,6 @@ const ItemTable = ({
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({items: []})
-
-    const leftActions = [
-        <Link href='./' data-testid='modal-delete'>
-            <Button variant='contained' startIcon={<AddIcon />}>
-                Create
-            </Button>
-        </Link>,
-    ]
 
     const columns = [
         {
@@ -115,7 +106,6 @@ const ItemTable = ({
                 }}
             />
             <DataTable
-                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable
