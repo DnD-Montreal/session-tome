@@ -57,14 +57,14 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item>
+                <Grid item xs={12}>
                     <Typography>
                         Fill out the following fields with your Magic Item details. Please
                         note that the first item is the one that gets attached to a
                         character should you choose to accept the Magic item as a reward.
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12}>
                     <Button
                         variant='contained'
                         onClick={() => {
@@ -137,9 +137,18 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 label='Tier'
                                 name='Tier'
                                 type='number'
-                                onChange={(e) =>
-                                    handleOnChange('tier', e.target.value, index)
-                                }
+                                onChange={(e) => {
+                                    const formValue = parseInt(e.target.value)
+                                    let value
+                                    if (formValue >= 4) {
+                                        value = 4
+                                    } else if (formValue <= 1) {
+                                        value = 1
+                                    } else {
+                                        value = formValue
+                                    }
+                                    handleOnChange('tier', value, index)
+                                }}
                                 InputProps={{
                                     inputProps: {
                                         min: 1,
