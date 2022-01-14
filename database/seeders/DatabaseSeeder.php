@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Item;
 use App\Models\League;
 use App\Models\Rating;
+use App\Models\Role;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,10 +24,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RoleSeeder::class);
+        $defaultUser = User::factory()->hasAttached(Role::first())->create([
+            'email' => 'default@test.com',
+            'name' => "Test account"
+        ]);
+
         $dndmtl = League::factory()->create([
             'name' => "DnD MTL"
         ]);
-        $users = User::factory(10)->create();
+        $users = User::factory(10)->create()->prepend($defaultUser);
         $dm = User::factory(5)->create();
         $events = Event::factory(5)->create([
             'league_id' => $dndmtl->id

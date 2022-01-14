@@ -1,14 +1,13 @@
 import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
-import {DataTable, DeleteModal, Link} from 'Components'
+import {Box, Chip, IconButton, Stack, Tooltip} from '@mui/material'
+import {DataTable, DeleteModal} from 'Components'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
-type DMEntryPropType = {
+type EntryPropType = {
     data: EntriesData[]
 }
 
@@ -16,18 +15,10 @@ type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({data}: DMEntryPropType) => {
+const EntryTable = ({data}: EntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
-
-    const leftActions = [
-        <Link href={route('dm-entry.create')}>
-            <Button variant='contained' startIcon={<HistoryEduIcon />}>
-                Create
-            </Button>
-        </Link>,
-    ]
 
     const columns = [
         {
@@ -37,26 +28,24 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'adventure',
             title: 'Adventure Title',
-            render: (value: any) => <Chip label={value.title} variant='outlined' />,
+            render: (value: any) => (
+                <Chip label={value ? value.title : 'N/A'} variant='outlined' />
+            ),
         },
         {
             property: 'session',
             title: 'Session',
         },
         {
-            property: 'character',
-            title: 'Character',
-            render: (value: any) => (
-                <Chip label={value?.name ?? 'Unassigned'} variant='outlined' />
-            ),
-        },
-        {
             property: 'reward',
             title: 'Reward',
         },
         {
-            property: null,
+            property: 'items.name',
             title: 'Magic Items',
+            render: (value: any) => (
+                <Chip aria-label='item' label={value.items.name} variant='outlined' />
+            ),
         },
         {
             property: null,
@@ -108,13 +97,12 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             />
 
             <DataTable
-                leftActions={leftActions}
                 selected={selected}
                 setSelected={setSelected}
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='DM Entries'
+                tableName='Entries'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['adventure']}
             />
@@ -122,5 +110,5 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     )
 }
 
-DMEntryTable.displayName = 'DMEntryTable'
-export default DMEntryTable
+EntryTable.displayName = 'EntryTable'
+export default EntryTable

@@ -6,7 +6,7 @@ export const entriesData = [
         level: 14,
         gp: 100,
         downtime: 10,
-        magicItems: ['Item 3'],
+        items: [{name: 'hi', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '3-3-2021',
@@ -15,7 +15,7 @@ export const entriesData = [
         level: 16,
         gp: 50,
         downtime: 12,
-        magicItems: ['Item 6'],
+        items: [{name: 'hi543', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '12-11-2020',
@@ -24,7 +24,7 @@ export const entriesData = [
         level: 9,
         gp: 25,
         downtime: 20,
-        magicItems: ['Item 2'],
+        items: [{name: 'hi123', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '5-10-2020',
@@ -33,7 +33,7 @@ export const entriesData = [
         level: 32,
         gp: 75,
         downtime: 24,
-        magicItems: ['Item 4'],
+        items: [{name: 'hi865', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '31-10-2019',
@@ -42,7 +42,7 @@ export const entriesData = [
         level: 2,
         gp: 60,
         downtime: 8,
-        magicItems: ['Item 5'],
+        items: [{name: 'hi667', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '12-5-2018',
@@ -51,7 +51,7 @@ export const entriesData = [
         level: 4,
         gp: 30,
         downtime: 15,
-        magicItems: ['Item 1'],
+        items: [{name: 'hi54', description: 'haha', rarity: 'rare', tier: 2}],
     },
     {
         date: '12-12-2018',
@@ -60,6 +60,6 @@ export const entriesData = [
         level: 4,
         gp: 30,
         downtime: 15,
-        magicItems: ['Item 7'],
+        items: [{name: 'hi32', description: 'haha', rarity: 'rare', tier: 2}],
     },
 ]

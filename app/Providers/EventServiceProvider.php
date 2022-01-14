@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Character;
 use App\Models\Entry;
+use App\Observers\CharacterObserver;
 use App\Observers\EntryObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -31,5 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Entry::observe(EntryObserver::class);
+        Character::observe(CharacterObserver::class);
     }
 }

@@ -9,13 +9,7 @@ export {ItemDetailBox} from './ItemDetail'
 export {FactionChip, RarityChip} from './Chips'
 
 // Tables
-export {
-    CharacterDetailTable,
-    CharacterTable,
-    DMEntryTable,
-    ItemTable,
-    TableToolbar,
-} from './Table'
+export {CharacterTable, DMEntryTable, EntryTable, ItemTable} from './Table'
 
 // Forms
 export {
