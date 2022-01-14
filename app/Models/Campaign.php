@@ -53,7 +53,6 @@ class Campaign extends Model
 
     public function generateCode()
     {
-        $code = dechex(microtime(true)*1000);
-        return $code;
+        return dechex(microtime(true)*1000);
     }
 }
