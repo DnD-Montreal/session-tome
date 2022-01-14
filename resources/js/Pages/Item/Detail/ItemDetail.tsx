@@ -4,13 +4,13 @@ import {CharacterItemCreateForm, Drawer, ItemDetailBox} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
-import {ItemData} from 'Types/item-data'
+import {ItemEditData} from 'Types/item-data'
 import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 14)
 
 type ItemDetailPropType = {
-    item: ItemData
+    item: ItemEditData
     character: CharacterData
 }
 
@@ -22,7 +22,6 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
             <Drawer
                 content={
                     <CharacterItemCreateForm
-                        type='Edit'
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={item}
                     />

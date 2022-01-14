@@ -1,23 +1,22 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, StepperForm} from 'Components'
-import React, {useState} from 'react'
+import {ErrorText} from 'Components'
+import React from 'react'
 import styled from 'styled-components'
-import {ItemData} from 'Types/item-data'
+import {ItemEditData} from 'Types/item-data'
 import route from 'ziggy-js'
 
 type CharacterItemCreateFormPropType = {
-    type: 'Edit' | 'Create'
-    onCloseDrawer?: () => void
-    editData?: ItemData
-    editId?: number
+    onCloseDrawer: () => void
+    editData: ItemEditData
 }
 
-type CharacterItemFormDataType = {
+type ItemEditForm = {
     name: string
     description: string | null
     rarity: string
     tier: number
+    id: number
 }
 
 const StyledGrid = styled(Grid)`
@@ -25,40 +24,18 @@ const StyledGrid = styled(Grid)`
 `
 
 const CharacterItemCreateForm = ({
-    type,
     onCloseDrawer,
     editData,
-    editId = 0,
 }: CharacterItemCreateFormPropType) => {
-    const CHARACTER_ITEM_CREATE_FORM_INITIAL_VALUE: CharacterItemFormDataType = {
-        name: '',
-        description: '',
-        rarity: '',
-        tier: 1,
-    }
-    const CHARACTER_ITEM_FORM_INITIAL_VALUE: CharacterItemFormDataType =
-        type === 'Create'
-            ? CHARACTER_ITEM_CREATE_FORM_INITIAL_VALUE
-            : {
-                  name: editData?.name || '',
-                  description: editData?.description || '',
-                  rarity: editData?.rarity || '',
-                  tier: editData?.tier || 1,
-              }
+    const {data, setData, errors, clearErrors, put} = useForm(editData)
 
-    const {data, setData, errors, clearErrors, post, put} = useForm(
-        CHARACTER_ITEM_FORM_INITIAL_VALUE,
-    )
-    const [activeStep, setActiveStep] = useState<number>(0)
-    const stepTitles = ['Enter details']
-
-    const stepOneContent = (
+    return (
         <>
             <Typography>
                 Fill out the following fields with your character&apos;s item details.
             </Typography>
             <Grid container spacing={0}>
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <StyledGrid item xs={12}>
                     <TextField
                         margin='normal'
                         fullWidth
@@ -70,8 +47,7 @@ const CharacterItemCreateForm = ({
                     />
                     {errors?.name && <ErrorText message={errors?.name} />}
                 </StyledGrid>
-                {type === 'Create' && <StyledGrid item md={2} />}
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <StyledGrid item xs={12}>
                     <TextField
                         margin='normal'
                         fullWidth
@@ -83,7 +59,7 @@ const CharacterItemCreateForm = ({
                     />
                     {errors?.description && <ErrorText message={errors?.description} />}
                 </StyledGrid>
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <StyledGrid item xs={12}>
                     <TextField
                         margin='normal'
                         fullWidth
@@ -95,8 +71,7 @@ const CharacterItemCreateForm = ({
                     />
                     {errors?.rarity && <ErrorText message={errors?.rarity} />}
                 </StyledGrid>
-                {type === 'Create' && <StyledGrid item md={2} />}
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <StyledGrid item xs={12}>
                     <TextField
                         margin='normal'
                         fullWidth
@@ -116,7 +91,7 @@ const CharacterItemCreateForm = ({
                         value={data.tier.toString()}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
-                            if (value > 5) {
+                            if (value > 4) {
                                 setData('tier', 5)
                             } else {
                                 setData('tier', value)
@@ -125,67 +100,30 @@ const CharacterItemCreateForm = ({
                     />
                     {errors?.tier && <ErrorText message={errors?.tier} />}
                 </StyledGrid>
-                {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
-        </>
-    )
-
-    const stepContent = [stepOneContent]
-    const stepOneFooter = (
-        <Grid container spacing={4}>
-            <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Link href={route('item.index')}>
-                        <Button fullWidth>Cancel</Button>
-                    </Link>
-                ) : (
+            <Grid container spacing={4}>
+                <Grid item xs={4}>
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
                         Cancel
                     </Button>
-                )}
-            </Grid>
-            <Grid item xs={4} />
-            <Grid item xs={4}>
-                <Button
-                    variant='contained'
-                    fullWidth
-                    onClick={() => {
-                        if (type === 'Create') {
-                            post(route('item.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
+                </Grid>
+                <Grid item xs={4} />
+                <Grid item xs={4}>
+                    <Button
+                        variant='contained'
+                        fullWidth
+                        onClick={() => {
+                            put(route('item.update', [editData.id]))
+                            clearErrors()
+                            if (onCloseDrawer) {
+                                onCloseDrawer()
                             }
-                        }
-                        if (type === 'Edit') {
-                            put(route('item.update', [editId]))
-                            if (Object.keys(errors).length) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
-                        }
-                    }}>
-                    {type === 'Create' ? 'Create' : 'Save'}
-                </Button>
+                        }}>
+                        Save
+                    </Button>
+                </Grid>
             </Grid>
-        </Grid>
-    )
-
-    const stepFooter = [stepOneFooter]
-
-    return (
-        <StepperForm
-            activeStep={activeStep}
-            stepTitles={stepTitles}
-            stepContent={stepContent}
-            stepFooter={stepFooter}
-            isDrawer={Boolean(onCloseDrawer)}
-        />
+        </>
     )
 }
 

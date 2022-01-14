@@ -4,26 +4,20 @@ import EditIcon from '@mui/icons-material/Edit'
 import {Box, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, Link, RarityChip} from 'Components'
 import React, {useState} from 'react'
-import {ItemData} from 'Types/item-data'
+import {ItemEditData} from 'Types/item-data'
 import route from 'ziggy-js'
 
 type ItemTablePropType = {
-    data: ItemData[]
+    data: ItemEditData[]
     setIsEditDrawerOpen: (payload: boolean) => void
-    setEditId: (payload: number) => void
-    setEditData: (payload: ItemData) => void
+    setEditData: (payload: ItemEditData) => void
 }
 
 type FormDataType = {
     items: number[]
 }
 
-const ItemTable = ({
-    data,
-    setIsEditDrawerOpen,
-    setEditId,
-    setEditData,
-}: ItemTablePropType) => {
+const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({items: []})
@@ -32,7 +26,7 @@ const ItemTable = ({
         {
             property: 'name',
             title: 'Name',
-            render: (value: string, row: ItemData) => (
+            render: (value: string, row: ItemEditData) => (
                 <Link href={route('item.show', [row.id])}>{value}</Link>
             ),
         },
@@ -57,7 +51,6 @@ const ItemTable = ({
                     <IconButton
                         onClick={() => {
                             setEditData(row)
-                            setEditId(row.id)
                             setIsEditDrawerOpen(true)
                         }}
                         aria-label='edit'>
