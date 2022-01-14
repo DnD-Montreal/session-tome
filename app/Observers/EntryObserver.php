@@ -98,7 +98,7 @@ class EntryObserver
      */
     private function generateCharacterEntriesForCampaign(int $excludedCharacterId, Campaign $campaign, $entryData)
     {
-        $characters = Character::where('campaign_id', $campaign->id)->get();
+        $characters = $campaign->characters;
 
         foreach ($characters as $character) {
             if ($character->id != $excludedCharacterId) {
