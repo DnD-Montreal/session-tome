@@ -2,7 +2,7 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 import CreateIcon from '@mui/icons-material/Create'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
-import whiteBox from 'Images/WhiteBox.png'
+import placeholderImage from 'Images/PlaceholderImage.png'
 import React from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -45,7 +45,7 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
         </Grid>
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <Img width='425' alt='avatar' src={whiteBox} />
+                <Img width='425' alt='avatar' src={placeholderImage} />
             </Grid>
             <Grid item container columnSpacing={1} rowSpacing={5} xs={6}>
                 <Grid item xs={12}>
