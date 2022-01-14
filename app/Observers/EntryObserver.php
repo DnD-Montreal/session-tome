@@ -14,7 +14,9 @@ class EntryObserver
      */
     public function created(Entry $entry)
     {
-        if ($entry->type != Entry::TYPE_DM || !is_null($entry->character)) {
+        $isDMEntry = $entry->type == Entry::TYPE_DM;
+
+        if (!$isDMEntry || !is_null($entry->character)) {
             $character = $entry->character;
             $character->level += $entry->levels;
             $character->save();
