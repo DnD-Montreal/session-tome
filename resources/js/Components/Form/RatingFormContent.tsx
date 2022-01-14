@@ -51,9 +51,9 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                     variant={data.creative ? 'contained' : 'outlined'}
                     startIcon={
                         data.creative ? (
-                            <BrushOutlinedIcon fontSize='small' />
-                        ) : (
                             <BrushIcon fontSize='small' />
+                        ) : (
+                            <BrushOutlinedIcon fontSize='small' />
                         )
                     }
                     className={data.creative ? 'filled' : ''}
@@ -83,9 +83,9 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                     variant={data.friendly ? 'contained' : 'outlined'}
                     startIcon={
                         data.friendly ? (
-                            <EmojiEmotionsOutlinedIcon fontSize='small' />
-                        ) : (
                             <EmojiEmotionsIcon fontSize='small' />
+                        ) : (
+                            <EmojiEmotionsOutlinedIcon fontSize='small' />
                         )
                     }
                     className={data.friendly ? 'filled' : ''}
@@ -99,9 +99,9 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                     variant={data.helpful ? 'contained' : 'outlined'}
                     startIcon={
                         data.helpful ? (
-                            <EventAvailableOutlinedIcon fontSize='small' />
-                        ) : (
                             <EventAvailableIcon fontSize='small' />
+                        ) : (
+                            <EventAvailableOutlinedIcon fontSize='small' />
                         )
                     }
                     className={data.helpful ? 'filled' : ''}
@@ -115,9 +115,9 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                     variant={data.prepared ? 'contained' : 'outlined'}
                     startIcon={
                         data.prepared ? (
-                            <TimerOutlinedIcon fontSize='small' />
-                        ) : (
                             <TimerIcon fontSize='small' />
+                        ) : (
+                            <TimerOutlinedIcon fontSize='small' />
                         )
                     }
                     className={data.prepared ? 'filled' : ''}

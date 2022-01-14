@@ -284,7 +284,6 @@ const EntryCreateForm = ({
                                 label='Assigned Character'
                                 defaultValue={character.name}
                             />
-                            {/* {errors?.character_id && <ErrorText message={errors?.character_id} />} */}
                         </StyledGrid>
                     </Grid>
                 </StyledGrid>
@@ -307,7 +306,6 @@ const EntryCreateForm = ({
         </>
     )
 
-    console.log(data)
     const stepTwoContent = <RatingFormContent data={data.rating_data} setData={setData} />
 
     const stepThreeContent = (
@@ -399,7 +397,7 @@ const EntryCreateForm = ({
     )
 
     const stepTwoFooter = (
-        <>
+        <StyledGrid container spacing={4}>
             <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
                     Previous
@@ -411,7 +409,7 @@ const EntryCreateForm = ({
                     Continue
                 </Button>
             </Grid>
-        </>
+        </StyledGrid>
     )
 
     const stepFooter = [stepOneFooter, stepTwoFooter]
