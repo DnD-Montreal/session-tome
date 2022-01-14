@@ -17,48 +17,4 @@ class CampaignObserver
         $campaign->code = $campaign->generateCode();
         $campaign->save();
     }
-
-    /**
-     * Handle the Campaign "updated" event.
-     *
-     * @param  \App\Models\Campaign  $campaign
-     * @return void
-     */
-    public function updated(Campaign $campaign)
-    {
-        //
-    }
-
-    /**
-     * Handle the Campaign "deleted" event.
-     *
-     * @param  \App\Models\Campaign  $campaign
-     * @return void
-     */
-    public function deleted(Campaign $campaign)
-    {
-        //
-    }
-
-    /**
-     * Handle the Campaign "restored" event.
-     *
-     * @param  \App\Models\Campaign  $campaign
-     * @return void
-     */
-    public function restored(Campaign $campaign)
-    {
-        //
-    }
-
-    /**
-     * Handle the Campaign "force deleted" event.
-     *
-     * @param  \App\Models\Campaign  $campaign
-     * @return void
-     */
-    public function forceDeleted(Campaign $campaign)
-    {
-        //
-    }
 }
