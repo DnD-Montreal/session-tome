@@ -20,15 +20,8 @@ const editProps = {
     editId: 0,
 }
 const editItemProps = {
-    type: 'Edit',
-    onCloserDrawer: mockFunction,
-    editData: {
-        name: '',
-        description: '',
-        rarity: '',
-        tier: 1,
-    },
-    editId: 0,
+    items: [],
+    setData: mockFunction,
 }
 
 const monthNames = [
