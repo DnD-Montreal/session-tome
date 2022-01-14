@@ -56,31 +56,34 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
 
     return (
         <>
-            <Button
-                variant='contained'
-                onClick={() => {
-                    const newItems = items
-                    newItems.push(ITEM_INITIAL_VALUES)
-                    setData('items', newItems)
-                }}>
-                Add Item
-            </Button>
+            <Grid container spacing={2}>
+                <Grid item>
+                    <Typography>
+                        Fill out the following fields with your Magic Item details. Please
+                        note that the first item is the one that gets attached to a
+                        character should you choose to accept the Magic item as a reward.
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant='contained'
+                        onClick={() => {
+                            const newItems = items
+                            newItems.push(ITEM_INITIAL_VALUES)
+                            setData('items', newItems)
+                        }}>
+                        Add Item
+                    </Button>
+                </Grid>
+            </Grid>
             {items.map((item: ItemData, index: number) => (
-                <Box sx={{border: 1, marginTop: '8px', padding: '32px'}}>
+                <Box sx={{marginTop: '8px', padding: '32px'}}>
                     <Grid container spacing={2}>
                         <Grid container item spacing={0}>
-                            <Grid item xs={11}>
-                                <Typography>
-                                    Fill out the following fields with your Magic Item
-                                    details. Please note that the first item is the one
-                                    that gets attached to a character should you choose to
-                                    accept the Magic item as a reward.
-                                </Typography>
-                            </Grid>
                             <Grid
                                 container
                                 item
-                                xs={1}
+                                xs={12}
                                 justifyContent='flex-end'
                                 alignItems='center'>
                                 <ClearIcon
