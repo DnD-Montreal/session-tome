@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Campaign extends Model
 {
@@ -49,5 +50,14 @@ class Campaign extends Model
     public function adventure()
     {
         return $this->belongsTo(\App\Models\Adventure::class);
+    }
+
+    public function generateCode()
+    {
+        do {
+            $code = Str::random(10);
+        } while (Campaign::where("code", "=", $code)->first());
+
+        return $code;
     }
 }

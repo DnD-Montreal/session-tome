@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Observers\CharacterObserver;
 use App\Observers\EntryObserver;
+use App\Observers\CampaignObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -33,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Entry::observe(EntryObserver::class);
         Character::observe(CharacterObserver::class);
+        Campaign::observe(CampaignObserver::class);
     }
 }
