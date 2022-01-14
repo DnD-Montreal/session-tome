@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Character;
 use App\Models\Entry;
 
 class EntryObserver
@@ -23,7 +24,8 @@ class EntryObserver
         }
 
         $inCampaign = !is_null($entry->campaign);
-        if ($inCampaign) {
+        if ($inCampaign && $isDMEntry) {
+        } elseif ($inCampaign) {
             $campaign = $entry->campaign;
             $campaignCharacters = $campaign->characters;
 
@@ -98,5 +100,39 @@ class EntryObserver
                 $character->save();
             }
         }
+    }
+
+    /**
+     * Creates entries on all characters except one designated to be ignored.
+     * @param int $excludedCharacterId Character to be excluded
+     * @param int $campaignId Campaign for which the entries are being created
+     * @param $entryData Array of data from the triggering entry
+     */
+    private function generateCharacterEntriesForCampaign(int $excludedCharacterId, int $campaignId, $entryData)
+    {
+        $characters = Character::where('campaign_id', $campaignId)->get();
+        $campaign = Campaign::find($campaignId);
+
+        foreach ($characters as $character) {
+            if ($character->id != $excludedCharacterId) {
+                $newEntry = Entry::create($entryData);
+                $newEntry->character()->associate($character);
+                $newEntry->user()->associate($character->user);
+                $newEntry->campaign()->associate($campaign);
+                $newEntry->saveQuietly();
+            }
+        }
+    }
+
+    /**
+     * Gets non user-specific data from an entry to be used for creating campaign entries
+     * @param $entry Entry triggering entry
+     */
+    private function getCampaignEntryData($entry)
+    {
+        $data = $entry->toArray();
+        unset($data['user_id']);
+        unset($data['character_id']);
+        return $data;
     }
 }
