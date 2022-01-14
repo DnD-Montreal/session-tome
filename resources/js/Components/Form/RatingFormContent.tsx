@@ -46,7 +46,7 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
             <Stack spacing={2} direction='row'>
                 <StyledButton
                     onClick={() => {
-                        setData('creative', !data.creative)
+                        setData('rating_data', {...data, creative: !data.creative})
                     }}
                     variant={data.creative ? 'contained' : 'outlined'}
                     startIcon={
@@ -62,7 +62,7 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('creative', !data.flexible)
+                        setData('rating_data', {...data, flexible: !data.flexible})
                     }}
                     variant={data.flexible ? 'contained' : 'outlined'}
                     startIcon={
@@ -78,7 +78,7 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('creative', !data.friendly)
+                        setData('rating_data', {...data, friendly: !data.friendly})
                     }}
                     variant={data.friendly ? 'contained' : 'outlined'}
                     startIcon={
@@ -94,7 +94,7 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('creative', !data.helpful)
+                        setData('rating_data', {...data, helpful: !data.helpful})
                     }}
                     variant={data.helpful ? 'contained' : 'outlined'}
                     startIcon={
@@ -110,7 +110,7 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('creative', !data.prepared)
+                        setData('rating_data', {...data, prepared: !data.prepared})
                     }}
                     variant={data.prepared ? 'contained' : 'outlined'}
                     startIcon={
