@@ -28,7 +28,7 @@ class ItemUpdateRequest extends FormRequest
             'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
             'name' => ['required', 'string'],
             'rarity' => ['required', 'in:common,uncommon,rare,very_rare,legendary'],
-            'tier' => ['required', 'string'],
+            'tier' => ['required', 'integer'],
             'description' => ['required', 'string'],
             'author_id' => ['sometimes', 'integer', 'exists:users,id'],
         ];

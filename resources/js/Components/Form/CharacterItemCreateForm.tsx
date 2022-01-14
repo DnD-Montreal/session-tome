@@ -92,7 +92,7 @@ const CharacterItemCreateForm = ({
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
                             if (value > 4) {
-                                setData('tier', 5)
+                                setData('tier', 4)
                             } else {
                                 setData('tier', value)
                             }
