@@ -24,13 +24,13 @@ class ItemUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'entry_id' => ['required', 'integer', 'exists:entries,id'],
-            'character_id' => ['required', 'integer', 'exists:characters,id'],
+            'entry_id' => ['sometimes', 'integer', 'exists:entries,id'],
+            'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
             'name' => ['required', 'string'],
             'rarity' => ['required', 'in:common,uncommon,rare,very_rare,legendary'],
             'tier' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'author_id' => ['required', 'integer', 'exists:users,id'],
+            'author_id' => ['sometimes', 'integer', 'exists:users,id'],
         ];
     }
 }
