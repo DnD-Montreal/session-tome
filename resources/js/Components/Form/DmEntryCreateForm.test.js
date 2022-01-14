@@ -2,7 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
 
 import DmEntryCreateForm from './DmEntryCreateForm'
-import ItemCreateForm from './ItemCreateForm'
+import ItemForm from './ItemForm'
 
 const mockFunction = jest.fn()
 const editProps = {
@@ -138,7 +138,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Save'))
     })
     it('cancel edit item test', () => {
-        render(<ItemCreateForm {...editItemProps} />)
+        render(<ItemForm {...editItemProps} />)
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('cancel create item in dm entry form test', () => {
@@ -147,7 +147,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('save edit item test', () => {
-        render(<ItemCreateForm {...editItemProps} />)
+        render(<ItemForm {...editItemProps} />)
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const tierField = document.querySelector('#tier')
