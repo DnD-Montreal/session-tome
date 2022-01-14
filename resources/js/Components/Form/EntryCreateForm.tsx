@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Box, Button, Chip, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import {Button, Chip, Grid, MenuItem, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -10,9 +10,11 @@ import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {ItemData} from 'Types/item-data'
+import {RatingCategoryType} from 'Types/rating-data'
 import route from 'ziggy-js'
 
 import ItemCreateForm from './ItemCreateForm'
+import RatingFormContent from './RatingFormContent'
 
 type EntryCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -33,6 +35,7 @@ type EntryFormDataType = {
     dungeon_master: string
     notes: string
     items: ItemData[]
+    rating_data: RatingCategoryType
 }
 
 const StyledDateGrid = styled(Grid)`
@@ -74,6 +77,13 @@ const EntryCreateForm = ({
         dungeon_master: '',
         notes: '',
         items: [],
+        rating_data: {
+            creative: false,
+            flexible: false,
+            friendly: false,
+            helpful: false,
+            prepared: false,
+        },
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -88,6 +98,9 @@ const EntryCreateForm = ({
                   dungeon_master: editData?.dungeon_master || '',
                   notes: editData?.notes || '',
                   items: editData?.items || [],
+                  rating_data:
+                      editData?.rating_data ||
+                      ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
@@ -294,11 +307,8 @@ const EntryCreateForm = ({
         </>
     )
 
-    const stepTwoContent = (
-        <>
-            <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}} />
-        </>
-    )
+    console.log(data)
+    const stepTwoContent = <RatingFormContent data={data.rating_data} setData={setData} />
 
     const stepThreeContent = (
         <>
@@ -352,8 +362,7 @@ const EntryCreateForm = ({
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 {type === 'Create' ? (
-                    // need to route to entry.index of some sort but its actually character.show (character detail page)
-                    <Link href={route('character.index')}>
+                    <Link href={route('character.show', [character.id])}>
                         <Button fullWidth>Cancel</Button>
                     </Link>
                 ) : (
