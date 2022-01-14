@@ -21,6 +21,11 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
+const CharacterNameTypography = styled(Typography)({
+    color: '#a0a2a3',
+    fontSize: 16,
+})
+
 type ItemDetailBoxPropType = {
     item: ItemData
     character: CharacterData
@@ -33,7 +38,9 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
             <Grid container item xs={5}>
                 <Grid item>
                     <Link href={route('character.show', [character.id])}>
-                        <Typography>{character.name}</Typography>
+                        <CharacterNameTypography>
+                            {character.name}
+                        </CharacterNameTypography>
                     </Link>
                     <Typography>
                         {'>'} {item.name}
