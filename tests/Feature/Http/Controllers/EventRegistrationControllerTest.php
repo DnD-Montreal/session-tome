@@ -63,9 +63,13 @@ class EventRegistrationControllerTest extends TestCase
             'character_id' => $character->id
         ]));
 
-        $response->assertUnprocessable();
+        $response->assertRedirect();
+        $response->assertSessionHasErrors();
     }
 
+    /**
+     * @test
+     */
     public function store_chooses_a_random_session_if_only_event_is_supplied()
     {
         $character = Character::factory()->create([
