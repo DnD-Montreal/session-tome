@@ -103,9 +103,11 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         fullWidth
                         onClick={() => {
                             put(route('item.update', [editData.id]))
-                            clearErrors()
-                            if (onCloseDrawer) {
-                                onCloseDrawer()
+                            if (!Object.keys(errors).length) {
+                                clearErrors()
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
                             }
                         }}>
                         Save
