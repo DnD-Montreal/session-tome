@@ -1,5 +1,5 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
 import {ErrorText} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
@@ -16,7 +16,29 @@ const StyledGrid = styled(Grid)`
 `
 
 const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
-    const {data, setData, errors, clearErrors, put} = useForm(editData)
+    const {data, setData, errors, put} = useForm(editData)
+    const rarityOptions = [
+        {
+            label: 'Common',
+            value: 'common',
+        },
+        {
+            label: 'Uncommon',
+            value: 'uncommon',
+        },
+        {
+            label: 'Rare',
+            value: 'rare',
+        },
+        {
+            label: 'Very Rare',
+            value: 'very_rare',
+        },
+        {
+            label: 'Legendary',
+            value: 'legendary',
+        },
+    ]
 
     return (
         <>
@@ -52,12 +74,19 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                     <TextField
                         margin='normal'
                         fullWidth
+                        select
+                        required
                         id='rarity'
                         label='Rarity'
                         name='Rarity'
                         value={data.rarity}
-                        onChange={(e) => setData('rarity', e.target.value)}
-                    />
+                        onChange={(e) => setData('rarity', e.target.value)}>
+                        {rarityOptions.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                     {errors?.rarity && <ErrorText message={errors?.rarity} />}
                 </StyledGrid>
                 <StyledGrid item xs={12}>
@@ -103,12 +132,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         fullWidth
                         onClick={() => {
                             put(route('item.update', [editData.id]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
+                            onCloseDrawer()
                         }}>
                         Save
                     </Button>
