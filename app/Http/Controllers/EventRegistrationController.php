@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Character;
+use App\Models\Session;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class EventRegistrationController extends Controller
 {
@@ -30,10 +34,31 @@ class EventRegistrationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        $valid = $request->validate([
+            'session_id' => "sometimes|exists:sessions,id",
+            'character_id' => "exists:characters,id",
+            'event_id' => "sometimes|exists:events,id",
+        ]);
+
+        $character = Character::find($valid['character_id']);
+        $request->user()->can('update', $character);
+
+        $session = Session::find($valid['session_id']);
+
+        if (!$session->open_seats) {
+            return back()->withErrors([
+                'seats' => "There are not enough open seats for you to register!"
+            ]);
+        }
+
+        $character->sessions()->attach($session);
+        $character->save();
+
+        return redirect('character.index');
     }
 
     /**
