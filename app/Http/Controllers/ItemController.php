@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
-use Log;
 
 class ItemController extends Controller
 {
