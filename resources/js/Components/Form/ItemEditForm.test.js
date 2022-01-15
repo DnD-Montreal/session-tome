@@ -6,11 +6,11 @@ import ItemEditForm from './ItemEditForm'
 const mockFunction = jest.fn()
 const editProps = {
     type: 'Edit',
-    onCloserDrawer: mockFunction,
+    onCloseDrawer: mockFunction,
     editData: {
         name: '',
         description: '',
-        rarity: 'common',
+        rarity: '',
         tier: 1,
     },
     editId: 0,
