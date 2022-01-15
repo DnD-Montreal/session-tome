@@ -6,27 +6,16 @@ import styled from 'styled-components'
 import {ItemEditData} from 'Types/item-data'
 import route from 'ziggy-js'
 
-type CharacterItemCreateFormPropType = {
+type ItemEditFormPropType = {
     onCloseDrawer: () => void
     editData: ItemEditData
-}
-
-type ItemEditForm = {
-    name: string
-    description: string | null
-    rarity: string
-    tier: number
-    id: number
 }
 
 const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const CharacterItemCreateForm = ({
-    onCloseDrawer,
-    editData,
-}: CharacterItemCreateFormPropType) => {
+const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
     const {data, setData, errors, clearErrors, put} = useForm(editData)
 
     return (
@@ -127,5 +116,5 @@ const CharacterItemCreateForm = ({
     )
 }
 
-CharacterItemCreateForm.displayName = 'CharacterItemCreateForm'
-export default CharacterItemCreateForm
+ItemEditForm.displayName = 'ItemEditForm'
+export default ItemEditForm

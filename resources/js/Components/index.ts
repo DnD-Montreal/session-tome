@@ -15,8 +15,8 @@ export {CharacterTable, DMEntryTable, EntryTable, ItemTable} from './Table'
 export {
     CharacterCreateForm,
     CharacterImportForm,
-    CharacterItemCreateForm,
     DmEntryCreateForm,
+    ItemEditForm,
     LoginForm,
     RegistrationForm,
 } from './Form'

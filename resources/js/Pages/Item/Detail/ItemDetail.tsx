@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterItemCreateForm, Drawer, ItemDetailBox} from 'Components'
+import {Drawer, ItemDetailBox, ItemEditForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
@@ -21,7 +21,7 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
         <ThemeProvider theme={theme}>
             <Drawer
                 content={
-                    <CharacterItemCreateForm
+                    <ItemEditForm
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={item}
                     />

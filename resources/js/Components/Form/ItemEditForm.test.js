@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
 
-import CharacterItemCreateForm from './CharacterItemCreateForm'
+import ItemEditForm from './ItemEditForm'
 
 const mockFunction = jest.fn()
 const editProps = {
@@ -16,13 +16,13 @@ const editProps = {
     editId: 0,
 }
 
-describe('<CharacterItemCreateForm />', () => {
+describe('<ItemEditForm />', () => {
     it('edit component should render', () => {
-        const component = render(<CharacterItemCreateForm {...editProps} />)
+        const component = render(<ItemEditForm {...editProps} />)
         expect(component).toBeDefined()
     })
     it('edit component fields test', () => {
-        render(<CharacterItemCreateForm {...editProps} />)
+        render(<ItemEditForm {...editProps} />)
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const rarityField = document.querySelector('#rarity')
@@ -34,7 +34,7 @@ describe('<CharacterItemCreateForm />', () => {
         fireEvent.click(screen.getByText('Save'))
     })
     it('edit component fields test with tier > 4', () => {
-        render(<CharacterItemCreateForm {...editProps} />)
+        render(<ItemEditForm {...editProps} />)
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const rarityField = document.querySelector('#rarity')
@@ -46,7 +46,7 @@ describe('<CharacterItemCreateForm />', () => {
         fireEvent.click(screen.getByText('Save'))
     })
     it('edit component fields test with errors', () => {
-        render(<CharacterItemCreateForm {...editProps} />)
+        render(<ItemEditForm {...editProps} />)
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const rarityField = document.querySelector('#rarity')
