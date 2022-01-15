@@ -18,6 +18,7 @@
         </include>
         <exclude>
             <directory suffix=".php">./app/Http/Controllers/Admin</directory>
+            <directory suffix=".php">./app/Exceptions</directory>
         </exclude>
     </coverage>
     <php>
