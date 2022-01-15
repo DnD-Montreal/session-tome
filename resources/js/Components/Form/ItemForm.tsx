@@ -24,7 +24,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
             value: 'rare',
         },
         {
-            label: 'Very rare',
+            label: 'Very Rare',
             value: 'very_rare',
         },
         {
