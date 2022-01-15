@@ -108,7 +108,7 @@ class ItemControllerTest extends TestCase
         $character = Character::factory()->create();
         $name = $this->faker->name;
         $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
-        $tier = $this->faker->word;
+        $tier = $this->faker->numberBetween(1, 4);
         $description = $this->faker->text;
         $author = User::factory()->create();
 
