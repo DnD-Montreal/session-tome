@@ -9,7 +9,7 @@ export type CharacterData = {
     level: number
     name: string
     race: string
-    status: 'Private' | 'Public'
+    status: 'private' | 'public'
     updated_at: string
     user_id: number
 }
