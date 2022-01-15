@@ -135,7 +135,6 @@ const CharacterCreateForm = ({
                         id='level'
                         label='Level'
                         name='Level'
-                        type='number'
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -143,12 +142,16 @@ const CharacterCreateForm = ({
                             inputProps: {
                                 min: 0,
                                 max: 20,
+                                inputMode: 'numeric',
+                                pattern: '[0-9]*',
                             },
                         }}
                         value={data.level.toString()}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
-                            if (value > 20) {
+                            if (isNaN(value)) {
+                                setData('level', 0)
+                            } else if (value > 20) {
                                 setData('level', 20)
                             } else {
                                 setData('level', value)
@@ -165,14 +168,22 @@ const CharacterCreateForm = ({
                         id='downtime'
                         label='Downtime'
                         name='Downtime'
-                        type='number'
                         InputProps={{
                             inputProps: {
                                 min: 0,
+                                inputMode: 'numeric',
+                                pattern: '[0-9]*',
                             },
                         }}
                         value={data.downtime.toString()}
-                        onChange={(e) => setData('downtime', parseInt(e.target.value))}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value)
+                            if (isNaN(value) || value < 0) {
+                                setData('downtime', 0)
+                            } else {
+                                setData('downtime', value)
+                            }
+                        }}
                     />
                     {errors?.downtime && <ErrorText message={errors?.downtime} />}
                 </StyledGrid>
