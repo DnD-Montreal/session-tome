@@ -121,13 +121,15 @@ class EntryControllerTest extends TestCase
      */
     public function create_displays_view()
     {
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
         $response = $this->get(route('entry.create', ['character_id' => $character->id]));
 
         $response->assertOk();
         $response->assertInertia(
             fn (Assert $page) => $page
-                ->component('Entry/Create/EntryCreate')
+                ->component('Character/Detail/Entry/Create/EntryCreate')
                 ->has('character')
         );
     }
