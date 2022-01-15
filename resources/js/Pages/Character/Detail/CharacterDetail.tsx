@@ -16,6 +16,7 @@ type CharacterDetailPropType = {
 
 const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
+    console.log(character)
 
     return (
         <ThemeProvider theme={theme}>

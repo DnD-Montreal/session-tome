@@ -20,7 +20,7 @@ type CharacterFormDataType = {
     level: number
     faction: string
     downtime: number
-    status: 'private' | 'public'
+    status: 'Private' | 'Public'
 }
 
 const StyledGrid = styled(Grid)`
@@ -40,7 +40,7 @@ const CharacterCreateForm = ({
         level: 1,
         faction: '',
         downtime: 0,
-        status: 'private',
+        status: 'Private',
     }
     const CHARACTER_FORM_INITIAL_VALUE: CharacterFormDataType =
         type === 'Create'
@@ -52,7 +52,7 @@ const CharacterCreateForm = ({
                   level: editData?.level || 0,
                   faction: editData?.faction || '',
                   downtime: editData?.downtime || 0,
-                  status: editData?.status || 'private',
+                  status: editData?.status || 'Private',
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(
@@ -174,12 +174,12 @@ const CharacterCreateForm = ({
             <Typography>Do you want this character to be public?</Typography>
             <Switch
                 id='status'
-                checked={data.status === 'public'}
+                checked={data.status === 'Public'}
                 onChange={(e) => {
                     if (e.target.checked) {
-                        setData('status', 'public')
+                        setData('status', 'Public')
                     } else {
-                        setData('status', 'private')
+                        setData('status', 'Private')
                     }
                 }}
             />
