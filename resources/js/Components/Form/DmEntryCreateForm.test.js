@@ -2,7 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
 
 import DmEntryCreateForm from './DmEntryCreateForm'
-import ItemCreateForm from './ItemCreateForm'
+import ItemForm from './ItemForm'
 
 const mockFunction = jest.fn()
 const editProps = {
@@ -19,16 +19,16 @@ const editProps = {
     },
     editId: 0,
 }
-const editItemProps = {
-    type: 'Edit',
-    onCloserDrawer: mockFunction,
-    editData: {
-        name: '',
-        description: '',
-        rarity: '',
-        tier: 1,
-    },
-    editId: 0,
+const itemProps = {
+    items: [
+        {
+            name: '',
+            rarity: 'common',
+            tier: 0,
+            description: '',
+        },
+    ],
+    setData: mockFunction,
 }
 
 const monthNames = [
@@ -116,15 +116,13 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(choiceInputField, {target: {value: 'advancement'}})
         fireEvent.change(characterInputField, {target: {value: 1}})
         fireEvent.click(screen.getByText('Continue'))
+        fireEvent.click(screen.getByText('Add Item'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const tierField = document.querySelector('#tier')
         fireEvent.change(nameField, {target: {value: 'name'}})
         fireEvent.change(descriptionField, {target: {value: 'description'}})
         fireEvent.change(tierField, {target: {value: 2}})
-        fireEvent.click(screen.getByLabelText('Rarity'))
-        fireEvent.click(screen.getByText('Add Item'))
-        fireEvent.click(screen.getByTestId('CancelIcon'))
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
@@ -137,23 +135,17 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Save'))
     })
-    it('cancel edit item test', () => {
-        render(<ItemCreateForm {...editItemProps} />)
-        fireEvent.click(screen.getByText('Cancel'))
-    })
-    it('cancel create item in dm entry form test', () => {
-        render(<DmEntryCreateForm {...createProps} />)
-        fireEvent.click(screen.getByText('Continue'))
-        fireEvent.click(screen.getByText('Cancel'))
-    })
-    it('save edit item test', () => {
-        render(<ItemCreateForm {...editItemProps} />)
+    it('Item test', () => {
+        render(<ItemForm {...itemProps} />)
+        fireEvent.click(screen.getByText('Add Item'))
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
         const tierField = document.querySelector('#tier')
+        const clearIcon = document.querySelector('[data-testid="ClearIcon"]')
         fireEvent.change(nameField, {target: {value: 'name'}})
         fireEvent.change(descriptionField, {target: {value: 'description'}})
-        fireEvent.change(tierField, {target: {value: 2}})
-        fireEvent.click(screen.getByText('Save'))
+        fireEvent.change(tierField, {target: {value: 5}})
+        fireEvent.change(tierField, {target: {value: 1}})
+        fireEvent.click(clearIcon)
     })
 })
