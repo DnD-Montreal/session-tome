@@ -21,8 +21,6 @@ const Item = ({items}: ItemPropType) => {
         id: 0,
     })
 
-    console.log(items)
-
     return (
         <ThemeProvider theme={theme}>
             <Drawer

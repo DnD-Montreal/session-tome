@@ -16,30 +16,10 @@ const editProps = {
     editId: 0,
 }
 
-const createProps = {
-    type: 'Create',
-}
-
 describe('<CharacterItemCreateForm />', () => {
     it('edit component should render', () => {
         const component = render(<CharacterItemCreateForm {...editProps} />)
         expect(component).toBeDefined()
-    })
-    it('create component should render', () => {
-        const component = render(<CharacterItemCreateForm {...createProps} />)
-        expect(component).toBeDefined()
-    })
-    it('create component fields test', () => {
-        render(<CharacterItemCreateForm {...createProps} />)
-        const nameField = document.querySelector('#name')
-        const descriptionField = document.querySelector('#description')
-        const rarityField = document.querySelector('#rarity')
-        const tierField = document.querySelector('#tier')
-        fireEvent.change(nameField, {target: {value: '123'}})
-        fireEvent.change(descriptionField, {target: {value: '123'}})
-        fireEvent.change(rarityField, {target: {value: '123'}})
-        fireEvent.change(tierField, {target: {value: 2}})
-        fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
         render(<CharacterItemCreateForm {...editProps} />)
@@ -53,7 +33,7 @@ describe('<CharacterItemCreateForm />', () => {
         fireEvent.change(tierField, {target: {value: 2}})
         fireEvent.click(screen.getByText('Save'))
     })
-    it('edit component fields test with tier > 5', () => {
+    it('edit component fields test with tier > 4', () => {
         render(<CharacterItemCreateForm {...editProps} />)
         const nameField = document.querySelector('#name')
         const descriptionField = document.querySelector('#description')
