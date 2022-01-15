@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
-class EventRegistrationRequestTest extends TestCase
+class EventRegistrationControllerTest extends TestCase
 {
     use AdditionalAssertions;
     use RefreshDatabase;
