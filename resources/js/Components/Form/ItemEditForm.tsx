@@ -81,7 +81,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         name='Rarity'
                         value={data.rarity}
                         onChange={(e) => setData('rarity', e.target.value)}>
-                        {rarityOptions.map((option: any) => (
+                        {rarityOptions?.map((option: any) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
