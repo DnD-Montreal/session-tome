@@ -32,6 +32,29 @@ type ItemDetailBoxPropType = {
     setIsEditDrawerOpen: (payload: boolean) => void
 }
 
+const rarityOptions = [
+    {
+        label: 'Common',
+        value: 'common',
+    },
+    {
+        label: 'Uncommon',
+        value: 'uncommon',
+    },
+    {
+        label: 'Rare',
+        value: 'rare',
+    },
+    {
+        label: 'Very Rare',
+        value: 'very_rare',
+    },
+    {
+        label: 'Legendary',
+        value: 'legendary',
+    },
+]
+
 const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxPropType) => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container rowSpacing={2}>
@@ -61,7 +84,13 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
                 </Grid>
                 <Grid item xs={6}>
                     <StyledTypography>RARITY</StyledTypography>
-                    <Typography>{item.rarity}</Typography>
+                    <Typography>
+                        {
+                            rarityOptions.filter(
+                                (rarityOption) => rarityOption.value === item.rarity,
+                            )[0].label
+                        }
+                    </Typography>
                 </Grid>
                 <Grid item xs={6}>
                     <StyledTypography>TIER</StyledTypography>
@@ -90,8 +119,10 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
         <Grid container rowSpacing={6}>
             <Grid item xs={12} />
             <Grid item xs={12}>
-                <StyledTypography>DESCRPITION</StyledTypography>
-                <Typography>{item.description}</Typography>
+                <StyledTypography>DESCRIPTION</StyledTypography>
+                <Typography>
+                    {item.description === '""' ? 'No description' : item.description}
+                </Typography>
             </Grid>
         </Grid>
     </Box>

@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Box, IconButton, Stack, Tooltip} from '@mui/material'
+import {Box, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link, RarityChip} from 'Components'
 import React, {useState} from 'react'
 import {ItemEditData} from 'Types/item-data'
@@ -33,6 +33,9 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
         {
             property: 'description',
             title: 'Description',
+            render: (value: string) => (
+                <Typography>{value === '""' ? 'No description' : value}</Typography>
+            ),
         },
         {
             property: 'rarity',
