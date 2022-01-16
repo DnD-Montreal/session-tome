@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Character;
+use App\Models\Event;
 use App\Models\Session;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -38,6 +39,7 @@ class EventRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+        // this could probably be a request validator...
         $valid = $request->validate([
             'session_id' => "sometimes|exists:sessions,id",
             'character_id' => "exists:characters,id",
@@ -47,7 +49,14 @@ class EventRegistrationController extends Controller
         $character = Character::find($valid['character_id']);
         $request->user()->can('update', $character);
 
-        $session = Session::find($valid['session_id']);
+        if (!isset($valid['session_id'])) {
+            // if they're not choosing a specific session, just register them to an open table with seats
+            $session = Session::hasOpenSeats($valid['event_id'])
+                ->inRandomOrder()
+                ->first();
+        } else {
+            $session = Session::find($valid['session_id']);
+        }
 
         if (!$session->open_seats) {
             return back()->withErrors([
