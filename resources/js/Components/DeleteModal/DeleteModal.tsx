@@ -52,13 +52,17 @@ const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropT
             </Grid>
             <Grid container style={{marginTop: 6}}>
                 <Grid item md={5}>
-                    <Button fullWidth onClick={() => onClose()}>
+                    <Button
+                        data-testid='modal-cancel'
+                        fullWidth
+                        onClick={() => onClose()}>
                         Cancel
                     </Button>
                 </Grid>
                 <Grid item md={2} />
                 <Grid item md={5}>
                     <Button
+                        data-testid='modal-delete'
                         fullWidth
                         color='error'
                         onClick={() => {

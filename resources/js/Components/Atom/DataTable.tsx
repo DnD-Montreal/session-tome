@@ -76,12 +76,13 @@ const DataTable = ({
     }, [data])
 
     // filter function
-    const filter = (row: DataType, target: string) => {
+    const onFilter = (row: DataType, target: string) => {
         let isFilter = false
         if (!filterProperties) return isFilter
         Object.entries(row).forEach(([key, value]) => {
             if (filterProperties?.includes(key)) {
                 if (typeof value === 'string') {
+                    if (isFilter) return
                     isFilter = value.toLowerCase().includes(target.toLowerCase())
                 }
             }
@@ -128,7 +129,7 @@ const DataTable = ({
                                 setCurrentRows(data)
                             }
                             const filteredRows = data.filter((item: any) =>
-                                filter(item, e.target.value),
+                                onFilter(item, e.target.value),
                             )
                             setCurrentRows(filteredRows)
                         }}
@@ -201,6 +202,7 @@ const DataTable = ({
                                         {isSelectable && selected && setSelected && (
                                             <TableCell padding='checkbox'>
                                                 <Checkbox
+                                                    data-testid='table-checkbox'
                                                     onClick={() => {
                                                         if (selected.includes(row.id)) {
                                                             setSelected(
