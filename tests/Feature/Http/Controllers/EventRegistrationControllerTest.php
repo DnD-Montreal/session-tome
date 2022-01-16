@@ -37,13 +37,15 @@ class EventRegistrationControllerTest extends TestCase
         ]);
         $event = Event::factory()->has(Session::factory(1))->create();
 
-        $response = $this->post(route('registration.store', [
+        $inputData = [
             'session_id' => $event->sessions[0]->id,
             'character_id' => $character->id
-        ]));
+        ];
+        $response = $this->post(route('registration.store', $inputData));
 
         $response->assertRedirect();
         $this->assertDatabaseCount('character_session', 1);
+        $this->assertDatabaseHas('character_session', $inputData);
     }
 
     /**
@@ -83,5 +85,6 @@ class EventRegistrationControllerTest extends TestCase
         ]));
 
         $response->assertRedirect();
+        $this->assertDatabaseCount('character_session', 1);
     }
 }
