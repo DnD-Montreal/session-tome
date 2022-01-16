@@ -47,10 +47,17 @@ describe('ItemTable', () => {
         render(<ItemTable {...selectableTableProps} />)
         fireEvent.click(screen.getAllByTestId('edit-button')[0])
     })
-    it('Bulk delete button should fire events', () => {
+    it('Bulk delete modal cancel button should fire events', () => {
         render(<ItemTable {...selectableTableProps} />)
         fireEvent.click(screen.getAllByTestId('table-checkbox')[0])
         fireEvent.click(screen.getByTestId('bulk-delete-action'))
+        fireEvent.click(screen.getByTestId('modal-cancel'))
+    })
+    it('Bulk delete modal delete button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('table-checkbox')[0])
+        fireEvent.click(screen.getByTestId('bulk-delete-action'))
+        fireEvent.click(screen.getByTestId('modal-delete'))
     })
     it('Pagination handleChangePage should work', () => {
         render(<ItemTable {...props} />)
