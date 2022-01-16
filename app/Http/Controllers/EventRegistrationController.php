@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventRegistrationRequest;
 use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
@@ -37,25 +38,21 @@ class EventRegistrationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(EventRegistrationRequest $request)
     {
         // this could probably be a request validator...
-        $valid = $request->validate([
-            'session_id' => "sometimes|exists:sessions,id",
-            'character_id' => "exists:characters,id",
-            'event_id' => "required_without:session_id|exists:events,id",
-        ]);
+        $data = $request->validated();
 
-        $character = Character::find($valid['character_id']);
+        $character = Character::find($data['character_id']);
         $request->user()->can('update', $character);
 
-        if (!isset($valid['session_id'])) {
+        if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
-            $session = Session::hasOpenSeats($valid['event_id'])
+            $session = Session::hasOpenSeats($data['event_id'])
                 ->inRandomOrder()
                 ->first();
         } else {
-            $session = Session::find($valid['session_id']);
+            $session = Session::find($data['session_id']);
         }
 
         if (!$session->open_seats) {
