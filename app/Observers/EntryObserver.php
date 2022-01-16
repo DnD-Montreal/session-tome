@@ -102,10 +102,19 @@ class EntryObserver
 
         foreach ($characters as $character) {
             if ($character->id != $excludedCharacterId) {
+
+                //Prep the data to create the entry
+                unset($entryData['campaign_id']); // this is so the observer doesn't fire infinitely
+                $entryData['character_id'] = $character->id; // assign to the correct character
+                $entryData['user_id'] = $character->user->id;// author this entry by the correct person
+
+                //Create the Entry and allow the observer to fire to modify the character
                 $newEntry = Entry::create($entryData);
+
+                //Add remaining missing associations to the entry and save quietly to avoid infinite looping
+                $newEntry->campaign()->associate($campaign);
                 $newEntry->character()->associate($character);
                 $newEntry->user()->associate($character->user);
-                $newEntry->campaign()->associate($campaign);
                 $newEntry->saveQuietly();
             }
         }
