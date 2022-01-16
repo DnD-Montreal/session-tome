@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Session extends Model
 {
@@ -72,5 +74,15 @@ class Session extends Model
     public function getOpenSeatsAttribute()
     {
         return $this->seats - $this->characters()->count();
+    }
+
+    public function scopeHasOpenSeats(Builder $q, $eventId = null)
+    {
+        if ($eventId) {
+            $q = $q->where('event_id', $eventId);
+        }
+
+        return $q->withCount('characters')
+            ->having('characters_count', "<", DB::raw('seats'));
     }
 }
