@@ -212,7 +212,12 @@ const DmEntryCreateForm = ({
                             },
                         }}
                         value={data.gp.toString()}
-                        onChange={(e) => setData('gp', parseInt(e.target.value))}
+                        onChange={(e) =>
+                            setData(
+                                'gp',
+                                parseFloat(parseFloat(e.target.value).toFixed(2)),
+                            )
+                        }
                     />
                     {errors?.gp && <ErrorText message={errors?.gp} />}
                 </StyledGrid>
