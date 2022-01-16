@@ -2,8 +2,10 @@ import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
+import {Link} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
+import route from 'ziggy-js'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -19,6 +21,7 @@ const StyledTypography = styled(Typography)({
 
 const StyledStatus = styled(Typography)({
     color: '#a0a2a3',
+    textTransform: 'capitalize',
 })
 
 type CharDetailBoxPropType = {
@@ -79,11 +82,13 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                             startIcon={<DownloadIcon fontSize='small' />}>
                             EXPORT
                         </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<IosShareIcon fontSize='small' />}>
-                            ITEMS
-                        </Button>
+                        <Link href={route('item.index', {character_id: character.id})}>
+                            <Button
+                                variant='contained'
+                                startIcon={<IosShareIcon fontSize='small' />}>
+                                ITEMS
+                            </Button>
+                        </Link>
                     </Stack>
                 </Grid>
             </Grid>
