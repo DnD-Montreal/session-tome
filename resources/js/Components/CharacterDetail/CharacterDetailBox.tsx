@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add'
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
@@ -87,6 +88,11 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                 variant='contained'
                                 startIcon={<IosShareIcon fontSize='small' />}>
                                 ITEMS
+                            </Button>
+                        </Link>
+                        <Link href={route('entry.create', {character_id: character.id})}>
+                            <Button variant='contained' startIcon={<AddIcon />}>
+                                CREATE ENTRY
                             </Button>
                         </Link>
                     </Stack>
