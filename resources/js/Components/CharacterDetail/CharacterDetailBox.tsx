@@ -3,9 +3,11 @@ import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
+
+import {UserContext} from '../../Layouts/ApplicationLayout/UserContext'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -27,6 +29,11 @@ const StyledStatus = styled(Typography)({
 type CharDetailBoxPropType = {
     character: any
     setIsEditDrawerOpen: (payload: boolean) => void
+}
+
+function getUser() {
+    const user = useContext(UserContext)
+    return user
 }
 
 const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropType) => (
@@ -69,19 +76,23 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
-                        <Button
-                            variant='contained'
-                            startIcon={<CreateIcon fontSize='small' />}
-                            onClick={() => {
-                                setIsEditDrawerOpen(true)
-                            }}>
-                            UPDATE
-                        </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<DownloadIcon fontSize='small' />}>
-                            EXPORT
-                        </Button>
+                        {getUser()?.id === character.user_id && (
+                            <Button
+                                variant='contained'
+                                startIcon={<CreateIcon fontSize='small' />}
+                                onClick={() => {
+                                    setIsEditDrawerOpen(true)
+                                }}>
+                                UPDATE
+                            </Button>
+                        )}
+                        {getUser()?.id === character.user_id && (
+                            <Button
+                                variant='contained'
+                                startIcon={<DownloadIcon fontSize='small' />}>
+                                EXPORT
+                            </Button>
+                        )}
                         <Link href={route('item.index', {character_id: character.id})}>
                             <Button
                                 variant='contained'
