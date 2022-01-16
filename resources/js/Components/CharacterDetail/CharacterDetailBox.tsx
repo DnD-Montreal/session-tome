@@ -90,7 +90,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                 ITEMS
                             </Button>
                         </Link>
-                        <Link href={route('entry.create', {character_id: character.id})}>
+                        <Link href={route('entry.create', [character.id])}>
                             <Button variant='contained' startIcon={<AddIcon />}>
                                 CREATE ENTRY
                             </Button>

@@ -93,7 +93,7 @@ const EntryCreateForm = ({
         character_id: character.id,
         notes: '',
         items: [],
-        type: 'dm',
+        type: 'game',
     }
     const ENTRY_FORM_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -109,7 +109,7 @@ const EntryCreateForm = ({
                   character_id: character.id,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
-                  type: 'dm',
+                  type: 'game',
                   user_id,
               }
 
