@@ -67,7 +67,7 @@ const StyledGrid = styled(Grid)`
 `
 
 const StyledSelect = styled(TextField)`
-    background-color: #8da57c;
+    background-color: #23272a;
     border-radius: 4px;
     margin-top: 4px;
 `
