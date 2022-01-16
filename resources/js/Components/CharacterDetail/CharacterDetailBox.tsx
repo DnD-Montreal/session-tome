@@ -21,6 +21,7 @@ const StyledTypography = styled(Typography)({
 
 const StyledStatus = styled(Typography)({
     color: '#a0a2a3',
+    textTransform: 'capitalize',
 })
 
 type CharDetailBoxPropType = {
