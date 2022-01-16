@@ -1,13 +1,13 @@
+import {usePage} from '@inertiajs/inertia-react'
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import {UsePageType} from 'Types/global'
 import route from 'ziggy-js'
-
-import {UserContext} from '../../Layouts/ApplicationLayout/UserContext'
 
 const Img = styled('img')({
     margin: 'auto',
@@ -32,8 +32,9 @@ type CharDetailBoxPropType = {
 }
 
 function getUser() {
-    const user = useContext(UserContext)
-    return user
+    const {auth} = usePage<UsePageType>().props
+    const {user} = auth
+    return user?.id
 }
 
 const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropType) => (
@@ -76,8 +77,9 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                 </Grid>
                 <Grid item xs={12}>
                     <Stack spacing={3} direction='row'>
-                        {getUser()?.id === character.user_id && (
+                        {getUser() === character.user_id && (
                             <Button
+                                data-testid='update-button'
                                 variant='contained'
                                 startIcon={<CreateIcon fontSize='small' />}
                                 onClick={() => {
@@ -86,7 +88,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                 UPDATE
                             </Button>
                         )}
-                        {getUser()?.id === character.user_id && (
+                        {getUser() === character.user_id && (
                             <Button
                                 variant='contained'
                                 startIcon={<DownloadIcon fontSize='small' />}>
