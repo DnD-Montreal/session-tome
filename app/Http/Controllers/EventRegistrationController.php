@@ -43,7 +43,7 @@ class EventRegistrationController extends Controller
         $valid = $request->validate([
             'session_id' => "sometimes|exists:sessions,id",
             'character_id' => "exists:characters,id",
-            'event_id' => "sometimes|exists:events,id",
+            'event_id' => "required_without:session_id|exists:events,id",
         ]);
 
         $character = Character::find($valid['character_id']);
