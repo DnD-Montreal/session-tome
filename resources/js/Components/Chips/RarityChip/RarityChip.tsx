@@ -7,35 +7,42 @@ type RarityChipPropType = {
 
 const RarityChip = ({value}: RarityChipPropType) => {
     let colorObj
+    let chipText
     switch (value) {
-        case 'Common':
+        case 'common':
             colorObj = {color: '#bdbdbd', borderColor: '#bdbdbd'}
+            chipText = 'Common'
             break
 
-        case 'Uncommon':
+        case 'uncommon':
             colorObj = {color: '#27e85a', borderColor: '#27e85a'}
+            chipText = 'Uncommon'
             break
 
-        case 'Rare':
+        case 'rare':
             colorObj = {color: '#3592ff', borderColor: '#3592ff'}
+            chipText = 'Rare'
             break
 
-        case `Very Rare`:
+        case `very_rare`:
             colorObj = {color: '#9f7cfa', borderColor: '#9f7cfa'}
+            chipText = 'Very Rare'
             break
 
-        case 'Legendary':
+        case 'legendary':
             colorObj = {color: '#e3291b', borderColor: '#e3291b'}
+            chipText = 'Legendary'
             break
 
-        case 'Artifact':
+        case 'artifact':
             colorObj = {color: '#ffd900', borderColor: '#ffd900'}
+            chipText = 'Artifact'
             break
 
         default:
             colorObj = {color: 'primary', borderColor: 'primary'}
     }
-    return <Chip label={value} sx={colorObj} variant='outlined' />
+    return <Chip label={chipText} sx={colorObj} variant='outlined' />
 }
 
 RarityChip.displayName = 'RarityChip'

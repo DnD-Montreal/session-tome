@@ -8,33 +8,56 @@ const mockFunction = jest.fn()
 const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
     isSelected: isSelectedtest,
-    rows: itemData,
+    data: itemData,
     selected: [],
     handleClick: mockFunction,
     handleSelectAllClick: mockFunction,
 }
+
+const selectableTableProps = {
+    columns: [
+        {
+            property: 'name',
+            title: 'Name',
+            render: () => <div />,
+        },
+    ],
+    data: itemData,
+    tableName: '',
+    isSelectable: true,
+    selected: [],
+    setSelected: jest.fn(),
+    bulkSelectActions: <div />,
+    leftActions: [<div />],
+    filterProperties: ['name'],
+    setEditData: mockFunction,
+    setIsEditDrawerOpen: mockFunction,
+}
+
 describe('ItemTable', () => {
     it('Component should render', () => {
         const component = render(<ItemTable {...props} />)
         expect(component).toBeDefined()
     })
-
-    it('shoud render all checkboxes for each data row', () => {
-        render(<ItemTable {...props} />)
-        const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox).toHaveLength(itemData.length)
-        fireEvent.click(screen.getByLabelText('select all names'))
-        for (let i = 0; i < 5; i += 1) {
-            const checkboxel = screen
-                .getByTestId(`checkbox-${i}`)
-                .querySelector('input[type="checkbox"]')
-            expect(checkboxel).toHaveProperty('checked', true)
-        }
-        const checkbox1 = screen
-            .getByTestId('checkbox-1')
-            .querySelector('input[type="checkbox"]')
-        fireEvent.click(screen.getByTestId('checkbox-1'))
-        expect(checkbox1).toHaveProperty('checked', false)
+    it('Component should render', () => {
+        const component = render(<ItemTable {...selectableTableProps} />)
+        expect(component).toBeDefined()
+    })
+    it('Edit button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('edit-button')[0])
+    })
+    it('Bulk delete modal cancel button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('table-checkbox')[0])
+        fireEvent.click(screen.getByTestId('bulk-delete-action'))
+        fireEvent.click(screen.getByTestId('modal-cancel'))
+    })
+    it('Bulk delete modal delete button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('table-checkbox')[0])
+        fireEvent.click(screen.getByTestId('bulk-delete-action'))
+        fireEvent.click(screen.getByTestId('modal-delete'))
     })
     it('Pagination handleChangePage should work', () => {
         render(<ItemTable {...props} />)
@@ -42,7 +65,12 @@ describe('ItemTable', () => {
     })
     it('Pagination 5 click should work', () => {
         render(<ItemTable {...props} />)
-        fireEvent.click(screen.getByLabelText('5'))
-        fireEvent.click(screen.getByDisplayValue('5'))
+        fireEvent.click(screen.getByLabelText('10'))
+        fireEvent.click(screen.getByDisplayValue('10'))
+    })
+    it('Delete Action click should work', () => {
+        render(<ItemTable {...props} />)
+        const actions = screen.getAllByTestId('delete-action')
+        fireEvent.click(actions[0])
     })
 })

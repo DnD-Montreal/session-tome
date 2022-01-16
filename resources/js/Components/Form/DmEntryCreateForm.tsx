@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
-import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
@@ -34,9 +33,16 @@ type DmEntryFormDataType = {
     choice: string | null
     character_id: number | null
     notes: string
-    items: ItemData[]
+    items: ItemDataType[]
     type: string
     user_id: number | null | undefined
+}
+
+type ItemDataType = {
+    name: string
+    description: string | null
+    rarity: string
+    tier: number
 }
 
 const choices = [
