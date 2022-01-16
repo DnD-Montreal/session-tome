@@ -30,6 +30,8 @@ const selectableTableProps = {
     bulkSelectActions: <div />,
     leftActions: [<div />],
     filterProperties: ['name'],
+    setEditData: mockFunction,
+    setIsEditDrawerOpen: mockFunction,
 }
 
 describe('ItemTable', () => {
@@ -40,6 +42,10 @@ describe('ItemTable', () => {
     it('Component should render', () => {
         const component = render(<ItemTable {...selectableTableProps} />)
         expect(component).toBeDefined()
+    })
+    it('Edit button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('edit-button')[0])
     })
     it('Pagination handleChangePage should work', () => {
         render(<ItemTable {...props} />)

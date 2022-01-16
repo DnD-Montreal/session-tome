@@ -52,6 +52,7 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
             render: (row: any) => (
                 <>
                     <IconButton
+                        data-testid='edit-button'
                         onClick={() => {
                             setEditData(row)
                             setIsEditDrawerOpen(true)
