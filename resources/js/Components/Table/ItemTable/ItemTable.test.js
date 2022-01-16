@@ -47,6 +47,11 @@ describe('ItemTable', () => {
         render(<ItemTable {...selectableTableProps} />)
         fireEvent.click(screen.getAllByTestId('edit-button')[0])
     })
+    it('Bulk delete button should fire events', () => {
+        render(<ItemTable {...selectableTableProps} />)
+        fireEvent.click(screen.getAllByTestId('table-checkbox')[0])
+        fireEvent.click(screen.getByTestId('bulk-delete-action'))
+    })
     it('Pagination handleChangePage should work', () => {
         render(<ItemTable {...props} />)
         fireEvent.click(screen.getByTitle('Go to next page'))
