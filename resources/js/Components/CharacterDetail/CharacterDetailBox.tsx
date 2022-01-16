@@ -1,4 +1,3 @@
-import {usePage} from '@inertiajs/inertia-react'
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import IosShareIcon from '@mui/icons-material/IosShare'
@@ -6,7 +5,7 @@ import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
-import {UsePageType} from 'Types/global'
+import {useUser} from 'Utils'
 import route from 'ziggy-js'
 
 const Img = styled('img')({
@@ -32,11 +31,7 @@ type CharDetailBoxPropType = {
 }
 
 const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropType) => {
-    const getUser = () => {
-        const {auth} = usePage<UsePageType>().props
-        const {user} = auth
-        return user?.id
-    }
+    const {getUserId} = useUser()
 
     return (
         <Box sx={{p: 5, backgroundColor: 'primary'}}>
@@ -78,7 +73,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                     </Grid>
                     <Grid item xs={12}>
                         <Stack spacing={3} direction='row'>
-                            {getUser() === character.user_id && (
+                            {getUserId() === character.user_id && (
                                 <Button
                                     data-testid='update-button'
                                     variant='contained'
@@ -89,7 +84,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     UPDATE
                                 </Button>
                             )}
-                            {getUser() === character.user_id && (
+                            {getUserId() === character.user_id && (
                                 <Button
                                     variant='contained'
                                     startIcon={<DownloadIcon fontSize='small' />}>
