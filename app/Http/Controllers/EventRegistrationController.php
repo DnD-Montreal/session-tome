@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EventRegistrationRequest;
+use App\Http\Requests\RegistrationStoreRequest;
 use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
@@ -18,7 +18,7 @@ class EventRegistrationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(EventRegistrationRequest $request)
+    public function store(RegistrationStoreRequest $request)
     {
         // this could probably be a request validator...
         $data = $request->validated();

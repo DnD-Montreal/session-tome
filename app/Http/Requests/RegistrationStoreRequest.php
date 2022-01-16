@@ -13,7 +13,7 @@ class RegistrationStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class RegistrationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'session_id' => "sometimes|exists:sessions,id",
+            'character_id' => "exists:characters,id",
+            'event_id' => "required_without:session_id|exists:events,id",
         ];
     }
 }
