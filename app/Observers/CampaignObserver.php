@@ -12,9 +12,8 @@ class CampaignObserver
      * @param  \App\Models\Campaign  $campaign
      * @return void
      */
-    public function created(Campaign $campaign)
+    public function creating(Campaign $campaign)
     {
         $campaign->code = $campaign->generateCode();
-        $campaign->save();
     }
 }
