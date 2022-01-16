@@ -90,7 +90,7 @@ const EntryCreateForm = ({
         location: null,
         date_played: new Date().toDateString(),
         choice: null,
-        character_id: null,
+        character_id: character.id,
         notes: '',
         items: [],
         type: 'dm',
