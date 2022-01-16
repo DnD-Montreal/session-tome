@@ -34,6 +34,9 @@ class DMEntryController extends Controller
     {
         $adventures = Adventure::all();
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures', 'characters'));
+        return Inertia::render(
+            'DMEntry/Create/DmEntryCreate',
+            compact('adventures', 'characters')
+        );
     }
 }
