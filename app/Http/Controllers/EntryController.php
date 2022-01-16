@@ -6,10 +6,13 @@ use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Adventure;
+use App\Models\Character;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
@@ -33,10 +36,8 @@ class EntryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Character $character)
     {
-        $characterId = $request->get('character_id');
-        $character = Character::findOrFail($characterId);
         $adventures = Adventure::all();
         return Inertia::render(
             'Entry/Create/EntryCreate',
