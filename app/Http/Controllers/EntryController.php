@@ -35,7 +35,13 @@ class EntryController extends Controller
      */
     public function create(Request $request)
     {
-        return view('entry.create');
+        $characterId = $request->get('character_id');
+        $character = Character::findOrFail($characterId);
+        $adventures = Adventure::all();
+        return Inertia::render(
+            'Entry/Create/EntryCreate',
+            compact('adventures', 'character')
+        );
     }
 
     /**
@@ -171,6 +177,6 @@ class EntryController extends Controller
             $itemData = [];
             $entryData['levels'] = 0;
         }
-        return array($entryData, $itemData);
+        return [$entryData, $itemData];
     }
 }
