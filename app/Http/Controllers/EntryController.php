@@ -96,7 +96,8 @@ class EntryController extends Controller
      */
     public function edit(Request $request, Entry $entry)
     {
-        return view('entry.edit', compact('entry'));
+        $campaigns = Auth::user()->campaigns;
+        return view('entry.edit', compact('entry', 'campaigns'));
     }
 
     /**
