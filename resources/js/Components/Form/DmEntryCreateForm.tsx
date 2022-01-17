@@ -2,25 +2,16 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {
-    Button,
-    Chip,
-    Grid,
-    InputLabel,
-    MenuItem,
-    TextField,
-    Typography,
-} from '@mui/material'
+import {Button, Grid, InputLabel, MenuItem, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
-import {ItemData} from 'Types/item-data'
 import route from 'ziggy-js'
 
-import ItemCreateForm from './ItemCreateForm'
+import ItemForm from './ItemForm'
 
 type DmEntryCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -42,9 +33,16 @@ type DmEntryFormDataType = {
     choice: string | null
     character_id: number | null
     notes: string
-    items: ItemData[]
+    items: ItemDataType[]
     type: string
     user_id: number | null | undefined
+}
+
+type ItemDataType = {
+    name: string
+    description: string | null
+    rarity: string
+    tier: number
 }
 
 const choices = [
@@ -68,12 +66,8 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const StyledItemsFooter = styled(Grid)`
-    margin-top: 16px;
-`
-
 const StyledSelect = styled(TextField)`
-    background-color: #8da57c;
+    background-color: #23272a;
     border-radius: 4px;
     margin-top: 4px;
 `
@@ -119,22 +113,11 @@ const DmEntryCreateForm = ({
                   user_id,
               }
 
-    const {data, setData, errors, clearErrors, post, put} = useForm(
+    const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
         DM_ENTRY_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
     const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
-
-    const handleDeleteItem = (chipToDelete: ItemData) => {
-        setData(
-            'items',
-            data.items.filter((item) => item.name !== chipToDelete.name),
-        )
-    }
-
-    const handleAddItem = (item_data: ItemData) => {
-        setData('items', [...data.items, item_data])
-    }
 
     const stepOneContent = (
         <>
@@ -229,7 +212,12 @@ const DmEntryCreateForm = ({
                             },
                         }}
                         value={data.gp.toString()}
-                        onChange={(e) => setData('gp', parseInt(e.target.value))}
+                        onChange={(e) =>
+                            setData(
+                                'gp',
+                                parseFloat(parseFloat(e.target.value).toFixed(2)),
+                            )
+                        }
                     />
                     {errors?.gp && <ErrorText message={errors?.gp} />}
                 </StyledGrid>
@@ -299,6 +287,8 @@ const DmEntryCreateForm = ({
                 </StyledGrid>
                 <StyledGrid item xs={12}>
                     <TextField
+                        multiline
+                        rows={2}
                         margin='normal'
                         fullWidth
                         id='notes'
@@ -313,52 +303,7 @@ const DmEntryCreateForm = ({
         </>
     )
 
-    const stepTwoContent = (
-        <>
-            <ItemCreateForm
-                type='Create'
-                onCloseDrawer={onCloseDrawer}
-                previousStepButton={
-                    <Button fullWidth onClick={() => setActiveStep(0)}>
-                        Previous
-                    </Button>
-                }
-                handleAddItem={handleAddItem}
-                createEntryButton={
-                    <Button
-                        variant='contained'
-                        fullWidth
-                        onClick={() => {
-                            post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
-                        }}>
-                        {type === 'Create' ? 'Create' : 'Save'}
-                    </Button>
-                }
-            />
-            {activeStep === 1 && data.items.length > 0 && (
-                <StyledItemsFooter container spacing={1}>
-                    <StyledGrid item xs={12}>
-                        <Typography variant='body2'>New Magic Items</Typography>
-                    </StyledGrid>
-                    {data.items.map((item) => (
-                        <StyledGrid item xs='auto' key={item.name}>
-                            <Chip
-                                variant='outlined'
-                                label={item.name}
-                                sx={{color: '#86B8F4', borderColor: '#86B8F4'}}
-                                onDelete={() => handleDeleteItem(item)}
-                            />
-                        </StyledGrid>
-                    ))}
-                </StyledItemsFooter>
-            )}
-        </>
-    )
+    const stepTwoContent = <ItemForm items={data.items} setData={setData} />
 
     const stepContent = [stepOneContent, stepTwoContent]
 
@@ -402,7 +347,33 @@ const DmEntryCreateForm = ({
         </StyledGrid>
     )
 
-    const stepFooter = [stepOneFooter]
+    const stepTwoFooter = (
+        <StyledGrid container spacing={4}>
+            <Grid item xs={4}>
+                <Button fullWidth onClick={() => setActiveStep(0)}>
+                    Previous
+                </Button>
+            </Grid>
+            <Grid item xs={4} />
+            <Grid item xs={4}>
+                <Button
+                    variant='contained'
+                    fullWidth
+                    onClick={() => {
+                        post(route('entry.store'))
+                        if (errors) {
+                            setActiveStep(0)
+                        } else {
+                            clearErrors()
+                        }
+                    }}>
+                    {type === 'Create' ? 'Create' : 'Save'}
+                </Button>
+            </Grid>
+        </StyledGrid>
+    )
+
+    const stepFooter = [stepOneFooter, stepTwoFooter]
 
     return (
         <StepperForm

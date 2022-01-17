@@ -2,8 +2,9 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
+import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
+import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
@@ -33,6 +34,9 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
         {
             property: 'date_played',
             title: 'Date',
+            render: (value: string) => (
+                <Typography>{dayjs(value).format('YYYY-MM-DD HH:MM')}</Typography>
+            ),
         },
         {
             property: 'adventure',

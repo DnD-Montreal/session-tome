@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Chip, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -13,7 +13,7 @@ import {ItemData} from 'Types/item-data'
 import {RatingCategoryType} from 'Types/rating-data'
 import route from 'ziggy-js'
 
-import ItemCreateForm from './ItemCreateForm'
+import ItemForm from './ItemForm'
 import RatingFormContent from './RatingFormContent'
 
 type EntryCreateFormPropType = {
@@ -47,10 +47,6 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const StyledItemsFooter = styled(Grid)`
-    margin-top: 16px;
-    min-width: 25vw;
-`
 const StyledTypography = styled(Typography)`
     margin-bottom: 32px;
 `
@@ -115,17 +111,6 @@ const EntryCreateForm = ({
         },
         {label: 'Magic Items'},
     ]
-
-    const handleDeleteItem = (chipToDelete: ItemData) => {
-        setData(
-            'items',
-            data.items.filter((item) => item.name !== chipToDelete.name),
-        )
-    }
-
-    const handleAddItem = (item_data: ItemData) => {
-        setData('items', [...data.items, item_data])
-    }
 
     const stepOneContent = (
         <>
@@ -308,51 +293,7 @@ const EntryCreateForm = ({
 
     const stepTwoContent = <RatingFormContent data={data.rating_data} setData={setData} />
 
-    const stepThreeContent = (
-        <>
-            <ItemCreateForm
-                type='Create'
-                onCloseDrawer={onCloseDrawer}
-                handleAddItem={handleAddItem}
-                createEntryButton={
-                    <Button
-                        variant='contained'
-                        fullWidth
-                        onClick={() => {
-                            post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
-                        }}>
-                        {type === 'Create' ? 'Create' : 'Save'}
-                    </Button>
-                }
-                previousStepButton={undefined}
-            />
-            {activeStep === 2 && data.items.length > 0 && (
-                <StyledItemsFooter container spacing={1}>
-                    <StyledGrid item xs={12}>
-                        <Typography variant='body2'>New Magic Items</Typography>
-                    </StyledGrid>
-                    {data.items.map((item) => (
-                        <StyledGrid item xs='auto' key={item.name}>
-                            <Chip
-                                variant='outlined'
-                                label={item.name}
-                                sx={{
-                                    color: '#86B8F4',
-                                    borderColor: '#86B8F4',
-                                }}
-                                onDelete={() => handleDeleteItem(item)}
-                            />
-                        </StyledGrid>
-                    ))}
-                </StyledItemsFooter>
-            )}
-        </>
-    )
+    const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 
     const stepContent = [stepOneContent, stepTwoContent, stepThreeContent]
 
@@ -412,7 +353,33 @@ const EntryCreateForm = ({
         </StyledGrid>
     )
 
-    const stepFooter = [stepOneFooter, stepTwoFooter]
+    const stepThreeFooter = (
+        <StyledGrid container spacing={4}>
+            <Grid item xs={4}>
+                <Button fullWidth onClick={() => setActiveStep(1)}>
+                    Previous
+                </Button>
+            </Grid>
+            <Grid item xs={4} />
+            <Grid item xs={4}>
+                <Button
+                    variant='contained'
+                    fullWidth
+                    onClick={() => {
+                        post(route('entry.store'))
+                        if (errors) {
+                            setActiveStep(0)
+                        } else {
+                            clearErrors()
+                        }
+                    }}>
+                    {type === 'Create' ? 'Create' : 'Save'}
+                </Button>
+            </Grid>
+        </StyledGrid>
+    )
+
+    const stepFooter = [stepOneFooter, stepTwoFooter, stepThreeFooter]
 
     return (
         <StepperForm

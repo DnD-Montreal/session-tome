@@ -95,6 +95,8 @@
         "no-useless-escape": "off",
         "no-restricted-globals": "off",
         "object-curly-spacing": ["error", "never"],
+        "prefer-arrow-callback": ["error", {"allowNamedFunctions": true}],
+        "func-style": ["error", "expression", {"allowArrowFunctions": true}],
         "prefer-destructuring": [
             "error",
             {
