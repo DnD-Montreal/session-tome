@@ -35,7 +35,8 @@ class EntryController extends Controller
      */
     public function create(Request $request)
     {
-        return view('entry.create');
+        $campaigns = Auth::user()->campaigns;
+        return view('entry.create', compact('campaigns'));
     }
 
     /**
