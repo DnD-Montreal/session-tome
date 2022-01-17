@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Character;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegistrationStoreRequest extends FormRequest
@@ -13,7 +14,8 @@ class RegistrationStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $character = Character::findOrFail($this->get('character_id'));
+        return $this->user()->can('update', $character);
     }
 
     /**
@@ -25,7 +27,7 @@ class RegistrationStoreRequest extends FormRequest
     {
         return [
             'session_id' => "sometimes|exists:sessions,id",
-            'character_id' => "exists:characters,id",
+            'character_id' => "required|exists:characters,id",
             'event_id' => "required_without:session_id|exists:events,id",
         ];
     }

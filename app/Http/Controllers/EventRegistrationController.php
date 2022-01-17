@@ -7,6 +7,7 @@ use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -24,7 +25,6 @@ class EventRegistrationController extends Controller
         $data = $request->validated();
 
         $character = Character::find($data['character_id']);
-        $request->user()->can('update', $character);
 
         if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
