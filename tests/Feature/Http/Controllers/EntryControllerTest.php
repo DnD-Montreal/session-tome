@@ -124,6 +124,7 @@ class EntryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertViewIs('entry.create');
+        $response->assertViewHas('campaigns');
     }
 
 
