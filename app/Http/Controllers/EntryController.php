@@ -60,6 +60,10 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
+        if (!$entryData->has('user_id')) {
+            $entryData['user_id'] = Auth::id();
+        }
+
         if ($ratingData->has('rating_data')) {
             $ratingData = $ratingData['rating_data'];
         }
