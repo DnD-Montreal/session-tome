@@ -17,10 +17,24 @@ const editProps = {
         status: 'private',
     },
     editId: 0,
+    factions: [
+        'The Harpers',
+        'The Order of the Gauntlet',
+        'The Emerald Enclave',
+        'The Lords\' Alliance',
+        'The Zhentarim',
+    ],
 }
 
 const createProps = {
     type: 'Create',
+    factions: [
+        'The Harpers',
+        'The Order of the Gauntlet',
+        'The Emerald Enclave',
+        'The Lords\' Alliance',
+        'The Zhentarim',
+    ],
 }
 
 describe('<CharacterCreateForm />', () => {
@@ -37,13 +51,13 @@ describe('<CharacterCreateForm />', () => {
         const nameField = document.querySelector('#name')
         const raceField = document.querySelector('#race')
         const classField = document.querySelector('#class')
-        const factionField = document.querySelector('#faction')
+        const factionField = document.querySelector('input[name="Faction"]')
         const levelField = document.querySelector('#level')
         const downtimeField = document.querySelector('#downtime')
         fireEvent.change(nameField, {target: {value: '123'}})
         fireEvent.change(raceField, {target: {value: '123'}})
         fireEvent.change(classField, {target: {value: '123'}})
-        fireEvent.change(factionField, {target: {value: '123'}})
+        fireEvent.change(factionField, {target: {value: createProps.factions[0]}})
         fireEvent.change(levelField, {target: {value: 12}})
         fireEvent.change(levelField, {target: {value: 40}})
         fireEvent.change(downtimeField, {target: {value: 22}})
@@ -58,13 +72,13 @@ describe('<CharacterCreateForm />', () => {
         const nameField = document.querySelector('#name')
         const raceField = document.querySelector('#race')
         const classField = document.querySelector('#class')
-        const factionField = document.querySelector('#faction')
+        const factionField = document.querySelector('input[name="Faction"]')
         const levelField = document.querySelector('#level')
         const downtimeField = document.querySelector('#downtime')
         fireEvent.change(nameField, {target: {value: '123'}})
         fireEvent.change(raceField, {target: {value: '123'}})
         fireEvent.change(classField, {target: {value: '123'}})
-        fireEvent.change(factionField, {target: {value: '123'}})
+        fireEvent.change(factionField, {target: {value: editProps.factions[0]}})
         fireEvent.change(levelField, {target: {value: 12}})
         fireEvent.change(levelField, {target: {value: 40}})
         fireEvent.change(downtimeField, {target: {value: 22}})
