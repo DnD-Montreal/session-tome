@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -86,6 +87,16 @@ class EntryTest extends TestCase
         $entry = Entry::factory(1)->create()[0];
 
         $this->assertCount(1, $entry->dungeonMaster()->get());
+    }
+
+    /**
+     * @test
+     */
+    public function can_have_rating()
+    {
+        $entry = Entry::factory()->has(Rating::factory())->create();
+
+        $this->assertCount(1, $entry->rating()->get());
     }
 
     /**
