@@ -185,7 +185,6 @@ class EntryControllerTest extends TestCase
         $character->user()->associate($this->user)->save();
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
-            'user_id' => $this->user->id,
             'adventure_id' => $adventure->id,
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
