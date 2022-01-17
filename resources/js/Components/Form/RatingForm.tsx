@@ -12,7 +12,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {RatingCategoryType} from 'Types/rating-data'
 
-type RatingFormContentPropType = {
+type RatingFormPropType = {
     data: RatingCategoryType
     setData: (key: string, value: any) => void
 }
@@ -35,9 +35,7 @@ const StyledButton = styled(Button)`
     },
 `
 
-const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
-    // console.log(data)
-
+const RatingForm = ({data, setData}: RatingFormPropType) => (
     <>
         <StyledBox>
             <StyledTypography>
@@ -129,5 +127,5 @@ const RatingFormContent = ({data, setData}: RatingFormContentPropType) => (
     </>
 )
 
-RatingFormContent.displayName = 'RatingFormContent'
-export default RatingFormContent
+RatingForm.displayName = 'RatingForm'
+export default RatingForm

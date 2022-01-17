@@ -14,7 +14,7 @@ import {RatingCategoryType} from 'Types/rating-data'
 import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
-import RatingFormContent from './RatingFormContent'
+import RatingForm from './RatingForm'
 
 type EntryCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -302,7 +302,7 @@ const EntryCreateForm = ({
         </>
     )
 
-    const stepTwoContent = <RatingFormContent data={data.rating_data} setData={setData} />
+    const stepTwoContent = <RatingForm data={data.rating_data} setData={setData} />
 
     const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 
