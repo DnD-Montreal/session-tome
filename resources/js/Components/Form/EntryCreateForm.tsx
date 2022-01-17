@@ -30,7 +30,7 @@ type EntryFormDataType = {
     location: string
     length: number
     levels: number
-    gp: string
+    gp: number
     date_played: string | null
     dungeon_master: string
     notes: string
@@ -68,7 +68,7 @@ const EntryCreateForm = ({
         location: '',
         length: 0,
         levels: 1,
-        gp: '',
+        gp: 0,
         date_played: new Date().toDateString(),
         dungeon_master: '',
         notes: '',
@@ -88,8 +88,8 @@ const EntryCreateForm = ({
                   adventure_id: editData?.adventure || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
-                  levels: editData?.levels || 0,
-                  gp: editData?.gp || '',
+                  levels: 0,
+                  gp: 0,
                   date_played: editData?.date_played || new Date().toDateString(),
                   dungeon_master: editData?.dungeon_master || '',
                   notes: editData?.notes || '',
@@ -213,8 +213,19 @@ const EntryCreateForm = ({
                                 id='gp'
                                 label='GP'
                                 name='GP'
-                                value={data.gp}
-                                onChange={(e) => setData('gp', e.target.value)}
+                                type='number'
+                                InputProps={{
+                                    inputProps: {
+                                        min: 0,
+                                    },
+                                }}
+                                value={data.gp.toString()}
+                                onChange={(e) =>
+                                    setData(
+                                        'gp',
+                                        parseFloat(parseFloat(e.target.value).toFixed(2)),
+                                    )
+                                }
                             />
                             {errors?.gp && <ErrorText message={errors?.gp} />}
                         </StyledGrid>
