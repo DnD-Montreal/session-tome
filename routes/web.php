@@ -67,12 +67,15 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
         ->only(['index', 'store']);
 
-    Route::resource('dm-entry', \App\Http\Controllers\DMEntryController::class)
+    Route::resource('dm-entry', App\Http\Controllers\DMEntryController::class)
         ->only('index', 'create');
 
     Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
+
+    Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
+        ->only('store');
 
     Route::get('report/rating', App\Actions\GenerateRatingReport::class)
         ->name('report.rating')
