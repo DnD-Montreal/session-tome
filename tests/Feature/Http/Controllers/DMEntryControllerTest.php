@@ -62,6 +62,7 @@ class DMEntryControllerTest extends TestCase
             fn (Assert $page) => $page
                 ->component("Entry/Create/DmEntryCreate")
                 ->has('adventures')
+                ->has('campaigns')
         );
     }
 
