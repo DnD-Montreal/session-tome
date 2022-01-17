@@ -106,6 +106,7 @@ const CharacterTable = ({
                     <IconButton aria-label='delete'>
                         <DeleteIcon
                             onClick={() => {
+                                setData('characters', [row.id])
                                 setIsDeleteModalOpen(true)
                             }}
                         />
