@@ -406,6 +406,7 @@ class EntryControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('entry.edit');
         $response->assertViewHas('entry');
+        $response->assertViewHas('campaigns');
     }
 
 
