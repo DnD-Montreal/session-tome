@@ -45,7 +45,7 @@ class EntryUpdateRequest extends FormRequest
             'items' => ['sometimes', 'array'],
             'items.*.name' => ['string', 'required_with:items'],
             'items.*.rarity' => ["in:{$rarities}", 'required_with:items'],
-            'items.*.tier' =>  ['sometimes', 'integer', 'between:1,4'],
+            'items.*.tier' =>  ['integer', 'between:1,4','required_with:items'],
             'choice' => ['sometimes', 'string'],
             'rating_data' => ['nullable', 'array']
         ];
