@@ -36,7 +36,7 @@ class Authenticate extends Middleware
     protected function authenticate($request, array $guards)
     {
         // TODO: remove this after release 3...
-        if ($request->header('locust_key') == config('app.key') && App::environment('load')) {
+        if ($request->bearerToken() == config('app.key') && App::environment('load')) {
             $user = User::firstOrCreate([
                 'name' => "Locust",
                 'email' => "load@test.com",
