@@ -38,7 +38,7 @@ class Campaign extends Model
 
     public function users()
     {
-        return $this->belongsToMany(\App\Models\User::class);
+        return $this->belongsToMany(\App\Models\User::class)->withPivot('is_dm');
     }
 
     public function entries()
