@@ -63,13 +63,7 @@ const RatingForm = ({data, setData}: RatingFormPropType) => (
                         setData('rating_data', {...data, flexible: !data.flexible})
                     }}
                     variant={data.flexible ? 'contained' : 'outlined'}
-                    startIcon={
-                        data.flexible ? (
-                            <CableIcon fontSize='small' />
-                        ) : (
-                            <CableIcon fontSize='small' />
-                        )
-                    }
+                    startIcon={<CableIcon fontSize='small' />}
                     className={data.flexible ? 'filled' : ''}
                     aria-label='flexible'>
                     Flexible
