@@ -37,7 +37,11 @@ class Authenticate extends Middleware
     {
         // TODO: remove this after release 3...
         if ($request->header('locust_key') == config('app.key') && App::environment('load')) {
-            $user = User::factory()->create();
+            $user = User::firstOrCreate([
+                'name' => "Locust",
+                'email' => "load@test.com",
+                'password' => "DOESNTMATTER"
+            ]);
             Auth::login($user);
         }
 
