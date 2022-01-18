@@ -32,10 +32,12 @@ type EntryFormDataType = {
     levels: number
     gp: number
     date_played: string | null
-    dungeon_master: string
+    dungeon_master: string | null
     notes: string
     items: ItemData[]
     rating_data: RatingCategoryType
+    type: 'game'
+    character_id: number
 }
 
 const StyledDateGrid = styled(Grid)`
@@ -80,6 +82,8 @@ const EntryCreateForm = ({
             helpful: false,
             prepared: false,
         },
+        type: 'game',
+        character_id: character.id,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -97,6 +101,8 @@ const EntryCreateForm = ({
                   rating_data:
                       editData?.rating_data ||
                       ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
+                  type: 'game',
+                  character_id: character.id,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
