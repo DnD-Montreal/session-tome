@@ -63,7 +63,6 @@ class EntryController extends Controller
         if (!$entryData->has('user_id')) {
             $entryData['user_id'] = Auth::id();
         }
-
         if ($ratingData->has('rating_data')) {
             $ratingData = $ratingData['rating_data'];
         }
@@ -83,7 +82,7 @@ class EntryController extends Controller
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!empty($ratingData) && is_array($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
