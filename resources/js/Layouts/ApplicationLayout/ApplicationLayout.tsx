@@ -16,7 +16,7 @@ import route from 'ziggy-js'
 const theme = getFontTheme('Normal')
 
 const MainGrid = styled.div`
-    background-color: #232b2b;
+    background-color: #23272a;
     color: white;
     font-family: 'Cinzel Decorative', cursive;
     font-size: 0.8em;

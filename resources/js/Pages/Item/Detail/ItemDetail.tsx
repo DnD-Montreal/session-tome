@@ -1,25 +1,21 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {Drawer, ItemEditForm, ItemTable} from 'Components'
+import {Drawer, ItemDetailBox, ItemEditForm} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {CharacterData} from 'Types/character-data'
 import {ItemEditData} from 'Types/item-data'
 import {getFontTheme} from 'Utils'
 
-const theme = getFontTheme('Form', 16)
+const theme = getFontTheme('Form', 14)
 
-type ItemPropType = {
-    items: ItemEditData[]
+type ItemDetailPropType = {
+    item: ItemEditData
+    character: CharacterData
 }
-const Item = ({items}: ItemPropType) => {
+
+const ItemDetail = ({item, character}: ItemDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editData, setEditData] = useState<ItemEditData>({
-        name: '',
-        description: null,
-        rarity: '',
-        tier: 0,
-        id: 0,
-    })
 
     return (
         <ThemeProvider theme={theme}>
@@ -27,24 +23,25 @@ const Item = ({items}: ItemPropType) => {
                 content={
                     <ItemEditForm
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                        editData={editData}
+                        editData={item}
                     />
                 }
-                title={<Typography>Edit item</Typography>}
+                title={<Typography>Edit character</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
                 }}
             />
-            <ItemTable
-                data={items}
+            <ItemDetailBox
+                item={item}
+                character={character}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
-                setEditData={setEditData}
             />
         </ThemeProvider>
     )
 }
 
-Item.displayName = 'Item'
-Item.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
-export default Item
+ItemDetail.displayName = 'ItemDetail'
+ItemDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
+
+export default ItemDetail

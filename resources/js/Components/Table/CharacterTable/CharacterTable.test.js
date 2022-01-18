@@ -5,14 +5,13 @@ import React from 'react'
 import CharacterTable from './CharacterTable'
 
 const mockFunction = jest.fn()
-const isSelectedtest = (name) => [].indexOf(name) !== -1
 const props = {
-    isSelected: isSelectedtest,
     data: characterData,
-    selected: [],
-    handleClick: mockFunction,
-    handleSelectAllClick: mockFunction,
+    setEditData: mockFunction,
+    setEditId: mockFunction,
+    setIsEditDrawerOpen: mockFunction,
 }
+
 describe('CharacterTable', () => {
     it('Component should render', () => {
         const component = render(<CharacterTable {...props} />)
@@ -26,5 +25,11 @@ describe('CharacterTable', () => {
         render(<CharacterTable {...props} />)
         fireEvent.click(screen.getByLabelText('10'))
         fireEvent.click(screen.getByDisplayValue('10'))
+    })
+    it('Delete Icon', () => {
+        render(<CharacterTable {...props} />)
+        const editIcon = document.querySelector('[data-testid="EditIcon"]')
+        fireEvent.click(editIcon)
+        expect(mockFunction).toBeCalled()
     })
 })

@@ -12,8 +12,8 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                 },
                 palette: {
                     primary: {
-                        main: '#3E5543',
-                        dark: '#3E5543',
+                        main: '#8DA57C',
+                        dark: '#8DA57C',
                     },
                     secondary: {
                         main: '#D3D7C6',
@@ -38,8 +38,8 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                 },
                 palette: {
                     primary: {
-                        main: '#3E5543',
-                        dark: '#3E5543',
+                        main: '#8DA57C',
+                        dark: '#8DA57C',
                     },
                     secondary: {
                         main: '#D3D7C6',
