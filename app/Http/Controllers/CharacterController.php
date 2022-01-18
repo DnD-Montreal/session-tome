@@ -17,7 +17,19 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $characters = Character::where('user_id', Auth::user()->id)->get();
+        $sortParams = $request->validate([
+            'sort_by' => "sometimes|in:name,race,class,level,faction,downtime",
+            'sort_dir' => "sometimes|in:asc,desc"
+        ]);
+
+        $characters = Character::where('user_id', Auth::user()->id);
+
+        if (isset($sortParams['sort_by'])) {
+            $direction =  isset($sortParams['sort_dir']) ? $sortParams['sort_dir'] : "asc";
+            $characters = $characters->orderBy($sortParams['sort_by'], $direction);
+        }
+
+        $characters = $characters->get();
 
         return Inertia::render('Character/Character', compact('characters'));
     }
