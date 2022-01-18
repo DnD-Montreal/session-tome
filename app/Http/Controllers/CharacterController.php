@@ -20,7 +20,7 @@ class CharacterController extends Controller
         $characters = Character::where('user_id', Auth::user()->id);
         $factions = array_values(Character::FACTIONS);
         $sortParams = $request->validate([
-            'sort_by' => "sometimes|in:name,race,class,level,faction,downtime",
+            'sort_by' => "sometimes|in:name,race,class,level,faction,downtime,updated_at",
             'sort_dir' => "sometimes|in:asc,desc"
         ]);
 
