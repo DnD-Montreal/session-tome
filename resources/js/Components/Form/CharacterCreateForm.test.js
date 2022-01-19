@@ -4,6 +4,15 @@ import React from 'react'
 import CharacterCreateForm from './CharacterCreateForm'
 
 const mockFunction = jest.fn()
+
+const factions = [
+    'The Harpers',
+    'The Order of the Gauntlet',
+    'The Emerald Enclave',
+    'The Lords\' Alliance',
+    'The Zhentarim',
+]
+
 const editProps = {
     type: 'Edit',
     onCloserDrawer: mockFunction,
@@ -17,24 +26,12 @@ const editProps = {
         status: 'private',
     },
     editId: 0,
-    factions: [
-        'The Harpers',
-        'The Order of the Gauntlet',
-        'The Emerald Enclave',
-        'The Lords\' Alliance',
-        'The Zhentarim',
-    ],
+    factions,
 }
 
 const createProps = {
     type: 'Create',
-    factions: [
-        'The Harpers',
-        'The Order of the Gauntlet',
-        'The Emerald Enclave',
-        'The Lords\' Alliance',
-        'The Zhentarim',
-    ],
+    factions,
 }
 
 describe('<CharacterCreateForm />', () => {
