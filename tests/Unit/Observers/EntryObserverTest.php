@@ -26,10 +26,12 @@ class EntryObserverTest extends TestCase
     public function character_entry_creation_triggers_campaign_entry_creation()
     {
         $campaign = Campaign::factory()->create();
-        $adventure = Adventure::factory()->create();
+
         $userA = User::factory()->create();
         Auth::loginUsingId($userA->id);
         $userB = User::factory()->create();
+        $userGM = User::factory()->create();
+
         $characterA = Character::factory()->create();
         $characterB = Character::factory()->create();
 
@@ -39,10 +41,17 @@ class EntryObserverTest extends TestCase
         $characterA->campaigns()->attach($campaign);
         $characterB->campaigns()->attach($campaign);
 
+        $campaign->users()->attach($userGM, ['is_dm' => true]);
+
         $characterBCampaignEntriesCountBeforeEntryCreation = Entry::where('campaign_id', $campaign->id)
             ->where('character_id', $characterB->id)
             ->get()
             ->count();
+
+        $GMCampaignEntryCountBeforeEntryCreation = Entry::where('campaign_id', $campaign->id)
+            ->where('user_id', $userGM->id)
+            ->get();
+        //->count();
 
         $characterA->entries()->create([
             'campaign_id' => $campaign->id,
@@ -53,6 +62,12 @@ class EntryObserverTest extends TestCase
             ->where('character_id', $characterB->id)
             ->get();
 
+        $GMCampaignEntries = Entry::where('campaign_id', $campaign->id)
+            ->where('user_id', $userGM->id)
+            ->get();
+
+        dd($GMCampaignEntryCountBeforeEntryCreation, $GMCampaignEntries);
         $this->AssertCount($characterBCampaignEntriesCountBeforeEntryCreation + 1, $characterBCampaignEntries);
+        $this->AssertCount($GMCampaignEntryCountBeforeEntryCreation + 1, $characterBCampaignEntries);
     }
 }
