@@ -107,6 +107,10 @@ class EntryObserver
                 unset($entryData['campaign_id']); // this is so the observer doesn't fire infinitely
                 $entryData['character_id'] = $character->id; // assign to the correct character
                 $entryData['user_id'] = $character->user->id;// author this entry by the correct person
+                $entryData['type'] = $entryData['type'] == Entry::TYPE_DM
+                    ? Entry::TYPE_GAME
+                    : $entryData['type'];
+
 
                 //Create the Entry and allow the observer to fire to modify the character
                 $newEntry = Entry::create($entryData);
