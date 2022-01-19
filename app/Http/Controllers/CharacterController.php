@@ -69,9 +69,13 @@ class CharacterController extends Controller
             abort(403);
         }
 
-        $entries = $character->entries()->with('adventure', 'items', 'rating')->get();
+        $entries = $character
+            ->entries()
+            ->with('adventure', 'items', 'rating')
+            ->orderBy('date_played', 'desc')
+            ->get();
         $factions = array_values(Character::FACTIONS);
-      
+
 
         return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries', 'factions'));
     }
