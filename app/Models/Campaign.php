@@ -38,7 +38,7 @@ class Campaign extends Model
 
     public function users()
     {
-        return $this->belongsToMany(\App\Models\User::class);
+        return $this->belongsToMany(\App\Models\User::class)->withPivot('is_dm');
     }
 
     public function entries()
@@ -49,5 +49,10 @@ class Campaign extends Model
     public function adventure()
     {
         return $this->belongsTo(\App\Models\Adventure::class);
+    }
+
+    public function generateCode()
+    {
+        return dechex(microtime(true)*10000);
     }
 }

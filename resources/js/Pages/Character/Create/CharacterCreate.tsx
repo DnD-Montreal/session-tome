@@ -4,12 +4,16 @@ import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {getFontTheme} from 'Utils'
 
-const CharacterCreate = () => {
+type CharacterCreateType = {
+    factions: string[]
+}
+
+const CharacterCreate = ({factions}: CharacterCreateType) => {
     const theme = getFontTheme('Form', 16)
 
     return (
         <ThemeProvider theme={theme}>
-            <CharacterCreateForm type='Create' />
+            <CharacterCreateForm type='Create' factions={factions} />
         </ThemeProvider>
     )
 }

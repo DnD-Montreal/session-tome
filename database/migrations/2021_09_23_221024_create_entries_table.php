@@ -42,6 +42,8 @@ class CreateEntriesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('entries');
+        Schema::enableForeignKeyConstraints();
     }
 }

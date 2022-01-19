@@ -154,10 +154,14 @@ class DatabaseSeeder extends Seeder
 
         // Each event will have 3 sessions being run at them
         foreach ($events as $event) {
-            $sessions = Session::factory(3)->create([
-                'event_id' => $event->id,
-                'dungeon_master_id' => $dm->random()->id
-            ])->merge($sessions);
+            $seats = rand(2, 7);
+            $sessions = Session::factory(3)
+                ->has(Character::factory($seats - rand(0, 2)))
+                ->create([
+                    'event_id' => $event->id,
+                    'dungeon_master_id' => $dm->random()->id,
+                    'seats' => $seats
+                ])->merge($sessions);
         }
         return $sessions;
     }

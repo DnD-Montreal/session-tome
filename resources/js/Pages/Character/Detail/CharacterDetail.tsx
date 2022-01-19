@@ -12,11 +12,11 @@ const theme = getFontTheme('Form', 14)
 type CharacterDetailPropType = {
     character: CharacterData
     entries: EntriesData[]
+    factions: string[]
 }
 
-const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
+const CharacterDetail = ({character, entries, factions}: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-
     return (
         <ThemeProvider theme={theme}>
             <Drawer
@@ -26,6 +26,7 @@ const CharacterDetail = ({character, entries}: CharacterDetailPropType) => {
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={character}
                         editId={character.id}
+                        factions={factions}
                     />
                 }
                 title={<Typography>Edit character</Typography>}
