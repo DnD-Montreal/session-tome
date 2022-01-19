@@ -17,7 +17,8 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $characters = Character::where('user_id', Auth::user()->id);
+        $characters = Character::where('user_id', Auth::user()->id)
+            ->orderBy('updated_at', 'desc');
         $factions = array_values(Character::FACTIONS);
         $sortParams = $request->validate([
             'sort_by' => "sometimes|in:name,race,class,level,faction,downtime,updated_at",
