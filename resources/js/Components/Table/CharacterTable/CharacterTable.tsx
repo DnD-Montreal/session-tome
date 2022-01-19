@@ -7,7 +7,6 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
-import {orderBy} from 'lodash'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
@@ -29,7 +28,6 @@ const CharacterTable = ({
     setEditId,
     setEditData,
 }: CharTablePropType) => {
-    data = orderBy(data, ['updated_at'], ['desc'])
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
