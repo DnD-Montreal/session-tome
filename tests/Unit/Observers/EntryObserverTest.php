@@ -50,8 +50,8 @@ class EntryObserverTest extends TestCase
 
         $GMCampaignEntryCountBeforeEntryCreation = Entry::where('campaign_id', $campaign->id)
             ->where('user_id', $userGM->id)
-            ->get();
-        //->count();
+            ->get()
+            ->count();
 
         $characterA->entries()->create([
             'campaign_id' => $campaign->id,
@@ -66,7 +66,6 @@ class EntryObserverTest extends TestCase
             ->where('user_id', $userGM->id)
             ->get();
 
-        dd($GMCampaignEntryCountBeforeEntryCreation, $GMCampaignEntries);
         $this->AssertCount($characterBCampaignEntriesCountBeforeEntryCreation + 1, $characterBCampaignEntries);
         $this->AssertCount($GMCampaignEntryCountBeforeEntryCreation + 1, $characterBCampaignEntries);
     }
