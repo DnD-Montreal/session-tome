@@ -674,13 +674,34 @@ class EntryControllerTest extends TestCase
      */
     public function destroy_deletes_and_redirects()
     {
-        $entry = Entry::factory()->create();
+        $entry = Entry::factory()->create(['user_id' => $this->user->id]);
+        $user = $entry->user;
 
-        $response = $this->delete(route('entry.destroy', $entry));
+        $response = $this->actingAs($user)->delete(route('entry.destroy', $entry));
 
         $response->assertRedirect(route('entry.index'));
 
         $this->assertDeleted($entry);
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_deletes_and_redirects_bulk()
+    {
+        $user = User::factory()->create();
+        $entries = Entry::factory(2)->create([
+            'user_id' => $user->id
+        ]);
+
+        $response = $this->actingAs($this->user)->delete(route('entry.destroy', [
+            'entries' => [$entries[0]->id, $entries[1]->id]
+        ]));
+
+        $response->assertRedirect(route('entry.index'));
+
+        $this->assertDeleted($entries[0]);
+        $this->assertDeleted($entries[1]);
     }
 
     /**
@@ -695,7 +716,6 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $type = $this->faker->word;
 
-
         $ratingData = [
             "creative" => true,
             "flexible" => false,
@@ -703,8 +723,6 @@ class EntryControllerTest extends TestCase
             "helpful" => false,
             "prepared" => true
         ];
-
-
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
