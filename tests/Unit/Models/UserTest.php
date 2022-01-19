@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Campaign;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Character;
@@ -145,5 +146,18 @@ class UserTest extends TestCase
 
         $this->assertCount(3, $user->authored_items);
         $this->assertEquals($items->fresh(), $user->authored_items);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_have_campaigns()
+    {
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $user->campaigns()->attach($campaign, ['is_dm' => true]);
+
+        $this->assertCount(1, $user->campaigns);
+        $this->assertEquals(1, $user->campaigns[0]->pivot->is_dm);
     }
 }

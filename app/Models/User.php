@@ -65,7 +65,7 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     public function campaigns()
     {
-        return $this->belongsToMany(\App\Models\Campaign::class);
+        return $this->belongsToMany(\App\Models\Campaign::class)->withPivot('is_dm');
     }
 
     public function roles(): BelongsToMany

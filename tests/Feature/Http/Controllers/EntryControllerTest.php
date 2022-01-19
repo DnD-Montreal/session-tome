@@ -230,8 +230,8 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon"],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
         ];
 
 
@@ -292,8 +292,8 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon"],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
         ];
         $choice_advancement = 'advancement';
         $choice_item = 'magic_item';
