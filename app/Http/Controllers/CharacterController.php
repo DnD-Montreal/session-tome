@@ -100,8 +100,9 @@ class CharacterController extends Controller
             // Foreach over all the characters so that we can check the policy against them.
             // Purposely not calling $characters->delete() here.
             foreach ($characters as $char) {
-                $user->can('delete', $char);
-                $char->delete();
+                if ($user->can('delete', $char)) {
+                    $char->delete();
+                }
             }
             return redirect()->route('character.index');
         }

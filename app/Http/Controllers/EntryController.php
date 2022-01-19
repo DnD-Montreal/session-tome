@@ -155,9 +155,11 @@ class EntryController extends Controller
             $entries = Entry::whereIn('id', $data['entries'])->get();
 
             foreach ($entries as $entry) {
-                $user->can('delete', $entry);
-                $entry->delete();
+                if ($user->can('delete', $entry)) {
+                    $entry->delete();
+                }
             }
+
             return redirect()->route('entry.index');
         }
 
