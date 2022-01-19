@@ -36,7 +36,7 @@ class CharacterControllerTest extends TestCase
     {
         $characters = Character::factory()->count(3)->create();
 
-        $response = $this->actingAs(User::first())->get(route('character.index'));
+        $response = $this->actingAs(User::first())->get(route('character.index', ['sort_by' => "name"]));
 
         $response->assertOk();
         $response->assertInertia(
