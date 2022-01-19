@@ -16,6 +16,7 @@ export {
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
+    EntryCreateForm,
     ItemEditForm,
     LoginForm,
     RegistrationForm,

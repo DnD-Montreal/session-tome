@@ -6,10 +6,13 @@ use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Character;
+use App\Models\Adventure;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
@@ -31,11 +34,20 @@ class EntryController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create(Request $request)
     {
-        return view('entry.create');
+        $charId = $request->validate([
+            'character_id' => "required|exists:characters,id|integer"
+        ])['character_id'];
+
+        $character = Character::where('user_id', Auth::id())
+            ->findOrFail($charId);
+
+        $adventures = Adventure::all();
+
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character'));
     }
 
     /**
@@ -48,6 +60,9 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
+        if (!$entryData->has('user_id')) {
+            $entryData['user_id'] = Auth::id();
+        }
         if ($ratingData->has('rating_data')) {
             $ratingData = $ratingData['rating_data'];
         }
@@ -67,7 +82,7 @@ class EntryController extends Controller
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!empty($ratingData) && is_array($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 

@@ -1,5 +1,6 @@
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
@@ -97,6 +98,17 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     variant='contained'
                                     startIcon={<IosShareIcon fontSize='small' />}>
                                     ITEMS
+                                </Button>
+                            </Link>
+                            <Link
+                                href={route('entry.create').concat(
+                                    `?character_id=${character.id}`,
+                                )}>
+                                <Button
+                                    data-testid='entry-button'
+                                    variant='contained'
+                                    startIcon={<HistoryEduIcon fontSize='small' />}>
+                                    Entry
                                 </Button>
                             </Link>
                         </Stack>
