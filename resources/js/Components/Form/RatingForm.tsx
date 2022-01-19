@@ -81,7 +81,7 @@ const RatingForm = ({ratings, setData}: RatingFormPropType) => (
                         )
                     }
                     className={ratings.friendly ? 'filled' : ''}
-                    aria-label='Friendly'>
+                    aria-label='friendly'>
                     Friendly
                 </StyledButton>
                 <StyledButton
