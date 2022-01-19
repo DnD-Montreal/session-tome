@@ -89,9 +89,10 @@ const today = `${
 
 const tomorrowDate = new Date()
 tomorrowDate.setDate(new Date().getDate() + 1)
-const tomorrow = `${`${
-    monthNames[tomorrowDate.getMonth()]
-} ${tomorrowDate.getDate()}, ${tomorrowDate.getFullYear()}`}`
+const tomorrowMonth = monthNames[tomorrowDate.getMonth()]
+const tomorrowDay = tomorrowDate.getDate()
+const tomorrowYear = tomorrowDate.getFullYear()
+const tomorrow = `${`${tomorrowMonth} ${tomorrowDay}, ${tomorrowYear}`}`
 
 describe('<EntryCreateForm />', () => {
     it('edit component should render and close', () => {
