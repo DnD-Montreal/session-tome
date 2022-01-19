@@ -18,7 +18,7 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $user = User::where('id', Auth::id()->get());
+        $user = User::where('id', Auth::user()->id)->get();
         $userCampaigns = $user->first()->campaigns()->get();
 
         return Inertia::render('Campaign/Campaign', compact('userCampaigns'));
