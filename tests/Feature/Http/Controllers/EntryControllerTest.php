@@ -694,7 +694,7 @@ class EntryControllerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->actingAs($this->user)->delete(route('entry.destroy', [
+        $response = $this->actingAs($user)->delete(route('entry.destroy', [
             'entries' => [$entries[0]->id, $entries[1]->id]
         ]));
 
