@@ -308,7 +308,7 @@ const EntryCreateForm = ({
         </>
     )
 
-    const stepTwoContent = <RatingForm data={data.rating_data} setData={setData} />
+    const stepTwoContent = <RatingForm ratings={data.rating_data} setData={setData} />
 
     const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 

@@ -13,7 +13,7 @@ import styled from 'styled-components'
 import {RatingCategoryType} from 'Types/rating-data'
 
 type RatingFormPropType = {
-    data: RatingCategoryType
+    ratings: RatingCategoryType
     setData: (key: string, value: any) => void
 }
 
@@ -35,7 +35,7 @@ const StyledButton = styled(Button)`
     },
 `
 
-const RatingForm = ({data, setData}: RatingFormPropType) => (
+const RatingForm = ({ratings, setData}: RatingFormPropType) => (
     <>
         <StyledBox>
             <StyledTypography>
@@ -44,75 +44,75 @@ const RatingForm = ({data, setData}: RatingFormPropType) => (
             <Stack spacing={2} direction='row'>
                 <StyledButton
                     onClick={() => {
-                        setData('rating_data', {...data, creative: !data.creative})
+                        setData('rating_data', {...ratings, creative: !ratings.creative})
                     }}
-                    variant={data.creative ? 'contained' : 'outlined'}
+                    variant={ratings.creative ? 'contained' : 'outlined'}
                     startIcon={
-                        data.creative ? (
+                        ratings.creative ? (
                             <BrushIcon fontSize='small' />
                         ) : (
                             <BrushOutlinedIcon fontSize='small' />
                         )
                     }
-                    className={data.creative ? 'filled' : ''}
+                    className={ratings.creative ? 'filled' : ''}
                     aria-label='creative'>
                     Creative
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('rating_data', {...data, flexible: !data.flexible})
+                        setData('rating_data', {...ratings, flexible: !ratings.flexible})
                     }}
-                    variant={data.flexible ? 'contained' : 'outlined'}
+                    variant={ratings.flexible ? 'contained' : 'outlined'}
                     startIcon={<CableIcon fontSize='small' />}
-                    className={data.flexible ? 'filled' : ''}
+                    className={ratings.flexible ? 'filled' : ''}
                     aria-label='flexible'>
                     Flexible
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('rating_data', {...data, friendly: !data.friendly})
+                        setData('rating_data', {...ratings, friendly: !ratings.friendly})
                     }}
-                    variant={data.friendly ? 'contained' : 'outlined'}
+                    variant={ratings.friendly ? 'contained' : 'outlined'}
                     startIcon={
-                        data.friendly ? (
+                        ratings.friendly ? (
                             <EmojiEmotionsIcon fontSize='small' />
                         ) : (
                             <EmojiEmotionsOutlinedIcon fontSize='small' />
                         )
                     }
-                    className={data.friendly ? 'filled' : ''}
+                    className={ratings.friendly ? 'filled' : ''}
                     aria-label='Friendly'>
                     Friendly
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('rating_data', {...data, helpful: !data.helpful})
+                        setData('rating_data', {...ratings, helpful: !ratings.helpful})
                     }}
-                    variant={data.helpful ? 'contained' : 'outlined'}
+                    variant={ratings.helpful ? 'contained' : 'outlined'}
                     startIcon={
-                        data.helpful ? (
+                        ratings.helpful ? (
                             <EventAvailableIcon fontSize='small' />
                         ) : (
                             <EventAvailableOutlinedIcon fontSize='small' />
                         )
                     }
-                    className={data.helpful ? 'filled' : ''}
+                    className={ratings.helpful ? 'filled' : ''}
                     aria-label='helpful'>
                     Helpful
                 </StyledButton>
                 <StyledButton
                     onClick={() => {
-                        setData('rating_data', {...data, prepared: !data.prepared})
+                        setData('rating_data', {...ratings, prepared: !ratings.prepared})
                     }}
-                    variant={data.prepared ? 'contained' : 'outlined'}
+                    variant={ratings.prepared ? 'contained' : 'outlined'}
                     startIcon={
-                        data.prepared ? (
+                        ratings.prepared ? (
                             <TimerIcon fontSize='small' />
                         ) : (
                             <TimerOutlinedIcon fontSize='small' />
                         )
                     }
-                    className={data.prepared ? 'filled' : ''}
+                    className={ratings.prepared ? 'filled' : ''}
                     aria-label='prepared'>
                     Prepared
                 </StyledButton>
