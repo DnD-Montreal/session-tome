@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\GenerateEventReport;
 use App\Http\Requests\EventRequest;
+use App\Models\Event;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,6 +41,7 @@ class EventCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->addButtonFromView('line', 'entry_report', 'entry_report', 'beginning');
         CRUD::column('league_id');
         CRUD::column('title');
         CRUD::column('description');
@@ -76,5 +79,11 @@ class EventCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function report()
+    {
+        $event = $this->crud->getCurrentEntry(); //gets the current backpack crud entry (NOT our entry model)
+        return GenerateEventReport::run($event);
     }
 }
