@@ -144,9 +144,26 @@ class EntryController extends Controller
      * @param \App\Models\Entry $entry
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, Entry $entry)
+    public function destroy(Request $request, Entry $entry = null)
     {
-        $entry->delete();
+        $user = $request->user();
+        $data = $request->validate([
+            'entries' => 'sometimes|array'
+        ]);
+
+        if ($request->has('entries')) {
+            $entries = Entry::whereIn('id', $data['entries'])->get();
+
+            foreach ($entries as $entry) {
+                $user->can('delete', $entry);
+                $entry->delete();
+            }
+            return redirect()->route('entry.index');
+        }
+
+        if ($user->can('delete', $entry)) {
+            $entry->delete();
+        }
 
         return redirect()->route('entry.index');
     }
