@@ -59,7 +59,7 @@ const StyledTextField = styled(TextField)({
 
 const EntryCreateForm = ({
     type,
-    onCloseDrawer = () => {},
+    onCloseDrawer,
     editData,
     editId = 0,
     character,
