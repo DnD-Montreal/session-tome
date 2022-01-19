@@ -27,12 +27,9 @@ class GenerateEventReport
         $suffix = "event-report";
 
         //get all characters that attended the event into one list
-        $characters = Character::whereHas(
-            'sessions',
-            function ($q) use ($event) {
+        $characters = Character::whereHas('sessions', function ($q) use ($event) {
             $q->where('event_id', $event->id);
-        }
-        )->get();
+        })->get();
 
         //get character data into columns
         $data = [];
