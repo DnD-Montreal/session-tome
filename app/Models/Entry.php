@@ -110,7 +110,7 @@ class Entry extends Model
         // refactor to scope query?
         return self::where('character_id', $this->character_id)
             ->where('adventure_id', $this->adventure_id)
-            ->where('date_played', ">", $this->date_played)
+            ->where('date_played', "<", $this->date_played)
             ->where('dungeon_master_id', $this->dungeon_master_id)
             ->count() + 1;
     }
