@@ -33,7 +33,7 @@ class EntryObserver
             $campaign = $entry->campaign;
             $char = $entry->character;
             $this->generateCharacterEntriesForCampaign($char->id, $campaign, $entry->attributesToArray());
-            //TODO: Generate DM Entry
+            $this->generateGMEntryForCampaign($campaign, $entry->attributesToArray());
         }
     }
 
@@ -117,6 +117,29 @@ class EntryObserver
                 $newEntry->user()->associate($character->user);
                 $newEntry->saveQuietly();
             }
+        }
+    }
+
+    private function generateGMEntryForCampaign(Campaign $campaign, $entryData)
+    {
+        //get the GM (currently handles multiple GMs by just creating an entry for each of them)
+        $GMs = $campaign->users()->wherePivot('is_dm', 1)->get();
+
+        //prep the data
+        unset($entryData['campaign_id']);
+        unset($entryData['character_id']);
+        $entryData['type'] = Entry::TYPE_DM;
+
+        foreach ($GMs as $GM) {
+            $entryData['user_id'] = $GM->id;
+
+            //Create the Entry and allow the observer to fire to modify the character
+            $newEntry = Entry::create($entryData);
+
+            //Add remaining missing associations to the entry and save quietly to avoid infinite looping
+            $newEntry->campaign()->associate($campaign);
+            $newEntry->user()->associate($GM);
+            $newEntry->saveQuietly();
         }
     }
 }
