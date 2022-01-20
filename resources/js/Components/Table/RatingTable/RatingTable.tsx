@@ -32,38 +32,38 @@ const RatingTable = ({
             title: 'Name',
         },
         {
-            property: 'creative',
+            property: null,
             title: 'Creative',
-            render: (value: any, row: ReportedRatingData) => (
-                <Typography>{row.total_ratings.CREATIVE}</Typography>
+            render: (row: ReportedRatingData) => (
+                <Typography>{row?.total_ratings?.CREATIVE ?? '0'}</Typography>
             ),
         },
         {
-            property: 'flexible',
+            property: null,
             title: 'Flexible',
-            render: (value: any, row: ReportedRatingData) => (
-                <Typography>{row.total_ratings.FLEXIBLE}</Typography>
+            render: (row: ReportedRatingData) => (
+                <Typography>{row?.total_ratings?.FLEXIBLE ?? '0'}</Typography>
             ),
         },
         {
-            property: 'friendly',
+            property: null,
             title: 'Friendly',
-            render: (value: any, row: ReportedRatingData) => (
-                <Typography>{row.total_ratings.FRIENDLY}</Typography>
+            render: (row: ReportedRatingData) => (
+                <Typography>{row?.total_ratings?.FRIENDLY ?? '0'}</Typography>
             ),
         },
         {
-            property: 'helpful',
+            property: null,
             title: 'Helpful',
-            render: (value: any, row: ReportedRatingData) => (
-                <Typography>{row.total_ratings.HELPFUL}</Typography>
+            render: (row: ReportedRatingData) => (
+                <Typography>{row?.total_ratings?.HELPFUL ?? '0'}</Typography>
             ),
         },
         {
-            property: 'prepared',
+            property: null,
             title: 'Prepared',
-            render: (value: any, row: ReportedRatingData) => (
-                <Typography>{row.total_ratings.PREPARED}</Typography>
+            render: (row: ReportedRatingData) => (
+                <Typography>{row?.total_ratings?.PREPARED ?? '0'}</Typography>
             ),
         },
     ]
