@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Box, Button, Grid, MenuItem, Switch, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, StepperForm} from 'Components'
+import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
+import {ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -109,24 +109,15 @@ const CharacterCreateForm = ({
                 </StyledGrid>
                 {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <TextField
+                    <Select
                         margin='normal'
-                        fullWidth
                         id='faction'
-                        select
                         label='Faction'
                         name='Faction'
-                        SelectProps={{
-                            MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
-                        }}
                         value={data.faction}
-                        onChange={(e) => setData('faction', e.target.value)}>
-                        {factions?.map((option: string) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                        onChange={(e) => setData('faction', e.target.value)}
+                        options={factions}
+                    />
                     {errors?.faction && <ErrorText message={errors?.faction} />}
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>

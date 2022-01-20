@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
+// import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
@@ -43,9 +43,9 @@ const CharacterTable = ({
                 Import
             </Button>
         </Link>,
-        <Button variant='contained' startIcon={<FileDownloadIcon />}>
-            Export
-        </Button>,
+        // <Button variant='contained' startIcon={<FileDownloadIcon />}>
+        //     Export
+        // </Button>,
     ]
 
     const rightActions = [

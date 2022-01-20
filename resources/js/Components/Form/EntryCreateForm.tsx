@@ -2,8 +2,8 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, StepperForm} from 'Components'
+import {Button, Grid, TextField, Typography} from '@mui/material'
+import {ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -125,32 +125,21 @@ const EntryCreateForm = ({
             </StyledTypography>
             <Grid container>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <TextField
+                    <Select
                         margin='normal'
-                        fullWidth
                         id='adventure_id'
-                        select
                         required
                         label='Adventure Title'
                         name='Adventure Title'
-                        SelectProps={{
-                            MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
-                        }}
                         value={data.adventure_id}
                         onChange={(e) =>
                             setData('adventure_id', parseInt(e.target.value))
-                        }>
-                        {adventures?.map((option: {id: number; title: string}) => (
-                            <MenuItem key={option.id} value={option.id}>
-                                {option.title}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                        }
+                        options={adventures}
+                    />
                     {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
                 </StyledGrid>
-
                 {type === 'Create' && <StyledGrid item md={2} />}
-
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <TextField
                         margin='normal'
@@ -163,7 +152,6 @@ const EntryCreateForm = ({
                     />
                     {errors?.location && <ErrorText message={errors?.location} />}
                 </StyledGrid>
-
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Grid container spacing={2}>
                         <StyledGrid item xs={4} md={type === 'Edit' ? 12 : 3}>
@@ -255,9 +243,7 @@ const EntryCreateForm = ({
                         </StyledDateGrid>
                     </Grid>
                 </StyledGrid>
-
                 {type === 'Create' && <StyledGrid item md={2} />}
-
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Grid container spacing={2}>
                         <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 6}>
@@ -289,9 +275,7 @@ const EntryCreateForm = ({
                         </StyledGrid>
                     </Grid>
                 </StyledGrid>
-
                 {type === 'Create' && <StyledGrid item md={2} />}
-
                 <StyledGrid item xs={12} md={12}>
                     <TextField
                         margin='normal'
