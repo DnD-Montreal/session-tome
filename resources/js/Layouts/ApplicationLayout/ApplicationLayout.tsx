@@ -213,7 +213,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                     route().current()?.includes('rating') ? 'active' : ''
                                 }
                                 color='white'
-                                href='/#'>
+                                href={route('rating.index')}>
                                 Ratings
                             </InertiaLink>
                         </PaddingGrid>
