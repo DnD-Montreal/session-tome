@@ -6,6 +6,7 @@ import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
+import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type EntryPropType = {
@@ -45,11 +46,9 @@ const EntryTable = ({data}: EntryPropType) => {
             title: 'Reward',
         },
         {
-            property: 'items.name',
+            property: 'items',
             title: 'Magic Items',
-            render: (value: any) => (
-                <Chip aria-label='item' label={value.items.name} variant='outlined' />
-            ),
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,

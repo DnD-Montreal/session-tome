@@ -7,6 +7,7 @@ import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
+import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
@@ -21,8 +22,6 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
-
-    const itemFormatter = (items: any[]) => items.map((item: any) => item.name).join(', ')
 
     const leftActions = [
         <Link href={route('dm-entry.create')}>
