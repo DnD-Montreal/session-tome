@@ -22,6 +22,8 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
+    const itemFormatter = (items: any[]) => items.map((item: any) => item.name).join(', ')
+
     const leftActions = [
         <Link href={route('dm-entry.create')}>
             <Button variant='contained' startIcon={<HistoryEduIcon />}>
@@ -59,8 +61,9 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             title: 'Reward',
         },
         {
-            property: null,
+            property: 'items',
             title: 'Magic Items',
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
