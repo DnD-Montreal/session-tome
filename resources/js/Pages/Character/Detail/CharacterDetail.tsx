@@ -1,6 +1,12 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {CharacterCreateForm, CharacterDetailBox, Drawer, EntryTable} from 'Components'
+import {
+    CharacterCreateForm,
+    CharacterDetailBox,
+    Drawer,
+    EntryCreateForm,
+    EntryTable,
+} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
@@ -17,6 +23,9 @@ type CharacterDetailPropType = {
 
 const CharacterDetail = ({character, entries, factions}: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
+    const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
+    const [editEntryData, setEditEntryData] = useState<EntriesData>()
+    const [editEntryId, setEditEntryId] = useState<number>(0)
     return (
         <ThemeProvider theme={theme}>
             <Drawer
@@ -35,11 +44,33 @@ const CharacterDetail = ({character, entries, factions}: CharacterDetailPropType
                     setIsEditDrawerOpen(false)
                 }}
             />
+            <Drawer
+                content={
+                    <EntryCreateForm
+                        type='Edit'
+                        onCloseDrawer={() => setIsEditEntryDrawerOpen(false)}
+                        editData={editEntryData}
+                        editId={editEntryId}
+                        character={character}
+                        adventures={[]}
+                    />
+                }
+                title={<Typography>Edit Entry</Typography>}
+                isOpen={isEditEntryDrawerOpen}
+                onClose={() => {
+                    setIsEditEntryDrawerOpen(false)
+                }}
+            />
             <CharacterDetailBox
                 character={character}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-            <EntryTable data={entries} />
+            <EntryTable
+                data={entries}
+                setEditEntryId={setEditEntryId}
+                setEditEntryData={setEditEntryData}
+                setIsEditDrawerOpen={setIsEditEntryDrawerOpen}
+            />
         </ThemeProvider>
     )
 }

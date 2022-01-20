@@ -317,24 +317,6 @@ const EntryCreateForm = ({
                     Continue
                 </Button>
             </Grid>
-            {type === 'Edit' && (
-                <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
-                    <Button
-                        variant='contained'
-                        fullWidth
-                        onClick={() => {
-                            put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
-                        }}>
-                        Save
-                    </Button>
-                </Grid>
-            )}
         </StyledGrid>
     )
 
@@ -367,11 +349,21 @@ const EntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        post(route('entry.store'))
-                        if (errors) {
-                            setActiveStep(0)
+                        if (type === 'Edit') {
+                            put(route('entry.update', [editId]))
+                            if (!Object.keys(errors).length) {
+                                clearErrors()
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
+                            }
                         } else {
-                            clearErrors()
+                            post(route('entry.store'))
+                            if (errors) {
+                                setActiveStep(0)
+                            } else {
+                                clearErrors()
+                            }
                         }
                     }}>
                     {type === 'Create' ? 'Create' : 'Save'}
