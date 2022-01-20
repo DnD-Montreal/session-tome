@@ -8,6 +8,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Inertia\Inertia;
 
 class RatingController extends Controller
 {
@@ -43,7 +44,7 @@ class RatingController extends Controller
             $users = $users->get();
         }
 
-        return view('rating.index', compact('users'));
+        return Inertia::render('Rating/Rating', compact('users'));
     }
 
     /**
