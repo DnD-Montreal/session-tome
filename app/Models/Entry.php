@@ -96,6 +96,11 @@ class Entry extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
+    public function rating()
+    {
+        return $this->hasOne(\App\Models\Rating::class);
+    }
+
     public function getSessionAttribute()
     {
         if (is_null($this->character_id) || is_null($this->adventure_id) || is_null($this->date_played)) {

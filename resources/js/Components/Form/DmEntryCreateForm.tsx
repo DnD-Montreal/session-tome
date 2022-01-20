@@ -117,7 +117,7 @@ const DmEntryCreateForm = ({
         DM_ENTRY_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
-    const stepTitles = ['Details', 'Magic Items']
+    const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
 
     const stepOneContent = (
         <>

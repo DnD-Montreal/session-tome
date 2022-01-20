@@ -37,6 +37,8 @@ class Rating extends Model
         'categories' => 'integer',
     ];
 
+    protected $appends = ['labels'];
+
     public const CREATIVE_BITMASK = 1 << 0;    // 00001
     public const FLEXIBLE_BITMASK = 1 << 1;    // 00010
     public const FRIENDLY_BITMASK = 1 << 2;    // 00100

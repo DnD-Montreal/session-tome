@@ -32,7 +32,7 @@ class EntryStoreRequest extends FormRequest
     {
         $rarities = implode(",", Item::RARITY);
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'user_id' => ['sometimes', 'integer', 'exists:users,id'],
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
