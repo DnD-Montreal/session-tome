@@ -127,10 +127,12 @@ class EntryControllerTest extends TestCase
         $response = $this->get(route('entry.create', ['character_id' => $character->id]));
 
         $response->assertOk();
+
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component('Character/Detail/Entry/Create/EntryCreate')
                 ->has('character')
+                ->has('campaigns')
         );
     }
 
@@ -412,6 +414,7 @@ class EntryControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('entry.edit');
         $response->assertViewHas('entry');
+        $response->assertViewHas('campaigns');
     }
 
 

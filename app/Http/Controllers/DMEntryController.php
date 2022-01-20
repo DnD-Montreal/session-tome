@@ -35,6 +35,7 @@ class DMEntryController extends Controller
     {
         $adventures = Adventure::all();
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures', 'characters'));
+        $campaigns = Auth::user()->campaigns;
+        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures', 'characters', 'campaigns'));
     }
 }

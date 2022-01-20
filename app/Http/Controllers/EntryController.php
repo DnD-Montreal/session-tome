@@ -38,6 +38,8 @@ class EntryController extends Controller
      */
     public function create(Request $request)
     {
+        $campaigns = Auth::user()->campaigns;
+
         $charId = $request->validate([
             'character_id' => "required|exists:characters,id|integer"
         ])['character_id'];
@@ -47,7 +49,7 @@ class EntryController extends Controller
 
         $adventures = Adventure::all();
 
-        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character'));
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character', 'campaigns'));
     }
 
     /**
@@ -110,7 +112,8 @@ class EntryController extends Controller
      */
     public function edit(Request $request, Entry $entry)
     {
-        return view('entry.edit', compact('entry'));
+        $campaigns = Auth::user()->campaigns;
+        return view('entry.edit', compact('entry', 'campaigns'));
     }
 
     /**
