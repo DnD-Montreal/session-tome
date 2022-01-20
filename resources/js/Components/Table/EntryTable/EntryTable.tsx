@@ -56,7 +56,7 @@ const EntryTable = ({
         {
             property: 'items',
             title: 'Magic Items',
-            render: (value: any) => <Typography>{itemFormatter(value)}</Typography>,
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,

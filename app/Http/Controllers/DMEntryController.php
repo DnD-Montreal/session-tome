@@ -6,6 +6,7 @@ use App\Http\Requests\EntryStoreRequest;
 use App\Models\Adventure;
 use App\Models\Entry;
 use App\Models\Character;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -20,7 +21,7 @@ class DMEntryController extends Controller
     {
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
-            ->with('character', 'adventure')
+            ->with('character', 'adventure', 'items')
             ->get();
 
         return Inertia::render('DMEntry/DMEntry', compact('entries'));
