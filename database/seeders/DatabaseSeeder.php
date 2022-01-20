@@ -133,7 +133,7 @@ class DatabaseSeeder extends Seeder
                     'author_id' => $entry->user_id
                 ]);
             } elseif ($entry->dungeon_master_id) {
-                // If a game has DM the user should rat them
+                // If a game has DM the user should rate them
                 Rating::factory()->create([
                     'entry_id' => $entry->id,
                     'user_id' => $entry->dungeon_master_id,
