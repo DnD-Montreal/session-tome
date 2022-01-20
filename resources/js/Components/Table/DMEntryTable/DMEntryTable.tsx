@@ -7,6 +7,7 @@ import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
+import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
@@ -59,8 +60,9 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             title: 'Reward',
         },
         {
-            property: null,
+            property: 'items',
             title: 'Magic Items',
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
