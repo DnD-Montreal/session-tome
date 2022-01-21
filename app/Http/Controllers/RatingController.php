@@ -14,7 +14,7 @@ class RatingController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
