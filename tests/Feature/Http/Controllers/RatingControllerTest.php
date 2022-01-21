@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -53,11 +54,17 @@ class RatingControllerTest extends TestCase
         $responseNoFilter = $this->get(route('rating.index'));
 
         $response->assertOk();
-        $response->assertViewIs('rating.index');
-        $response->assertViewHas('users');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+            ->component("Rating/Rating")
+            ->has('users')
+        );
         $responseNoFilter->assertOk();
-        $responseNoFilter->assertViewIs('rating.index');
-        $responseNoFilter->assertViewHas('users');
+        $responseNoFilter->assertInertia(
+            fn (Assert $page) => $page
+            ->component("Rating/Rating")
+            ->has('users')
+        );
     }
 
 
