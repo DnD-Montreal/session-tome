@@ -18,7 +18,7 @@ class RatingController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('ratings');
+        $users = User::has('ratings')->with('ratings');
 
         if ($searchName = $request->get('name')) {
             $users = $users->where('name', 'like', "%{$searchName}%");
@@ -31,7 +31,7 @@ class RatingController extends Controller
         }
 
         if ($fromEvent = (bool) $request->get('from_event')) {
-            $users = $users->with(['ratings' => function ($q) {
+            $users = $users->has('ratings.entry.event')->with(['ratings' => function ($q) {
                 $q->has('entry.event');
             } ]);
         }
