@@ -2,7 +2,7 @@ import {Inertia} from '@inertiajs/inertia'
 import {ThemeProvider} from '@mui/material/styles'
 import {RatingTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
@@ -14,23 +14,21 @@ type RatingPropType = {
 }
 
 const Rating = ({users}: RatingPropType) => {
-    const [isRatingFilteredForEvent, setIsRatingFilteredForEvent] =
-        useState<boolean>(false)
-    const filterTable = () => {
-        const newFilterState = !isRatingFilteredForEvent
-        setIsRatingFilteredForEvent(newFilterState)
+    const [isFiltered, setIsFiltered] = useState<boolean>(false)
+
+    useEffect(() => {
         Inertia.get(
             route('rating.index'),
-            {from_event: newFilterState},
+            {from_event: isFiltered},
             {preserveState: true, preserveScroll: true},
         )
-    }
+    }, [isFiltered])
 
     return (
         <ThemeProvider theme={theme}>
             <RatingTable
-                ratingFilterStatus={isRatingFilteredForEvent}
-                ratingFilterSetter={filterTable}
+                isFiltered={isFiltered}
+                setIsFiltered={setIsFiltered}
                 reportedRatings={users}
             />
         </ThemeProvider>

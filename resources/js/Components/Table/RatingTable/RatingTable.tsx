@@ -1,28 +1,28 @@
 import DoneIcon from '@mui/icons-material/Done'
-import {Box, Chip, Typography} from '@mui/material'
+import {Chip, Typography} from '@mui/material'
 import {DataTable} from 'Components'
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 
 type RatingTablePropType = {
-    ratingFilterStatus: boolean
-    ratingFilterSetter: () => void
+    isFiltered: boolean
+    setIsFiltered: Dispatch<SetStateAction<boolean>>
     reportedRatings: ReportedRatingData[]
 }
 
 const RatingTable = ({
-    ratingFilterStatus,
-    ratingFilterSetter,
+    isFiltered,
+    setIsFiltered,
     reportedRatings,
 }: RatingTablePropType) => {
     const leftActions = [
         <Chip
             label='League Event Ratings Only'
-            onClick={() => ratingFilterSetter()}
-            deleteIcon={ratingFilterStatus ? <DoneIcon /> : undefined}
-            onDelete={ratingFilterStatus ? () => {} : undefined}
-            variant={ratingFilterStatus ? undefined : 'outlined'}
-            color={ratingFilterStatus ? 'primary' : undefined}
+            onClick={() => setIsFiltered(!isFiltered)}
+            deleteIcon={isFiltered ? <DoneIcon /> : undefined}
+            onDelete={isFiltered ? () => {} : undefined}
+            variant={isFiltered ? undefined : 'outlined'}
+            color={isFiltered ? 'primary' : undefined}
         />,
     ]
 
@@ -69,16 +69,14 @@ const RatingTable = ({
     ]
 
     return (
-        <Box>
-            <DataTable
-                leftActions={leftActions}
-                data={reportedRatings}
-                isSelectable={false}
-                columns={columns}
-                tableName='Ratings'
-                filterProperties={['name']}
-            />
-        </Box>
+        <DataTable
+            leftActions={leftActions}
+            data={reportedRatings}
+            isSelectable={false}
+            columns={columns}
+            tableName='Ratings'
+            filterProperties={['name']}
+        />
     )
 }
 
