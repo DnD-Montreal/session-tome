@@ -18,8 +18,7 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
                 Inertia.visit(route('rating.index', {from_event: !fromEvent ?? true}))
             }
             label='League Event Ratings Only'
-            deleteIcon={fromEvent ? <DoneIcon /> : undefined}
-            onDelete={fromEvent ? () => {} : undefined}
+            avatar={fromEvent ? <DoneIcon /> : undefined}
             variant={fromEvent ? undefined : 'outlined'}
             color={fromEvent ? 'primary' : undefined}
         />,
