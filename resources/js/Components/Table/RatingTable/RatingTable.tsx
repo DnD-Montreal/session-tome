@@ -1,28 +1,27 @@
+import {Inertia} from '@inertiajs/inertia'
 import DoneIcon from '@mui/icons-material/Done'
 import {Chip, Typography} from '@mui/material'
 import {DataTable} from 'Components'
-import React, {Dispatch, SetStateAction} from 'react'
+import React from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
+import route from 'ziggy-js'
 
 type RatingTablePropType = {
-    isFiltered: boolean
-    setIsFiltered: Dispatch<SetStateAction<boolean>>
     reportedRatings: ReportedRatingData[]
+    fromEvent: boolean | null
 }
 
-const RatingTable = ({
-    isFiltered,
-    setIsFiltered,
-    reportedRatings,
-}: RatingTablePropType) => {
+const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
     const leftActions = [
         <Chip
+            onClick={() =>
+                Inertia.visit(route('rating.index', {from_event: !fromEvent ?? true}))
+            }
             label='League Event Ratings Only'
-            onClick={() => setIsFiltered(!isFiltered)}
-            deleteIcon={isFiltered ? <DoneIcon /> : undefined}
-            onDelete={isFiltered ? () => {} : undefined}
-            variant={isFiltered ? undefined : 'outlined'}
-            color={isFiltered ? 'primary' : undefined}
+            deleteIcon={fromEvent ? <DoneIcon /> : undefined}
+            onDelete={fromEvent ? () => {} : undefined}
+            variant={fromEvent ? undefined : 'outlined'}
+            color={fromEvent ? 'primary' : undefined}
         />,
     ]
 

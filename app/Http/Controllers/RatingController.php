@@ -30,7 +30,7 @@ class RatingController extends Controller
             });
         }
 
-        if ($fromEvent = $request->get('from_event')) {
+        if ($fromEvent = (bool) $request->get('from_event')) {
             $users = $users->with(['ratings' => function ($q) {
                 $q->has('entry.event');
             } ]);
