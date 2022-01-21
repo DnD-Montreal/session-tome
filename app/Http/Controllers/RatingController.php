@@ -30,7 +30,7 @@ class RatingController extends Controller
             });
         }
 
-        if ($request->get('from_event')) {
+        if ($fromEvent = $request->get('from_event')) {
             $users = $users->with(['ratings' => function ($q) {
                 $q->has('entry.event');
             } ]);
@@ -44,7 +44,7 @@ class RatingController extends Controller
             $users = $users->get();
         }
 
-        return Inertia::render('Rating/Rating', compact('users'));
+        return Inertia::render('Rating/Rating', compact('users', 'fromEvent'));
     }
 
     /**
