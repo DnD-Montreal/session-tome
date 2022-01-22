@@ -12,7 +12,7 @@ describe('<CharacterCreate />', () => {
         expect(component).toBeDefined()
     })
     it('should go to correct steps', () => {
-        render(<CharacterCreate />)
+        render(<CharacterCreate factions={[]} />)
         fireEvent.click(screen.getByText('Continue'))
         expect(screen.getByText(step2Text)).toBeInTheDocument()
         fireEvent.click(screen.getByText('Previous'))
