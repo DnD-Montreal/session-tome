@@ -9,6 +9,7 @@ import {
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {getFontTheme} from 'Utils'
@@ -19,9 +20,15 @@ type CharacterDetailPropType = {
     character: CharacterData
     entries: EntriesData[]
     factions: string[]
+    adventures: adventureType[]
 }
 
-const CharacterDetail = ({character, entries, factions}: CharacterDetailPropType) => {
+const CharacterDetail = ({
+    character,
+    entries,
+    factions,
+    adventures,
+}: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
     const [editEntryData, setEditEntryData] = useState<EntriesData>()
@@ -52,7 +59,7 @@ const CharacterDetail = ({character, entries, factions}: CharacterDetailPropType
                         editData={editEntryData}
                         editId={editEntryId}
                         character={character}
-                        adventures={[]}
+                        adventures={adventures}
                     />
                 }
                 title={<Typography>Edit Entry</Typography>}

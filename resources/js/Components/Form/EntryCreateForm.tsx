@@ -89,7 +89,7 @@ const EntryCreateForm = ({
         type === 'Create'
             ? ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure || 0,
+                  adventure_id: editData?.adventure_id || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
                   levels: 0,

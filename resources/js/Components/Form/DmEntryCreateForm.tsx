@@ -93,7 +93,7 @@ const DmEntryCreateForm = ({
         type === 'Create'
             ? DM_ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure || 0,
+                  adventure_id: editData?.adventure_id || 0,
                   length: editData?.length || 0,
                   levels: 0,
                   gp: 0,

@@ -4,6 +4,8 @@ import useEditDrawer from '@Utils/use-edit-drawer'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
+import {adventureType} from 'Types/adventure-data'
+import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {getFontTheme} from 'Utils'
 
@@ -11,11 +13,11 @@ const theme = getFontTheme('Form', 16)
 
 type DMEntryPropType = {
     entries: EntriesData[]
-    // adventures: any
-    // characters: any
+    adventures: adventureType[]
+    characters: CharacterData[]
 }
 
-const DMEntry = ({entries}: DMEntryPropType) => {
+const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
     const {
         isEditDrawerOpen,
         setIsEditDrawerOpen,
@@ -35,8 +37,8 @@ const DMEntry = ({entries}: DMEntryPropType) => {
                         editData={editData}
                         editId={editId}
                         // fixme: add adventure and characters here
-                        adventures={[]}
-                        characters={[]}
+                        adventures={adventures}
+                        characters={characters}
                     />
                 }
                 title={<Typography>Edit Character</Typography>}
