@@ -154,9 +154,9 @@ class EntryController extends Controller
         if ($request->has('entries')) {
             $entries = Entry::whereIn('id', $data['entries'])->get();
 
-            foreach ($entries as $entry) {
-                if ($user->can('delete', $entry)) {
-                    $entry->delete();
+            foreach ($entries as $arrayEntry) {
+                if ($user->can('delete', $arrayEntry)) {
+                    $arrayEntry->delete();
                 }
             }
 
