@@ -9,6 +9,7 @@ use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Character;
 use App\Models\Adventure;
 use App\Models\Entry;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -79,12 +80,17 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
+        // Attempt to find the DM based on the name passed
+        if (empty($entryData['dungeon_master_id'])) {
+            $entryData['dungeon_master_id'] = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first()->id;
+        }
+
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id && $entry->exists('dungeonMaster')) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
@@ -141,12 +147,17 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
+        // Attempt to find the DM based on the name passed
+        if (empty($entryData['dungeon_master_id'])) {
+            $entryData['dungeon_master_id'] = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first()->id;
+        }
+
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         // need to find alternative to empty, this is true even if no rating_data found
-        if (!empty($ratingData) && is_array($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->exists('dungeonMaster')) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
