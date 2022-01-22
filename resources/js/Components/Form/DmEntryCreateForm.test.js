@@ -18,6 +18,8 @@ const editProps = {
         type: 'dm',
     },
     editId: 0,
+    characters: [],
+    adventures: [],
 }
 const itemProps = {
     items: [
@@ -133,7 +135,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(lengthField, {target: {value: 3}})
         fireEvent.change(locationField, {target: {value: '12333'}})
         fireEvent.change(notesField, {target: {value: '1332'}})
-        fireEvent.click(screen.getByText('Save'))
+        fireEvent.click(screen.getByText('Continue'))
     })
     it('Item test', () => {
         render(<ItemForm {...itemProps} />)
