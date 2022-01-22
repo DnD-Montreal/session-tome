@@ -177,15 +177,13 @@ class EntryController extends Controller
                     $arrayEntry->delete();
                 }
             }
-
-            return redirect()->route('entry.index');
         }
 
         if ($user->can('delete', $entry)) {
             $entry->delete();
         }
 
-        return redirect()->route('entry.index');
+        return redirect()->back();
     }
 
     /**
