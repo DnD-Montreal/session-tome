@@ -113,7 +113,7 @@ class EntryControllerTest extends TestCase
             'choice' => $choice
         ]);
 
-        $response->assertRedirect(route('dm-entry.index'));
+        $response->assertRedirect();
     }
 
     /**
@@ -499,7 +499,7 @@ class EntryControllerTest extends TestCase
 
         $entry->refresh();
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect();
         $response->assertSessionHas('entry.id', $entry->id);
 
         $this->assertEquals($adventure->id, $entry->adventure_id);
