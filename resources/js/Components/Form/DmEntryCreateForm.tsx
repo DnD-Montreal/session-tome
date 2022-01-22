@@ -61,8 +61,6 @@ const choices = [
 ]
 
 const StyledGrid = styled(Grid)`
-    align-items: center;
-    justify-content: center;
     margin-bottom: 16px;
 `
 
