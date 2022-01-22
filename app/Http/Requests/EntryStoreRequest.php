@@ -45,6 +45,7 @@ class EntryStoreRequest extends FormRequest
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
+            'notes' => ['sometimes', 'string'],
             'items' => ['sometimes', 'array'],
             'items.*.name' => ['string', 'required_with:items'],
             'items.*.rarity' => ["in:{$rarities}", 'required_with:items'],
