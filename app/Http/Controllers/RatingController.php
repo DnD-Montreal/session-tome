@@ -8,16 +8,17 @@ use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Inertia\Inertia;
 
 class RatingController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
-        $users = User::with('ratings');
+        $users = User::has('ratings')->with('ratings');
 
         if ($searchName = $request->get('name')) {
             $users = $users->where('name', 'like', "%{$searchName}%");
@@ -29,8 +30,8 @@ class RatingController extends Controller
             });
         }
 
-        if ($request->get('from_event')) {
-            $users = $users->with(['ratings' => function ($q) {
+        if ($fromEvent = (bool) $request->get('from_event')) {
+            $users = $users->has('ratings.entry.event')->with(['ratings' => function ($q) {
                 $q->has('entry.event');
             } ]);
         }
@@ -43,7 +44,7 @@ class RatingController extends Controller
             $users = $users->get();
         }
 
-        return view('rating.index', compact('users'));
+        return Inertia::render('Rating/Rating', compact('users', 'fromEvent'));
     }
 
     /**

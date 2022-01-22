@@ -223,4 +223,22 @@ class CharacterControllerTest extends TestCase
 
         $this->assertDeleted($character);
     }
+
+    /**
+     * @test
+     */
+    public function destroy_deletes_in_bulk_and_redirects()
+    {
+        $characters = Character::factory(3)->create([
+            'user_id' => $this->user->id
+        ]);
+
+        $response = $this->delete(route('character.destroy', ['characters' => $characters->pluck('id')->toArray()]));
+
+        $response->assertRedirect(route('character.index'));
+
+        $this->assertDeleted($characters[0]);
+        $this->assertDeleted($characters[1]);
+        $this->assertDeleted($characters[2]);
+    }
 }
