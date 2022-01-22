@@ -685,11 +685,10 @@ class EntryControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $entry = Entry::factory()->create(['user_id' => $this->user->id]);
-        $user = $this->user;
 
-        $response = $this->actingAs($user)->delete(route('entry.destroy', $entry));
+        $response = $this->actingAs($this->user)->delete(route('entry.destroy', $entry));
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect();
 
         $this->assertDeleted($entry);
     }
@@ -708,7 +707,7 @@ class EntryControllerTest extends TestCase
             'entries' => [$entries[0]->id, $entries[1]->id]
         ]));
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect();
 
         $this->assertDeleted($entries[0]);
         $this->assertDeleted($entries[1]);
