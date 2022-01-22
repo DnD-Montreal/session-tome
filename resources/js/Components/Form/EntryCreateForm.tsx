@@ -281,12 +281,12 @@ const EntryCreateForm = ({
 
     const stepTwoFooter = (
         <StyledGrid container spacing={4}>
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
                     Previous
                 </Button>
             </Grid>
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
                 <Button
                     variant='contained'
                     onClick={() => {
@@ -297,7 +297,7 @@ const EntryCreateForm = ({
                     Skip
                 </Button>
             </Grid>
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
                 <Button variant='contained' onClick={() => setActiveStep(2)} fullWidth>
                     Continue
                 </Button>
