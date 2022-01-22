@@ -36,7 +36,7 @@ type EntryFormDataType = {
     dungeon_master: string | null
     notes: string
     items: ItemData[]
-    rating_data: RatingCategoryType
+    rating_data?: RatingCategoryType | null
     type: 'game'
     character_id: number
     user_id: number | null | undefined
@@ -251,7 +251,7 @@ const EntryCreateForm = ({
         </Grid>
     )
 
-    const stepTwoContent = <RatingForm ratings={data.rating_data} setData={setData} />
+    const stepTwoContent = <RatingForm ratings={data?.rating_data} setData={setData} />
 
     const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 
@@ -281,13 +281,23 @@ const EntryCreateForm = ({
 
     const stepTwoFooter = (
         <StyledGrid container spacing={4}>
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
                     Previous
                 </Button>
             </Grid>
-            <Grid item md={type === 'Edit' ? 4 : 8} />
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
+                <Button
+                    variant='contained'
+                    onClick={() => {
+                        setData('rating_data', null)
+                        setActiveStep(2)
+                    }}
+                    fullWidth>
+                    Skip
+                </Button>
+            </Grid>
+            <Grid item md={4}>
                 <Button variant='contained' onClick={() => setActiveStep(2)} fullWidth>
                     Continue
                 </Button>
