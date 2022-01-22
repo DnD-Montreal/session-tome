@@ -151,10 +151,10 @@ class EntryController extends Controller
         }
 
         if ($request->type == Entry::TYPE_DM) {
-            return redirect()->route('dm-entry.index');
+            return redirect()->back();
         }
 
-        return redirect()->route('entry.index');
+        return redirect()->back();
     }
 
     /**
