@@ -72,7 +72,6 @@ class CharacterController extends Controller
         $entries = $character->entries()->with('adventure', 'items', 'rating')->get();
         $factions = array_values(Character::FACTIONS);
 
-
         return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries', 'factions'));
     }
 
