@@ -36,7 +36,6 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}
                         editId={editId}
-                        // fixme: add adventure and characters here
                         adventures={adventures}
                         characters={characters}
                     />
