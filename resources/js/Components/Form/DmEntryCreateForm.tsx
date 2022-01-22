@@ -3,6 +3,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
+import useUser from '@Utils/use-user'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
@@ -18,7 +19,6 @@ type DmEntryCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
-    user_id?: number
     adventures: adventureType[]
     characters: CharacterData[]
 }
@@ -71,13 +71,13 @@ const DmEntryCreateForm = ({
     onCloseDrawer,
     editData,
     editId = 0,
-    user_id,
     adventures,
     characters,
 }: DmEntryCreateFormPropType) => {
+    const {getUserId} = useUser()
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         adventure_id: 0,
-        user_id,
+        user_id: getUserId(),
         length: 0,
         levels: 0,
         gp: 0,
@@ -104,7 +104,7 @@ const DmEntryCreateForm = ({
                   notes: editData?.notes || '',
                   items: editData?.items || [],
                   type: 'dm',
-                  user_id,
+                  user_id: getUserId(),
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
@@ -274,24 +274,6 @@ const DmEntryCreateForm = ({
                     Continue
                 </Button>
             </Grid>
-            {type === 'Edit' && (
-                <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
-                    <Button
-                        variant='contained'
-                        fullWidth
-                        onClick={() => {
-                            put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
-                        }}>
-                        Save
-                    </Button>
-                </Grid>
-            )}
         </StyledGrid>
     )
 
@@ -308,11 +290,21 @@ const DmEntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        post(route('entry.store'))
-                        if (errors) {
-                            setActiveStep(0)
+                        if (type === 'Edit') {
+                            put(route('entry.update', [editId]))
+                            if (!Object.keys(errors).length) {
+                                clearErrors()
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
+                            }
                         } else {
-                            clearErrors()
+                            post(route('entry.store'))
+                            if (errors) {
+                                setActiveStep(0)
+                            } else {
+                                clearErrors()
+                            }
                         }
                     }}>
                     {type === 'Create' ? 'Create' : 'Save'}
