@@ -1,0 +1,12 @@
+name: Deploy Production
+
+on:
+  release:
+    types: [published]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Deploy Url
+        run: curl ${{ secrets.DEPLOY_TRIGGER }}
