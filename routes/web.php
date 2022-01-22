@@ -37,7 +37,10 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('adventure', App\Http\Controllers\AdventureController::class);
 
-    Route::resource('entry', App\Http\Controllers\EntryController::class);
+    Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
+        ->name("entry.destroy");
+
+    Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy');
 
     Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
         ->only(['store']);
