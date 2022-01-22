@@ -675,7 +675,7 @@ class EntryControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $entry = Entry::factory()->create(['user_id' => $this->user->id]);
-        $user = $entry->user;
+        $user = $this->user;
 
         $response = $this->actingAs($user)->delete(route('entry.destroy', $entry));
 
