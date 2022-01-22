@@ -8,7 +8,7 @@ const step1Text = `Fill out the following fields with your character\'s details.
 
 describe('<CharacterCreate />', () => {
     it('Component should render', () => {
-        const component = render(<CharacterCreate />)
+        const component = render(<CharacterCreate factions={[]} />)
         expect(component).toBeDefined()
     })
     it('should go to correct steps', () => {

@@ -12,7 +12,7 @@ const StyledDrawerContent = styled(Paper)`
     overflow-y: scroll;
 `
 
-const Content = styled.div`
+const Content = styled(Paper)`
     margin-top: 16px;
 `
 
