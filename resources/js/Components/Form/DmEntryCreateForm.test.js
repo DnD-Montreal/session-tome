@@ -136,6 +136,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(locationField, {target: {value: '12333'}})
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Continue'))
+        fireEvent.click(screen.getByText('Save'))
     })
     it('Item test', () => {
         render(<ItemForm {...itemProps} />)
