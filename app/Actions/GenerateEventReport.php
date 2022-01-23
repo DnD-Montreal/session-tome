@@ -21,10 +21,12 @@ class GenerateEventReport
         "Event Name",
         "Adventure ID",
         "Adventure Name",
-        "Table", "Tier",
+        "Table",
+        "Tier",
         "Character ID",
         "Character Name",
-        "Race", "Classes",
+        "Race",
+        "Classes",
         "Total Level",
         "Start Time",
         "Language",
@@ -56,13 +58,22 @@ class GenerateEventReport
                 $user = $character->user;
                 if (!isset($data[$character->id])) {
                     $data[$character->id] = [
-                        $user->id,
-                        $user->name,
+                        $attendanceCount,
+                        $event->id,
+                        $event->title,
+                        $session->adventure->id,
+                        $session->adventure->code,
+                        $session->table,
+                        $character->tier,
                         $character->id,
                         $character->name,
                         $character->race,
                         $character->class,
-                        $character->background,
+                        $character->level,
+                        $session->start_time,
+                        $session->language,
+                        $user->id,
+                        $user->name,
                     ];
                 }
             }
