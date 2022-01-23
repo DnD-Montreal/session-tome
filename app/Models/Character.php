@@ -86,9 +86,44 @@ class Character extends Model
         return $this->entries()->pluck('gp')->sum();
     }
 
+    /**
+     * Accessor which exposes a tier attribute on the model
+     *
+     * @return float
+     */
     public function getTierAttribute()
     {
-        return intval($this->level/5);
+        //due to the uneven distribution of levels along the tiers,
+        //I don't think there is any way to compute this value
+        switch ($this->level) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                return 1;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                return 2;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                return 3;
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+                return 4;
+            default:
+                return 0;
+        }
     }
 
     public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
