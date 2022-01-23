@@ -43,27 +43,31 @@ class GenerateEventReport
         //prep
         $suffix = "event-report";
 
-        //get all characters that attended the event into one list
-        $characters = Character::whereHas('sessions', function ($q) use ($event) {
-            $q->where('event_id', $event->id);
-        })->get();
+        $sessions = $event->sessions;
 
         //get character data into columns
         $data = [];
-        foreach ($characters as $character) {
-            $user = $character->user;
-            if (!isset($data[$character->id])) {
-                $data[$character->id] = [
-                    $user->id,
-                    $user->name,
-                    $character->id,
-                    $character->name,
-                    $character->race,
-                    $character->class,
-                    $character->background,
-                ];
+
+        $attendanceCount = 0;
+        foreach ($sessions as $session) {
+            $characters = $session->characters;
+            foreach ($characters as $character) {
+                $attendanceCount += 1;
+                $user = $character->user;
+                if (!isset($data[$character->id])) {
+                    $data[$character->id] = [
+                        $user->id,
+                        $user->name,
+                        $character->id,
+                        $character->name,
+                        $character->race,
+                        $character->class,
+                        $character->background,
+                    ];
+                }
             }
         }
+
         return StreamCsvFile::run(self::HEADINGS, $data, $suffix);
     }
 }
