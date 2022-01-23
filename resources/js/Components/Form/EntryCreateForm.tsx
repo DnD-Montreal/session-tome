@@ -102,10 +102,9 @@ const EntryCreateForm = ({
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
-
     const [activeStep, setActiveStep] = useState<number>(0)
-
-    const stepTitles = [
+    const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
+    const createStepTitles = [
         {label: 'Details'},
         {
             label: 'Rating',
@@ -118,7 +117,7 @@ const EntryCreateForm = ({
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography>
-                    Fill out the following fields with your DM Entry details.
+                    Fill out the following fields with your Entry details.
                 </Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
@@ -255,7 +254,8 @@ const EntryCreateForm = ({
 
     const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 
-    const stepContent = [stepOneContent, stepTwoContent, stepThreeContent]
+    const editStepContent = [stepOneContent, stepThreeContent]
+    const createStepContent = [stepOneContent, stepTwoContent, stepThreeContent]
 
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
@@ -308,7 +308,11 @@ const EntryCreateForm = ({
     const stepThreeFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                <Button fullWidth onClick={() => setActiveStep(1)}>
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create' ? setActiveStep(1) : setActiveStep(0)
+                    }>
                     Previous
                 </Button>
             </Grid>
@@ -341,14 +345,15 @@ const EntryCreateForm = ({
         </StyledGrid>
     )
 
-    const stepFooter = [stepOneFooter, stepTwoFooter, stepThreeFooter]
+    const editStepFooter = [stepOneFooter, stepThreeFooter]
+    const createStepFooter = [stepOneFooter, stepTwoFooter, stepThreeFooter]
 
     return (
         <StepperForm
             activeStep={activeStep}
-            stepTitles={stepTitles}
-            stepContent={stepContent}
-            stepFooter={stepFooter}
+            stepTitles={type === 'Create' ? createStepTitles : editStepTitles}
+            stepContent={type === 'Create' ? createStepContent : editStepContent}
+            stepFooter={type === 'Create' ? createStepFooter : editStepFooter}
             isDrawer={Boolean(onCloseDrawer)}
         />
     )

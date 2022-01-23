@@ -160,7 +160,6 @@ describe('<EntryCreateForm />', () => {
         fireEvent.change(locationField, {target: {value: '12333'}})
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Continue'))
-        fireEvent.click(screen.getByText('Skip'))
         fireEvent.click(screen.getByText('Save'))
     })
     it('Rating test', () => {
