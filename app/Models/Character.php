@@ -86,6 +86,11 @@ class Character extends Model
         return $this->entries()->pluck('gp')->sum();
     }
 
+    public function getTierAttribute()
+    {
+        return intval($this->level/5);
+    }
+
     public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
     {
         $stubs = array_merge([
