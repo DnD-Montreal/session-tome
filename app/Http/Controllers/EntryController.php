@@ -81,7 +81,7 @@ class EntryController extends Controller
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         // Attempt to find the DM based on the name passed
-        if (empty($entryData['dungeon_master_id'])) {
+        if (empty($entryData['dungeon_master_id']) && $entryData['type'] !== Entry::TYPE_DM) {
             $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
@@ -149,7 +149,7 @@ class EntryController extends Controller
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
         // Attempt to find the DM based on the name passed
-        if (empty($entryData['dungeon_master_id']) || !$entry->dungeon_master_id) {
+        if ((empty($entryData['dungeon_master_id']) || !$entry->dungeon_master_id) && $entryData['type'] !== Entry::TYPE_DM) {
             $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
