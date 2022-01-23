@@ -72,10 +72,7 @@ class CharacterController extends Controller
         $search = $request->get('search', "");
 
         $entries = $character->entries()->with('adventure', 'items', 'rating')->get();
-        $adventures = Adventure::where('title', 'like', "%{$search}%")
-            ->orWhere('code', 'like', "%{$search}%")
-            ->limit(50)
-            ->get(['id', 'title', 'code']);
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $factions = array_values(Character::FACTIONS);
 
 

@@ -48,10 +48,7 @@ class EntryController extends Controller
             ->findOrFail($data['character_id']);
 
         $search = $data['search'] ?? "";
-        $adventures = Adventure::where('title', 'like', "%{$search}%")
-            ->orWhere('code', 'like', "%{$search}%")
-            ->limit(50)
-            ->get(['id', 'title', 'code']);
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
 
         return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character', 'campaigns'));
     }

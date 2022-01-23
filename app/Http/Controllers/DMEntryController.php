@@ -25,10 +25,7 @@ class DMEntryController extends Controller
             ->with('character', 'adventure', 'items')
             ->get();
         $characters = Auth::user()->characters;
-        $adventures = Adventure::where('title', 'like', "%{$search}%")
-            ->orWhere('code', 'like', "%{$search}%")
-            ->limit(50)
-            ->get(['id', 'title', 'code']);
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
 
         return Inertia::render('DMEntry/DMEntry', compact('entries', 'adventures', 'characters'));
     }
@@ -40,10 +37,7 @@ class DMEntryController extends Controller
     public function create(Request $request)
     {
         $search = $request->get("search");
-        $adventures = Adventure::where('title', 'like', "%{$search}%")
-            ->orWhere('code', 'like', "%{$search}%")
-            ->limit(50)
-            ->get(['id', 'title', 'code']);
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $characters = Character::where('user_id', Auth::user()->id)->get();
         $campaigns = Auth::user()->campaigns;
 
