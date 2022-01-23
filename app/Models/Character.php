@@ -103,7 +103,7 @@ class Character extends Model
             case 3:
             case 4:
                 $tier = 1;
-                // no break
+                break;
             case 5:
             case 6:
             case 7:
@@ -111,7 +111,7 @@ class Character extends Model
             case 9:
             case 10:
                 $tier = 2;
-                // no break
+                break;
             case 11:
             case 12:
             case 13:
@@ -119,13 +119,13 @@ class Character extends Model
             case 15:
             case 16:
                 $tier = 3;
-                // no break
+                break;
             case 17:
             case 18:
             case 19:
             case 20:
                 $tier = 4;
-                // no break
+                break;
             default:
                 $tier = 0;
         }
