@@ -113,6 +113,7 @@ const Ziggy = {
             methods: ['DELETE'],
             bindings: {entry: 'id'},
         },
+        'entry-bulk.create': {uri: 'entry-bulk/create', methods: ['GET', 'HEAD']},
         'entry-bulk.store': {uri: 'entry-bulk', methods: ['POST']},
         'character.destroy': {
             uri: 'character/{character?}',

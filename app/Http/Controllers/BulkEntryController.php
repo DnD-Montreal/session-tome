@@ -2,13 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adventure;
 use App\Models\Character;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BulkEntryController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
+     */
+    public function create(Request $request)
+    {
+        $charId = $request->validate([
+            'character_id' => "required|exists:characters,id|integer"
+        ])['character_id'];
+
+        $character = Character::where('user_id', Auth::id())
+            ->findOrFail($charId);
+
+        $adventures = Adventure::all();
+
+        return Inertia::render('Character/Detail/Entry/Create/BulkEntryCreate', compact('adventures', 'character'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
