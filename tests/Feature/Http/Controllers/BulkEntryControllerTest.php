@@ -19,6 +19,16 @@ class BulkEntryControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        Auth::login($this->user);
+    }
+
+
     /**
      * @test
      */
