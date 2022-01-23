@@ -36,7 +36,6 @@ class CampaignRegistrationControllerTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $campaign = Campaign::factory(1)->create()->first();
-        $campaign->save();
 
         $inputData = [
             'character_id' => $character->id,
@@ -49,5 +48,26 @@ class CampaignRegistrationControllerTest extends TestCase
         $this->assertDatabaseCount('campaign_character', 1);
         $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id]);
         $this->assertDatabaseHas('campaign_character', ['character_id' =>$inputData['character_id'], 'campaign_id' =>$campaign->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function store_registers_with_invalid_campaign_code()
+    {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+
+        $inputData = [
+            'character_id' => $character->id,
+            'code' => 'invalid code'
+        ];
+        $response = $this->post(route('campaign-registration.store', $inputData));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors();
+        $this->assertDatabaseCount('campaign_user', 0);
+        $this->assertDatabaseCount('campaign_character', 0);
     }
 }
