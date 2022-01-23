@@ -1,3 +1,4 @@
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined'
 import CreateIcon from '@mui/icons-material/Create'
 import DownloadIcon from '@mui/icons-material/Download'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
@@ -109,6 +110,19 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     variant='contained'
                                     startIcon={<HistoryEduIcon fontSize='small' />}>
                                     Entry
+                                </Button>
+                            </Link>
+                            <Link
+                                href={route('entry-bulk.create').concat(
+                                    `?character_id=${character.id}`,
+                                )}>
+                                <Button
+                                    data-testid='entry-button'
+                                    variant='contained'
+                                    startIcon={
+                                        <CollectionsBookmarkIcon fontSize='small' />
+                                    }>
+                                    Bulk Entry
                                 </Button>
                             </Link>
                         </Stack>
