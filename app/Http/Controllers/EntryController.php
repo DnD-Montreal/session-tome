@@ -39,15 +39,19 @@ class EntryController extends Controller
     public function create(Request $request)
     {
         $campaigns = Auth::user()->campaigns;
-
-        $charId = $request->validate([
-            'character_id' => "required|exists:characters,id|integer"
-        ])['character_id'];
+        $data = $request->validate([
+            'character_id' => "required|exists:characters,id|integer",
+            'search' => "sometimes|string"
+        ]);
 
         $character = Character::where('user_id', Auth::id())
-            ->findOrFail($charId);
+            ->findOrFail($data['character_id']);
 
-        $adventures = Adventure::all();
+        $search = $data['search'] ?? "";
+        $adventures = Adventure::where('title', 'like', "%{$search}%")
+            ->orWhere('code', 'like', "%{$search}%")
+            ->limit(50)
+            ->get(['id', 'title', 'code']);
 
         return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character', 'campaigns'));
     }
