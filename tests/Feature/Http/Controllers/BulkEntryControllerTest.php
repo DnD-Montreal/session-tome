@@ -118,7 +118,7 @@ class BulkEntryControllerTest extends TestCase
 
         $response->assertInertia(
             fn (Assert $page) => $page
-                ->component('Character/Detail/Entry/Create/EntryCreate')
+                ->component('Character/Detail/Entry/Create/BulkEntryCreate')
                 ->has('character')
                 ->has('adventures')
         );
