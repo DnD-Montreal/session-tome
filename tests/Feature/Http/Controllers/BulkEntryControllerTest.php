@@ -112,7 +112,7 @@ class BulkEntryControllerTest extends TestCase
         $character = Character::factory()->create([
             'user_id' => $this->user->id
         ]);
-        $response = $this->get(route('bulk-entry.create', ['character_id' => $character->id]));
+        $response = $this->get(route('entry-bulk.create', ['character_id' => $character->id]));
 
         $response->assertOk();
 
