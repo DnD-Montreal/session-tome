@@ -41,7 +41,7 @@ class EventCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addButtonFromView('line', 'entry_report', 'entry_report', 'beginning');
+        $this->crud->addButtonFromView('line', 'event_report', 'event_report', 'beginning');
         CRUD::column('league_id');
         CRUD::column('title');
         CRUD::column('description');
