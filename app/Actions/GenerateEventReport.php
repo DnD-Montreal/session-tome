@@ -14,6 +14,24 @@ class GenerateEventReport
 {
     use AsAction;
 
+
+    private const HEADINGS = [
+        "Attendance ID",
+        "Event ID",
+        "Event Name",
+        "Adventure ID",
+        "Adventure Name",
+        "Table", "Tier",
+        "Character ID",
+        "Character Name",
+        "Race", "Classes",
+        "Total Level",
+        "Start Time",
+        "Language",
+        "User ID",
+        "User Name"
+    ];
+
     /**
      * Generates a CSV Report that tallies a users ratings on each dimension of their play style
      *
@@ -23,7 +41,6 @@ class GenerateEventReport
     public function handle(Event $event)
     {
         //prep
-        $columns = $this->prepareColumns();
         $suffix = "event-report";
 
         //get all characters that attended the event into one list
@@ -33,7 +50,6 @@ class GenerateEventReport
 
         //get character data into columns
         $data = [];
-
         foreach ($characters as $character) {
             $user = $character->user;
             if (!isset($data[$character->id])) {
@@ -48,16 +64,6 @@ class GenerateEventReport
                 ];
             }
         }
-        return StreamCsvFile::run($columns, $data, $suffix);
-    }
-
-    /**
-     * Format the column text for the CSV to be
-     * @return string[]
-     */
-    private function prepareColumns(): array
-    {
-        $headings = ["User ID", "User Name", "Character ID", "Character Name", "Character Race", "Character Class", "Character Background"];
-        return $headings;
+        return StreamCsvFile::run(self::HEADINGS, $data, $suffix);
     }
 }
