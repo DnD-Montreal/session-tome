@@ -15,7 +15,9 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
     const leftActions = [
         <Chip
             onClick={() =>
-                Inertia.visit(route('rating.index', {from_event: !fromEvent ?? true}))
+                Inertia.visit(route('rating.index', {from_event: !fromEvent ?? true}), {
+                    preserveScroll: true,
+                })
             }
             label='League Event Ratings Only'
             avatar={fromEvent ? <DoneIcon /> : undefined}
