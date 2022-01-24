@@ -117,7 +117,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     `?character_id=${character.id}`,
                                 )}>
                                 <Button
-                                    data-testid='entry-button'
+                                    data-testid='bulk-entry-button'
                                     variant='contained'
                                     startIcon={
                                         <CollectionsBookmarkIcon fontSize='small' />
