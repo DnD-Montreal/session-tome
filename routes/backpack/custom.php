@@ -21,6 +21,7 @@ Route::group([
     Route::crud('character', 'CharacterCrudController');
     Route::crud('entry', 'EntryCrudController');
     Route::crud('event', 'EventCrudController');
+    Route::get('event/{id}/report', 'EventCrudController@report'); //can be reused to generate reports for other models
     Route::crud('item', 'ItemCrudController');
     Route::crud('league', 'LeagueCrudController');
     Route::crud('rating', 'RatingCrudController');
