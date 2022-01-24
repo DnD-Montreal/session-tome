@@ -93,43 +93,7 @@ class Character extends Model
      */
     public function getTierAttribute()
     {
-        $tier = 0;
-        //due to the uneven distribution of levels along the tiers,
-        //I don't think there is any way to compute this value
-        switch ($this->level) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                $tier = 1;
-                break;
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-                $tier = 2;
-                break;
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-                $tier = 3;
-                break;
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-                $tier = 4;
-                break;
-            default:
-                $tier = 0;
-        }
-        return $tier;
+        return 1 + intval($this->level >= 5) + intval($this->level >= 11) + intval($this->level >= 16);
     }
 
     public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
