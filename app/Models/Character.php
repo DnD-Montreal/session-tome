@@ -92,7 +92,9 @@ class Character extends Model
             'user_id' => $this->user_id,
             'character_id' => $this->id,
             'levels' => $entriesLevel,
-            'type' => Entry::TYPE_GAME
+            'type' => Entry::TYPE_GAME,
+            'updated_at' => now(),
+            'created_at' => now(),
         ], is_null($adventureId) ? [] : ['adventure_id' => $adventureId]);
 
         // Note: Insert() doesn't fire events, thus will not trigger the observer
