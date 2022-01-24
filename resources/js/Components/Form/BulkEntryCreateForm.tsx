@@ -106,6 +106,11 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                             onChange={(e) => {
                                 setData('start_date', e)
                             }}
+                            InputProps={{
+                                inputProps: {
+                                    'data-testid': 'start_date',
+                                },
+                            }}
                             renderInput={(params) => <TextField {...params} fullWidth />}
                         />
                     </LocalizationProvider>
@@ -120,6 +125,11 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                             inputFormat='yyyy-MM-dd HH:mm'
                             onChange={(e) => {
                                 setData('end_date', e)
+                            }}
+                            InputProps={{
+                                inputProps: {
+                                    'data-testid': 'end_date',
+                                },
                             }}
                             renderInput={(params) => <TextField {...params} fullWidth />}
                         />
