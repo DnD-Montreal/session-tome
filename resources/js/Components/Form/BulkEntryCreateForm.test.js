@@ -26,7 +26,7 @@ describe('BulkEntryCreateForm', () => {
         const adventureInputField = document.querySelector(
             'input[name="Adventure Title"]',
         )
-        const frequencyField = document.querySelector('#frequency')
+        const frequencyField = document.querySelector('input[name="Frequency"]')
         const startDateField = document.querySelector('#start_date')
         const endDateField = document.querySelector('#end_date')
 
