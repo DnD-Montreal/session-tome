@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import DatePicker from '@mui/lab/DatePicker'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
@@ -28,6 +28,7 @@ type BulkEntryFormDataType = {
 }
 
 const StyledGrid = styled(Grid)`
+    margin-top: 16px;
     margin-bottom: 16px;
 `
 
@@ -53,13 +54,13 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
 
     const stepOneContent = (
         <>
-            <Grid container spacing={2}>
+            <Grid container>
                 <Grid item xs={12}>
                     <Typography>
                         Fill out the following fields about your future sessions.
                     </Typography>
                 </Grid>
-                <StyledGrid item xs={12} md={6}>
+                <StyledGrid item xs={12} md={5}>
                     <Select
                         id='adventure_id'
                         required
@@ -73,7 +74,8 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     />
                     {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
                 </StyledGrid>
-                <StyledGrid item xs={12} md={3}>
+                <StyledGrid item xs={12} md={2} />
+                <StyledGrid item xs={12} md={2}>
                     <TextField
                         fullWidth
                         id='frequency'
@@ -84,7 +86,8 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     />
                     {errors?.frequency && <ErrorText message={errors?.frequency} />}
                 </StyledGrid>
-                <StyledGrid item xs={12} md={3}>
+                <StyledGrid item xs={12} md={1} />
+                <StyledGrid item xs={12} md={2}>
                     <StyledTextField
                         disabled
                         fullWidth
@@ -94,12 +97,12 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                         defaultValue={character.name}
                     />
                 </StyledGrid>
-                <StyledGrid item xs={12} md={6}>
+                <StyledGrid item xs={12} md={5}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                            label='Start Date'
+                        <DateTimePicker
+                            label='Start Date and Time'
                             value={data.start_date}
-                            inputFormat='yyyy-MM-dd'
+                            inputFormat='yyyy-MM-dd HH:mm'
                             onChange={(e) => {
                                 setData('start_date', e)
                             }}
@@ -108,12 +111,13 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     </LocalizationProvider>
                     {errors?.start_date && <ErrorText message={errors?.start_date} />}
                 </StyledGrid>
-                <StyledGrid item xs={12} md={6}>
+                <StyledGrid item xs={12} md={2} />
+                <StyledGrid item xs={12} md={5}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                            label='End Date'
+                        <DateTimePicker
+                            label='End Date and Time'
                             value={data.end_date}
-                            inputFormat='yyyy-MM-dd'
+                            inputFormat='yyyy-MM-dd HH:mm'
                             onChange={(e) => {
                                 setData('end_date', e)
                             }}
