@@ -159,7 +159,7 @@ class EntryController extends Controller
         $request->session()->flash('entry.id', $entry->id);
 
         // need to find alternative to empty, this is true even if no rating_data found
-        if (!empty($ratingData) && is_array($ratingData) && $entry->exists('dungeonMaster')) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
