@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkEntryStoreRequest;
 use App\Models\Adventure;
 use App\Models\Character;
 use Carbon\Carbon;
@@ -35,18 +36,9 @@ class BulkEntryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(BulkEntryStoreRequest $request)
     {
-        $data = $request->validate([
-            'character_id' => "required|exists:characters,id",
-            'adventure_id' => "nullable|exists:adventures,id",
-            'start_date' => "required|date",
-            'end_date' => "nullable|date|gte:start_date",
-            // How often a session was ran, measured in times/week
-            // (1 -> once per week, 2 -> twice per week, 0.5 -> once every 2 weeks)
-            'frequency' => "required|numeric",
-
-        ]);
+        $data = $request->validated();
 
         $data['end_date'] = Carbon::parse($data['end_date']) ?? now();
         $data['start_date'] = Carbon::parse($data['start_date']);
