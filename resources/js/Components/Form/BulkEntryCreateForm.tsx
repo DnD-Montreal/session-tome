@@ -36,6 +36,21 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
+const frequencies = [
+    {
+        name: 'Once a week',
+        value: 1,
+    },
+    {
+        name: 'Once every two weeks',
+        value: 0.5,
+    },
+    {
+        name: 'Once a month',
+        value: 0.25,
+    },
+]
+
 const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
     const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
         start_date: new Date(),
@@ -76,13 +91,14 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                 </StyledGrid>
                 <StyledGrid item xs={12} md={2} />
                 <StyledGrid item xs={12} md={2}>
-                    <TextField
-                        fullWidth
+                    <Select
                         id='frequency'
+                        required
                         label='Frequency'
                         name='Frequency'
                         value={data.frequency}
-                        onChange={(e) => setData('frequency', parseInt(e.target.value))}
+                        onChange={(e) => setData('frequency', parseFloat(e.target.value))}
+                        options={frequencies}
                     />
                     {errors?.frequency && <ErrorText message={errors?.frequency} />}
                 </StyledGrid>
