@@ -119,13 +119,14 @@ class EntryTest extends TestCase
             'author_id' => $character->user->id,
         ]);
         $campaign = Entry::factory()->create($defaults);
+        $nonDM = Entry::factory()->create([
+            'type' => Entry::TYPE_GAME
+        ]);
 
-        $isAdvancement = $advancement->reward == Entry::REWARD_ADVANCEMENT;
-        $isMagicItem = $magicItem->reward == Entry::REWARD_MAGIC_ITEM;
-        $isCampaign = $campaign->reward == Entry::REWARD_CAMPAIGN;
 
-        $this->assertTrue($isAdvancement);
-        $this->assertTrue($isMagicItem);
-        $this->assertTrue($isCampaign);
+        $this->assertEquals(Entry::REWARD_ADVANCEMENT, $advancement->reward);
+        $this->assertEquals(Entry::REWARD_MAGIC_ITEM, $magicItem->reward);
+        $this->assertEquals(Entry::REWARD_CAMPAIGN, $campaign->reward);
+        $this->assertNull($nonDM->reward);
     }
 }
