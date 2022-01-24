@@ -20,8 +20,8 @@ type BulkEntryCreateFormPropType = {
 }
 
 type BulkEntryFormDataType = {
-    start_date: string | null
-    end_date: string | null
+    start_date: Date | null
+    end_date: Date | null
     frequency: number
     adventure_id: number
     character_id: number
@@ -38,8 +38,8 @@ const StyledTextField = styled(TextField)({
 
 const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
     const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
-        start_date: new Date().toDateString(),
-        end_date: new Date().toDateString(),
+        start_date: new Date(),
+        end_date: new Date(),
         frequency: 1,
         adventure_id: 0,
         character_id: character.id,
@@ -106,12 +106,9 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                             onChange={(e) => {
                                 setData('start_date', e)
                             }}
-                            InputProps={{
-                                inputProps: {
-                                    'data-testid': 'start_date',
-                                },
-                            }}
-                            renderInput={(params) => <TextField {...params} fullWidth />}
+                            renderInput={(params) => (
+                                <TextField {...params} fullWidth id='start_date' />
+                            )}
                         />
                     </LocalizationProvider>
                     {errors?.start_date && <ErrorText message={errors?.start_date} />}
@@ -126,12 +123,9 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                             onChange={(e) => {
                                 setData('end_date', e)
                             }}
-                            InputProps={{
-                                inputProps: {
-                                    'data-testid': 'end_date',
-                                },
-                            }}
-                            renderInput={(params) => <TextField {...params} fullWidth />}
+                            renderInput={(params) => (
+                                <TextField {...params} fullWidth id='end_date' />
+                            )}
                         />
                     </LocalizationProvider>
                     {errors?.end_date && <ErrorText message={errors?.end_date} />}

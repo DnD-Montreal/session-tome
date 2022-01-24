@@ -27,8 +27,8 @@ describe('BulkEntryCreateForm', () => {
             'input[name="Adventure Title"]',
         )
         const frequencyField = document.querySelector('#frequency')
-        const startDateField = screen.getByTestId('start_date')
-        const endDateField = screen.getByTestId('end_date')
+        const startDateField = document.querySelector('#start_date')
+        const endDateField = document.querySelector('#end_date')
 
         fireEvent.change(adventureInputField, {target: {value: 2}})
         fireEvent.change(frequencyField, {target: {value: 1}})
