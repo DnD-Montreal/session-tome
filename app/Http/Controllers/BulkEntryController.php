@@ -41,7 +41,7 @@ class BulkEntryController extends Controller
             'character_id' => "required|exists:characters,id",
             'adventure_id' => "nullable|exists:adventures,id",
             'start_date' => "required|date",
-            'end_date' => "nullable|date",
+            'end_date' => "nullable|date|gte:start_date",
             // How often a session was ran, measured in times/week
             // (1 -> once per week, 2 -> twice per week, 0.5 -> once every 2 weeks)
             'frequency' => "required|numeric",
@@ -56,8 +56,9 @@ class BulkEntryController extends Controller
 
         $character = Character::findOrFail($data['character_id']);
         $character->stubEntries(0, $entriesCount, $data['adventure_id']);
+        $entries = $character->entries()->where('created_at', ">=", now())->get();
 
-        foreach ($character->entries as $index => $entry) {
+        foreach ($entries as $index => $entry) {
             $datePlayed = $data['start_date']->addWeeks($index/$data['frequency']);
             $entry->date_played = $datePlayed->isBefore($data['end_date']) ? $datePlayed : $data['end_date'];
             // N+1 consider refactor?
