@@ -141,9 +141,7 @@ const DmEntryCreateForm = ({
                     label='Location'
                     name='Location'
                     value={data.location}
-                    onChange={(e) => {
-                        setData('location', e.target.value)
-                    }}
+                    onChange={(e) => setData('location', e.target.value)}
                 />
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
