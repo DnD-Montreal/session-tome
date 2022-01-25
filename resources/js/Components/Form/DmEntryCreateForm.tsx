@@ -2,9 +2,9 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {ErrorText, Link, Select, StepperForm} from 'Components'
+import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -110,7 +110,6 @@ const DmEntryCreateForm = ({
     )
     const [activeStep, setActiveStep] = useState<number>(0)
     const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
-
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -119,13 +118,17 @@ const DmEntryCreateForm = ({
                 </Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                <Select
+                <Autocomplete
+                    defaultValue={data.adventure_id}
+                    searchUrl={type === 'Create' ? 'dm-entry.create' : 'dm-entry.index'}
                     id='adventure_id'
-                    required
-                    label='Adventure'
-                    name='Adventure Title'
-                    value={data.adventure_id}
-                    onChange={(e) => setData('adventure_id', parseInt(e.target.value))}
+                    onChange={(e: any) => setData('adventure_id', e.target.value)}
+                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
+                    renderOption={(props, option) => (
+                        <MenuItem {...props} value={option.id}>
+                            {`${option.code} - ${option.title}`}
+                        </MenuItem>
+                    )}
                     options={adventures}
                 />
                 {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
@@ -138,7 +141,9 @@ const DmEntryCreateForm = ({
                     label='Location'
                     name='Location'
                     value={data.location}
-                    onChange={(e) => setData('location', e.target.value)}
+                    onChange={(e) => {
+                        setData('location', e.target.value)
+                    }}
                 />
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
