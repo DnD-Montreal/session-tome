@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\Assert;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Http;
 
 class AuthenticationTest extends TestCase
 {
@@ -44,5 +46,20 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('character.index'));
 
         $response->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
+    public function test_locust_can_authenticate()
+    {
+        $token = config('app.key');
+
+        app()->detectEnvironment(function () {
+            return 'load';
+        });
+        $response = Http::withToken($token)->get(route('character.index'));
+
+        $this->assertSame(200, $response->status());
     }
 }
