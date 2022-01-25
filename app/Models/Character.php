@@ -86,6 +86,16 @@ class Character extends Model
         return $this->entries()->pluck('gp')->sum();
     }
 
+    /**
+     * Accessor which exposes a tier attribute on the model
+     *
+     * @return float
+     */
+    public function getTierAttribute()
+    {
+        return 1 + intval($this->level >= 5) + intval($this->level >= 11) + intval($this->level >= 16);
+    }
+
     public function stubEntries($entriesLevel = 1, $amount = null, $adventureId = null)
     {
         $stubs = array_merge([

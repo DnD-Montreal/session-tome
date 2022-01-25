@@ -32,6 +32,7 @@ const editProps = {
     },
     editId: 0,
     character: characterData[0],
+    adventures: [],
 }
 
 const itemProps = {
@@ -158,6 +159,7 @@ describe('<EntryCreateForm />', () => {
         fireEvent.change(lengthField, {target: {value: 3}})
         fireEvent.change(locationField, {target: {value: '12333'}})
         fireEvent.change(notesField, {target: {value: '1332'}})
+        fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Save'))
     })
     it('Rating test', () => {

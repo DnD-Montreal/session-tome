@@ -30,7 +30,7 @@ const Character = ({characters, factions}: CharacterPropType) => {
                         factions={factions}
                     />
                 }
-                title={<Typography>Edit character</Typography>}
+                title={<Typography>Edit Character</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
