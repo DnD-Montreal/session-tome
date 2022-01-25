@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CharacterStoreRequest;
 use App\Http\Requests\CharacterUpdateRequest;
+use App\Models\Adventure;
 use App\Models\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,14 +70,14 @@ class CharacterController extends Controller
             abort(403);
         }
 
+        $adventures = Adventure::all();
         $entries = $character->entries()
             ->with('adventure', 'items', 'rating')
             ->orderBy('date_played', 'desc')
             ->get();
         $factions = array_values(Character::FACTIONS);
 
-
-        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries', 'factions'));
+        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries', 'factions', 'adventures'));
     }
 
     /**

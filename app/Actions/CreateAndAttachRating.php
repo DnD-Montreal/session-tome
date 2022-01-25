@@ -19,6 +19,10 @@ class CreateAndAttachRating
      */
     public function handle(Entry $entry, array $ratingData)
     {
+        if ($entry->exists('rating')) {
+            $entry->rating()->delete();
+        }
+
         $rating = new Rating([
             'entry_id' => $entry->id,
             'user_id' => $entry->dungeon_master_id,
