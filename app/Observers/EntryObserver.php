@@ -88,6 +88,10 @@ class EntryObserver
                 $character->save();
             }
         }
+
+        if ($entry->exists('rating')) {
+            $entry->rating()->delete();
+        }
     }
 
     /**

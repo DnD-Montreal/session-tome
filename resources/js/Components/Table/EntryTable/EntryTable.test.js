@@ -4,8 +4,12 @@ import React from 'react'
 
 import EntryTable from './EntryTable'
 
+const mockFunction = jest.fn()
 const props = {
     data: entriesData,
+    setEditEntryId: mockFunction,
+    setEditEntryData: mockFunction,
+    setIsEditDrawerOpen: mockFunction,
 }
 describe('EntryTable', () => {
     it('Component should render', () => {
@@ -30,5 +34,11 @@ describe('EntryTable', () => {
         render(<EntryTable {...props} />)
         fireEvent.click(screen.getByLabelText('10'))
         fireEvent.click(screen.getByDisplayValue('10'))
+    })
+    it('Edit Icon', () => {
+        render(<EntryTable {...props} />)
+        const editIcon = document.querySelector('[data-testid="EditIcon"]')
+        fireEvent.click(editIcon)
+        expect(mockFunction).toBeCalled()
     })
 })

@@ -12,13 +12,21 @@ import route from 'ziggy-js'
 
 type DMEntryPropType = {
     data: EntriesData[]
+    setEditId: (id: number) => void
+    setEditData: (payload: EntriesData) => void
+    setIsEditDrawerOpen: (payload: boolean) => void
 }
 
 type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({data}: DMEntryPropType) => {
+const DMEntryTable = ({
+    data,
+    setEditId,
+    setEditData,
+    setIsEditDrawerOpen,
+}: DMEntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
@@ -69,7 +77,13 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             title: 'Actions',
             render: (row: any) => (
                 <>
-                    <IconButton aria-label='edit'>
+                    <IconButton
+                        aria-label='edit'
+                        onClick={() => {
+                            setEditData(row)
+                            setEditId(row.id)
+                            setIsEditDrawerOpen(true)
+                        }}>
                         <EditIcon />
                     </IconButton>
                     <IconButton

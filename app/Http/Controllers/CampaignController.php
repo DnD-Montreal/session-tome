@@ -6,16 +6,18 @@ use App\Http\Requests\CampaignStoreRequest;
 use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CampaignController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
-        $campaigns = Campaign::all();
+        $campaigns = Auth::user()->campaigns()->get();
 
         return view('campaign.index', compact('campaigns'));
     }

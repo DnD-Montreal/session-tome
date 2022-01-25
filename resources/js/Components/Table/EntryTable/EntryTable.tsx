@@ -2,22 +2,30 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {Box, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
+import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
-import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type EntryPropType = {
     data: EntriesData[]
+    setEditEntryId: (payload: number) => void
+    setEditEntryData: (payload: any) => void
+    setIsEditDrawerOpen: (payload: boolean) => void
 }
 
 type FormDataType = {
     entries: number[]
 }
 
-const EntryTable = ({data}: EntryPropType) => {
+const EntryTable = ({
+    data,
+    setEditEntryId,
+    setEditEntryData,
+    setIsEditDrawerOpen,
+}: EntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
@@ -55,7 +63,13 @@ const EntryTable = ({data}: EntryPropType) => {
             title: 'Actions',
             render: (row: any) => (
                 <>
-                    <IconButton aria-label='edit'>
+                    <IconButton
+                        aria-label='edit'
+                        onClick={() => {
+                            setEditEntryData(row)
+                            setEditEntryId(row.id)
+                            setIsEditDrawerOpen(true)
+                        }}>
                         <EditIcon />
                     </IconButton>
                     <IconButton
