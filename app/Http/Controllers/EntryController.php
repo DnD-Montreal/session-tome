@@ -49,9 +49,13 @@ class EntryController extends Controller
             ->findOrFail($data['character_id']);
 
         $search = $data['search'] ?? "";
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
 
-        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character', 'campaigns'));
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', [
+            'campaigns' => $campaigns,
+            'character' => $character,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+//            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name'])
+        ]);
     }
 
     /**

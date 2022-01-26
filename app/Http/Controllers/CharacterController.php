@@ -71,14 +71,18 @@ class CharacterController extends Controller
         }
         $search = $request->get('search', "");
 
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $entries = $character->entries()
             ->with('adventure', 'items', 'rating')
             ->orderBy('date_played', 'desc')
             ->get();
         $factions = array_values(Character::FACTIONS);
 
-        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries', 'factions', 'adventures'));
+        return Inertia::render('Character/Detail/CharacterDetail', [
+            'character' => $character,
+            'entries' => $entries,
+            'factions' => $factions,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+        ]);
     }
 
     /**
