@@ -61,6 +61,8 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     protected $filterableFields = ['name'];
 
+    protected $filterableLimit = 10;
+
     public function leagues()
     {
         return $this->belongsToMany(\App\Models\League::class);

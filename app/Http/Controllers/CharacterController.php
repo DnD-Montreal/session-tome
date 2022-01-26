@@ -6,6 +6,7 @@ use App\Http\Requests\CharacterStoreRequest;
 use App\Http\Requests\CharacterUpdateRequest;
 use App\Models\Adventure;
 use App\Models\Character;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -82,6 +83,7 @@ class CharacterController extends Controller
             'entries' => $entries,
             'factions' => $factions,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
         ]);
     }
 

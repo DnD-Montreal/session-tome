@@ -54,7 +54,7 @@ class EntryController extends Controller
             'campaigns' => $campaigns,
             'character' => $character,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
-//            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name'])
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
         ]);
     }
 
