@@ -10,9 +10,15 @@ import route from 'ziggy-js'
 type AutocompletePropType = {
     searchUrl: string
     defaultValue: any
+    fieldKey: string
 } & Omit<AutocompleteProps<any, false, false, false, any>, 'renderInput'>
 
-const Autocomplete = ({searchUrl, defaultValue, ...props}: AutocompletePropType) => (
+const Autocomplete = ({
+    searchUrl,
+    fieldKey,
+    defaultValue,
+    ...props
+}: AutocompletePropType) => (
     <MuiAutoComplete
         autoComplete
         {...props}
@@ -24,6 +30,7 @@ const Autocomplete = ({searchUrl, defaultValue, ...props}: AutocompletePropType)
                     Inertia.visit(route(searchUrl), {
                         preserveScroll: true,
                         preserveState: true,
+                        only: [fieldKey],
                     })
                 }
                 fullWidth
@@ -35,6 +42,7 @@ const Autocomplete = ({searchUrl, defaultValue, ...props}: AutocompletePropType)
                     Inertia.visit(route(searchUrl, {search}), {
                         preserveScroll: true,
                         preserveState: true,
+                        only: [fieldKey],
                     })
                 }}
             />

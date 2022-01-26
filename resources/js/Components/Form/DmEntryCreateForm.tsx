@@ -122,6 +122,7 @@ const DmEntryCreateForm = ({
                     defaultValue={data.adventure_id}
                     searchUrl={type === 'Create' ? 'dm-entry.create' : 'dm-entry.index'}
                     id='adventure_id'
+                    fieldKey='adventure_id'
                     onChange={(e: any) => setData('adventure_id', e.target.value)}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     renderOption={(props, option) => (
