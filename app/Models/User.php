@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +19,7 @@ class User extends Authenticatable implements AuthenticatableInterface
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,6 +59,7 @@ class User extends Authenticatable implements AuthenticatableInterface
      */
     protected $appends = ['total_ratings'];
 
+    protected $filterableFields = ['name'];
 
     public function leagues()
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class Adventure extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,23 +33,11 @@ class Adventure extends Model
         'id' => 'integer',
     ];
 
+    protected $filterableFields = ['code', 'title'];
+
 
     public function sessions()
     {
         return $this->hasMany(\App\Models\Session::class);
-    }
-
-    /**
-     * Limits and filters adventures by title / code
-     *
-     * @param Builder $q
-     * @param string $search
-     * @return Builder
-     */
-    public function scopeFiltered($q, $search = "")
-    {
-        return $q->where('title', 'like', "%{$search}%")
-            ->orWhere('code', 'like', "%{$search}%")
-            ->limit(50);
     }
 }
