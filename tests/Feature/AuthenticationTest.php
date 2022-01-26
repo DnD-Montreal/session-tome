@@ -8,7 +8,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\Assert;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Http;
 
 class AuthenticationTest extends TestCase
 {
@@ -58,8 +57,10 @@ class AuthenticationTest extends TestCase
         app()->detectEnvironment(function () {
             return 'load';
         });
-        $response = Http::withToken($token)->get(route('character.index'));
 
-        $this->assertSame(200, $response->status());
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])->get(route('character.index'));
+
+        $response->assertOk();
+        $this->assertAuthenticated();
     }
 }
