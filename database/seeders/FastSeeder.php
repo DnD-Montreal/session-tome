@@ -96,7 +96,7 @@ class FastSeeder extends Seeder
                 'levels' => random_int(0, 1),
             ];
 
-            $items = Item::factory(rand(0, 2))->state([
+            $items = Item::factory(rand(1, 2))->state([
                 'character_id' => $character->id,
                 'author_id' => $character->user_id
             ]);
