@@ -37,7 +37,6 @@ const DMEntryTable = ({
             </Button>
         </Link>,
     ]
-    console.log(data[0].date_played)
     const columns = [
         {
             property: 'date_played',
