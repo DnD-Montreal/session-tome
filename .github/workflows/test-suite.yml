@@ -60,7 +60,7 @@ jobs:
         run: ./vendor/bin/phpunit --coverage-clover tests/coverage.xml
 
       - name: Run Jest
-        run: yarn jest --coverage
+        run: yarn test
 
       - name: Publish reports to Code Climate
         uses: paambaati/codeclimate-action@v2.7.5

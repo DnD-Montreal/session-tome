@@ -26,7 +26,7 @@ describe('CharacterTable', () => {
         fireEvent.click(screen.getByLabelText('10'))
         fireEvent.click(screen.getByDisplayValue('10'))
     })
-    it('Delete Icon', () => {
+    it('Edit Icon', () => {
         render(<CharacterTable {...props} />)
         const editIcon = document.querySelector('[data-testid="EditIcon"]')
         fireEvent.click(editIcon)

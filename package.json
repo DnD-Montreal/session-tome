@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "prepare": "husky install",
-        "test": "jest"
+        "test": "jest --coverage --silent"
     },
     "devDependencies": {
         "@babel/core": "^7.15.5",

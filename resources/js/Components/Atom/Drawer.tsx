@@ -1,4 +1,4 @@
-import {Drawer as MuiDrawer, Paper} from '@mui/material'
+import {Divider, Drawer as MuiDrawer, Paper} from '@mui/material'
 import React, {ReactNode} from 'react'
 import styled from 'styled-components'
 
@@ -12,6 +12,10 @@ const StyledDrawerContent = styled(Paper)`
     overflow-y: scroll;
 `
 
+const Content = styled(Paper)`
+    margin-top: 16px;
+`
+
 type EditDrawerPropType = {
     content: ReactNode
     onClose: () => void
@@ -23,7 +27,8 @@ const Drawer = ({content, onClose, isOpen, title}: EditDrawerPropType) => (
     <MuiDrawer anchor='right' onClose={onClose} open={isOpen}>
         <StyledDrawerContent>
             {title}
-            {content}
+            <Divider style={{marginTop: 6}} />
+            <Content>{content}</Content>
         </StyledDrawerContent>
     </MuiDrawer>
 )

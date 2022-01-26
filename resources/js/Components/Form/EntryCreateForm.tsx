@@ -2,8 +2,9 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, StepperForm} from 'Components'
+import {Button, Grid, TextField, Typography} from '@mui/material'
+import useUser from '@Utils/use-user'
+import {ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -35,22 +36,14 @@ type EntryFormDataType = {
     dungeon_master: string | null
     notes: string
     items: ItemData[]
-    rating_data: RatingCategoryType
+    rating_data?: RatingCategoryType | null
     type: 'game'
     character_id: number
+    user_id: number | null | undefined
 }
-
-const StyledDateGrid = styled(Grid)`
-    margin-top: 16px;
-    margin-bottom: 23px;
-`
 
 const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
-`
-
-const StyledTypography = styled(Typography)`
-    margin-bottom: 32px;
 `
 
 const StyledTextField = styled(TextField)({
@@ -65,6 +58,7 @@ const EntryCreateForm = ({
     character,
     adventures,
 }: EntryCreateFormPropType) => {
+    const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
         adventure_id: 0,
         location: '',
@@ -84,12 +78,13 @@ const EntryCreateForm = ({
         },
         type: 'game',
         character_id: character.id,
+        user_id: getUserId(),
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
             ? ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure || 0,
+                  adventure_id: editData?.adventure_id || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
                   levels: 0,
@@ -103,13 +98,13 @@ const EntryCreateForm = ({
                       ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
                   type: 'game',
                   character_id: character.id,
+                  user_id: getUserId(),
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
-
     const [activeStep, setActiveStep] = useState<number>(0)
-
-    const stepTitles = [
+    const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
+    const createStepTitles = [
         {label: 'Details'},
         {
             label: 'Rating',
@@ -119,200 +114,148 @@ const EntryCreateForm = ({
     ]
 
     const stepOneContent = (
-        <>
-            <StyledTypography>
-                Fill out the following fields with your entry details.
-            </StyledTypography>
-            <Grid container>
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <TextField
-                        margin='normal'
-                        fullWidth
-                        id='adventure_id'
-                        select
-                        required
-                        label='Adventure Title'
-                        name='Adventure Title'
-                        SelectProps={{
-                            MenuProps: {PaperProps: {sx: {maxHeight: 300}}},
-                        }}
-                        value={data.adventure_id}
-                        onChange={(e) =>
-                            setData('adventure_id', parseInt(e.target.value))
-                        }>
-                        {adventures?.map((option: {id: number; title: string}) => (
-                            <MenuItem key={option.id} value={option.id}>
-                                {option.title}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
-                </StyledGrid>
-
-                {type === 'Create' && <StyledGrid item md={2} />}
-
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <TextField
-                        margin='normal'
-                        fullWidth
-                        id='location'
-                        label='Location'
-                        name='Location'
-                        value={data.location}
-                        onChange={(e) => setData('location', e.target.value)}
-                    />
-                    {errors?.location && <ErrorText message={errors?.location} />}
-                </StyledGrid>
-
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <Grid container spacing={2}>
-                        <StyledGrid item xs={4} md={type === 'Edit' ? 12 : 3}>
-                            <TextField
-                                margin='normal'
-                                fullWidth
-                                id='length'
-                                label='Length'
-                                name='Length'
-                                type='number'
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                    },
-                                }}
-                                value={data.length.toString()}
-                                onChange={(e) =>
-                                    setData('length', parseInt(e.target.value))
-                                }
-                            />
-                            {errors?.length && <ErrorText message={errors?.length} />}
-                        </StyledGrid>
-                        <StyledGrid item xs={4} md={type === 'Edit' ? 12 : 3}>
-                            <TextField
-                                margin='normal'
-                                fullWidth
-                                id='levels'
-                                label='Levels'
-                                name='Levels'
-                                type='number'
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                    },
-                                }}
-                                value={data.levels.toString()}
-                                onChange={(e) =>
-                                    setData('levels', parseInt(e.target.value))
-                                }
-                            />
-                            {errors?.levels && <ErrorText message={errors?.levels} />}
-                        </StyledGrid>
-                        <StyledGrid item xs={4} md={type === 'Edit' ? 12 : 3}>
-                            <TextField
-                                margin='normal'
-                                fullWidth
-                                id='gp'
-                                label='GP'
-                                name='GP'
-                                type='number'
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
-                                    },
-                                }}
-                                value={data.gp.toString()}
-                                onChange={(e) =>
-                                    setData(
-                                        'gp',
-                                        parseFloat(parseFloat(e.target.value).toFixed(2)),
-                                    )
-                                }
-                            />
-                            {errors?.gp && <ErrorText message={errors?.gp} />}
-                        </StyledGrid>
-                        <StyledDateGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    label='Date'
-                                    value={data.date_played}
-                                    inputFormat='yyyy-MM-dd'
-                                    onChange={(e) => {
-                                        setData('date_played', e)
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField fullWidth {...params} />
-                                    )}
-                                />
-                            </LocalizationProvider>
-                            {errors?.date_played && (
-                                <ErrorText message={errors?.date_played} />
-                            )}
-                        </StyledDateGrid>
-                    </Grid>
-                </StyledGrid>
-
-                {type === 'Create' && <StyledGrid item md={2} />}
-
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <Grid container spacing={2}>
-                        <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 6}>
-                            <TextField
-                                margin='normal'
-                                fullWidth
-                                id='dungeon_master'
-                                label='Game Master'
-                                name='Game Master'
-                                value={data.dungeon_master}
-                                onChange={(e) =>
-                                    setData('dungeon_master', e.target.value)
-                                }
-                            />
-                            {errors?.dungeon_master && (
-                                <ErrorText message={errors?.dungeon_master} />
-                            )}
-                        </StyledGrid>
-                        <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 6}>
-                            <StyledTextField
-                                disabled
-                                margin='normal'
-                                fullWidth
-                                variant='filled'
-                                id='id'
-                                label='Assigned Character'
-                                defaultValue={character.name}
-                            />
-                        </StyledGrid>
-                    </Grid>
-                </StyledGrid>
-
-                {type === 'Create' && <StyledGrid item md={2} />}
-
-                <StyledGrid item xs={12} md={12}>
-                    <TextField
-                        margin='normal'
-                        fullWidth
-                        id='notes'
-                        label='Notes'
-                        name='Notes'
-                        value={data.notes}
-                        onChange={(e) => setData('notes', e.target.value)}
-                    />
-                    {errors?.notes && <ErrorText message={errors?.notes} />}
-                </StyledGrid>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Typography>
+                    Fill out the following fields with your Entry details.
+                </Typography>
             </Grid>
-        </>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <Select
+                    id='adventure_id'
+                    required
+                    label='Adventure'
+                    name='Adventure Title'
+                    value={data.adventure_id}
+                    onChange={(e) => setData('adventure_id', parseInt(e.target.value))}
+                    options={adventures}
+                />
+                {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={2} />}
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <TextField
+                    fullWidth
+                    id='location'
+                    label='Location'
+                    name='Location'
+                    value={data.location}
+                    onChange={(e) => setData('location', e.target.value)}
+                />
+                {errors?.location && <ErrorText message={errors?.location} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+                <TextField
+                    fullWidth
+                    id='length'
+                    label='Length'
+                    name='Length'
+                    type='number'
+                    InputProps={{
+                        inputProps: {
+                            min: 0,
+                        },
+                    }}
+                    value={data.length.toString()}
+                    onChange={(e) => setData('length', parseInt(e.target.value))}
+                />
+                {errors?.length && <ErrorText message={errors?.length} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+                <TextField
+                    fullWidth
+                    id='levels'
+                    label='Levels'
+                    name='Levels'
+                    type='number'
+                    InputProps={{
+                        inputProps: {
+                            min: 0,
+                        },
+                    }}
+                    value={data.levels.toString()}
+                    onChange={(e) => setData('levels', parseInt(e.target.value))}
+                />
+                {errors?.levels && <ErrorText message={errors?.levels} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+                <TextField
+                    fullWidth
+                    id='gp'
+                    label='GP'
+                    name='GP'
+                    type='number'
+                    InputProps={{
+                        inputProps: {
+                            min: 0,
+                        },
+                    }}
+                    value={data.gp.toString()}
+                    onChange={(e) =>
+                        setData('gp', parseFloat(parseFloat(e.target.value).toFixed(2)))
+                    }
+                />
+                {errors?.gp && <ErrorText message={errors?.gp} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                        label='Date'
+                        value={data.date_played}
+                        inputFormat='yyyy-MM-dd'
+                        onChange={(e) => {
+                            setData('date_played', e)
+                        }}
+                        renderInput={(params) => <TextField {...params} fullWidth />}
+                    />
+                </LocalizationProvider>
+                {errors?.date_played && <ErrorText message={errors?.date_played} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={2} />}
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+                <TextField
+                    fullWidth
+                    id='dungeon_master'
+                    label='Game Master'
+                    name='Game Master'
+                    value={data.dungeon_master}
+                    onChange={(e) => setData('dungeon_master', e.target.value)}
+                />
+                {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
+                <StyledTextField
+                    disabled
+                    fullWidth
+                    variant='filled'
+                    id='id'
+                    label='Assigned Character'
+                    defaultValue={character.name}
+                />
+            </StyledGrid>
+            <StyledGrid item xs={12}>
+                <TextField
+                    multiline
+                    rows={2}
+                    margin='normal'
+                    fullWidth
+                    id='notes'
+                    label='Notes'
+                    name='Notes'
+                    value={data.notes}
+                    onChange={(e) => setData('notes', e.target.value)}
+                />
+                {errors?.notes && <ErrorText message={errors?.notes} />}
+            </StyledGrid>
+        </Grid>
     )
 
-    const stepTwoContent = <RatingForm ratings={data.rating_data} setData={setData} />
+    const stepTwoContent = <RatingForm ratings={data?.rating_data} setData={setData} />
 
     const stepThreeContent = <ItemForm items={data.items} setData={setData} />
 
-    const stepContent = [stepOneContent, stepTwoContent, stepThreeContent]
+    const editStepContent = [stepOneContent, stepThreeContent]
+    const createStepContent = [stepOneContent, stepTwoContent, stepThreeContent]
 
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
@@ -333,36 +276,28 @@ const EntryCreateForm = ({
                     Continue
                 </Button>
             </Grid>
-            {type === 'Edit' && (
-                <Grid item md={type === 'Edit' ? 4 : 2} xs={4}>
-                    <Button
-                        variant='contained'
-                        fullWidth
-                        onClick={() => {
-                            put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
-                        }}>
-                        Save
-                    </Button>
-                </Grid>
-            )}
         </StyledGrid>
     )
 
     const stepTwoFooter = (
         <StyledGrid container spacing={4}>
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
                     Previous
                 </Button>
             </Grid>
-            <Grid item md={type === 'Edit' ? 4 : 8} />
-            <Grid item md={type === 'Edit' ? 4 : 2} xs={6}>
+            <Grid item md={4}>
+                <Button
+                    variant='contained'
+                    onClick={() => {
+                        setData('rating_data', null)
+                        setActiveStep(2)
+                    }}
+                    fullWidth>
+                    Skip
+                </Button>
+            </Grid>
+            <Grid item md={4}>
                 <Button variant='contained' onClick={() => setActiveStep(2)} fullWidth>
                     Continue
                 </Button>
@@ -373,7 +308,11 @@ const EntryCreateForm = ({
     const stepThreeFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                <Button fullWidth onClick={() => setActiveStep(1)}>
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create' ? setActiveStep(1) : setActiveStep(0)
+                    }>
                     Previous
                 </Button>
             </Grid>
@@ -383,11 +322,21 @@ const EntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        post(route('entry.store'))
-                        if (errors) {
-                            setActiveStep(0)
+                        if (type === 'Edit') {
+                            put(route('entry.update', [editId]))
+                            if (!Object.keys(errors).length) {
+                                clearErrors()
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
+                            }
                         } else {
-                            clearErrors()
+                            post(route('entry.store'))
+                            if (errors) {
+                                setActiveStep(0)
+                            } else {
+                                clearErrors()
+                            }
                         }
                     }}>
                     {type === 'Create' ? 'Create' : 'Save'}
@@ -396,14 +345,15 @@ const EntryCreateForm = ({
         </StyledGrid>
     )
 
-    const stepFooter = [stepOneFooter, stepTwoFooter, stepThreeFooter]
+    const editStepFooter = [stepOneFooter, stepThreeFooter]
+    const createStepFooter = [stepOneFooter, stepTwoFooter, stepThreeFooter]
 
     return (
         <StepperForm
             activeStep={activeStep}
-            stepTitles={stepTitles}
-            stepContent={stepContent}
-            stepFooter={stepFooter}
+            stepTitles={type === 'Create' ? createStepTitles : editStepTitles}
+            stepContent={type === 'Create' ? createStepContent : editStepContent}
+            stepFooter={type === 'Create' ? createStepFooter : editStepFooter}
             isDrawer={Boolean(onCloseDrawer)}
         />
     )
