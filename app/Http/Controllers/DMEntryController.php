@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EntryStoreRequest;
 use App\Models\Adventure;
 use App\Models\Entry;
 use App\Models\Character;
-use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -25,9 +23,12 @@ class DMEntryController extends Controller
             ->with('character', 'adventure', 'items')
             ->get();
         $characters = Auth::user()->characters;
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
 
-        return Inertia::render('DMEntry/DMEntry', compact('entries', 'adventures', 'characters'));
+        return Inertia::render('DMEntry/DMEntry', [
+            'entries' => $entries,
+            'characters' => $characters,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+        ]);
     }
 
     /**
@@ -37,10 +38,13 @@ class DMEntryController extends Controller
     public function create(Request $request)
     {
         $search = $request->get("search");
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $characters = Character::where('user_id', Auth::user()->id)->get();
         $campaigns = Auth::user()->campaigns;
 
-        return Inertia::render('Entry/Create/DmEntryCreate', compact('adventures', 'characters', 'campaigns'));
+        return Inertia::render('Entry/Create/DmEntryCreate', [
+            'characters' => $characters,
+            'campaigns' => $campaigns,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+        ]);
     }
 }

@@ -5,7 +5,6 @@ import {
     TextField,
 } from '@mui/material'
 import React from 'react'
-import route from 'ziggy-js'
 
 type AutocompletePropType = {
     searchUrl: string
@@ -27,7 +26,7 @@ const Autocomplete = ({
                 {...params}
                 // reset the query
                 onBlur={() =>
-                    Inertia.visit(route(searchUrl), {
+                    Inertia.reload({
                         preserveScroll: true,
                         preserveState: true,
                         only: [fieldKey],
@@ -39,10 +38,11 @@ const Autocomplete = ({
                 defaultValue={defaultValue}
                 onChange={(e) => {
                     const search = e.target.value
-                    Inertia.visit(route(searchUrl, {search}), {
+                    Inertia.reload({
                         preserveScroll: true,
                         preserveState: true,
                         only: [fieldKey],
+                        data: {search},
                     })
                 }}
             />
