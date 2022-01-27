@@ -79,7 +79,7 @@ const EntryCreateForm = ({
         type: 'game',
         character_id: character.id,
         user_id: getUserId(),
-        adventure: {},
+        adventure: undefined,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -99,7 +99,7 @@ const EntryCreateForm = ({
                   type: 'game',
                   character_id: character.id,
                   user_id: getUserId(),
-                  adventure: editData?.adventure || {},
+                  adventure: editData?.adventure || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
@@ -123,7 +123,6 @@ const EntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    searchUrl={type === 'Create' ? 'entry.create' : 'entry.index'}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}

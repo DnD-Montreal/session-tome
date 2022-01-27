@@ -5,25 +5,24 @@ import {
     TextField,
 } from '@mui/material'
 import React, {useEffect, useState} from 'react'
-import route from 'ziggy-js'
 
 type AutocompletePropType = {
-    searchUrl: string
     fieldKey: string
     onClear?: () => void
 } & Omit<AutocompleteProps<any, false, false, false, any>, 'renderInput'>
 
-const Autocomplete = ({onClear, searchUrl, fieldKey, ...props}: AutocompletePropType) => {
+const Autocomplete = ({onClear, fieldKey, ...props}: AutocompletePropType) => {
     const [search, setSearch] = useState<string>('')
     useEffect(() => {
         if (search.length > 0) {
-            Inertia.visit(route(searchUrl, {search}), {
+            Inertia.reload({
                 preserveScroll: true,
                 preserveState: true,
                 // only: [fieldKey],
+                data: {search},
             })
         } else {
-            Inertia.visit(route(searchUrl), {
+            Inertia.reload({
                 preserveScroll: true,
                 preserveState: true,
                 // only: [fieldKey],

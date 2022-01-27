@@ -120,7 +120,6 @@ const DmEntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    searchUrl={type === 'Create' ? 'dm-entry.create' : 'dm-entry.index'}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
