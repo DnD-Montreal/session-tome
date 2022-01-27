@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Models\Character;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -46,8 +45,27 @@ class CampaignRegistrationControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id]);
+        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' => false]);
         $this->assertDatabaseHas('campaign_character', ['character_id' =>$inputData['character_id'], 'campaign_id' =>$campaign->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function store_saves_as_admin()
+    {
+        $campaign = Campaign::factory(1)->create()->first();
+
+        $inputData = [
+            'code' => $campaign->code
+        ];
+
+        $response = $this->post(route('campaign-registration.store', $inputData));
+
+        $response->assertRedirect();
+        $this->assertDatabaseCount('campaign_user', 1);
+        $this->assertDatabaseCount('campaign_character', 0);
+        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' =>true]);
     }
 
     /**
