@@ -43,7 +43,7 @@ class EntryUpdateRequest extends FormRequest
             'date_played' => ['required', 'date'],
             'location' => ['sometimes', 'nullable', 'string'],
             'type' => ['required', 'string'],
-            'length' => ['sometime', 'integer'],
+            'length' => ['sometimes', 'integer'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
