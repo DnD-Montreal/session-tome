@@ -4,51 +4,54 @@ import {
     AutocompleteProps,
     TextField,
 } from '@mui/material'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import route from 'ziggy-js'
 
 type AutocompletePropType = {
     searchUrl: string
-    defaultValue: any
     fieldKey: string
+    onClear?: () => void
 } & Omit<AutocompleteProps<any, false, false, false, any>, 'renderInput'>
 
-const Autocomplete = ({
-    searchUrl,
-    fieldKey,
-    defaultValue,
-    ...props
-}: AutocompletePropType) => (
-    <MuiAutoComplete
-        autoComplete
-        {...props}
-        renderInput={(params) => (
-            <TextField
-                {...params}
-                // reset the query
-                onBlur={() =>
-                    Inertia.reload({
-                        preserveScroll: true,
-                        preserveState: true,
-                        only: [fieldKey],
-                    })
+const Autocomplete = ({onClear, searchUrl, fieldKey, ...props}: AutocompletePropType) => {
+    const [search, setSearch] = useState<string>('')
+    useEffect(() => {
+        if (search.length > 0) {
+            Inertia.visit(route(searchUrl, {search}), {
+                preserveScroll: true,
+                preserveState: true,
+                // only: [fieldKey],
+            })
+        } else {
+            Inertia.visit(route(searchUrl), {
+                preserveScroll: true,
+                preserveState: true,
+                // only: [fieldKey],
+            })
+        }
+    }, [search])
+
+    return (
+        <MuiAutoComplete
+            freeSolo
+            autoComplete
+            {...props}
+            onInputChange={(e, newInputValue, reason) => {
+                if (reason === 'input' || reason === 'clear') {
+                    setSearch(newInputValue)
                 }
-                fullWidth
-                label='Adventure'
-                name='Adventure Title'
-                defaultValue={defaultValue}
-                onChange={(e) => {
-                    const search = e.target.value
-                    Inertia.reload({
-                        preserveScroll: true,
-                        preserveState: true,
-                        only: [fieldKey],
-                        data: {search},
-                    })
-                }}
-            />
-        )}
-    />
-)
+            }}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    fullWidth
+                    label='Adventure'
+                    name='Adventure Title'
+                />
+            )}
+        />
+    )
+}
 
 Autocomplete.displayName = 'Autocomplete'
 export default Autocomplete

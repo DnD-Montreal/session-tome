@@ -27,7 +27,7 @@ type EntryCreateFormPropType = {
 }
 
 type EntryFormDataType = {
-    adventure_id: number
+    adventure_id?: number | undefined
     location: string
     length: number
     levels: number
@@ -40,6 +40,7 @@ type EntryFormDataType = {
     type: 'game'
     character_id: number
     user_id: number | null | undefined
+    adventure: any
 }
 
 const StyledGrid = styled(Grid)`
@@ -60,7 +61,6 @@ const EntryCreateForm = ({
 }: EntryCreateFormPropType) => {
     const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
-        adventure_id: 0,
         location: '',
         length: 0,
         levels: 1,
@@ -79,12 +79,12 @@ const EntryCreateForm = ({
         type: 'game',
         character_id: character.id,
         user_id: getUserId(),
+        adventure: {},
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
             ? ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure_id || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
                   levels: 0,
@@ -99,6 +99,7 @@ const EntryCreateForm = ({
                   type: 'game',
                   character_id: character.id,
                   user_id: getUserId(),
+                  adventure: editData?.adventure || {},
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
@@ -122,12 +123,11 @@ const EntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    defaultValue={data.adventure_id}
                     searchUrl={type === 'Create' ? 'entry.create' : 'entry.index'}
-                    id='adventure_id'
+                    id='adventures'
                     fieldKey='adventures'
-                    onChange={(e: any) => setData('adventure_id', e.target.value)}
-                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
+                    onChange={(_, value) => setData('adventure', value)}
+                    defaultValue={data.adventure}
                     renderOption={(props, option) => (
                         <MenuItem {...props} value={option.id}>
                             {`${option.code} - ${option.title}`}

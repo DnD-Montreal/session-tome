@@ -24,7 +24,7 @@ type DmEntryCreateFormPropType = {
 }
 
 type DmEntryFormDataType = {
-    adventure_id: number
+    adventure_id?: number | undefined
     length: number
     levels: number
     gp: number
@@ -36,6 +36,7 @@ type DmEntryFormDataType = {
     items: ItemDataType[]
     type: string
     user_id: number | null | undefined
+    adventure: any
 }
 
 type ItemDataType = {
@@ -74,7 +75,6 @@ const DmEntryCreateForm = ({
 }: DmEntryCreateFormPropType) => {
     const {getUserId} = useUser()
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
-        adventure_id: 0,
         user_id: getUserId(),
         length: 0,
         levels: 0,
@@ -86,12 +86,12 @@ const DmEntryCreateForm = ({
         notes: '',
         items: [],
         type: 'dm',
+        adventure: undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
             ? DM_ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure_id || 0,
                   length: editData?.length || 0,
                   levels: 0,
                   gp: 0,
@@ -103,6 +103,7 @@ const DmEntryCreateForm = ({
                   items: editData?.items || [],
                   type: 'dm',
                   user_id: getUserId(),
+                  adventure: editData?.adventure || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
@@ -119,11 +120,11 @@ const DmEntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    defaultValue={data.adventure_id}
                     searchUrl={type === 'Create' ? 'dm-entry.create' : 'dm-entry.index'}
-                    id='adventure_id'
+                    id='adventures'
                     fieldKey='adventures'
-                    onChange={(e: any) => setData('adventure_id', e.target.value)}
+                    onChange={(_, value) => setData('adventure', value)}
+                    defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     renderOption={(props, option) => (
                         <MenuItem {...props} value={option.id}>
