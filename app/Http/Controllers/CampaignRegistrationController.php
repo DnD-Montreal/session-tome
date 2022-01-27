@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CampaignRegistrationController extends Controller
 {
@@ -19,18 +20,22 @@ class CampaignRegistrationController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'character_id' => "required|exists:characters,id",
+            'character_id' => "sometimes|exists:characters,id",
             'code' => "required|string"
         ]);
 
         $user = User::find(Auth::id())->first();
-        $character = Character::findOrFail($data['character_id'])->first();
-        $campaign = Campaign::where('code', '=', $data['code']);
+        $campaign = Campaign::where('code', $data['code']);
 
         if ($campaign->exists()) {
             $campaign = $campaign->first();
-            $user->campaigns()->attach($campaign);
-            $character->campaigns()->attach($campaign);
+            if ($request->has('character_id')) {
+                $user->campaigns()->attach($campaign, ['is_dm' => false]);
+                $character = Character::findOrFail($data['character_id'])->first();
+                $character->campaigns()->attach($campaign);
+            } else {
+                $user->campaigns()->attach($campaign, ['is_dm' => true]);
+            }
         } else {
             return back()->withErrors([
                 'code' => "The provided code does not exist!"
