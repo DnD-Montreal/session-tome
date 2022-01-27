@@ -93,8 +93,8 @@ const DmEntryCreateForm = ({
             : {
                   adventure_id: editData?.adventure_id || 0,
                   length: editData?.length || 0,
-                  levels: 0,
-                  gp: 0,
+                  levels: editData?.levels || 0,
+                  gp: editData?.gp || 0,
                   location: editData?.location || '',
                   date_played: editData?.date_played || new Date().toDateString(),
                   choice: '',
