@@ -44,6 +44,7 @@ class EntryStoreRequest extends FormRequest
             'date_played' => ['required', 'date'],
             'location' => ['nullable', 'string'],
             'type' => ['required', 'string'],
+            'length' => ['sometime', 'integer'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
