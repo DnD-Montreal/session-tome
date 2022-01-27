@@ -95,8 +95,14 @@ describe('<DmEntryCreateForm />', () => {
             'input[name="Assigned Character"]',
         )
         fireEvent.change(adventureInputField, {target: {value: 1}})
+        fireEvent.change(lengthField, {target: {value: 'a'}})
+        fireEvent.change(lengthField, {target: {value: -1}})
         fireEvent.change(lengthField, {target: {value: 1}})
-        fireEvent.change(levelsField, {target: {value: 1}})
+        fireEvent.change(levelsField, {target: {value: 'a'}})
+        fireEvent.change(levelsField, {target: {value: -2}})
+        fireEvent.change(levelsField, {target: {value: 21}})
+        fireEvent.change(levelsField, {target: {value: 2}})
+        fireEvent.change(gpField, {target: {value: 'a'}})
         fireEvent.change(gpField, {target: {value: 20}})
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.click(
