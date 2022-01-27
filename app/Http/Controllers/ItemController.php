@@ -104,9 +104,11 @@ class ItemController extends Controller
     {
         $charId = $item->character_id;
         $item->delete();
+        $character = Character::find($charId);
+        $items = $character->items;
 
         if ($charId) {
-            return redirect()->route('character.show', $charId);
+            return Inertia::render('Item/Item', compact('items', 'character'));
         } else {
             return redirect()->route('dm-entry.index');
         }
