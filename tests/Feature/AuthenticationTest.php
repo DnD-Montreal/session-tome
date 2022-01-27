@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\Assert;
@@ -44,5 +45,22 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('character.index'));
 
         $response->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
+    public function test_locust_can_authenticate()
+    {
+        $token = config('app.key');
+
+        app()->detectEnvironment(function () {
+            return 'load';
+        });
+
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])->get(route('character.index'));
+
+        $response->assertOk();
+        $this->assertAuthenticated();
     }
 }
