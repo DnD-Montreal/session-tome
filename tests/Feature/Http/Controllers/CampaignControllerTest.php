@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Adventure;
 use App\Models\Campaign;
+use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -78,7 +79,7 @@ class CampaignControllerTest extends TestCase
 
         $response = $this->post(route('campaign.store'), [
             'adventure_id' => $adventure->id,
-            'title' => $title,
+            'title' => $title
         ]);
 
         $campaigns = Campaign::query()
@@ -90,6 +91,38 @@ class CampaignControllerTest extends TestCase
 
         $response->assertRedirect(route('campaign.index'));
         $response->assertSessionHas('campaign.id', $campaign->id);
+        $this->assertDatabaseCount('campaign_user', 1);
+        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' =>true]);
+    }
+
+    /**
+     * @test
+     */
+    public function store_saves_character_and_redirects()
+    {
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+        $character = Character::factory()->create();
+
+        $response = $this->post(route('campaign.store'), [
+            'adventure_id' => $adventure->id,
+            'title' => $title,
+            'character_id' => $character->id
+        ]);
+
+        $campaigns = Campaign::query()
+            ->where('adventure_id', $adventure->id)
+            ->where('title', $title)
+            ->get();
+        $this->assertCount(1, $campaigns);
+        $campaign = $campaigns->first();
+
+        $response->assertRedirect(route('campaign.index'));
+        $response->assertSessionHas('campaign.id', $campaign->id);
+        $this->assertDatabaseCount('campaign_user', 1);
+        $this->assertDatabaseCount('campaign_character', 1);
+        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' => false]);
+        $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' =>$campaign->id]);
     }
 
 
