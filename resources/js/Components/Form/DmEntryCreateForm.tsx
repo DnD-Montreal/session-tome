@@ -64,6 +64,13 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
+const StyledGPTextField = styled(TextField)({
+    '& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+        {
+            display: 'none',
+        },
+})
+
 const DmEntryCreateForm = ({
     type,
     onCloseDrawer,
@@ -148,14 +155,27 @@ const DmEntryCreateForm = ({
                     id='length'
                     label='Length'
                     name='Length'
-                    type='number'
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                     InputProps={{
                         inputProps: {
                             min: 0,
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*',
                         },
                     }}
                     value={data.length.toString()}
-                    onChange={(e) => setData('length', parseInt(e.target.value))}
+                    onChange={(e) => {
+                        const value = parseInt(e.target.value)
+                        if (isNaN(value)) {
+                            setData('length', 0)
+                        } else if (value < 0) {
+                            setData('length', 0)
+                        } else {
+                            setData('length', value)
+                        }
+                    }}
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
@@ -165,33 +185,49 @@ const DmEntryCreateForm = ({
                     id='levels'
                     label='Levels'
                     name='Levels'
-                    type='number'
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                     InputProps={{
                         inputProps: {
                             min: 0,
+                            max: 20,
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*',
                         },
                     }}
                     value={data.levels.toString()}
-                    onChange={(e) => setData('levels', parseInt(e.target.value))}
+                    onChange={(e) => {
+                        const value = parseInt(e.target.value)
+                        if (isNaN(value)) {
+                            setData('levels', 0)
+                        } else if (value < 0) {
+                            setData('levels', 0)
+                        } else if (value > 20) {
+                            setData('levels', 20)
+                        } else {
+                            setData('levels', value)
+                        }
+                    }}
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
+                <StyledGPTextField
                     fullWidth
                     id='gp'
                     label='GP'
                     name='GP'
                     type='number'
-                    InputProps={{
-                        inputProps: {
-                            min: 0,
-                        },
-                    }}
                     value={data.gp.toString()}
-                    onChange={(e) =>
-                        setData('gp', parseFloat(parseFloat(e.target.value).toFixed(2)))
-                    }
+                    onChange={(e) => {
+                        const value = parseFloat(parseFloat(e.target.value).toFixed(2))
+                        if (isNaN(value)) {
+                            setData('gp', 0)
+                        } else {
+                            setData('gp', value)
+                        }
+                    }}
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
