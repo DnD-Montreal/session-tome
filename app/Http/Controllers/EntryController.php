@@ -91,6 +91,9 @@ class EntryController extends Controller
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
 
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
+
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
         CreateEntryItems::run($entry, $itemData ?? []);
@@ -158,6 +161,9 @@ class EntryController extends Controller
             $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
+
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
 
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
