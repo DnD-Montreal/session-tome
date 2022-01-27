@@ -12,6 +12,25 @@ use Inertia\Inertia;
 class CampaignRegistrationController extends Controller
 {
     /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
+     */
+    public function create(Request $request)
+    {
+        $characters = Auth::user()->characters;
+
+        $code = $request->validate([
+            'code' => "sometimes|string"
+        ])['code']?? null;
+
+        $campaign = Campaign::where('code', $code)->first();
+
+        $code = is_null($campaign) ? $campaign : $campaign->code;
+
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign', 'code'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

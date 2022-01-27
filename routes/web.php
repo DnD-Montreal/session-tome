@@ -85,7 +85,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->middleware('admin');
 
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
-        ->only('store');
+        ->only(['create', 'store']);
 });
 
 
