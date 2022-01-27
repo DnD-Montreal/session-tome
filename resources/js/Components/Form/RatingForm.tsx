@@ -25,27 +25,12 @@ const StyledTypography = styled(Typography)`
     margin-bottom: 32px;
 `
 
-const StyledButton = styled(Button)({
-    width: 150,
-    height: 40,
-    color: 'white',
-    borderColor: 'white',
-    '&:hover': {
-        borderColor: '#8DA57C',
-    },
-})
-
-// const StyledButton = styled(Button)`
-//     width: 20px,
-//     height: 10px,
-//     color: 'white',
-//     borderColor: 'white',
-//     backgroundColor: ${(props) => (props.className === 'filled' ? 'white' : 'blue')};
-//     '&:hover': {
-//         backgroundColor: '#84bbf3',
-//         borderColor: 'white',
-//     },
-// `
+const StyledButton = styled(Button)`
+    width: 140px;
+    height: 40px;
+    color: white;
+    border-color: white;
+`
 
 const RatingForm = ({ratings, setData}: RatingFormPropType) => (
     <StyledBox>
