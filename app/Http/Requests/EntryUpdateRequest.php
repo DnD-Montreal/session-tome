@@ -36,7 +36,7 @@ class EntryUpdateRequest extends FormRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
-            'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
+            'character_id' => ['nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
             'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes', 'string'],
@@ -52,8 +52,8 @@ class EntryUpdateRequest extends FormRequest
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
             'items.*.tier' =>  ['integer', 'between:1,4', $requiredIf],
-            'choice' => ['sometimes', 'string'],
-            'rating_data' => ['nullable', 'array']
+            'choice' => ['sometimes', "nullable", 'string'],
+            'rating_data' => ['nullable', 'sometimes', 'array']
         ];
     }
 }
