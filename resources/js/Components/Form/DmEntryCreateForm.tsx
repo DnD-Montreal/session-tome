@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
@@ -125,12 +125,12 @@ const DmEntryCreateForm = ({
                     onChange={(_, value) => setData('adventure', value)}
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
-                    renderOption={(props, option) => (
-                        <MenuItem {...props} value={option.id}>
-                            {`${option.code} - ${option.title}`}
-                        </MenuItem>
-                    )}
                     options={adventures}
+                    resetUrl={
+                        type === 'Create'
+                            ? route('dm-entry.create')
+                            : route('dm-entry.index')
+                    }
                 />
                 {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
             </StyledGrid>

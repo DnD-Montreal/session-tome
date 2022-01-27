@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, ErrorText, Link, StepperForm} from 'Components'
 import React, {useState} from 'react'
@@ -127,12 +127,15 @@ const EntryCreateForm = ({
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
                     defaultValue={data.adventure}
-                    renderOption={(props, option) => (
-                        <MenuItem {...props} value={option.id}>
-                            {`${option.code} - ${option.title}`}
-                        </MenuItem>
-                    )}
+                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
+                    resetUrl={
+                        type === 'Create'
+                            ? route('entry.create').concat(
+                                  `?character_id=${character.id}`,
+                              )
+                            : route('character.show', [character.id])
+                    }
                 />
                 {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
             </StyledGrid>
