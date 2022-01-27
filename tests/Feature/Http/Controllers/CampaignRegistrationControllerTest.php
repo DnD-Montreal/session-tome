@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
+use Inertia\Testing\Assert;
 
 class CampaignRegistrationControllerTest extends TestCase
 {
@@ -24,6 +25,22 @@ class CampaignRegistrationControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         Auth::login($this->user);
+    }
+
+    /**
+     * @test
+     */
+    public function create_displays_view()
+    {
+        $response = $this->get(route('campaign-registration.create'));
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component("Campaign/Detail/CampaignDetail")
+                ->has('characters')
+                ->has('campaign')
+                ->has('code')
+        );
     }
 
     /**
