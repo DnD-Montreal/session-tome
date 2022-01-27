@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
 
@@ -102,11 +103,13 @@ class ItemController extends Controller
      */
     public function destroy(Request $request, Item $item)
     {
-        $charId = $item->character_id;
+        $character_id = $item->character_id;
         $item->delete();
+        $character = Character::find($character_id);
+        $items = $character->items;
 
-        if ($charId) {
-            return redirect()->route('character.show', $charId);
+        if ($character_id) {
+            return redirect()->route('item.index', compact('character_id'));
         } else {
             return redirect()->route('dm-entry.index');
         }
