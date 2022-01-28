@@ -37,7 +37,7 @@ class CampaignRegistrationController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'character_id' => "sometimes|exists:characters,id",
+            'character_id' => "nullable|sometimes|exists:characters,id",
             'code' => "required|string"
         ]);
 
