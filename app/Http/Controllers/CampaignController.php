@@ -44,7 +44,7 @@ class CampaignController extends Controller
         $campaign = Campaign::create($data);
 
         //user joins capaign
-        $user = User::find(Auth::id())->first();
+        $user = Auth::user()
 
         if ($request->has('character_id')) {
             $user->campaigns()->attach($campaign, ['is_dm' => false]);
