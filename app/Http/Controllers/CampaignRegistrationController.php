@@ -21,7 +21,7 @@ class CampaignRegistrationController extends Controller
 
         $code = $request->validate([
             'code' => "sometimes|string"
-        ])['code']?? null;
+        ])['code'] ?? null;
 
         $campaign = Campaign::where('code', $code)->first();
 
