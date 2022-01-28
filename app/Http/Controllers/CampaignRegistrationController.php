@@ -44,21 +44,14 @@ class CampaignRegistrationController extends Controller
         ]);
 
         $user = User::find(Auth::id())->first();
-        $campaign = Campaign::where('code', $data['code']);
+        $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
-        if ($campaign->exists()) {
-            $campaign = $campaign->first();
-            if ($request->has('character_id')) {
-                $user->campaigns()->attach($campaign, ['is_dm' => false]);
-                $character = Character::findOrFail($data['character_id'])->first();
-                $character->campaigns()->attach($campaign);
-            } else {
-                $user->campaigns()->attach($campaign, ['is_dm' => true]);
-            }
+        if ($request->has('character_id')) {
+            $user->campaigns()->attach($campaign, ['is_dm' => false]);
+            $character = Character::findOrFail($data['character_id']);
+            $character->campaigns()->attach($campaign);
         } else {
-            return back()->withErrors([
-                'code' => "The provided code does not exist!"
-            ]);
+            $user->campaigns()->attach($campaign, ['is_dm' => true]);
         }
 
         return redirect('campaign.index');
