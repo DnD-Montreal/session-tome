@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Campaign;
-use App\Models\User;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -23,9 +22,9 @@ class CampaignRegistrationController extends Controller
             'code' => "sometimes|string"
         ])['code'] ?? null;
 
-        $campaign = Campaign::with('characters', 'users')->where('code', $code)->firstOrFail();
+        $campaign = Campaign::with('characters', 'users')->where('code', $code)->first();
 
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign', 'code'));
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign'));
     }
 
     /**
