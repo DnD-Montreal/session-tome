@@ -23,7 +23,7 @@ class CampaignRegistrationController extends Controller
             'code' => "sometimes|string"
         ])['code'] ?? null;
 
-        $campaign = Campaign::where('code', $code)->first();
+        $campaign = Campaign::with('characters', 'users')->where('code', $code)->firstOrFail();
 
         return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign', 'code'));
     }
