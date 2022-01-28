@@ -32,14 +32,17 @@ class CampaignRegistrationControllerTest extends TestCase
      */
     public function create_displays_view()
     {
-        $response = $this->get(route('campaign-registration.create'));
+        $campaign = Campaign::factory(1)->create()->first();
+
+        $inputData = [
+            'code' => $campaign->code
+        ];
+        $response = $this->get(route('campaign-registration.create', $inputData));
 
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component("Campaign/Detail/CampaignDetail")
-                ->has('characters')
                 ->has('campaign')
-                ->has('code')
         );
     }
 
@@ -100,8 +103,6 @@ class CampaignRegistrationControllerTest extends TestCase
         ];
         $response = $this->post(route('campaign-registration.store', $inputData));
 
-        $response->assertRedirect();
-        $response->assertSessionHasErrors();
         $this->assertDatabaseCount('campaign_user', 0);
         $this->assertDatabaseCount('campaign_character', 0);
     }
