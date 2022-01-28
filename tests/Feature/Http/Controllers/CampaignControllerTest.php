@@ -98,7 +98,7 @@ class CampaignControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_saves_character_and_redirects()
+    public function store_saves_campaign_and_redirects()
     {
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
