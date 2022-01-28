@@ -43,7 +43,7 @@ class CampaignRegistrationController extends Controller
             'code' => "required|string"
         ]);
 
-        $user = User::find(Auth::id())->first();
+        $user = Auth::user();
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
         if ($request->has('character_id')) {
