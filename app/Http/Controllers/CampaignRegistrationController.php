@@ -25,8 +25,6 @@ class CampaignRegistrationController extends Controller
 
         $campaign = Campaign::where('code', $code)->first();
 
-        $code = is_null($campaign) ? $campaign : $campaign->code;
-
         return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign', 'code'));
     }
 
