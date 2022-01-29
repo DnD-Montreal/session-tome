@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/character', [App\Http\Controllers\CharacterController::class, 'create'])
+    ->name("character.create");
+
+Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
+    ->name("character.destroy");
