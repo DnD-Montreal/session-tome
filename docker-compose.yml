@@ -76,6 +76,19 @@ services:
     networks:
      - web-public
 
+  cypress:
+    image: "cypress/included:8.7.0"
+    depends_on:
+      - php
+    environment:
+      - CYPRESS_baseUrl=https://php
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
+    networks:
+      - web-public
+
+
 networks:
   web-public:
     driver: bridge
