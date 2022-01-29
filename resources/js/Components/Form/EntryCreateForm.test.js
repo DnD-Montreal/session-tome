@@ -112,9 +112,9 @@ describe('<EntryCreateForm />', () => {
             'input[name="Adventure Title"]',
         )
         const locationField = document.querySelector('#location')
-        const lengthField = document.querySelector('#length')
-        const levelsField = document.querySelector('#levels')
-        const gpField = document.querySelector('#gp')
+        const lengthField = document.querySelector('input[name="Length"]')
+        const levelsField = document.querySelector('input[name="Levels"]')
+        const gpField = document.querySelector('input[name="GP"]')
         const dungeonMasterField = document.querySelector('#dungeon_master')
         const notesField = document.querySelector('#notes')
 
@@ -159,7 +159,7 @@ describe('<EntryCreateForm />', () => {
     })
     it('edit component fields test', () => {
         render(<EntryCreateForm {...editProps} />)
-        const lengthField = document.querySelector('#length')
+        const lengthField = document.querySelector('input[name="Length"]')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
         fireEvent.change(lengthField, {target: {value: 3}})
