@@ -4,7 +4,7 @@ import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {ErrorText, Link, Select, StepperForm} from 'Components'
+import {ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -48,13 +48,6 @@ const StyledGrid = styled(Grid)`
 
 const StyledTextField = styled(TextField)({
     background: '#5A7249',
-})
-
-const StyledGPTextField = styled(TextField)({
-    '& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
-        {
-            display: 'none',
-        },
 })
 
 const EntryCreateForm = ({
@@ -215,8 +208,7 @@ const EntryCreateForm = ({
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <StyledGPTextField
-                    fullWidth
+                <NumberInput
                     id='gp'
                     label='GP'
                     name='GP'
