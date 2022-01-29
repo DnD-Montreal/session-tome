@@ -83,6 +83,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::get('report/rating', App\Actions\GenerateRatingReport::class)
         ->name('report.rating')
         ->middleware('admin');
+
+    Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
+        ->only(['create', 'store']);
 });
 
 
