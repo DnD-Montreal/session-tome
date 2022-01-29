@@ -21,21 +21,4 @@ export const rarityOptions = [
     },
 ]
 
-export const tierOptions = [
-    {
-        title: '1',
-        id: '1',
-    },
-    {
-        title: '2',
-        id: '2',
-    },
-    {
-        title: '3',
-        id: '3',
-    },
-    {
-        title: '4',
-        id: '4',
-    },
-]
+export const tierOptions = [1, 2, 3, 4]

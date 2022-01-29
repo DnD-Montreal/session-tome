@@ -152,65 +152,38 @@ const EntryCreateForm = ({
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
-                    fullWidth
+                <NumberInput
                     id='length'
                     label='Length'
                     name='Length'
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                    min={0}
                     InputProps={{
                         inputProps: {
-                            min: 0,
                             inputMode: 'numeric',
                             pattern: '[0-9]*',
                         },
                     }}
                     value={data.length.toString()}
-                    onChange={(e) => {
-                        const value = parseInt(e.target.value)
-                        if (isNaN(value)) {
-                            setData('length', 0)
-                        } else if (value < 0) {
-                            setData('length', 0)
-                        } else {
-                            setData('length', value)
-                        }
-                    }}
+                    setData={setData}
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
+                <NumberInput
                     fullWidth
                     id='levels'
                     label='Levels'
                     name='Levels'
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                    min={0}
+                    max={20}
                     InputProps={{
                         inputProps: {
-                            min: 0,
-                            max: 20,
                             inputMode: 'numeric',
                             pattern: '[0-9]*',
                         },
                     }}
                     value={data.levels.toString()}
-                    onChange={(e) => {
-                        const value = parseInt(e.target.value)
-                        if (isNaN(value)) {
-                            setData('levels', 0)
-                        } else if (value < 0) {
-                            setData('levels', 0)
-                        } else if (value > 20) {
-                            setData('levels', 20)
-                        } else {
-                            setData('levels', value)
-                        }
-                    }}
+                    setData={setData}
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
@@ -221,14 +194,7 @@ const EntryCreateForm = ({
                     name='GP'
                     type='number'
                     value={data.gp.toString()}
-                    onChange={(e) => {
-                        const value = parseFloat(parseFloat(e.target.value).toFixed(2))
-                        if (isNaN(value)) {
-                            setData('gp', 0)
-                        } else {
-                            setData('gp', value)
-                        }
-                    }}
+                    setData={setData}
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
