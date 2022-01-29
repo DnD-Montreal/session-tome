@@ -15,7 +15,7 @@ export type EntriesData = {
     dungeon_master: string | null
     dungeon_master_id: number | null
     event_id: number | null
-    gp: string | null
+    gp: number | null
     id: number
     items: ItemData[] | null
     levels: number | null

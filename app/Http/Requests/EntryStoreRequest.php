@@ -35,7 +35,7 @@ class EntryStoreRequest extends FormRequest
         $requiredIf = Rule::requiredIf(!empty($this->get('items')));
         return [
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
@@ -44,6 +44,7 @@ class EntryStoreRequest extends FormRequest
             'date_played' => ['required', 'date'],
             'location' => ['nullable', 'string'],
             'type' => ['required', 'string'],
+            'length' => ['sometimes', 'integer'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],

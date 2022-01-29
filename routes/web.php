@@ -43,7 +43,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy');
 
     Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
-        ->only(['store']);
+        ->only(['create', 'store']);
 
     Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
         ->name("character.destroy");
@@ -73,7 +73,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('dm-entry', App\Http\Controllers\DMEntryController::class)
         ->only('index', 'create');
 
-    Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
+    Route::resource('attach-entry-to-character', App\Http\Controllers\BulkAttachController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
 

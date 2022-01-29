@@ -231,11 +231,11 @@ class ItemControllerTest extends TestCase
     public function destroy_deletes_and_redirects()
     {
         $item = Item::factory()->create();
-        $characterId = $item->character_id;
+        $character_id = $item->character_id;
 
         $response = $this->delete(route('item.destroy', $item));
 
-        $response->assertRedirect(route('character.show', $characterId));
+        $response->assertRedirect(route('item.index', compact('character_id')));
 
         $this->assertDeleted($item);
     }

@@ -101,7 +101,7 @@ class EntryControllerTest extends TestCase
         $dm_entry->user()->associate($dungeon_master_user)->save();
 
         $response = $this->actingAs($dungeon_master_user)->put(route('entry.update', $dm_entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -169,7 +169,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($user)->post(route('entry.store'), [
             'user_id' => $user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -187,7 +187,7 @@ class EntryControllerTest extends TestCase
         $character->user()->associate($this->user)->save();
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -241,7 +241,7 @@ class EntryControllerTest extends TestCase
         $character->user()->associate($this->user)->save();
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -299,7 +299,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -364,7 +364,7 @@ class EntryControllerTest extends TestCase
         //post request entry.store for each of them
         $response_advancement = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_adv->id,
             'event_id' => $event->id,
@@ -381,7 +381,7 @@ class EntryControllerTest extends TestCase
 
         $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_MI->id,
             'event_id' => $event->id,
@@ -399,7 +399,7 @@ class EntryControllerTest extends TestCase
 
         $response_CR = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_CR->id,
             'event_id' => $event->id,
@@ -503,7 +503,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -523,7 +523,7 @@ class EntryControllerTest extends TestCase
         $entry->character()->associate($character)->save();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -538,7 +538,7 @@ class EntryControllerTest extends TestCase
         $response->assertForbidden();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -592,7 +592,7 @@ class EntryControllerTest extends TestCase
         $entry->character()->associate($character)->save();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -647,7 +647,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -693,7 +693,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -768,7 +768,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -842,7 +842,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'character_id' => $character->id,
             'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
@@ -880,7 +880,7 @@ class EntryControllerTest extends TestCase
         $entry->character()->associate($character)->save();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $entry->adventure_id,
+            'adventure' => ['id' => $entry->adventure_id],
             'character_id' => $character->id,
             'date_played' => $entry->date_played,
             'dungeon_master_id' => $dm->id,

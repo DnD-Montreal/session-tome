@@ -40,17 +40,22 @@ class EntryController extends Controller
     public function create(Request $request)
     {
         $campaigns = Auth::user()->campaigns;
-
-        $charId = $request->validate([
-            'character_id' => "required|exists:characters,id|integer"
-        ])['character_id'];
+        $data = $request->validate([
+            'character_id' => "required|exists:characters,id|integer",
+            'search' => "sometimes|string"
+        ]);
 
         $character = Character::where('user_id', Auth::id())
-            ->findOrFail($charId);
+            ->findOrFail($data['character_id']);
 
-        $adventures = Adventure::all();
+        $search = $data['search'] ?? "";
 
-        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', compact('adventures', 'character', 'campaigns'));
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', [
+            'campaigns' => $campaigns,
+            'character' => $character,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
+        ]);
     }
 
     /**
@@ -85,6 +90,9 @@ class EntryController extends Controller
             $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
+
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
 
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
@@ -153,6 +161,9 @@ class EntryController extends Controller
             $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
             $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
         }
+
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
 
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);

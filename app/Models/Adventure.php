@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +11,7 @@ class Adventure extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +32,8 @@ class Adventure extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    protected $filterableFields = ['code', 'title'];
 
 
     public function sessions()

@@ -363,6 +363,7 @@ const Ziggy = {
         'password.confirm': {uri: 'confirm-password', methods: ['GET', 'HEAD']},
         logout: {uri: 'logout', methods: ['POST']},
         homepage: {uri: '/', methods: ['GET', 'HEAD']},
+        'entry-bulk.create': {uri: 'entry-bulk/create', methods: ['GET', 'HEAD']},
         'entry-bulk.store': {uri: 'entry-bulk', methods: ['POST']},
         'beyond-import.store': {uri: 'beyond-import', methods: ['POST']},
         'adventures-league-import.index': {

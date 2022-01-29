@@ -4,7 +4,7 @@ import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
+import {Autocomplete, ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -27,7 +27,7 @@ type EntryCreateFormPropType = {
 }
 
 type EntryFormDataType = {
-    adventure_id: number
+    adventure_id?: number | undefined
     location: string
     length: number
     levels: number
@@ -40,6 +40,7 @@ type EntryFormDataType = {
     type: 'game'
     character_id: number
     user_id: number | null | undefined
+    adventure: any
 }
 
 const StyledGrid = styled(Grid)`
@@ -60,7 +61,6 @@ const EntryCreateForm = ({
 }: EntryCreateFormPropType) => {
     const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
-        adventure_id: 0,
         location: '',
         length: 0,
         levels: 0,
@@ -79,16 +79,16 @@ const EntryCreateForm = ({
         type: 'game',
         character_id: character.id,
         user_id: getUserId(),
+        adventure: undefined,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
             ? ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure_id || 0,
                   location: editData?.location || '',
                   length: editData?.length || 0,
-                  levels: 0,
-                  gp: 0,
+                  levels: editData?.levels || 0,
+                  gp: editData?.gp || 0,
                   date_played: editData?.date_played || new Date().toDateString(),
                   dungeon_master: editData?.dungeon_master || '',
                   notes: editData?.notes || '',
@@ -99,6 +99,7 @@ const EntryCreateForm = ({
                   type: 'game',
                   character_id: character.id,
                   user_id: getUserId(),
+                  adventure: editData?.adventure || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
@@ -121,14 +122,20 @@ const EntryCreateForm = ({
                 </Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                <Select
-                    id='adventure_id'
-                    required
-                    label='Adventure'
-                    name='Adventure Title'
-                    value={data.adventure_id}
-                    onChange={(e) => setData('adventure_id', parseInt(e.target.value))}
+                <Autocomplete
+                    id='adventures'
+                    fieldKey='adventures'
+                    onChange={(_, value) => setData('adventure', value)}
+                    defaultValue={data.adventure}
+                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
+                    resetUrl={
+                        type === 'Create'
+                            ? route('entry.create').concat(
+                                  `?character_id=${character.id}`,
+                              )
+                            : route('character.show', [character.id])
+                    }
                 />
                 {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
             </StyledGrid>
