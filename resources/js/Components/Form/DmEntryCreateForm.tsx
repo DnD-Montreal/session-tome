@@ -4,7 +4,7 @@ import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {ErrorText, Link, Select, StepperForm} from 'Components'
+import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -24,7 +24,7 @@ type DmEntryCreateFormPropType = {
 }
 
 type DmEntryFormDataType = {
-    adventure_id: number
+    adventure_id?: number | undefined
     length: number
     levels: number
     gp: number
@@ -36,6 +36,7 @@ type DmEntryFormDataType = {
     items: ItemDataType[]
     type: string
     user_id: number | null | undefined
+    adventure: any
 }
 
 type ItemDataType = {
@@ -74,7 +75,6 @@ const DmEntryCreateForm = ({
 }: DmEntryCreateFormPropType) => {
     const {getUserId} = useUser()
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
-        adventure_id: 0,
         user_id: getUserId(),
         length: 0,
         levels: 0,
@@ -86,12 +86,12 @@ const DmEntryCreateForm = ({
         notes: '',
         items: [],
         type: 'dm',
+        adventure: undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
             ? DM_ENTRY_CREATE_FORM_INITIAL_VALUE
             : {
-                  adventure_id: editData?.adventure_id || 0,
                   length: editData?.length || 0,
                   levels: 0,
                   gp: 0,
@@ -103,6 +103,7 @@ const DmEntryCreateForm = ({
                   items: editData?.items || [],
                   type: 'dm',
                   user_id: getUserId(),
+                  adventure: editData?.adventure || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
@@ -110,7 +111,6 @@ const DmEntryCreateForm = ({
     )
     const [activeStep, setActiveStep] = useState<number>(0)
     const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
-
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -119,14 +119,18 @@ const DmEntryCreateForm = ({
                 </Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                <Select
-                    id='adventure_id'
-                    required
-                    label='Adventure'
-                    name='Adventure Title'
-                    value={data.adventure_id}
-                    onChange={(e) => setData('adventure_id', parseInt(e.target.value))}
+                <Autocomplete
+                    id='adventures'
+                    fieldKey='adventures'
+                    onChange={(_, value) => setData('adventure', value)}
+                    defaultValue={data.adventure}
+                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
+                    resetUrl={
+                        type === 'Create'
+                            ? route('dm-entry.create')
+                            : route('dm-entry.index')
+                    }
                 />
                 {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
             </StyledGrid>

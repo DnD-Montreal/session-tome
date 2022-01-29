@@ -24,4 +24,4 @@ export {
 } from './Form'
 
 // Atoms
-export {DataTable, Drawer, Link, Select, StepperForm} from './Atom'
+export {Autocomplete, DataTable, Drawer, Link, Select, StepperForm} from './Atom'

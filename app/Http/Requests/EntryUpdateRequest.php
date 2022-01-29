@@ -34,7 +34,7 @@ class EntryUpdateRequest extends FormRequest
         $requiredIf = Rule::requiredIf(!empty($this->get('items')));
 
         return [
-            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
