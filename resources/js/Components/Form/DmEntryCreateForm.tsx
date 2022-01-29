@@ -148,47 +148,39 @@ const DmEntryCreateForm = ({
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
                 <NumberInput
+                    valueType='integer'
+                    fieldKey='length'
                     id='length'
                     label='Length'
                     name='Length'
                     min={0}
-                    InputProps={{
-                        inputProps: {
-                            inputMode: 'numeric',
-                            pattern: '[0-9]*',
-                        },
-                    }}
-                    value={data.length.toString()}
+                    value={data.length}
                     setData={setData}
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
                 <NumberInput
-                    fullWidth
+                    valueType='integer'
+                    fieldKey='levels'
                     id='levels'
                     label='Levels'
                     name='Levels'
                     min={0}
                     max={20}
-                    InputProps={{
-                        inputProps: {
-                            inputMode: 'numeric',
-                            pattern: '[0-9]*',
-                        },
-                    }}
-                    value={data.levels.toString()}
+                    value={data.levels}
                     setData={setData}
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
                 <NumberInput
+                    valueType='float'
+                    fieldKey='gp'
                     id='gp'
                     label='GP'
                     name='GP'
-                    type='number'
-                    value={data.gp.toString()}
+                    value={data.gp}
                     setData={setData}
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}

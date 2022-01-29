@@ -3,11 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 type NumberInputPropType = {
-    setData: any
-    id: string
+    setData: (key: string, value: number) => void
     min?: number
     max?: number
-    type?: string
+    fieldKey: string
+    valueType: 'integer' | 'float'
 } & TextFieldProps
 
 // This styled textfield disables the arrow buttons of a number type textfield
@@ -19,44 +19,47 @@ const StyledTextField = styled(TextField)({
         },
 })
 
-const NumberInput = ({setData, id, type, min, max, ...props}: NumberInputPropType) => (
-    <>
-        <StyledTextField
-            fullWidth
-            type={type}
-            InputLabelProps={{
-                shrink: true,
-            }}
-            InputProps={{
-                inputProps: {
-                    min: {min},
-                    max: {max},
-                },
-            }}
-            onChange={(e) => {
-                if (id === 'gp') {
-                    const value = parseFloat(parseFloat(e.target.value).toFixed(2))
-                    if (isNaN(value)) {
-                        setData(id, 0)
-                    } else {
-                        setData(id, value)
-                    }
-                } else if (id === 'length' || id === 'levels') {
-                    const value = parseInt(e.target.value)
-                    if (isNaN(value)) {
-                        setData(id, 0)
-                    } else if (value < 0) {
-                        setData(id, 0)
-                    } else if (id === 'levels' && value > 20) {
-                        setData(id, 20)
-                    } else {
-                        setData(id, value)
-                    }
-                }
-            }}
-            {...props}
-        />
-    </>
+const NumberInput = ({
+    setData,
+    min,
+    max,
+    fieldKey,
+    valueType,
+    ...props
+}: NumberInputPropType) => (
+    <StyledTextField
+        fullWidth
+        type={valueType === 'float' ? 'number' : undefined}
+        InputLabelProps={{
+            shrink: true,
+            ...props.InputLabelProps,
+        }}
+        InputProps={{
+            inputProps: {
+                min: {min},
+                max: {max},
+                inputMode: valueType === 'integer' ? 'numeric' : undefined,
+                pattern: valueType === 'integer' ? '[0-9]*' : undefined,
+            },
+            ...props.InputProps,
+        }}
+        onChange={(e) => {
+            const value =
+                valueType === 'float'
+                    ? parseFloat(e.target.value)
+                    : parseInt(e.target.value)
+            if (isNaN(value)) {
+                setData(fieldKey, min ?? 0)
+            } else if (min && value < min) {
+                setData(fieldKey, min)
+            } else if (max && value > max) {
+                setData(fieldKey, max)
+            } else {
+                setData(fieldKey, value)
+            }
+        }}
+        {...props}
+    />
 )
 
 NumberInput.displayName = 'NumberInput'
