@@ -200,7 +200,7 @@ class ItemControllerTest extends TestCase
         $description = $this->faker->text;
         $author = User::factory()->create();
 
-        $response = $this->actingAs($item->user())->put(route('item.update', $item), [
+        $response = $this->from(route('item.show', $item))->actingAs($item->user())->put(route('item.update', $item), [
             'entry_id' => $entry->id,
             'character_id' => $character->id,
             'name' => $name,
@@ -212,7 +212,22 @@ class ItemControllerTest extends TestCase
 
         $item->refresh();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('item.show', $item));
+        $response->assertSessionHas('item.id', $item->id);
+
+        $response = $this->from(route('item.index', $item))->actingAs($item->user())->put(route('item.update', $item), [
+            'entry_id' => $entry->id,
+            'character_id' => $character->id,
+            'name' => $name,
+            'rarity' => $rarity,
+            'tier' => $tier,
+            'description' => $description,
+            'author_id' => $author->id
+        ]);
+
+        $item->refresh();
+
+        $response->assertRedirect(route('item.index', $item));
         $response->assertSessionHas('item.id', $item->id);
 
         $this->assertEquals($entry->id, $item->entry_id);
