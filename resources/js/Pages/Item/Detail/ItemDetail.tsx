@@ -26,7 +26,7 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
                         editData={item}
                     />
                 }
-                title={<Typography>Edit character</Typography>}
+                title={<Typography>Edit Item</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
