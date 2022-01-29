@@ -21,6 +21,7 @@ class DMEntryController extends Controller
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
             ->with('character', 'adventure', 'items')
+            ->orderBy('date_played', 'desc')
             ->get();
         $characters = Auth::user()->characters;
 

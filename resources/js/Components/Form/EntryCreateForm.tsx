@@ -87,8 +87,8 @@ const EntryCreateForm = ({
             : {
                   location: editData?.location || '',
                   length: editData?.length || 0,
-                  levels: 0,
-                  gp: 0,
+                  levels: editData?.levels || 0,
+                  gp: editData?.gp || 0,
                   date_played: editData?.date_played || new Date().toDateString(),
                   dungeon_master: editData?.dungeon_master || '',
                   notes: editData?.notes || '',

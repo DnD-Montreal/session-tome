@@ -25,6 +25,7 @@ class Entry extends Model
         'dungeon_master',
         'date_played',
         'location',
+        'length',
         'type',
         'levels',
         'gp',
