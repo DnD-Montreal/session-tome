@@ -1,3 +1,4 @@
+export {default as BulkEntryCreateForm} from './BulkEntryCreateForm'
 export {default as CharacterCreateForm} from './CharacterCreateForm'
 export {default as CharacterImportForm} from './CharacterImportForm'
 export {default as DmEntryCreateForm} from './DmEntryCreateForm'

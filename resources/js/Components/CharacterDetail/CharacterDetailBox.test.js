@@ -20,4 +20,9 @@ describe('CharacterDetailBox', () => {
         const action = screen.getByTestId('update-button')
         fireEvent.click(action)
     })
+    it('Bulk Entry button click should work', () => {
+        render(<CharacterDetailBox {...props} />)
+        const action = screen.getByTestId('bulk-entry-button')
+        fireEvent.click(action)
+    })
 })

@@ -13,6 +13,7 @@ export {CharacterTable, DMEntryTable, EntryTable, ItemTable, RatingTable} from '
 
 // Forms
 export {
+    BulkEntryCreateForm,
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,

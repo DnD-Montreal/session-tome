@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -17,6 +18,16 @@ class BulkEntryControllerTest extends TestCase
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
+
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        Auth::login($this->user);
+    }
+
 
     /**
      * @test
@@ -91,5 +102,25 @@ class BulkEntryControllerTest extends TestCase
         $this->assertCount(24, $entries);
         $this->assertEquals(Carbon::parse('01-01-2021'), $entries[0]->date_played);
         $this->assertEquals(Carbon::parse('01-04-2021'), $entries->last()->date_played);
+    }
+
+    /**
+     * @test
+     */
+    public function create_displays_view()
+    {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+        $response = $this->get(route('entry-bulk.create', ['character_id' => $character->id]));
+
+        $response->assertOk();
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/Entry/Create/BulkEntryCreate')
+                ->has('character')
+                ->has('adventures')
+        );
     }
 }
