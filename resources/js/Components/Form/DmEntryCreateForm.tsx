@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import DatePicker from '@mui/lab/DatePicker'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
@@ -201,10 +201,9 @@ const DmEntryCreateForm = ({
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
+                    <DateTimePicker
                         label='Date'
                         value={data.date_played}
-                        inputFormat='yyyy-MM-dd'
                         onChange={(e) => {
                             setData('date_played', e)
                         }}
