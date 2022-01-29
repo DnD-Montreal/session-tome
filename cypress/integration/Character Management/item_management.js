@@ -2,6 +2,7 @@ describe('Manage Items Test Suite', () => {
     const testusername = 'Test account'
     const testuser_email = 'default@test.com'
     const testuser_password = 'password'
+    const new_item_name = 'NewItemName'
 
     before(() => {
         cy.refreshDatabase()
@@ -54,20 +55,35 @@ describe('Manage Items Test Suite', () => {
         cy.get('svg[data-testid=delete-action]').eq(0).click()
         cy.contains('button', 'Delete').click()
         cy.get(`of ${number_of_remaining_items}`)
-        // Todo: Delete Items
     })
 
     it('Item Edit Drawer', () => {
-        const new_name = 'NewItemName'
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit Item')
-        cy.get('#name').clear().type(new_name)
+        cy.get('#name').clear().type(new_item_name)
         cy.get('#rarity').click()
-        cy.contains('li', 'Legendary').click()
+        cy.contains('li', 'Very Rare').click()
         cy.get('#tier').clear().type('1')
         cy.contains('button', 'Save').click()
-        cy.contains(new_name)
-        // Todo: fix PUT route
-        // Add bug for backend where item edit redirects
+        cy.contains(new_item_name)
+    })
+
+    it('Item Detail', () => {
+        cy.get('a', new_item_name).click()
+        cy.get(
+            `a[href^="${Cypress.config('baseUrl')}/${Cypress.Laravel.route(
+                'character.index',
+            )}/"]`,
+        )
+        cy.get('//p[text()[contains(.,">")]]')
+    })
+
+    it('Item Detail Edit Drawer', () => {
+        cy.get('button', 'UPDATE').click()
+        cy.get('#name').clear().type(new_item_name)
+        cy.get('#rarity').click()
+        cy.contains('li', 'Very Rare').click()
+        cy.get('#tier').clear().type('1')
+        cy.contains('button', 'Save').click()
     })
 })
