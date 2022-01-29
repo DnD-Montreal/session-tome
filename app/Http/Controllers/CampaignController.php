@@ -48,7 +48,7 @@ class CampaignController extends Controller
 
         if ($request->has('character_id')) {
             $user->campaigns()->attach($campaign, ['is_dm' => false]);
-            $character = Character::findOrFail($data['character_id'])->first();
+            $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->attach($campaign);
         } else {
             $user->campaigns()->attach($campaign, ['is_dm' => true]);

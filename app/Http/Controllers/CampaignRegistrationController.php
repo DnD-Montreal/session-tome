@@ -24,7 +24,7 @@ class CampaignRegistrationController extends Controller
 
         $campaign = Campaign::with('characters', 'users')->where('code', $code)->first();
 
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign'));
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact('characters', 'campaign', 'code'));
     }
 
     /**
