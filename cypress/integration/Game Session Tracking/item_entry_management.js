@@ -99,7 +99,7 @@ describe('Item Entry Management Test Suite', () => {
         cy.intercept('GET', last_url).as('last_url')
         cy.visit(last_url)
         cy.wait('@last_url')
-        cy.get('svg[data-testid=delete-action]').eq(0).click()
+        cy.get('svg[data-testid=DeleteIcon]').eq(0).click()
         cy.contains('button', 'Delete').click()
 
         cy.contains('button', 'ITEMS').click()
