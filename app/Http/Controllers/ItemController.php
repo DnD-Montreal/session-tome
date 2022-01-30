@@ -89,11 +89,7 @@ class ItemController extends Controller
 
         $request->session()->flash('item.id', $item->id);
 
-        if ($charId = $item->character_id) {
-            return redirect()->route('character.show', $charId);
-        } else {
-            return redirect()->route('dm-entry.index');
-        }
+        return redirect()->back();
     }
 
     /**

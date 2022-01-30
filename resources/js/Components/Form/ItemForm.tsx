@@ -1,6 +1,6 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import {Box, Button, Grid, TextField, Typography} from '@mui/material'
-import {rarityOptions} from '@Utils/option-constants'
+import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {Select} from 'Components'
 import {cloneDeep} from 'lodash'
 import React from 'react'
@@ -103,32 +103,16 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                             />
                         </Grid>
                         <Grid item xs={3}>
-                            <TextField
-                                fullWidth
-                                required
+                            <Select
                                 id='tier'
+                                required
                                 label='Tier'
                                 name='Tier'
-                                type='number'
-                                onChange={(e) => {
-                                    const formValue = parseInt(e.target.value)
-                                    let value
-                                    if (formValue >= 4) {
-                                        value = 4
-                                    } else if (formValue <= 1) {
-                                        value = 1
-                                    } else {
-                                        value = formValue
-                                    }
-                                    handleOnChange('tier', value, index)
-                                }}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 1,
-                                        max: 4,
-                                    },
-                                }}
                                 value={item.tier}
+                                onChange={(e) =>
+                                    handleOnChange('tier', e.target.value, index)
+                                }
+                                options={tierOptions}
                             />
                         </Grid>
                         <Grid item xs={12}>

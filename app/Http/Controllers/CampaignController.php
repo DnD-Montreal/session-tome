@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CampaignStoreRequest;
 use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
+use App\Models\User;
+use App\Models\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -37,7 +39,20 @@ class CampaignController extends Controller
      */
     public function store(CampaignStoreRequest $request)
     {
-        $campaign = Campaign::create($request->validated());
+        $data = $request->validated();
+
+        $campaign = Campaign::create($data);
+
+        //user joins capaign
+        $user = Auth::user();
+
+        if ($request->has('character_id')) {
+            $user->campaigns()->attach($campaign, ['is_dm' => false]);
+            $character = Character::findOrFail($data['character_id']);
+            $character->campaigns()->attach($campaign);
+        } else {
+            $user->campaigns()->attach($campaign, ['is_dm' => true]);
+        }
 
         $request->session()->flash('campaign.id', $campaign->id);
 
