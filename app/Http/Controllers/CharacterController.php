@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CharacterStoreRequest;
 use App\Http\Requests\CharacterUpdateRequest;
+use App\Models\Adventure;
 use App\Models\Character;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -17,8 +19,20 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $characters = Character::where('user_id', Auth::user()->id)->get();
+        $characters = Character::where('user_id', Auth::user()->id)
+            ->orderBy('updated_at', 'desc');
         $factions = array_values(Character::FACTIONS);
+        $sortParams = $request->validate([
+            'sort_by' => "sometimes|in:name,race,class,level,faction,downtime,updated_at",
+            'sort_dir' => "sometimes|in:asc,desc"
+        ]);
+
+        if (isset($sortParams['sort_by'])) {
+            $direction =  isset($sortParams['sort_dir']) ? $sortParams['sort_dir'] : "asc";
+            $characters = $characters->orderBy($sortParams['sort_by'], $direction);
+        }
+
+        $characters = $characters->get();
 
         return Inertia::render('Character/Character', compact('characters', 'factions'));
     }
@@ -56,10 +70,21 @@ class CharacterController extends Controller
         if ($request->user()->cannot('view', $character)) {
             abort(403);
         }
+        $search = $request->get('search', "");
 
-        $entries = $character->entries()->with('adventure', 'items')->get();
+        $entries = $character->entries()
+            ->with('adventure', 'items', 'rating')
+            ->orderBy('date_played', 'desc')
+            ->get();
+        $factions = array_values(Character::FACTIONS);
 
-        return Inertia::render('Character/Detail/CharacterDetail', compact('character', 'entries'));
+        return Inertia::render('Character/Detail/CharacterDetail', [
+            'character' => $character,
+            'entries' => $entries,
+            'factions' => $factions,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
+        ]);
     }
 
     /**
@@ -100,8 +125,9 @@ class CharacterController extends Controller
             // Foreach over all the characters so that we can check the policy against them.
             // Purposely not calling $characters->delete() here.
             foreach ($characters as $char) {
-                $user->can('delete', $char);
-                $char->delete();
+                if ($user->can('delete', $char)) {
+                    $char->delete();
+                }
             }
             return redirect()->route('character.index');
         }

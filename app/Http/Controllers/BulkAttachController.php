@@ -6,7 +6,7 @@ use App\Http\Requests\AttachDMEntryRequest;
 use App\Models\Character;
 use App\Models\Entry;
 
-class CharacterBulkAttachDMEntryController extends Controller
+class BulkAttachController extends Controller
 {
     /**
      * @param \App\Http\Requests\AttachDMEntryRequest $request

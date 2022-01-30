@@ -36,7 +36,7 @@ class CharacterControllerTest extends TestCase
     {
         $characters = Character::factory()->count(3)->create();
 
-        $response = $this->actingAs(User::first())->get(route('character.index'));
+        $response = $this->actingAs(User::first())->get(route('character.index', ['sort_by' => "name"]));
 
         $response->assertOk();
         $response->assertInertia(
@@ -222,5 +222,23 @@ class CharacterControllerTest extends TestCase
         $response->assertRedirect(route('character.index'));
 
         $this->assertDeleted($character);
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_deletes_in_bulk_and_redirects()
+    {
+        $characters = Character::factory(3)->create([
+            'user_id' => $this->user->id
+        ]);
+
+        $response = $this->delete(route('character.destroy', ['characters' => $characters->pluck('id')->toArray()]));
+
+        $response->assertRedirect(route('character.index'));
+
+        $this->assertDeleted($characters[0]);
+        $this->assertDeleted($characters[1]);
+        $this->assertDeleted($characters[2]);
     }
 }

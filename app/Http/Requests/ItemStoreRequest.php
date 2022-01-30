@@ -29,7 +29,7 @@ class ItemStoreRequest extends FormRequest
             'character_id' => ['required', 'integer', 'exists:characters,id'],
             'name' => ['required', 'string'],
             'rarity' => ['required', 'in:common,uncommon,rare,very_rare,legendary'],
-            'tier' => ['required', 'string'],
+            'tier' => ['required', 'integer'],
             'description' => ['required', 'string'],
             'author_id' => ['required', 'integer', 'exists:users,id'],
         ];

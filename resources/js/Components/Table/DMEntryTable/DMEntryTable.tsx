@@ -7,21 +7,29 @@ import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
+import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
     data: EntriesData[]
+    setEditId: (id: number) => void
+    setEditData: (payload: EntriesData) => void
+    setIsEditDrawerOpen: (payload: boolean) => void
 }
 
 type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({data}: DMEntryPropType) => {
+const DMEntryTable = ({
+    data,
+    setEditId,
+    setEditData,
+    setIsEditDrawerOpen,
+}: DMEntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
-
     const leftActions = [
         <Link href={route('dm-entry.create')}>
             <Button variant='contained' startIcon={<HistoryEduIcon />}>
@@ -29,13 +37,12 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             </Button>
         </Link>,
     ]
-
     const columns = [
         {
             property: 'date_played',
             title: 'Date',
             render: (value: string) => (
-                <Typography>{dayjs(value).format('YYYY-MM-DD HH:MM')}</Typography>
+                <Typography>{dayjs(value).format('YYYY-MM-DD HH:mm')}</Typography>
             ),
         },
         {
@@ -59,15 +66,22 @@ const DMEntryTable = ({data}: DMEntryPropType) => {
             title: 'Reward',
         },
         {
-            property: null,
+            property: 'items',
             title: 'Magic Items',
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
             title: 'Actions',
             render: (row: any) => (
                 <>
-                    <IconButton aria-label='edit'>
+                    <IconButton
+                        aria-label='edit'
+                        onClick={() => {
+                            setEditData(row)
+                            setEditId(row.id)
+                            setIsEditDrawerOpen(true)
+                        }}>
                         <EditIcon />
                     </IconButton>
                     <IconButton

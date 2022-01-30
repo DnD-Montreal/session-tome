@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -100,7 +101,7 @@ class EntryControllerTest extends TestCase
         $dm_entry->user()->associate($dungeon_master_user)->save();
 
         $response = $this->actingAs($dungeon_master_user)->put(route('entry.update', $dm_entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -112,7 +113,7 @@ class EntryControllerTest extends TestCase
             'choice' => $choice
         ]);
 
-        $response->assertRedirect(route('dm-entry.index'));
+        $response->assertRedirect();
     }
 
     /**
@@ -120,10 +121,19 @@ class EntryControllerTest extends TestCase
      */
     public function create_displays_view()
     {
-        $response = $this->get(route('entry.create'));
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+        $response = $this->get(route('entry.create', ['character_id' => $character->id]));
 
         $response->assertOk();
-        $response->assertViewIs('entry.create');
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/Entry/Create/EntryCreate')
+                ->has('character')
+                ->has('campaigns')
+        );
     }
 
 
@@ -159,7 +169,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($user)->post(route('entry.store'), [
             'user_id' => $user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -177,12 +187,65 @@ class EntryControllerTest extends TestCase
         $character->user()->associate($this->user)->save();
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
-            'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $entries = Entry::query()
+            ->where('user_id', $this->user->id)
+            ->where('adventure_id', $adventure->id)
+            ->where('campaign_id', $campaign->id)
+            ->where('character_id', $character->id)
+            ->where('event_id', $event->id)
+            ->where('dungeon_master_id', $dungeon_master_user->id)
+            ->where('dungeon_master', $dungeon_master)
+            ->where('date_played', $date_played)
+            ->where('location', $location)
+            ->where('type', $type)
+            ->where('levels', $levels)
+            ->where('gp', $gp)
+            ->get();
+        $this->assertCount(1, $entries);
+        $entry = $entries->first();
+
+        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertSessionHas('entry.id', $entry->id);
+    }
+
+    /**
+     * @test
+     */
+    public function store_correctly_asserts_the_dm()
+    {
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $character = Character::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $dungeon_master_user->name;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $character->user()->associate($this->user)->save();
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'adventure' => ['id' => $adventure->id],
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            // Purposely dont pass dm id...
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
             'location' => $location,
@@ -229,14 +292,14 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon"],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
         ];
 
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -291,8 +354,8 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon"],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet."]
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
         ];
         $choice_advancement = 'advancement';
         $choice_item = 'magic_item';
@@ -301,7 +364,7 @@ class EntryControllerTest extends TestCase
         //post request entry.store for each of them
         $response_advancement = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_adv->id,
             'event_id' => $event->id,
@@ -318,7 +381,7 @@ class EntryControllerTest extends TestCase
 
         $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_MI->id,
             'event_id' => $event->id,
@@ -336,7 +399,7 @@ class EntryControllerTest extends TestCase
 
         $response_CR = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character_CR->id,
             'event_id' => $event->id,
@@ -405,6 +468,7 @@ class EntryControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('entry.edit');
         $response->assertViewHas('entry');
+        $response->assertViewHas('campaigns');
     }
 
 
@@ -439,7 +503,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -459,7 +523,7 @@ class EntryControllerTest extends TestCase
         $entry->character()->associate($character)->save();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -474,7 +538,7 @@ class EntryControllerTest extends TestCase
         $response->assertForbidden();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -489,7 +553,60 @@ class EntryControllerTest extends TestCase
 
         $entry->refresh();
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect();
+        $response->assertSessionHas('entry.id', $entry->id);
+
+        $this->assertEquals($adventure->id, $entry->adventure_id);
+        $this->assertEquals($campaign->id, $entry->campaign_id);
+        $this->assertEquals($character->id, $entry->character_id);
+        $this->assertEquals($event->id, $entry->event_id);
+        $this->assertEquals($dungeon_master_user->id, $entry->dungeon_master_id);
+        $this->assertEquals($dungeon_master, $entry->dungeon_master);
+        $this->assertEquals($date_played, $entry->date_played);
+        $this->assertEquals($location, $entry->location);
+        $this->assertEquals($type, $entry->type);
+        $this->assertEquals($levels, $entry->levels);
+        $this->assertEquals($gp, $entry->gp);
+    }
+
+    /**
+     * @test
+     */
+    public function update_correctly_asserts_the_correct_dm()
+    {
+        $entry = Entry::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $character = Character::factory()->create();
+        $event = Event::factory()->create();
+        $dungeon_master_user = User::factory()->create();
+        $dungeon_master = $dungeon_master_user->name;
+        $date_played = $this->faker->dateTime();
+        $location = $this->faker->word;
+        $type = $this->faker->word;
+        $levels = $this->faker->numberBetween(1, 20);
+        $gp = $this->faker->randomFloat(2, 0, 9999999.99);
+
+        $character->user()->associate($this->user)->save();
+        $entry->user()->associate($this->user)->save();
+        $entry->character()->associate($character)->save();
+
+        $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
+            'adventure' => ['id' => $adventure->id],
+            'campaign_id' => $campaign->id,
+            'character_id' => $character->id,
+            'event_id' => $event->id,
+            'dungeon_master' => $dungeon_master,
+            'date_played' => $date_played,
+            'location' => $location,
+            'type' => $type,
+            'levels' => $levels,
+            'gp' => $gp,
+        ]);
+
+        $entry->refresh();
+
+        $response->assertRedirect();
         $response->assertSessionHas('entry.id', $entry->id);
 
         $this->assertEquals($adventure->id, $entry->adventure_id);
@@ -530,7 +647,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
@@ -576,7 +693,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -651,7 +768,7 @@ class EntryControllerTest extends TestCase
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -674,13 +791,33 @@ class EntryControllerTest extends TestCase
      */
     public function destroy_deletes_and_redirects()
     {
-        $entry = Entry::factory()->create();
+        $entry = Entry::factory()->create(['user_id' => $this->user->id]);
 
-        $response = $this->delete(route('entry.destroy', $entry));
+        $response = $this->actingAs($this->user)->delete(route('entry.destroy', $entry));
 
-        $response->assertRedirect(route('entry.index'));
+        $response->assertRedirect();
 
         $this->assertDeleted($entry);
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_deletes_and_redirects_bulk()
+    {
+        $user = User::factory()->create();
+        $entries = Entry::factory(2)->create([
+            'user_id' => $user->id
+        ]);
+
+        $response = $this->actingAs($user)->delete(route('entry.destroy', [
+            'entries' => [$entries[0]->id, $entries[1]->id]
+        ]));
+
+        $response->assertRedirect();
+
+        $this->assertDeleted($entries[0]);
+        $this->assertDeleted($entries[1]);
     }
 
     /**
@@ -695,7 +832,6 @@ class EntryControllerTest extends TestCase
         $date_played = $this->faker->dateTime();
         $type = $this->faker->word;
 
-
         $ratingData = [
             "creative" => true,
             "flexible" => false,
@@ -704,11 +840,9 @@ class EntryControllerTest extends TestCase
             "prepared" => true
         ];
 
-
-
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'character_id' => $character->id,
             'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
@@ -737,6 +871,7 @@ class EntryControllerTest extends TestCase
     {
         $entry = Entry::factory()->create();
         $character = Character::factory()->create();
+        $dm = User::factory()->create();
 
         $this->assertCount(0, Rating::all());
 
@@ -745,9 +880,10 @@ class EntryControllerTest extends TestCase
         $entry->character()->associate($character)->save();
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
-            'adventure_id' => $entry->adventure_id,
+            'adventure' => ['id' => $entry->adventure_id],
             'character_id' => $character->id,
             'date_played' => $entry->date_played,
+            'dungeon_master_id' => $dm->id,
             'type' => $entry->type,
             'rating_data' => [
                 "creative" => true,

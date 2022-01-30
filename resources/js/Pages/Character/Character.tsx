@@ -10,9 +10,10 @@ const theme = getFontTheme('Form', 16)
 
 type CharacterPropType = {
     characters: CharacterData[]
+    factions: string[]
 }
 
-const Character = ({characters}: CharacterPropType) => {
+const Character = ({characters, factions}: CharacterPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number>()
     const [editData, setEditData] = useState<CharacterData>()
@@ -26,9 +27,10 @@ const Character = ({characters}: CharacterPropType) => {
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}
                         editId={editId}
+                        factions={factions}
                     />
                 }
-                title={<Typography>Edit character</Typography>}
+                title={<Typography>Edit Character</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

@@ -6,6 +6,7 @@ use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EntryStoreRequest extends FormRequest
 {
@@ -31,9 +32,10 @@ class EntryStoreRequest extends FormRequest
     public function rules()
     {
         $rarities = implode(",", Item::RARITY);
+        $requiredIf = Rule::requiredIf(!empty($this->get('items')));
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
+            'user_id' => ['sometimes', 'integer', 'exists:users,id'],
+            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
@@ -42,12 +44,15 @@ class EntryStoreRequest extends FormRequest
             'date_played' => ['required', 'date'],
             'location' => ['nullable', 'string'],
             'type' => ['required', 'string'],
+            'length' => ['sometimes', 'integer'],
             'levels' => ['sometimes', 'integer'],
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
+            'notes' => ['nullable', 'string'],
             'items' => ['sometimes', 'array'],
-            'items.*.name' => ['string', 'required_with:items'],
-            'items.*.rarity' => ["in:{$rarities}", 'required_with:items'],
+            'items.*.name' => ['string', $requiredIf],
+            'items.*.rarity' => ["in:{$rarities}", $requiredIf],
+            'items.*.tier' =>  ['integer', 'between:1,4',$requiredIf],
             'choice' => ['sometimes', 'nullable', 'string'],
             'rating_data' => ['nullable', 'array'],
         ];

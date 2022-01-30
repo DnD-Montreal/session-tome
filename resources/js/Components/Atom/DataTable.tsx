@@ -202,6 +202,7 @@ const DataTable = ({
                                         {isSelectable && selected && setSelected && (
                                             <TableCell padding='checkbox'>
                                                 <Checkbox
+                                                    data-testid='table-checkbox'
                                                     onClick={() => {
                                                         if (selected.includes(row.id)) {
                                                             setSelected(

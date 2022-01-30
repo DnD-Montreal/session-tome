@@ -4,24 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\ItemUpdateRequest;
+use App\Models\Character;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\UnauthorizedException;
+use Inertia\Inertia;
 
 class ItemController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
-        if ($characterId = $request->get('character_id')) {
-            $items = Item::where('character_id', $characterId)->get();
-        } else {
-            $items = [];
+        $character = null;
+        $characterId = $request->get('character_id');
+        $items = Item::where('character_id', $characterId)->get();
+        $character = Character::findOrFail($characterId);
+
+        if ($character->user_id !== Auth::id() && $character->status == 'private') {
+            throw new UnauthorizedException(
+                "You're not allowed to see that character's details.",
+                401
+            );
         }
 
-        return view('item.index', compact('items'));
+        return Inertia::render('Item/Item', compact('items', 'character'));
     }
 
     /**
@@ -49,11 +60,12 @@ class ItemController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Item $item
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Item $item)
     {
-        return view('item.show', compact('item'));
+        $character = $item->character;
+        return Inertia::render('Item/Detail/ItemDetail', compact('item', 'character'));
     }
 
     /**
@@ -77,25 +89,23 @@ class ItemController extends Controller
 
         $request->session()->flash('item.id', $item->id);
 
-        if ($charId = $item->character_id) {
-            return redirect()->route('character.show', $charId);
-        } else {
-            return redirect()->route('dm-entry.index');
-        }
+        return redirect()->back();
     }
 
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Item $item
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Item $item)
     {
-        $charId = $item->character_id;
+        $character_id = $item->character_id;
         $item->delete();
+        $character = Character::find($character_id);
+        $items = $character->items;
 
-        if ($charId) {
-            return redirect()->route('character.show', $charId);
+        if ($character_id) {
+            return redirect()->route('item.index', compact('character_id'));
         } else {
             return redirect()->route('dm-entry.index');
         }

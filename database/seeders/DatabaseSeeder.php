@@ -96,8 +96,14 @@ class DatabaseSeeder extends Seeder
                 'levels' => random_int(0, 1),
             ];
 
+            $items = Item::factory(rand(0, 2))->state([
+                'character_id' => $character->id,
+                'author_id' => $character->user_id
+            ]);
             // Session Entries --> Player played this character at an event
-            $entries = Entry::factory(2)->create(array_merge([
+            $entries = Entry::factory(2)
+                ->has($items)
+                ->create(array_merge([
                 'adventure_id' => $session->adventure_id,
                 'dungeon_master_id' => $session->dungeon_master_id,
                 'event_id' => $session->event_id
@@ -127,7 +133,7 @@ class DatabaseSeeder extends Seeder
                     'author_id' => $entry->user_id
                 ]);
             } elseif ($entry->dungeon_master_id) {
-                // If a game has DM the user should rat them
+                // If a game has DM the user should rate them
                 Rating::factory()->create([
                     'entry_id' => $entry->id,
                     'user_id' => $entry->dungeon_master_id,
@@ -148,10 +154,14 @@ class DatabaseSeeder extends Seeder
 
         // Each event will have 3 sessions being run at them
         foreach ($events as $event) {
-            $sessions = Session::factory(3)->create([
-                'event_id' => $event->id,
-                'dungeon_master_id' => $dm->random()->id
-            ])->merge($sessions);
+            $seats = rand(2, 7);
+            $sessions = Session::factory(3)
+                ->has(Character::factory($seats - rand(0, 2)))
+                ->create([
+                    'event_id' => $event->id,
+                    'dungeon_master_id' => $dm->random()->id,
+                    'seats' => $seats
+                ])->merge($sessions);
         }
         return $sessions;
     }

@@ -25,6 +25,7 @@ class Entry extends Model
         'dungeon_master',
         'date_played',
         'location',
+        'length',
         'type',
         'levels',
         'gp',
@@ -96,6 +97,11 @@ class Entry extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
+    public function rating()
+    {
+        return $this->hasOne(\App\Models\Rating::class);
+    }
+
     public function getSessionAttribute()
     {
         if (is_null($this->character_id) || is_null($this->adventure_id) || is_null($this->date_played)) {
@@ -105,25 +111,27 @@ class Entry extends Model
         // refactor to scope query?
         return self::where('character_id', $this->character_id)
             ->where('adventure_id', $this->adventure_id)
-            ->where('date_played', ">", $this->date_played)
+            ->where('date_played', "<", $this->date_played)
             ->where('dungeon_master_id', $this->dungeon_master_id)
             ->count() + 1;
     }
 
     public function getRewardAttribute()
     {
+        if ($this->type != self::TYPE_DM) {
+            return null;
+        }
+
         if (is_null($this->character_id)) {
             return "-";
         }
 
-        if ($this->type == self::TYPE_DM) {
-            if ($this->levels >= 1) {
-                return self::REWARD_ADVANCEMENT;
-            } elseif ($this->items()->count() >= 1) {
-                return self::REWARD_MAGIC_ITEM;
-            }
-
-            return self::REWARD_CAMPAIGN;
+        if ($this->levels >= 1) {
+            return self::REWARD_ADVANCEMENT;
+        } elseif ($this->items()->count() >= 1) {
+            return self::REWARD_MAGIC_ITEM;
         }
+
+        return self::REWARD_CAMPAIGN;
     }
 }

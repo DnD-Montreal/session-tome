@@ -6,10 +6,14 @@ use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Character;
+use App\Models\Adventure;
 use App\Models\Entry;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
@@ -31,11 +35,27 @@ class EntryController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create(Request $request)
     {
-        return view('entry.create');
+        $campaigns = Auth::user()->campaigns;
+        $data = $request->validate([
+            'character_id' => "required|exists:characters,id|integer",
+            'search' => "sometimes|string"
+        ]);
+
+        $character = Character::where('user_id', Auth::id())
+            ->findOrFail($data['character_id']);
+
+        $search = $data['search'] ?? "";
+
+        return Inertia::render('Character/Detail/Entry/Create/EntryCreate', [
+            'campaigns' => $campaigns,
+            'character' => $character,
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
+        ]);
     }
 
     /**
@@ -48,6 +68,9 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
+        if (!$entryData->has('user_id')) {
+            $entryData['user_id'] = Auth::id();
+        }
         if ($ratingData->has('rating_data')) {
             $ratingData = $ratingData['rating_data'];
         }
@@ -62,12 +85,21 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
+        // Attempt to find the DM based on the name passed
+        if (empty($entryData['dungeon_master_id']) && $entryData['type'] !== Entry::TYPE_DM) {
+            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
+            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        }
+
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
+
         $entry = Entry::create($entryData->toArray());
         // attach any associated items to the entry in question.
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!empty($ratingData) && is_array($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id && $entry->exists('dungeonMaster')) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
@@ -95,7 +127,8 @@ class EntryController extends Controller
      */
     public function edit(Request $request, Entry $entry)
     {
-        return view('entry.edit', compact('entry'));
+        $campaigns = Auth::user()->campaigns;
+        return view('entry.edit', compact('entry', 'campaigns'));
     }
 
     /**
@@ -123,20 +156,29 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
+        // Attempt to find the DM based on the name passed
+        if ((empty($entryData['dungeon_master_id']) || !$entry->dungeon_master_id) && $entryData['type'] !== Entry::TYPE_DM) {
+            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
+            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        }
+
+        $entryData["adventure_id"] = $entryData['adventure']['id'];
+        $entryData->forget('adventure');
+
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         // need to find alternative to empty, this is true even if no rating_data found
-        if (!empty($ratingData) && is_array($ratingData)) {
+        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
         if ($request->type == Entry::TYPE_DM) {
-            return redirect()->route('dm-entry.index');
+            return redirect()->back();
         }
 
-        return redirect()->route('entry.index');
+        return redirect()->back();
     }
 
     /**
@@ -144,11 +186,28 @@ class EntryController extends Controller
      * @param \App\Models\Entry $entry
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, Entry $entry)
+    public function destroy(Request $request, Entry $entry = null)
     {
-        $entry->delete();
+        $user = $request->user();
+        $data = $request->validate([
+            'entries' => 'sometimes|array'
+        ]);
 
-        return redirect()->route('entry.index');
+        if ($request->has('entries')) {
+            $entries = Entry::whereIn('id', $data['entries'])->get();
+
+            foreach ($entries as $arrayEntry) {
+                if ($user->can('delete', $arrayEntry)) {
+                    $arrayEntry->delete();
+                }
+            }
+        }
+
+        if ($user->can('delete', $entry)) {
+            $entry->delete();
+        }
+
+        return redirect()->back();
     }
 
     /**

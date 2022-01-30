@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {Box, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
+import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
@@ -10,13 +11,21 @@ import route from 'ziggy-js'
 
 type EntryPropType = {
     data: EntriesData[]
+    setEditEntryId: (payload: number) => void
+    setEditEntryData: (payload: any) => void
+    setIsEditDrawerOpen: (payload: boolean) => void
 }
 
 type FormDataType = {
     entries: number[]
 }
 
-const EntryTable = ({data}: EntryPropType) => {
+const EntryTable = ({
+    data,
+    setEditEntryId,
+    setEditEntryData,
+    setIsEditDrawerOpen,
+}: EntryPropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
@@ -26,7 +35,7 @@ const EntryTable = ({data}: EntryPropType) => {
             property: 'date_played',
             title: 'Date',
             render: (value: string) => (
-                <Typography>{dayjs(value).format('YYYY-MM-DD HH:MM')}</Typography>
+                <Typography>{dayjs(value).format('YYYY-MM-DD HH:mm')}</Typography>
             ),
         },
         {
@@ -45,18 +54,22 @@ const EntryTable = ({data}: EntryPropType) => {
             title: 'Reward',
         },
         {
-            property: 'items.name',
+            property: 'items',
             title: 'Magic Items',
-            render: (value: any) => (
-                <Chip aria-label='item' label={value.items.name} variant='outlined' />
-            ),
+            render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
             title: 'Actions',
             render: (row: any) => (
                 <>
-                    <IconButton aria-label='edit'>
+                    <IconButton
+                        aria-label='edit'
+                        onClick={() => {
+                            setEditEntryData(row)
+                            setEditEntryId(row.id)
+                            setIsEditDrawerOpen(true)
+                        }}>
                         <EditIcon />
                     </IconButton>
                     <IconButton

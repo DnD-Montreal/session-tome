@@ -3,7 +3,7 @@ describe('Manage Characters Test Suite', () => {
     const character_name = 'John'
     const character_race = 'Smith'
     const character_class = 'Upper'
-    const character_faction = 'Five'
+    const character_faction = 'The Harpers'
     const character_level = 5
     const character_downtime = 30
 
@@ -24,8 +24,9 @@ describe('Manage Characters Test Suite', () => {
         cy.get('#name').type(character_name)
         cy.get('#race').type(character_race)
         cy.get('#class').type(character_class)
-        cy.get('#faction').type(character_faction)
-        cy.get('#level').type(character_level)
+        cy.get('#faction').click()
+        cy.contains(character_faction).click()
+        cy.get('#level').clear().type(character_level)
         cy.get('#downtime').type(character_downtime)
         cy.contains('button', 'Continue').click()
         cy.get('#status').check()

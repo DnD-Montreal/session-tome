@@ -1,5 +1,7 @@
 import ClearIcon from '@mui/icons-material/Clear'
-import {Box, Button, Grid, MenuItem, TextField, Typography} from '@mui/material'
+import {Box, Button, Grid, TextField, Typography} from '@mui/material'
+import {rarityOptions, tierOptions} from '@Utils/option-constants'
+import {Select} from 'Components'
 import {cloneDeep} from 'lodash'
 import React from 'react'
 import {ItemData} from 'Types/item-data'
@@ -10,29 +12,6 @@ type ItemFormPropType = {
 }
 
 const ItemForm = ({items, setData}: ItemFormPropType) => {
-    const rarityOptions = [
-        {
-            label: 'Common',
-            value: 'common',
-        },
-        {
-            label: 'Uncommon',
-            value: 'uncommon',
-        },
-        {
-            label: 'Rare',
-            value: 'rare',
-        },
-        {
-            label: 'Very Rare',
-            value: 'very_rare',
-        },
-        {
-            label: 'Legendary',
-            value: 'legendary',
-        },
-    ]
-
     const ITEM_INITIAL_VALUES = {
         name: '',
         rarity: '',
@@ -111,51 +90,29 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                             />
                         </Grid>
                         <Grid item xs={3}>
-                            <TextField
-                                fullWidth
+                            <Select
                                 id='rarity'
-                                select
                                 required
                                 label='Rarity'
                                 name='Rarity'
                                 value={item.rarity}
                                 onChange={(e) =>
                                     handleOnChange('rarity', e.target.value, index)
-                                }>
-                                {rarityOptions.map((option: any) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                                }
+                                options={rarityOptions}
+                            />
                         </Grid>
                         <Grid item xs={3}>
-                            <TextField
-                                fullWidth
-                                required
+                            <Select
                                 id='tier'
+                                required
                                 label='Tier'
                                 name='Tier'
-                                type='number'
-                                onChange={(e) => {
-                                    const formValue = parseInt(e.target.value)
-                                    let value
-                                    if (formValue >= 4) {
-                                        value = 4
-                                    } else if (formValue <= 1) {
-                                        value = 1
-                                    } else {
-                                        value = formValue
-                                    }
-                                    handleOnChange('tier', value, index)
-                                }}
-                                InputProps={{
-                                    inputProps: {
-                                        min: 1,
-                                        max: 4,
-                                    },
-                                }}
                                 value={item.tier}
+                                onChange={(e) =>
+                                    handleOnChange('tier', e.target.value, index)
+                                }
+                                options={tierOptions}
                             />
                         </Grid>
                         <Grid item xs={12}>

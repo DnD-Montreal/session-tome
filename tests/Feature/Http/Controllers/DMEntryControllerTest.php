@@ -62,6 +62,7 @@ class DMEntryControllerTest extends TestCase
             fn (Assert $page) => $page
                 ->component("Entry/Create/DmEntryCreate")
                 ->has('adventures')
+                ->has('campaigns')
         );
     }
 
@@ -83,7 +84,7 @@ class DMEntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,

@@ -2,31 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BulkEntryStoreRequest;
+use App\Models\Adventure;
 use App\Models\Character;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BulkEntryController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
+     */
+    public function create(Request $request)
+    {
+        $charId = $request->validate([
+            'character_id' => "required|exists:characters,id|integer"
+        ])['character_id'];
+
+        $character = Character::where('user_id', Auth::id())
+            ->findOrFail($charId);
+
+        $adventures = Adventure::all();
+
+        return Inertia::render('Character/Detail/Entry/Create/BulkEntryCreate', compact('adventures', 'character'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(BulkEntryStoreRequest $request)
     {
-        $data = $request->validate([
-            'character_id' => "required|exists:characters,id",
-            'adventure_id' => "nullable|exists:adventures,id",
-            'start_date' => "required|date",
-            'end_date' => "nullable|date",
-            // How often a session was ran, measured in times/week
-            // (1 -> once per week, 2 -> twice per week, 0.5 -> once every 2 weeks)
-            'frequency' => "required|numeric",
-
-        ]);
+        $data = $request->validated();
 
         $data['end_date'] = Carbon::parse($data['end_date']) ?? now();
         $data['start_date'] = Carbon::parse($data['start_date']);
@@ -36,8 +48,9 @@ class BulkEntryController extends Controller
 
         $character = Character::findOrFail($data['character_id']);
         $character->stubEntries(0, $entriesCount, $data['adventure_id']);
+        $entries = $character->entries()->where('created_at', ">=", now())->get();
 
-        foreach ($character->entries as $index => $entry) {
+        foreach ($entries as $index => $entry) {
             $datePlayed = $data['start_date']->addWeeks($index/$data['frequency']);
             $entry->date_played = $datePlayed->isBefore($data['end_date']) ? $datePlayed : $data['end_date'];
             // N+1 consider refactor?

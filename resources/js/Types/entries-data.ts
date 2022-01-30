@@ -1,5 +1,6 @@
-import {ItemData} from 'Types/item-data'
 import {CharacterData} from 'Types/character-data'
+import {ItemData} from 'Types/item-data'
+import {RatingCategoryType} from 'Types/rating-data'
 
 export type EntriesData = {
     adventure: any
@@ -14,7 +15,7 @@ export type EntriesData = {
     dungeon_master: string | null
     dungeon_master_id: number | null
     event_id: number | null
-    gp: string | null
+    gp: number | null
     id: number
     items: ItemData[] | null
     levels: number | null
@@ -25,4 +26,5 @@ export type EntriesData = {
     type: 'game' | 'downtime' | 'dm' | string
     updated_at: string
     user_id: number
+    rating_data: RatingCategoryType | null
 }

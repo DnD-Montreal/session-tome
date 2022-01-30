@@ -37,10 +37,13 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('adventure', App\Http\Controllers\AdventureController::class);
 
-    Route::resource('entry', App\Http\Controllers\EntryController::class);
+    Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
+        ->name("entry.destroy");
+
+    Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy');
 
     Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
-        ->only(['store']);
+        ->only(['create', 'store']);
 
     Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
         ->name("character.destroy");
@@ -67,16 +70,22 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('adventures-league-import', App\Http\Controllers\AdventuresLeagueImportController::class)
         ->only(['index', 'store']);
 
-    Route::resource('dm-entry', \App\Http\Controllers\DMEntryController::class)
+    Route::resource('dm-entry', App\Http\Controllers\DMEntryController::class)
         ->only('index', 'create');
 
-    Route::resource('attach-entry-to-character', App\Http\Controllers\CharacterBulkAttachDMEntryController::class)->parameters([
+    Route::resource('attach-entry-to-character', App\Http\Controllers\BulkAttachController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
+
+    Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
+        ->only('store');
 
     Route::get('report/rating', App\Actions\GenerateRatingReport::class)
         ->name('report.rating')
         ->middleware('admin');
+
+    Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
+        ->only(['create', 'store']);
 });
 
 

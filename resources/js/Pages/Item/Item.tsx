@@ -1,92 +1,46 @@
-import {Link} from '@inertiajs/inertia-react'
-import AddIcon from '@mui/icons-material/Add'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import {
-    Autocomplete,
-    Breadcrumbs,
-    Button,
-    Grid,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material'
+import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {ItemTable} from 'Components'
+import {Drawer, ItemEditForm, ItemTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import {itemData, RowData} from 'Mock/item-data'
 import React, {useState} from 'react'
+import {ItemEditData} from 'Types/item-data'
 import {getFontTheme} from 'Utils'
 
-const Item = () => {
-    const [rows, setRows] = useState<RowData[]>(itemData)
-    const theme = getFontTheme('Form', 16)
+const theme = getFontTheme('Form', 16)
 
-    const requestSearch = (searchedVal: string) => {
-        const filteredRows = itemData.filter((row) =>
-            row.iname.toLowerCase().includes(searchedVal.toLowerCase()),
-        )
-        setRows(filteredRows)
-    }
+type ItemPropType = {
+    items: ItemEditData[]
+}
+const Item = ({items}: ItemPropType) => {
+    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
+    const [editData, setEditData] = useState<ItemEditData>({
+        name: '',
+        description: null,
+        rarity: '',
+        tier: 0,
+        id: 0,
+    })
 
-    const onChangeSearch = (e: {target: any}) => {
-        const {target} = e
-        switch (target.value) {
-            case 0: {
-                requestSearch(target.textContent)
-                break
-            }
-            case undefined: {
-                requestSearch('')
-                break
-            }
-            default: {
-                requestSearch(target.value)
-                break
-            }
-        }
-    }
     return (
         <ThemeProvider theme={theme}>
-            <Grid
-                container
-                rowSpacing={{xs: 1, sm: 2, md: 3}}
-                alignItems='center'
-                justifyContent='center'>
-                <Grid item xs={12} alignItems='center' justifyContent='center'>
-                    <Breadcrumbs aria-label='breadcrumb'>
-                        <Link color='inherit' href='/'>
-                            Character 1
-                        </Link>
-                        <Typography color='text.primary'>Items</Typography>
-                    </Breadcrumbs>
-                </Grid>
-                <Grid item xs={8} alignItems='center' justifyContent='center'>
-                    <Stack direction='row' spacing={4}>
-                        <Button variant='contained' startIcon={<AddIcon />}>
-                            <Link href='/'>Create</Link>
-                        </Button>
-                        <Button variant='contained' startIcon={<FileDownloadIcon />}>
-                            Export
-                        </Button>
-                    </Stack>
-                </Grid>
-                <Grid item xs={4}>
-                    <Autocomplete
-                        id='item-search'
-                        options={rows.map((option) => option.iname)}
-                        renderInput={(params) => (
-                            <TextField {...params} fullWidth label='Search Items' />
-                        )}
-                        sx={{width: '100%'}}
-                        onInputChange={onChangeSearch}
-                        onChange={onChangeSearch}
-                        onClose={onChangeSearch}
+            <Drawer
+                content={
+                    <ItemEditForm
+                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        editData={editData}
                     />
-                </Grid>
-                <Grid item xs={12}>
-                    <ItemTable rows={rows} />
-                </Grid>
-            </Grid>
+                }
+                title={<Typography>Edit Item</Typography>}
+                isOpen={isEditDrawerOpen}
+                onClose={() => {
+                    setIsEditDrawerOpen(false)
+                }}
+            />
+            <ItemTable
+                data={items}
+                setIsEditDrawerOpen={setIsEditDrawerOpen}
+                setEditData={setEditData}
+            />
         </ThemeProvider>
     )
 }
