@@ -1,6 +1,10 @@
 describe('Admin Event CRUD Test Suite', () => {
     const admin_base = `${Cypress.config('baseUrl')}/admin`
-    const event_suffix = 'events'
+    const event_suffix = 'event'
+    const event_title = 'Test Event'
+    const event_edited_title = 'Test Edited Event'
+    const event_location = 'Cypress Town'
+    const event_edited_location = 'Cypress Town Edited'
     let last_url = ''
 
     before(() => {
@@ -28,43 +32,48 @@ describe('Admin Event CRUD Test Suite', () => {
     })
 
     it('Event Creation', () => {
-        cy.get(`a[href="${admin_base}/${event_suffix}/create/"]`)
+        cy.get(`a[href="${admin_base}/${event_suffix}/create"]`).click()
+        cy.get('input[name="title"]').type(event_title)
+        cy.get('textarea[name="description"]').type(event_title)
+        cy.get('input[name="location"]').type(event_location)
+        cy.get('button[type="submit"]').click()
+        cy.contains(event_title)
     })
 
-    // it('Event Delete', () => {
-    //     let number_of_remaining_items = 0
-    //     cy.get('p[class^="MuiTablePagination-displayedRows"]')
-    //         .invoke('text')
-    //         .then((text) => {
-    //             number_of_remaining_items = parseInt(text.split(' ').pop()) - 1
-    //         })
-    //         .then(() => {
-    //             cy.get('svg[data-testid=delete-action]').eq(0).click()
-    //             cy.contains('button', 'Delete').click()
-    //             cy.contains(`of ${number_of_remaining_items}`)
-    //         })
-    // })
+    it('Event Delete', () => {
+        let number_of_remaining_items = 0
+        cy.get('div[id="crudTable_info"]')
+            .invoke('text')
+            .then((text) => {
+                const splitText = text.split(' ')
+                number_of_remaining_items = parseInt(splitText[5]) - 1
+            })
+            .then(() => {
+                cy.get('a[data-button-type="delete"]').eq(0).click()
+            })
+            .then(() => {
+                cy.get(
+                    'button[class="swal-button swal-button--confirm swal-button--danger"]',
+                ).click()
+            })
+            .then(() => {
+                cy.contains(`of ${number_of_remaining_items}`)
+            })
+    })
 
-    // it('Event Edit', () => {
-    //     cy.get('svg[data-testid=EditIcon]').eq(0).click()
-    //     cy.contains('Edit Item')
-    //     cy.get('#name').clear().type(new_item_name)
-    //     cy.get('#rarity').click()
-    //     cy.contains('li', 'Very Rare').click()
-    //     cy.get('#tier').click()
-    //     cy.contains('li', '1').click()
-    //     cy.contains('button', 'Save').click()
-    //     cy.contains('Edit Item').should('not.exist')
-    //     cy.contains(new_item_name)
-    // })
+    it('Event Edit', () => {
+        cy.get('i[class="la la-edit"]').eq(0).parent().click()
+        cy.get('input[name="title"]').clear().type(event_edited_title)
+        cy.get('textarea[name="description"]').clear().type(event_edited_title)
+        cy.get('input[name="location"]').clear().type(event_edited_location)
+        cy.get('button[type="submit"]').click()
+        cy.contains(event_edited_title)
+    })
 
-    // it('Event Detail', () => {
-    //     cy.contains('a', new_item_name).click()
-    //     cy.get(
-    //         `a[href^="${Cypress.config('baseUrl')}/${Cypress.Laravel.route(
-    //             'character.index',
-    //         )}/"]`,
-    //     )
-    //     cy.contains('p', '>')
-    // })
+    it('Event Detail', () => {
+        cy.get('i[class="la la-eye"]').eq(0).parent().click()
+        cy.contains('Description:')
+        cy.contains('Location:')
+        cy.contains('Title:')
+    })
 })
