@@ -52,7 +52,11 @@ class GenerateRatingReport
             }
         }
 
-        return StreamCsvFile::run($columns, $data, "rating-report");
+        if ($league == null) {
+            return StreamCsvFile::run($columns, $data, "rating-report");
+        }
+
+        return StreamCsvFile::run($columns, $data, "league-rating-report");
     }
 
     /**
