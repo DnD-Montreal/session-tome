@@ -20,7 +20,7 @@ class GenerateRatingReport
      * @param bool $onlyEventRatings
      * @return StreamedResponse
      */
-    public function handle($onlyEventRatings = true)
+    public function handle($onlyEventRatings = true, $leagueId = null)
     {
         $columns = $this->prepareColumns();
         $ratings = Rating::with('user')
@@ -28,6 +28,13 @@ class GenerateRatingReport
 
         if ($onlyEventRatings) {
             $ratings = $ratings->has('entry.event');
+        }
+
+        //filter for ratings of specified league
+        if ($leagueId != null) {
+            $ratings = $ratings->whereHas('entry.event', function ($query) use ($leagueId) {
+                $query->where('league_id', $leagueId);
+            })->get();
         }
 
         $ratings = $ratings->get();
