@@ -75,6 +75,6 @@ class LeagueCrudController extends CrudController
     public function report()
     {
         $league = $this->crud->getCurrentEntry();
-        return GenerateRatingReport::run($league);
+        return GenerateRatingReport::run(true, $league);
     }
 }
