@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\LeagueRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Actions\GenerateRatingReport;
+use App\Models\League;
 
 /**
  * Class LeagueCrudController
@@ -18,6 +20,7 @@ class LeagueCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -39,6 +42,7 @@ class LeagueCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->addButtonFromView('line', 'league_report', 'league_report', 'beginning');
         CRUD::column('name');
         CRUD::column('description');
     }
@@ -66,5 +70,11 @@ class LeagueCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function report()
+    {
+        $event = $this->crud->getCurrentEntry();
+        return GenerateRatingReport::run($event);
     }
 }
