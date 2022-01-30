@@ -1,4 +1,4 @@
-describe('Item Entry Management Test Suite', () => {
+describe('DM Entry Management Test Suite', () => {
     let number_of_remaining_dm_entries = 0
     const new_item_name = 'NewItemName'
     const newer_item_name = 'NewerItemName'
