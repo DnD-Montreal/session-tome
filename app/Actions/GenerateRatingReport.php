@@ -34,7 +34,7 @@ class GenerateRatingReport
         if ($league != null) {
             $ratings = $ratings->whereHas('entry.event', function ($query) use ($league) {
                 $query->where('league_id', $league->id);
-            })->get();
+            });
         }
 
         $ratings = $ratings->get();
