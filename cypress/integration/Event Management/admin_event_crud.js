@@ -1,5 +1,5 @@
 describe('Admin Event CRUD Test Suite', () => {
-    const admin_base = `${Cypress.config('baseUrl')}/admin`
+    let admin_base = ''
     const event_suffix = 'event'
     const event_title = 'Test Event'
     const event_edited_title = 'Test Edited Event'
@@ -8,6 +8,7 @@ describe('Admin Event CRUD Test Suite', () => {
     let last_url = ''
 
     before(() => {
+        admin_base = `${Cypress.config('baseUrl')}/admin`
         cy.refreshDatabase()
         cy.seed('FastSeeder')
         last_url = `${admin_base}/dashboard/`
