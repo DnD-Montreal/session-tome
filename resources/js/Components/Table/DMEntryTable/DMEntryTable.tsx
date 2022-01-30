@@ -30,7 +30,6 @@ const DMEntryTable = ({
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
-
     const leftActions = [
         <Link href={route('dm-entry.create')}>
             <Button variant='contained' startIcon={<HistoryEduIcon />}>
@@ -38,13 +37,12 @@ const DMEntryTable = ({
             </Button>
         </Link>,
     ]
-
     const columns = [
         {
             property: 'date_played',
             title: 'Date',
             render: (value: string) => (
-                <Typography>{dayjs(value).format('YYYY-MM-DD HH:MM')}</Typography>
+                <Typography>{dayjs(value).format('YYYY-MM-DD HH:mm')}</Typography>
             ),
         },
         {

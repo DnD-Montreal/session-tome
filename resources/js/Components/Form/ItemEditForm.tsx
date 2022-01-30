@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
-import {rarityOptions} from '@Utils/option-constants'
+import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {ErrorText, Select} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
@@ -63,31 +63,16 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                     {errors?.rarity && <ErrorText message={errors?.rarity} />}
                 </StyledGrid>
                 <StyledGrid item xs={12}>
-                    <TextField
+                    <Select
                         margin='normal'
                         fullWidth
+                        required
                         id='tier'
                         label='Tier'
                         name='Tier'
-                        type='number'
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        InputProps={{
-                            inputProps: {
-                                min: 0,
-                                max: 5,
-                            },
-                        }}
-                        value={data.tier.toString()}
-                        onChange={(e) => {
-                            const value = parseInt(e.target.value)
-                            if (value > 4) {
-                                setData('tier', 4)
-                            } else {
-                                setData('tier', value)
-                            }
-                        }}
+                        value={data.tier}
+                        onChange={(e) => setData('tier', parseInt(e.target.value))}
+                        options={tierOptions}
                     />
                     {errors?.tier && <ErrorText message={errors?.tier} />}
                 </StyledGrid>

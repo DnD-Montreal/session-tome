@@ -24,7 +24,7 @@ const Select = ({options, type, ...props}: SelectPropType) => {
         if (options.length === 0) {
             return <Typography style={{marginLeft: 12}}>No data...</Typography>
         }
-        if (typeof options[0] === 'string') {
+        if (typeof options[0] === 'string' || typeof options[0] === 'number') {
             return options.map((option: string) => (
                 <MenuItem key={option} value={option}>
                     {option}

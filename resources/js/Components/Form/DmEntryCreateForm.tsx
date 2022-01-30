@@ -1,10 +1,10 @@
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import DatePicker from '@mui/lab/DatePicker'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
+import {Autocomplete, ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -147,64 +147,49 @@ const DmEntryCreateForm = ({
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
-                    fullWidth
+                <NumberInput
+                    valueType='integer'
+                    fieldKey='length'
                     id='length'
                     label='Length'
                     name='Length'
-                    type='number'
-                    InputProps={{
-                        inputProps: {
-                            min: 0,
-                        },
-                    }}
-                    value={data.length.toString()}
-                    onChange={(e) => setData('length', parseInt(e.target.value))}
+                    min={0}
+                    value={data.length}
+                    setData={setData}
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
-                    fullWidth
+                <NumberInput
+                    valueType='integer'
+                    fieldKey='levels'
                     id='levels'
                     label='Levels'
                     name='Levels'
-                    type='number'
-                    InputProps={{
-                        inputProps: {
-                            min: 0,
-                        },
-                    }}
-                    value={data.levels.toString()}
-                    onChange={(e) => setData('levels', parseInt(e.target.value))}
+                    min={0}
+                    max={20}
+                    value={data.levels}
+                    setData={setData}
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
-                <TextField
-                    fullWidth
+                <NumberInput
+                    valueType='float'
+                    fieldKey='gp'
                     id='gp'
                     label='GP'
                     name='GP'
-                    type='number'
-                    InputProps={{
-                        inputProps: {
-                            min: 0,
-                        },
-                    }}
-                    value={data.gp.toString()}
-                    onChange={(e) =>
-                        setData('gp', parseFloat(parseFloat(e.target.value).toFixed(2)))
-                    }
+                    value={data.gp}
+                    setData={setData}
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
+                    <DateTimePicker
                         label='Date'
                         value={data.date_played}
-                        inputFormat='yyyy-MM-dd'
                         onChange={(e) => {
                             setData('date_played', e)
                         }}

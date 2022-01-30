@@ -20,3 +20,5 @@ export const rarityOptions = [
         id: 'legendary',
     },
 ]
+
+export const tierOptions = [1, 2, 3, 4]
