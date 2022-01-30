@@ -1,6 +1,4 @@
 describe('Admin Event CRUD Test Suite', () => {
-    let admin_base = ''
-    const event_suffix = 'event'
     const event_title = 'Test Event'
     const event_edited_title = 'Test Edited Event'
     const event_location = 'Cypress Town'
@@ -8,10 +6,9 @@ describe('Admin Event CRUD Test Suite', () => {
     let last_url = ''
 
     before(() => {
-        admin_base = `${Cypress.config('baseUrl')}/admin`
         cy.refreshDatabase()
         cy.seed('FastSeeder')
-        last_url = `${admin_base}/dashboard/`
+        last_url = `${Cypress.config('baseUrl')}/admin/dashboard/`
     })
 
     beforeEach(() => {
@@ -33,7 +30,7 @@ describe('Admin Event CRUD Test Suite', () => {
     })
 
     it('Event Creation', () => {
-        cy.get(`a[href="${admin_base}/${event_suffix}/create"]`).click()
+        cy.get(`a[href="${Cypress.config('baseUrl')}/admin/event/create"]`).click()
         cy.get('input[name="title"]').type(event_title)
         cy.get('textarea[name="description"]').type(event_title)
         cy.get('input[name="location"]').type(event_location)
