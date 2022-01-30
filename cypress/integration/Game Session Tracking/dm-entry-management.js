@@ -26,15 +26,15 @@ describe('Item Entry Management Test Suite', () => {
         cy.wait('@dm_entry')
     })
 
-    it('List DM Entries', () => {
-        cy.contains('DM Entries')
-        cy.contains('Adventure Title')
-        cy.contains('Session')
-        cy.contains('Character')
-        cy.contains('Reward')
-        cy.contains('Magic Items')
-        cy.get('input[type=checkbox]')
-    })
+    // it('List DM Entries', () => {
+    //     cy.contains('DM Entries')
+    //     cy.contains('Adventure Title')
+    //     cy.contains('Session')
+    //     cy.contains('Character')
+    //     cy.contains('Reward')
+    //     cy.contains('Magic Items')
+    //     cy.get('input[type=checkbox]')
+    // })
 
     it('Create Empty DM Entry', () => {
         cy.get('p[class^="MuiTablePagination-displayedRows"]')
@@ -59,6 +59,8 @@ describe('Item Entry Management Test Suite', () => {
     })
 
     it('Edit Empty DM Entry', () => {
+        cy.intercept('PUT', '**/entry/*').as('dm_entry_edit')
+
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit DM Entry')
         cy.get('#length').clear().type('3')
@@ -66,6 +68,7 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('#gp').clear().type('3')
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
+        cy.wait('@dm_entry_edit').its('response.statusCode').should('eq', 303)
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
@@ -126,38 +129,47 @@ describe('Item Entry Management Test Suite', () => {
     })
 
     it('Attach Campaign Reward DM Entry', () => {
+        cy.intercept('PUT', '**/entry/*').as('attach_campaign_reward')
+
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit DM Entry')
-        cy.get('#choice').click()
-        cy.contains('li', 'Campaign Reward').click()
         cy.get('#character_id').click()
         cy.get('li[role=option]').eq(0).click()
+        cy.get('#choice').click()
+        cy.contains('li', 'Campaign Reward').click()
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
+        cy.wait('@attach_campaign_reward').its('response.statusCode').should('eq', 303)
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Attach Advancement DM Entry', () => {
+        cy.intercept('PUT', '**/entry/*').as('attach_advancement')
+
         cy.get('svg[data-testid=EditIcon]').eq(1).click()
         cy.contains('Edit DM Entry')
-        cy.get('#choice').click()
-        cy.contains('li', 'Advancement').click()
         cy.get('#character_id').click()
         cy.get('li[role=option]').eq(0).click()
+        cy.get('#choice').click()
+        cy.contains('li', 'Advancement').click()
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
+        cy.wait('@attach_advancement').its('response.statusCode').should('eq', 303)
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Attach Item DM Entry', () => {
+        cy.intercept('PUT', '**/entry/*').as('attach_magic_item')
+
         cy.get('svg[data-testid=EditIcon]').eq(2).click()
         cy.contains('Edit DM Entry')
-        cy.get('#choice').click()
-        cy.contains('li', 'Magic Item').click()
         cy.get('#character_id').click()
         cy.get('li[role=option]').eq(0).click()
+        cy.get('#choice').click()
+        cy.contains('li', 'Magic Item').click()
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
+        cy.wait('@attach_magic_item').its('response.statusCode').should('eq', 303)
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
