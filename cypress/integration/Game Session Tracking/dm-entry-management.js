@@ -13,10 +13,14 @@ describe('Item Entry Management Test Suite', () => {
         cy.intercept('GET', Cypress.Laravel.route('dm-entry.index')).as('dm_entry')
         cy.contains('button', 'DM Entry').click()
         cy.wait('@dm_entry')
+
+        cy.get('[data-testid="PersonIcon"]').click()
+        cy.contains('button', 'Logout').click()
     })
 
     beforeEach(() => {
         cy.seederLogin()
+        cy.intercept('GET', Cypress.Laravel.route('dm-entry.index')).as('dm_entry')
         cy.visit(Cypress.Laravel.route('dm-entry.index'))
         cy.wait('@dm_entry')
     })
@@ -41,9 +45,9 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('li[role=option]').eq(0).click()
         cy.get('#location').type('Test Location')
         cy.get('#notes').type('Some notes')
-        cy.get('button', 'Continue')
-        cy.get('button', 'Create')
-        cy.get('Unassigned')
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Create').click()
+        cy.contains('Unassigned')
     })
 
     it('Edit Empty DM Entry', () => {
@@ -52,31 +56,37 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('#length').clear().type('3')
         cy.get('#levels').clear().type('3')
         cy.get('#gp').clear().type('3')
-        cy.get('button', 'Continue')
-        cy.get('button', 'Save')
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Save').click()
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Create Advancement DM Entry', () => {
+        cy.intercept('GET', Cypress.Laravel.route('dm-entry.create')).as(
+            'dm_entry_create',
+        )
         cy.contains('button', 'Create').click()
         cy.wait('@dm_entry_create')
         cy.get('#adventures').click()
         cy.get('li[role=option]').eq(0).click()
-        cy.get('#choice-label').click()
+        cy.get('#choice').click()
         cy.contains('li', 'Advancement').click()
-        cy.get('button', 'Continue')
-        cy.get('button', 'Create')
-        cy.get('Unassigned')
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Create').click()
+        cy.contains('Unassigned')
     })
 
     it('Create Magic Item DM Entry', () => {
+        cy.intercept('GET', Cypress.Laravel.route('dm-entry.create')).as(
+            'dm_entry_create',
+        )
         cy.contains('button', 'Create').click()
         cy.wait('@dm_entry_create')
         cy.get('#adventures').click()
         cy.get('li[role=option]').eq(0).click()
-        cy.get('#choice-label').click()
-        cy.contains('li', 'Advancement').click()
-        cy.get('button', 'Continue')
+        cy.get('#choice').click()
+        cy.contains('li', 'Magic Item').click()
+        cy.contains('button', 'Continue').click()
         cy.contains('button', 'Add Item').click()
         cy.get('#name').type(new_item_name)
         cy.get('#rarity').click()
@@ -91,8 +101,44 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('div[aria-labelledby="tier-label tier"').eq(1).click()
         cy.contains('li', '2').click()
         cy.get('textarea[name=Description]').eq(1).type('Some other description')
-        cy.get('button', 'Create')
-        cy.get('Unassigned')
+        cy.contains('button', 'Create').click()
+        cy.contains('Unassigned')
+    })
+
+    it('Attach Campaign Reward DM Entry', () => {
+        cy.get('svg[data-testid=EditIcon]').eq(0).click()
+        cy.contains('Edit DM Entry')
+        cy.get('#choice').click()
+        cy.contains('li', 'Campaign Reward').click()
+        cy.get('#character_id').click()
+        cy.get('li[role=option]').eq(0).click()
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Save').click()
+        cy.contains('Edit DM Entry').should('not.exist')
+    })
+
+    it('Attach Advancement DM Entry', () => {
+        cy.get('svg[data-testid=EditIcon]').eq(1).click()
+        cy.contains('Edit DM Entry')
+        cy.get('#choice').click()
+        cy.contains('li', 'Advancement').click()
+        cy.get('#character_id').click()
+        cy.get('li[role=option]').eq(0).click()
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Save').click()
+        cy.contains('Edit DM Entry').should('not.exist')
+    })
+
+    it('Attach Item DM Entry', () => {
+        cy.get('svg[data-testid=EditIcon]').eq(2).click()
+        cy.contains('Edit DM Entry')
+        cy.get('#choice').click()
+        cy.contains('li', 'Magic Item').click()
+        cy.get('#character_id').click()
+        cy.get('li[role=option]').eq(0).click()
+        cy.contains('button', 'Continue').click()
+        cy.contains('button', 'Save').click()
+        cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Delete DM Entry', () => {
