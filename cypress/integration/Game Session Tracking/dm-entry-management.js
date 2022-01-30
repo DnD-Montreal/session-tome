@@ -26,15 +26,15 @@ describe('DM Entry Management Test Suite', () => {
         cy.wait('@dm_entry')
     })
 
-    // it('List DM Entries', () => {
-    //     cy.contains('DM Entries')
-    //     cy.contains('Adventure Title')
-    //     cy.contains('Session')
-    //     cy.contains('Character')
-    //     cy.contains('Reward')
-    //     cy.contains('Magic Items')
-    //     cy.get('input[type=checkbox]')
-    // })
+    it('List DM Entries', () => {
+        cy.contains('DM Entries')
+        cy.contains('Adventure Title')
+        cy.contains('Session')
+        cy.contains('Character')
+        cy.contains('Reward')
+        cy.contains('Magic Items')
+        cy.get('input[type=checkbox]')
+    })
 
     it('Create Empty DM Entry', () => {
         cy.get('p[class^="MuiTablePagination-displayedRows"]')
