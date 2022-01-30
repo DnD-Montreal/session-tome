@@ -1,5 +1,3 @@
-const {cy} = require('date-fns/locale')
-
 describe('Item Entry Management Test Suite', () => {
     const new_item_name = 'NewItemName'
     const newer_item_name = 'NewerItemName'
