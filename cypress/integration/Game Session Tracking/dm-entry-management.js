@@ -1,4 +1,5 @@
 describe('Item Entry Management Test Suite', () => {
+    let number_of_remaining_dm_entries = 0
     const new_item_name = 'NewItemName'
     const newer_item_name = 'NewerItemName'
 
@@ -36,18 +37,25 @@ describe('Item Entry Management Test Suite', () => {
     })
 
     it('Create Empty DM Entry', () => {
-        cy.intercept('GET', Cypress.Laravel.route('dm-entry.create')).as(
-            'dm_entry_create',
-        )
-        cy.contains('button', 'Create').click()
-        cy.wait('@dm_entry_create')
-        cy.get('#adventures').click()
-        cy.get('li[role=option]').eq(0).click()
-        cy.get('#location').type('Test Location')
-        cy.get('#notes').type('Some notes')
-        cy.contains('button', 'Continue').click()
-        cy.contains('button', 'Create').click()
-        cy.contains('Unassigned')
+        cy.get('p[class^="MuiTablePagination-displayedRows"]')
+            .invoke('text')
+            .then((text) => {
+                number_of_remaining_dm_entries = parseInt(text.split(' ').pop()) + 1
+                cy.intercept('GET', Cypress.Laravel.route('dm-entry.create')).as(
+                    'dm_entry_create',
+                )
+                cy.contains('button', 'Create').click()
+                cy.wait('@dm_entry_create')
+                cy.get('#adventures').click()
+                cy.get('li[role=option]').eq(0).click()
+                cy.get('#location').type('Test Location')
+                cy.get('#notes').type('Some notes')
+                cy.contains('button', 'Continue').click()
+                cy.contains('button', 'Create').click()
+            })
+            .then(() => {
+                cy.contains(`of ${number_of_remaining_dm_entries}`)
+            })
     })
 
     it('Edit Empty DM Entry', () => {
@@ -72,8 +80,14 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('#choice').click()
         cy.contains('li', 'Advancement').click()
         cy.contains('button', 'Continue').click()
-        cy.contains('button', 'Create').click()
-        cy.contains('Unassigned')
+        cy.contains('button', 'Create')
+            .click()
+            .then(() => {
+                number_of_remaining_dm_entries += 1
+            })
+            .then(() => {
+                cy.contains(`of ${number_of_remaining_dm_entries}`)
+            })
     })
 
     it('Create Magic Item DM Entry', () => {
@@ -101,8 +115,14 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('div[aria-labelledby="tier-label tier"').eq(1).click()
         cy.contains('li', '2').click()
         cy.get('textarea[name=Description]').eq(1).type('Some other description')
-        cy.contains('button', 'Create').click()
-        cy.contains('Unassigned')
+        cy.contains('button', 'Create')
+            .click()
+            .then(() => {
+                number_of_remaining_dm_entries += 1
+            })
+            .then(() => {
+                cy.contains(`of ${number_of_remaining_dm_entries}`)
+            })
     })
 
     it('Attach Campaign Reward DM Entry', () => {
@@ -142,15 +162,13 @@ describe('Item Entry Management Test Suite', () => {
     })
 
     it('Delete DM Entry', () => {
-        let number_of_remaining_dm_entries = 0
-        cy.get('p[class^="MuiTablePagination-displayedRows"]')
-            .invoke('text')
-            .then((text) => {
-                number_of_remaining_dm_entries = parseInt(text.split(' ').pop()) - 1
+        cy.get('svg[data-testid=DeleteIcon]').eq(0).click()
+        cy.contains('button', 'Delete')
+            .click()
+            .then(() => {
+                number_of_remaining_dm_entries -= 1
             })
             .then(() => {
-                cy.get('svg[data-testid=DeleteIcon]').eq(0).click()
-                cy.contains('button', 'Delete').click()
                 cy.contains(`of ${number_of_remaining_dm_entries}`)
             })
     })
