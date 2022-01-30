@@ -20,7 +20,7 @@ class GenerateRatingReport
      * @param bool $onlyEventRatings
      * @return StreamedResponse
      */
-    public function handle($onlyEventRatings = true)
+    public function handle($onlyEventRatings = true, $league = null)
     {
         $columns = $this->prepareColumns();
         $ratings = Rating::with('user')
@@ -28,6 +28,13 @@ class GenerateRatingReport
 
         if ($onlyEventRatings) {
             $ratings = $ratings->has('entry.event');
+        }
+
+        //filter for ratings of specified league
+        if ($league != null) {
+            $ratings = $ratings->whereHas('entry.event', function ($query) use ($league) {
+                $query->where('league_id', $league->id);
+            });
         }
 
         $ratings = $ratings->get();
@@ -45,7 +52,11 @@ class GenerateRatingReport
             }
         }
 
-        return StreamCsvFile::run($columns, $data, "rating-report");
+        if ($league == null) {
+            return StreamCsvFile::run($columns, $data, "rating-report");
+        }
+
+        return StreamCsvFile::run($columns, $data, "league-rating-report");
     }
 
     /**
