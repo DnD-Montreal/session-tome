@@ -40,7 +40,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         characters={characters}
                     />
                 }
-                title={<Typography>Edit Character</Typography>}
+                title={<Typography>Edit DM Entry</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

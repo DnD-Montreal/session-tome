@@ -36,10 +36,10 @@ class RatingController extends Controller
             } ]);
         }
 
-        if ($searchCategory = $request->get('search_category')) {
+        if ($searchCategory = $request->get('search_category', "CREATIVE")) {
             $users = $users->get()->sortByDesc(function ($user) use ($searchCategory) {
                 return $user->total_ratings[$searchCategory];
-            });
+            })->values();
         } else {
             $users = $users->get();
         }
