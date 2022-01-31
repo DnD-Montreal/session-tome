@@ -39,24 +39,8 @@ describe('Admin Event CRUD Test Suite', () => {
     })
 
     it('Event Delete', () => {
-        let number_of_remaining_items = 0
-        cy.get('div[id="crudTable_info"]')
-            .invoke('text')
-            .then((text) => {
-                const splitText = text.split(' ')
-                number_of_remaining_items = parseInt(splitText[5]) - 1
-            })
-            .then(() => {
-                cy.get('a[data-button-type="delete"]').eq(0).click()
-            })
-            .then(() => {
-                cy.get(
-                    'button[class="swal-button swal-button--confirm swal-button--danger"]',
-                ).click()
-            })
-            .then(() => {
-                cy.contains(`of ${number_of_remaining_items}`)
-            })
+        cy.get('a[data-button-type="delete"]').eq(0).click()
+        cy.contains('Item Deleted')
     })
 
     it('Event Edit', () => {
