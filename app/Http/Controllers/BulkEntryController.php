@@ -47,7 +47,7 @@ class BulkEntryController extends Controller
         $entriesCount = round($difference * $data['frequency']);
 
         $character = Character::findOrFail($data['character_id']);
-        $character->stubEntries(0, $entriesCount, $data['adventure_id']);
+        $character->stubEntries(0, $entriesCount, $data['adventure']['id']);
         $entries = $character->entries()->where('created_at', ">=", now())->get();
 
         foreach ($entries as $index => $entry) {
