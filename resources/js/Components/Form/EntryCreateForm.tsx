@@ -41,6 +41,7 @@ type EntryFormDataType = {
     character_id: number
     user_id: number | null | undefined
     adventure: any
+    [key: string]: any
 }
 
 const StyledGrid = styled(Grid)`
@@ -137,7 +138,7 @@ const EntryCreateForm = ({
                             : route('character.show', [character.id])
                     }
                 />
-                {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
+                {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
