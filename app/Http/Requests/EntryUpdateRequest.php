@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,7 +21,7 @@ class EntryUpdateRequest extends FormRequest
             return $this->type == Entry::TYPE_DM;
         }
 
-        return $this->user()->can('update', $this->entry->character)  && $this->user()->can('update', $this->entry);
+        return $this->user()->can('update', Character::findOrFail($this->character_id))  && $this->user()->can('update', $this->entry);
     }
 
     /**
