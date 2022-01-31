@@ -27,7 +27,7 @@ class BulkEntryStoreRequest extends FormRequest
     {
         return [
             'character_id' => "required|exists:characters,id",
-            'adventure.id' => "nullable|exists:adventures,id",
+            'adventure.id' => "required|exists:adventures,id",
             'start_date' => "required|date",
             'end_date' => "nullable|date|after:start_date",
             // How often a session was ran, measured in times/week
