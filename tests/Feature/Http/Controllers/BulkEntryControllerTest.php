@@ -46,7 +46,7 @@ class BulkEntryControllerTest extends TestCase
         $responseWeekly = $this->actingAs($characters[0]->user)
             ->post(route('entry-bulk.store'), [
                 'character_id' => $characters[0]->id,
-                'adventure_id' => $adventure->id,
+                'adventure' => ['id' => $adventure->id],
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'frequency' => $freqWeekly,
@@ -55,7 +55,7 @@ class BulkEntryControllerTest extends TestCase
         $responseBiweekly = $this->actingAs($characters[1]->user)
             ->post(route('entry-bulk.store'), [
                 'character_id' => $characters[1]->id,
-                'adventure_id' => $adventure->id,
+                'adventure' => ['id' => $adventure->id],
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'frequency' => $freqBiweekly,
@@ -64,7 +64,7 @@ class BulkEntryControllerTest extends TestCase
         $responseTwiceWeekly = $this->actingAs($characters[2]->user)
             ->post(route('entry-bulk.store'), [
                 'character_id' => $characters[2]->id,
-                'adventure_id' => $adventure->id,
+                'adventure' => ['id' => $adventure->id],
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'frequency' => $freqTwiceWeekly,
