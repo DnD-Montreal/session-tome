@@ -28,7 +28,7 @@ describe('Bulk Entry Creation Management Test Suite', () => {
         cy.contains('button', 'Bulk Entry').click()
         cy.wait('@bulk_entry_form')
 
-        cy.get('#adventure_id').click()
+        cy.get('#adventures').click()
         cy.get('li[role=option]').eq(0).click()
         cy.contains('button', 'Create')
             .click()
