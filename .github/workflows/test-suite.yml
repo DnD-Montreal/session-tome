@@ -2,9 +2,9 @@ name: Test Suite
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   Code-Climate-Tests:
@@ -82,6 +82,9 @@ jobs:
       - name: Fix directory cache and permission
         run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
+      - name: Install Backpack
+        run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
+
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &
 
@@ -94,7 +97,8 @@ jobs:
           config: baseUrl=http://localhost:8000
 
       - name: Upload Cypress Images
-        uses: actions/upload-artifact@master
+        uses:
+          actions/upload-artifact@master
           # there might be no screenshots created when:
           # - there are no test failures
           # so only upload screenshots if previous step has failed
@@ -143,14 +147,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1.6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
