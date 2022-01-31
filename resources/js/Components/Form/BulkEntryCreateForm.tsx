@@ -3,7 +3,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, Select, StepperForm} from 'Components'
+import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -23,8 +23,9 @@ type BulkEntryFormDataType = {
     start_date: Date | null
     end_date: Date | null
     frequency: number
-    adventure_id: number
+    adventure: any | undefined
     character_id: number
+    [key: string]: any
 }
 
 const StyledGrid = styled(Grid)`
@@ -56,7 +57,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
         start_date: new Date(),
         end_date: new Date(),
         frequency: 1,
-        adventure_id: 0,
+        adventure: undefined,
         character_id: character.id,
     }
 
@@ -68,86 +69,83 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
     const stepTitles = [{label: 'Details'}]
 
     const stepOneContent = (
-        <>
-            <Grid container>
-                <Grid item xs={12}>
-                    <Typography>
-                        Fill out the following fields about your future sessions.
-                    </Typography>
-                </Grid>
-                <StyledGrid item xs={12} md={5}>
-                    <Select
-                        id='adventure_id'
-                        required
-                        label='Adventure'
-                        name='Adventure Title'
-                        value={data.adventure_id}
-                        onChange={(e) =>
-                            setData('adventure_id', parseInt(e.target.value))
-                        }
-                        options={adventures}
-                    />
-                    {errors?.adventure_id && <ErrorText message={errors?.adventure_id} />}
-                </StyledGrid>
-                <StyledGrid item xs={12} md={2} />
-                <StyledGrid item xs={12} md={2}>
-                    <Select
-                        id='frequency'
-                        required
-                        label='Frequency'
-                        name='Frequency'
-                        value={data.frequency}
-                        onChange={(e) => setData('frequency', parseFloat(e.target.value))}
-                        options={frequencies}
-                    />
-                    {errors?.frequency && <ErrorText message={errors?.frequency} />}
-                </StyledGrid>
-                <StyledGrid item xs={12} md={1} />
-                <StyledGrid item xs={12} md={2}>
-                    <StyledTextField
-                        disabled
-                        fullWidth
-                        variant='filled'
-                        id='id'
-                        label='Assigned Character'
-                        defaultValue={character.name}
-                    />
-                </StyledGrid>
-                <StyledGrid item xs={12} md={5}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            label='Start Date and Time'
-                            value={data.start_date}
-                            inputFormat='yyyy-MM-dd HH:mm'
-                            onChange={(e) => {
-                                setData('start_date', e)
-                            }}
-                            renderInput={(params) => (
-                                <TextField {...params} fullWidth id='start_date' />
-                            )}
-                        />
-                    </LocalizationProvider>
-                    {errors?.start_date && <ErrorText message={errors?.start_date} />}
-                </StyledGrid>
-                <StyledGrid item xs={12} md={2} />
-                <StyledGrid item xs={12} md={5}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            label='End Date and Time'
-                            value={data.end_date}
-                            inputFormat='yyyy-MM-dd HH:mm'
-                            onChange={(e) => {
-                                setData('end_date', e)
-                            }}
-                            renderInput={(params) => (
-                                <TextField {...params} fullWidth id='end_date' />
-                            )}
-                        />
-                    </LocalizationProvider>
-                    {errors?.end_date && <ErrorText message={errors?.end_date} />}
-                </StyledGrid>
+        <Grid container>
+            <Grid item xs={12}>
+                <Typography>
+                    Fill out the following fields about your future sessions.
+                </Typography>
             </Grid>
-        </>
+            <StyledGrid item xs={12} md={5}>
+                <Autocomplete
+                    id='adventures'
+                    fieldKey='adventures'
+                    onChange={(_, value) => setData('adventure', value)}
+                    defaultValue={data.adventure}
+                    getOptionLabel={(option) => `${option.code} - ${option.title}`}
+                    options={adventures}
+                    resetUrl={route('entry-bulk.create').concat(
+                        `?character_id=${character.id}`,
+                    )}
+                />
+                {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={2} />
+            <StyledGrid item xs={12} md={2}>
+                <Select
+                    id='frequency'
+                    required
+                    label='Frequency'
+                    name='Frequency'
+                    value={data.frequency}
+                    onChange={(e) => setData('frequency', parseFloat(e.target.value))}
+                    options={frequencies}
+                />
+                {errors?.frequency && <ErrorText message={errors?.frequency} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={3}>
+                <StyledTextField
+                    disabled
+                    fullWidth
+                    variant='filled'
+                    id='id'
+                    label='Assigned Character'
+                    defaultValue={character.name}
+                />
+            </StyledGrid>
+            <StyledGrid item xs={12} md={5}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                        label='Start Date and Time'
+                        value={data.start_date}
+                        inputFormat='yyyy-MM-dd HH:mm'
+                        onChange={(e) => {
+                            setData('start_date', e)
+                        }}
+                        renderInput={(params) => (
+                            <TextField {...params} fullWidth id='start_date' />
+                        )}
+                    />
+                </LocalizationProvider>
+                {errors?.start_date && <ErrorText message={errors?.start_date} />}
+            </StyledGrid>
+            <StyledGrid item xs={12} md={2} />
+            <StyledGrid item xs={12} md={5}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                        label='End Date and Time'
+                        value={data.end_date}
+                        inputFormat='yyyy-MM-dd HH:mm'
+                        onChange={(e) => {
+                            setData('end_date', e)
+                        }}
+                        renderInput={(params) => (
+                            <TextField {...params} fullWidth id='end_date' />
+                        )}
+                    />
+                </LocalizationProvider>
+                {errors?.end_date && <ErrorText message={errors?.end_date} />}
+            </StyledGrid>
+        </Grid>
     )
 
     const stepContent = [stepOneContent]
