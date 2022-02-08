@@ -6,6 +6,7 @@ use App\Http\Requests\BulkEntryStoreRequest;
 use App\Models\Adventure;
 use App\Models\Character;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -39,23 +40,24 @@ class BulkEntryController extends Controller
     public function store(BulkEntryStoreRequest $request)
     {
         $data = $request->validated();
+        $end = Carbon::parse($data['end_date'])->endOfDay();
+        $dates = CarbonPeriod::since($data['start_date'])
+            ->weeks(1/$data['frequency'])
+            ->until($end)
+            ->toArray();
 
-        $data['end_date'] = Carbon::parse($data['end_date']) ?? now();
-        $data['start_date'] = Carbon::parse($data['start_date']);
-
-        $difference = $data['end_date']->diffInWeeks($data['start_date']);
-        $entriesCount = round($difference * $data['frequency']);
-
+        $entriesCount = count($dates);
         $character = Character::findOrFail($data['character_id']);
-        $character->stubEntries(0, $entriesCount, $data['adventure']['id']);
-        $entries = $character->entries()->where('created_at', ">=", now())->get();
 
-        foreach ($entries as $index => $entry) {
-            $datePlayed = $data['start_date']->addWeeks($index/$data['frequency']);
-            $entry->date_played = $datePlayed->isBefore($data['end_date']) ? $datePlayed : $data['end_date'];
-            // N+1 consider refactor?
-            $entry->save();
-        }
+
+        $character->stubEntries(0, $entriesCount, $data['adventure']['id']);
+        $character->entries()
+            ->where('created_at', ">=", now())
+            ->get()
+            ->each(function ($entry, $key) use ($dates) {
+                $entry->date_played = $dates[$key];
+                $entry->save();
+            });
 
         return redirect(route('character.show', [
             'character' => $character->refresh()
