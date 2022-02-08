@@ -54,7 +54,7 @@ class TradeController extends Controller
         $tradeItem = $trade->item;
         $tradeCharacter = $trade->character;
 
-        if ($currentUserID == $trade->user->id) {
+        if ($currentUserID == $tradeCharacter->user->id) {
             $tradeOffers = $trade->items()->with('character');
             return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter', 'tradeOffers'));
         }
