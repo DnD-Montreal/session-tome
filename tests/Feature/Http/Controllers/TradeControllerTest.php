@@ -108,13 +108,31 @@ class TradeControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $trade = Trade::factory()->create();
+        $someUser = User::factory()->create();
+        $character = Character::factory()->create(["user_id" => $someUser->id]);
+        $item = Item::factory()->create(["character_id" => $character->id]);
+        $trade = Trade::factory()->create([
+            "character_id" => $character->id,
+            "item_id" => $item->id]);
 
         $response = $this->get(route('trade.show', $trade));
 
         $response->assertOk();
         $response->assertViewIs('trade.show');
         $response->assertViewHas('trade');
+        $response->assertViewHas('tradeItem');
+        $response->assertViewHas('tradeCharacter');
+        $response->assertViewMissing('tradeOffers');
+
+        $character->user()->associate($this->user)->save();
+        $response = $this->get(route('trade.show', $trade));
+
+        $response->assertOk();
+        $response->assertViewIs('trade.show');
+        $response->assertViewHas('trade');
+        $response->assertViewHas('tradeItem');
+        $response->assertViewHas('tradeCharacter');
+        $response->assertViewHas('tradeOffers');
     }
 
 
