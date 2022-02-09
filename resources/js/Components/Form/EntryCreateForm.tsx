@@ -268,7 +268,9 @@ const EntryCreateForm = ({
                 <Button
                     variant='contained'
                     onClick={() =>
-                        data.dungeon_master === '' ? setActiveStep(2) : setActiveStep(1)
+                        type === 'Create' && !data.dungeon_master
+                            ? setActiveStep(2)
+                            : setActiveStep(1)
                     }
                     fullWidth>
                     Continue
