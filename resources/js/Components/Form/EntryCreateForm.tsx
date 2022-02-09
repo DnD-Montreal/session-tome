@@ -265,9 +265,21 @@ const EntryCreateForm = ({
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
-                <Button variant='contained' onClick={() => setActiveStep(1)} fullWidth>
-                    Continue
-                </Button>
+                {data.dungeon_master === '' ? (
+                    <Button
+                        variant='contained'
+                        onClick={() => setActiveStep(2)}
+                        fullWidth>
+                        Continue
+                    </Button>
+                ) : (
+                    <Button
+                        variant='contained'
+                        onClick={() => setActiveStep(1)}
+                        fullWidth>
+                        Continue
+                    </Button>
+                )}
             </Grid>
         </StyledGrid>
     )
@@ -301,13 +313,19 @@ const EntryCreateForm = ({
     const stepThreeFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                <Button
-                    fullWidth
-                    onClick={() =>
-                        type === 'Create' ? setActiveStep(1) : setActiveStep(0)
-                    }>
-                    Previous
-                </Button>
+                {data.dungeon_master === '' ? (
+                    <Button fullWidth onClick={() => setActiveStep(0)}>
+                        Previous
+                    </Button>
+                ) : (
+                    <Button
+                        fullWidth
+                        onClick={() =>
+                            type === 'Create' ? setActiveStep(1) : setActiveStep(0)
+                        }>
+                        Previous
+                    </Button>
+                )}
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
