@@ -111,7 +111,6 @@ const EntryCreateForm = ({
 
     const {data, setData, errors, clearErrors, post, put} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
-    console.log(data)
     const [activeStep, setActiveStep] = useState<number>(0)
     const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
     const createStepTitles = [
