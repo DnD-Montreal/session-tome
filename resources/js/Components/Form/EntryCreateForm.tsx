@@ -311,7 +311,7 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Edit' || data.dungeon_master === ''
+                        type === 'Edit' || !data.dungeon_master
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
