@@ -24,7 +24,6 @@ type DmEntryCreateFormPropType = {
 }
 
 type DmEntryFormDataType = {
-    adventure_id?: number | undefined
     length: number
     levels: number
     gp: number
@@ -121,6 +120,7 @@ const DmEntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    label='Adventure'
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}

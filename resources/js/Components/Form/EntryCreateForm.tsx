@@ -17,6 +17,11 @@ import route from 'ziggy-js'
 import ItemForm from './ItemForm'
 import RatingForm from './RatingForm'
 
+type GameMasterData = {
+    id: number
+    name: string
+}
+
 type EntryCreateFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
@@ -24,16 +29,16 @@ type EntryCreateFormPropType = {
     editId?: number
     character: CharacterData
     adventures: adventureType[]
+    gameMasters: GameMasterData[]
 }
 
 type EntryFormDataType = {
-    adventure_id?: number | undefined
     location: string
     length: number
     levels: number
     gp: number
     date_played: string | null
-    dungeon_master: string | null
+    dungeon_master: any
     notes: string
     items: ItemData[]
     rating_data?: RatingCategoryType | null
@@ -59,6 +64,7 @@ const EntryCreateForm = ({
     editId = 0,
     character,
     adventures,
+    gameMasters,
 }: EntryCreateFormPropType) => {
     const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
@@ -67,7 +73,7 @@ const EntryCreateForm = ({
         levels: 0,
         gp: 0,
         date_played: new Date().toDateString(),
-        dungeon_master: '',
+        dungeon_master: undefined,
         notes: '',
         items: [],
         rating_data: {
@@ -91,7 +97,7 @@ const EntryCreateForm = ({
                   levels: editData?.levels || 0,
                   gp: editData?.gp || 0,
                   date_played: editData?.date_played || new Date().toDateString(),
-                  dungeon_master: editData?.dungeon_master || '',
+                  dungeon_master: editData?.dungeon_master || undefined,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
                   rating_data:
@@ -103,7 +109,9 @@ const EntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, put} = useForm(ENTRY_INITIAL_VALUE)
+    const {data, setData, errors, clearErrors, post, put} =
+        useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
+    console.log(data)
     const [activeStep, setActiveStep] = useState<number>(0)
     const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
     const createStepTitles = [
@@ -114,6 +122,11 @@ const EntryCreateForm = ({
         },
         {label: 'Magic Items'},
     ]
+
+    const resetUrl =
+        type === 'Create'
+            ? route('entry.create').concat(`?character_id=${character.id}`)
+            : route('character.show', [character.id])
 
     const stepOneContent = (
         <Grid container spacing={2}>
@@ -130,13 +143,8 @@ const EntryCreateForm = ({
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={
-                        type === 'Create'
-                            ? route('entry.create').concat(
-                                  `?character_id=${character.id}`,
-                              )
-                            : route('character.show', [character.id])
-                    }
+                    resetUrl={resetUrl}
+                    label='Adventure'
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -206,13 +214,16 @@ const EntryCreateForm = ({
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
-                <TextField
-                    fullWidth
+                <Autocomplete
+                    autoComplete={false}
+                    fieldKey='gameMasters'
                     id='dungeon_master'
-                    label='Game Master'
-                    name='Game Master'
-                    value={data.dungeon_master}
-                    onChange={(e) => setData('dungeon_master', e.target.value)}
+                    options={gameMasters}
+                    defaultValue={data.dungeon_master}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(_, value) => setData('dungeon_master', value)}
+                    resetUrl={resetUrl}
+                    label='Gamemaster'
                 />
                 {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
             </StyledGrid>
