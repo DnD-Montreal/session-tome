@@ -32,7 +32,9 @@ class EntryStoreRequest extends FormRequest
     public function rules()
     {
         $rarities = implode(",", Item::RARITY);
-        $requiredIf = Rule::requiredIf(!empty($this->get('items')));
+        $requiredIf = Rule::requiredIf(!empty($this->get('items')) || ($this->get('choice') == "magic_item"));
+        $requiredChoice = Rule::requiredIf($this->get('choice') == "magic_item" && empty($this->get('items')));
+
         return [
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
             'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
@@ -49,7 +51,7 @@ class EntryStoreRequest extends FormRequest
             'gp' => ['sometimes', 'numeric', 'between:-999999999999999999999999999999.99,999999999999999999999999999999.99'],
             'downtime' => ['sometimes', 'integer'],
             'notes' => ['nullable', 'string'],
-            'items' => ['sometimes', 'array'],
+            'items' => ['sometimes', 'array', $requiredChoice],
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
             'items.*.tier' =>  ['integer', 'between:1,4',$requiredIf],
