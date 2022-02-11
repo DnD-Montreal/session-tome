@@ -311,7 +311,14 @@ const EntryCreateForm = ({
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
-                <Button variant='contained' onClick={() => setActiveStep(1)} fullWidth>
+                <Button
+                    variant='contained'
+                    onClick={() =>
+                        type === 'Create' && !data.dungeon_master
+                            ? setActiveStep(2)
+                            : setActiveStep(1)
+                    }
+                    fullWidth>
                     Continue
                 </Button>
             </Grid>
@@ -350,7 +357,9 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Create' ? setActiveStep(1) : setActiveStep(0)
+                        type === 'Edit' || !data.dungeon_master
+                            ? setActiveStep(0)
+                            : setActiveStep(1)
                     }>
                     Previous
                 </Button>
