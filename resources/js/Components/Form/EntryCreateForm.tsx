@@ -2,7 +2,14 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {
+    Button,
+    Checkbox,
+    FormControlLabel,
+    Grid,
+    TextField,
+    Typography,
+} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, ErrorText, Link, NumberInput, StepperForm} from 'Components'
 import React, {useState} from 'react'
@@ -112,6 +119,9 @@ const EntryCreateForm = ({
     const {data, setData, errors, clearErrors, post, put} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
+    const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
+        editData ? Boolean(editData?.dungeon_master_id) : true,
+    )
     const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
     const createStepTitles = [
         {label: 'Details'},
@@ -213,20 +223,46 @@ const EntryCreateForm = ({
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
-                <Autocomplete
-                    autoComplete={false}
-                    fieldKey='gameMasters'
-                    id='dungeon_master'
-                    options={gameMasters}
-                    defaultValue={data.dungeon_master}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(_, value) => setData('dungeon_master', value)}
-                    resetUrl={resetUrl}
-                    label='Gamemaster'
-                />
+                {isGmInSystem ? (
+                    <Autocomplete
+                        autoComplete={false}
+                        fieldKey='gameMasters'
+                        id='dungeon_master'
+                        options={gameMasters}
+                        defaultValue={data.dungeon_master}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(_, value) => setData('dungeon_master', value)}
+                        resetUrl={resetUrl}
+                        label='Gamemaster'
+                    />
+                ) : (
+                    <TextField
+                        fullWidth
+                        id='dungeon_master'
+                        label='Gamemaster'
+                        onChange={(e) => setData('dungeon_master', e.target.value)}
+                        value={data.dungeon_master}
+                    />
+                )}
                 {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
+                <FormControlLabel
+                    style={{margin: 6}}
+                    control={
+                        <Checkbox
+                            checked={isGmInSystem}
+                            onChange={() => {
+                                setData('dungeon_master', undefined)
+                                setIsGmInSystem(!isGmInSystem)
+                            }}
+                        />
+                    }
+                    label='Gamemaster exists in Session-tome'
+                />
+            </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 7} />
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <StyledTextField
                     disabled
                     fullWidth
