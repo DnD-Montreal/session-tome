@@ -32,7 +32,7 @@ class EntryUpdateRequest extends FormRequest
     public function rules()
     {
         $rarities = implode(",", Item::RARITY);
-        $requiredIf = Rule::requiredIf(!empty($this->get('items')));
+        $requiredIf = Rule::requiredIf(!empty($this->get('items')) || $this->get('choice') == "magic_item");
 
         return [
             'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
