@@ -58,9 +58,9 @@ class Entry extends Model
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
 
-    public const REWARD_ADVANCEMENT = "Advancement";
-    public const REWARD_MAGIC_ITEM = "Magic Item";
-    public const REWARD_CAMPAIGN = "Campaign Reward";
+    public const REWARD_ADVANCEMENT = "advancement";
+    public const REWARD_MAGIC_ITEM = "magic_item";
+    public const REWARD_CAMPAIGN = "campaign_reward";
 
     public function items()
     {
