@@ -35,7 +35,18 @@ class TradeControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $trades = Trade::factory()->count(3)->create();
+        $trades = Trade::factory(3)
+            ->has(Item::factory(3))
+            ->create();
+
+        $response = $this->get(route('trade.index', [
+            'requested_items' => $trades->first()->requested_items,
+            'description' => $trades->first()->description,
+            'item_name' => $trades->first()->items->first()->name,
+            'item_description' => $trades->first()->items->first()->description,
+            'item_rarity' => $trades->first()->items->first()->rarity,
+        ]));
+
 
         $response = $this->get(route('trade.index'));
 
