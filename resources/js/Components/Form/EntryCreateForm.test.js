@@ -77,6 +77,10 @@ const monthNames = [
 
 const createProps = {
     type: 'Create',
+    gameMasters: [
+        {id: 1, title: 'gm1'},
+        {id: 2, title: 'gm2'},
+    ],
     adventures: [
         {id: 1, title: 'adventure1'},
         {id: 2, title: 'adventure2'},
@@ -108,9 +112,7 @@ describe('<EntryCreateForm />', () => {
     })
     it('create component fields test', () => {
         render(<EntryCreateForm {...createProps} />)
-        const adventureInputField = document.querySelector(
-            'input[name="Adventure Title"]',
-        )
+        const adventureInputField = document.querySelector('#adventures')
         const locationField = document.querySelector('#location')
         const lengthField = document.querySelector('input[name="Length"]')
         const levelsField = document.querySelector('input[name="Levels"]')
