@@ -87,7 +87,9 @@ class EntryController extends Controller
 
         if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
             $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
-            unset($entryData['dungeon_master']['id']);
+            $entryData->forget('dungeon_master');
+        } else {
+            $entryData['dungeon_master_id'] = null;
         }
 
         $entryData["adventure_id"] = $entryData['adventure']['id'];
