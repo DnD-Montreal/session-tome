@@ -225,7 +225,6 @@ const EntryCreateForm = ({
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 {isGmInSystem ? (
                     <Autocomplete
-                        autoComplete={false}
                         fieldKey='gameMasters'
                         id='dungeon_master'
                         options={gameMasters}
@@ -251,6 +250,7 @@ const EntryCreateForm = ({
                     style={{margin: 6}}
                     control={
                         <Checkbox
+                            id='is_gm_in-system'
                             checked={isGmInSystem}
                             onChange={() => {
                                 setData('dungeon_master', undefined)

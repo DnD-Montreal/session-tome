@@ -78,8 +78,8 @@ const monthNames = [
 const createProps = {
     type: 'Create',
     gameMasters: [
-        {id: 1, title: 'gm1'},
-        {id: 2, title: 'gm2'},
+        {id: 1, name: 'gm1'},
+        {id: 2, name: 'gm2'},
     ],
     adventures: [
         {id: 1, title: 'adventure1'},
@@ -118,9 +118,11 @@ describe('<EntryCreateForm />', () => {
         const levelsField = document.querySelector('input[name="Levels"]')
         const gpField = document.querySelector('input[name="GP"]')
         const dungeonMasterField = document.querySelector('#dungeon_master')
+
         const notesField = document.querySelector('#notes')
 
         fireEvent.change(adventureInputField, {target: {value: 2}})
+        fireEvent.change(dungeonMasterField, {target: {value: 2}})
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.change(lengthField, {target: {value: 'a'}})
         fireEvent.change(lengthField, {target: {value: -1}})
@@ -131,9 +133,7 @@ describe('<EntryCreateForm />', () => {
         fireEvent.change(levelsField, {target: {value: 2}})
         fireEvent.change(gpField, {target: {value: 'a'}})
         fireEvent.change(gpField, {target: {value: 20}})
-        fireEvent.change(dungeonMasterField, {target: {value: 'Bob'}})
         fireEvent.change(notesField, {target: {value: '12'}})
-
         fireEvent.click(
             screen.getByRole('textbox', {
                 name: `Choose date, selected date is ${today}`,
@@ -147,15 +147,12 @@ describe('<EntryCreateForm />', () => {
                 name: tomorrow,
             }),
         )
-
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Previous'))
-
         fireEvent.click(screen.getByText('Continue'))
-        fireEvent.click(screen.getByText('Continue'))
-        fireEvent.click(screen.getByText('Previous'))
-        fireEvent.click(screen.getByText('Skip'))
-
+        // fireEvent.click(screen.getByText('Continue'))
+        // fireEvent.click(screen.getByText('Previous'))
+        // fireEvent.click(screen.getByText('Skip'))
         fireEvent.click(screen.getByText('Add Item'))
         fireEvent.click(screen.getByText('Create'))
     })
