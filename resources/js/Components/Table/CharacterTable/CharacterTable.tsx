@@ -90,7 +90,7 @@ const CharacterTable = ({
         {
             property: null,
             title: 'Actions',
-            render: (row: any) => (
+            render: (row: CharacterData) => (
                 <>
                     <IconButton
                         onClick={() => {

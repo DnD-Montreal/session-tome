@@ -45,7 +45,7 @@ type EntryFormDataType = {
     levels: number
     gp: number
     date_played: string | null
-    dungeon_master: any
+    dungeon_master: GameMasterData | string | undefined
     notes: string
     items: ItemData[]
     rating_data?: RatingCategoryType | null
@@ -258,7 +258,7 @@ const EntryCreateForm = ({
                             }}
                         />
                     }
-                    label='Gamemaster exists in Session-tome'
+                    label='Gamemaster has a Session Tome account'
                 />
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 7} />

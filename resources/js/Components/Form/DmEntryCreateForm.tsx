@@ -35,7 +35,7 @@ type DmEntryFormDataType = {
     items: ItemDataType[]
     type: string
     user_id: number | null | undefined
-    adventure: any
+    adventure: adventureType | undefined
     [key: string]: any
 }
 
