@@ -137,6 +137,6 @@ class Entry extends Model
 
     public function getDungeonMasterAttribute()
     {
-        return $this->dungeonMaster()->first() ?? $this->attributes['dungeon_master'];
+        return $this->dungeonMaster()->first() ?? $this->attributes['dungeon_master'] ?? null;
     }
 }
