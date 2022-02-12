@@ -16,12 +16,7 @@ describe('Game Master Ratings Test Suite', () => {
         cy.intercept('GET', Cypress.Laravel.route('rating.index')).as('rating')
         cy.visit(Cypress.Laravel.route('rating.index'))
         cy.wait('@rating')
-        cy.get('td>p')
-            .eq(0)
-            .invoke('text')
-            .then((text) => {
-                existing_user = text
-            })
+        cy.get('td>p').eq(0).invoke('text')
         cy.get('td>p')
             .eq(1)
             .invoke('text')
