@@ -5,7 +5,7 @@ import {Box, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
-import _ from 'lodash'
+import {startCase} from 'lodash'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
@@ -53,7 +53,7 @@ const EntryTable = ({
         {
             property: 'reward',
             title: 'Reward',
-            render: (value: any) => <Typography>{_.startCase(value)}</Typography>,
+            render: (value: any) => <Typography>{startCase(value)}</Typography>,
         },
         {
             property: 'items',
