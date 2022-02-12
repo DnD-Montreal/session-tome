@@ -40,7 +40,7 @@ class EntryUpdateRequest extends FormRequest
             'character_id' => ['nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
             'dungeon_master.id' => ['sometimes', 'integer', 'exists:users,id'],
-            'dungeon_master' => ['sometimes', 'string'],
+            'dungeon_master' => ['sometimes'],
             'date_played' => ['required', 'date'],
             'location' => ['sometimes', 'nullable', 'string'],
             'type' => ['required', 'string'],
