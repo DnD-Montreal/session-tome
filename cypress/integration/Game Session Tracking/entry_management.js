@@ -80,7 +80,7 @@ describe('Manage Characters Test Suite', () => {
         cy.get('#length').clear().type('1')
         cy.get('#levels').clear().type('2')
         cy.get('#gp').clear().type('21')
-        cy.get('#dungeon_master').clear().click()
+        cy.get('#dungeon_master').click()
         cy.get('li[role=option]').eq(1).click()
         cy.get('#notes').type('. More notes.')
 

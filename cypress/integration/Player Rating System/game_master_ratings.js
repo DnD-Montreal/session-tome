@@ -76,7 +76,7 @@ describe('Game Master Ratings Test Suite', () => {
                 cy.wait('@entry_create_form')
                 cy.get('#adventures').click()
                 cy.get('li[role=option]').eq(0).click()
-                cy.get('#dungeon_master').clear().click()
+                cy.get('#dungeon_master').click()
                 cy.get('li[role=option]').eq(0).click()
                 cy.contains('button', 'Continue').click()
 
