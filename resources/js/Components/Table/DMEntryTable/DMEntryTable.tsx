@@ -5,6 +5,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
+import _ from 'lodash'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import {itemFormatter} from 'Utils'
@@ -64,6 +65,7 @@ const DMEntryTable = ({
         {
             property: 'reward',
             title: 'Reward',
+            render: (value: any) => <Typography>{_.startCase(value)}</Typography>,
         },
         {
             property: 'items',
