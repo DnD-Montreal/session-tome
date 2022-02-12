@@ -73,7 +73,8 @@ class CharacterController extends Controller
         $search = $request->get('search', "");
 
         $entries = $character->entries()
-            ->with('adventure', 'items', 'rating', 'dungeonMaster')
+            ->with('adventure', 'items', 'rating')
+
             ->orderBy('date_played', 'desc')
             ->get();
         $factions = array_values(Character::FACTIONS);
