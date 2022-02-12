@@ -1,5 +1,4 @@
 describe('Game Master Ratings Test Suite', () => {
-    let existing_user = ''
     let creative_rating = 0
     let flexible_rating = 0
     let friendly_rating = 0
@@ -82,7 +81,8 @@ describe('Game Master Ratings Test Suite', () => {
                 cy.wait('@entry_create_form')
                 cy.get('#adventures').click()
                 cy.get('li[role=option]').eq(0).click()
-                cy.get('#dungeon_master').clear().type(existing_user)
+                cy.get('#dungeon_master').clear().click()
+                cy.get('li[role=option]').eq(0).click()
                 cy.contains('button', 'Continue').click()
 
                 cy.contains('button', 'Creative').click()
