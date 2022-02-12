@@ -17,36 +17,28 @@ describe('Game Master Ratings Test Suite', () => {
         cy.visit(Cypress.Laravel.route('rating.index'))
         cy.wait('@rating')
         cy.get('td>p').eq(0).invoke('text')
-        cy.get('td>p')
-            .eq(1)
-            .invoke('text')
-            .then((text) => {
-                creative_rating = parseInt(text) + 1
-            })
-        cy.get('td>p')
-            .eq(2)
-            .invoke('text')
-            .then((text) => {
-                flexible_rating = parseInt(text) + 1
-            })
-        cy.get('td>p')
-            .eq(3)
-            .invoke('text')
-            .then((text) => {
-                friendly_rating = parseInt(text) + 1
-            })
-        cy.get('td>p')
-            .eq(4)
-            .invoke('text')
-            .then((text) => {
-                helpful_rating = parseInt(text) + 1
-            })
+        cy.get('td>p').eq(1).invoke('text')
+        // .then((text) => {
+        // creative_rating = parseInt(text) + 1
+        // })
+        cy.get('td>p').eq(2).invoke('text')
+        // .then((text) => {
+        // flexible_rating = parseInt(text) + 1
+        // })
+        cy.get('td>p').eq(3).invoke('text')
+        // .then((text) => {
+        // friendly_rating = parseInt(text) + 1
+        // })
+        cy.get('td>p').eq(4).invoke('text')
+        // .then((text) => {
+        // helpful_rating = parseInt(text) + 1
+        // })
         cy.get('td>p')
             .eq(5)
             .invoke('text')
-            .then((text) => {
-                prepared_rating = parseInt(text) + 1
-            })
+            // .then((text) => {
+            // prepared_rating = parseInt(text) + 1
+            // })
             .then(() => {
                 cy.intercept('GET', Cypress.Laravel.route('character.index')).as(
                     'character',
