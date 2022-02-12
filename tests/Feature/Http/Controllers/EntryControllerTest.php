@@ -670,23 +670,20 @@ class EntryControllerTest extends TestCase
     public function update_dm_entry_on_character_updates_level()
     {
         $character = Character::factory()->create([
-            'level' => 0,
+            'level' => 1,
         ]);
 
-        $entry = Entry::factory()->create([
+        $entry = Entry::factory()->has(Item::factory(2))->create([
             'type' => Entry::TYPE_DM,
+            'dungeon_master_id' => null,
+            'levels' => 1,
+            'character_id' => null
         ]);
 
         $character->user()->associate($this->user)->save();
-        $entry->character()->associate($character)->save();
-
-        $oldLevel = $character->level;
+        $entry->user()->associate($this->user)->save();
 
         $adventure = Adventure::factory()->create();
-        $campaign = Campaign::factory()->create();
-        $event = Event::factory()->create();
-        $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
@@ -694,20 +691,18 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
-            'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'character_id' => $character->id,
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
             'gp' => $gp,
+            'items' => [],
             'choice' => 'advancement',
         ]);
 
         $character->refresh();
 
-        $this->assertEquals(1, $character->level);
+        $this->assertEquals(2, $character->level);
     }
 
     /**
@@ -754,6 +749,7 @@ class EntryControllerTest extends TestCase
 
         $character->user()->associate($this->user)->save();
         $entry->character()->associate($character)->save();
+        $entry->user()->associate($this->user)->save();
         $entry->items()->saveMany($items);
         $entry->save();
 
@@ -771,6 +767,7 @@ class EntryControllerTest extends TestCase
             'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
+            'character_id' => $character->id,
             'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
