@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Box, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
+import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
@@ -41,9 +41,24 @@ const EntryTable = ({
         {
             property: 'adventure',
             title: 'Adventure Title',
-            render: (value: any) => (
-                <Chip label={value ? value.title : 'N/A'} variant='outlined' />
-            ),
+            render: (value: any, row: any) => {
+                if (!value)
+                    return (
+                        <Tooltip title='Imported entry does not have adventure, please manually update it'>
+                            <Button
+                                variant='text'
+                                color='warning'
+                                onClick={() => {
+                                    setEditEntryData(row)
+                                    setEditEntryId(row.id)
+                                    setIsEditDrawerOpen(true)
+                                }}>
+                                set adventure
+                            </Button>
+                        </Tooltip>
+                    )
+                return <Chip label={value.title} variant='outlined' />
+            },
         },
         {
             property: 'session',
