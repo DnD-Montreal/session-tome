@@ -71,9 +71,6 @@ jobs:
             tests/coverage.xml:clover
             coverage/clover.xml:clover
 
-      - name: Install Backpack
-        run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
-
   Cypress:
     runs-on: ubuntu-latest
     services:
@@ -102,22 +99,8 @@ jobs:
         run: |
           composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-          cache: yarn
-
-      - name: Build Front-End Assets
-        run: |
-          yarn install
-          yarn prod
-
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+      - name: Install Backpack
+        run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
 
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
@@ -129,6 +112,29 @@ jobs:
 
       - name: Fix directory cache and permission
         run: rm -rf storage/framework/cache/* && chmod -R 777 storage
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: yarn
+
+      - name: Build Front-End Assets
+        run: |
+          yarn install
+          yarn prod
+
+      - name: Cache BE dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
+      - name: Cache FE dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &
