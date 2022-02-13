@@ -35,7 +35,7 @@ class TradeController extends Controller
 
         if ($itemRarity = $request->get('item_rarity')) {
             $trades = $trades->whereHas('item', function (Builder $q) use ($itemRarity) {
-                $q->where('rarity', 'like', "%{$itemRarity}%");
+                $q->where('rarity', $itemRarity);
             });
         }
 
