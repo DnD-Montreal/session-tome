@@ -46,6 +46,7 @@ const EntryTable = ({
                     return (
                         <Tooltip title='Imported entry does not have adventure, please manually update it'>
                             <Button
+                                id='set-adventure-button'
                                 variant='text'
                                 color='warning'
                                 onClick={() => {

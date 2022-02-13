@@ -49,6 +49,7 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
                     return (
                         <Tooltip title='Imported item does not have tier, please manually update it'>
                             <Button
+                                id='set-tier-button'
                                 color='warning'
                                 variant='text'
                                 onClick={() => {

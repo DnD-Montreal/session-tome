@@ -16,6 +16,10 @@ describe('ItemTable', () => {
         const component = render(<ItemTable {...props} />)
         expect(component).toBeDefined()
     })
+    it('Clicking set tier button', () => {
+        render(<ItemTable {...props} />)
+        fireEvent.click(document.querySelector('#set-tier-button'))
+    })
     it('Edit button should fire events', () => {
         render(<ItemTable {...props} />)
         fireEvent.click(screen.getAllByTestId('edit-button')[0])
