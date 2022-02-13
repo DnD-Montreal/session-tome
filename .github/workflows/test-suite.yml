@@ -52,7 +52,7 @@ jobs:
       - name: Build Front-End Assets
         run: |
           yarn install
-          # yarn prod
+          yarn prod
 
       - name: Run PHPUnit
         env:
@@ -70,17 +70,6 @@ jobs:
           coverageLocations: |
             tests/coverage.xml:clover
             coverage/clover.xml:clover
-
-      - name: Copy .env file
-        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
-
-      - name: Migrate Database
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-        run: php artisan migrate --force
-
-      - name: Fix directory cache and permission
-        run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
       - name: Install Backpack
         run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
@@ -102,6 +91,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: xdebug
+
+      - name: Configure Composer
+        run: |
+          composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -118,6 +118,17 @@ jobs:
         with:
           path: ~/.composer/cache/files
           key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
+      - name: Copy .env file
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+
+      - name: Migrate Database
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: php artisan migrate --force
+
+      - name: Fix directory cache and permission
+        run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &
