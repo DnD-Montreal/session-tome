@@ -675,6 +675,7 @@ class EntryControllerTest extends TestCase
 
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -750,6 +751,7 @@ class EntryControllerTest extends TestCase
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
             'levels' => 5,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -779,7 +781,6 @@ class EntryControllerTest extends TestCase
             'gp' => $gp,
             'choice' => 'campaign_reward',
         ]);
-
         $character->refresh();
 
         $this->assertEquals(0, $character->levels);
