@@ -36,7 +36,8 @@ class Trade extends Model
         'character_id' => 'integer',
     ];
 
-    public const STATUS = ["open","closed"];
+    public const STATUS_OPEN = "open";
+    public const STATUS_CLOSED = "closed";
 
     protected $filterableFields = ['requested_items', 'description'];
 
