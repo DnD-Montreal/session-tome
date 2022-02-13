@@ -314,7 +314,7 @@ const EntryCreateForm = ({
                 <Button
                     variant='contained'
                     onClick={() =>
-                        type === 'Create' && !data.dungeon_master
+                        type === 'Create' && (!data.dungeon_master || !isGmInSystem)
                             ? setActiveStep(2)
                             : setActiveStep(1)
                     }
@@ -357,7 +357,7 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Edit' || !data.dungeon_master
+                        type === 'Edit' || !data.dungeon_master || !isGmInSystem
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
