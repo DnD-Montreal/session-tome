@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Serve Site
-      - run: php artisan serve > /dev/null 2>&1 &
+        uses: php artisan serve > /dev/null 2>&1 &
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
