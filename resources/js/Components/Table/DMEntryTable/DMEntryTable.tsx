@@ -42,7 +42,7 @@ const DMEntryTable = ({
             property: 'date_played',
             title: 'Date',
             render: (value: string) => (
-                <Typography>{dayjs(value).format('YYYY-MM-DD HH:mm')}</Typography>
+                <Typography>{dayjs(value).format('LLL')}</Typography>
             ),
         },
         {
