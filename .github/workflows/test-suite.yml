@@ -85,9 +85,22 @@ jobs:
       - name: Install Backpack
         run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
 
+  Cypress:
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: sessiontome
+          MYSQL_USER: application
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secretroot
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    runs-on: ubuntu-latest
+    steps:
       - name: Serve Site
-        run: php artisan serve > /dev/null 2>&1 &
-
+      - run: php artisan serve > /dev/null 2>&1 &
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
