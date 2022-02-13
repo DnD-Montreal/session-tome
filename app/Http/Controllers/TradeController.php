@@ -17,7 +17,7 @@ class TradeController extends Controller
     public function index(Request $request)
     {
         $trades = Trade::where('status', 'open')
-                    ->has('items')->with('items')
+                    ->with('item')
                     ->filtered($request->get('requested_items'))
                     ->filtered($request->get('description'));
 
