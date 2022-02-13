@@ -30,6 +30,12 @@ const EntryTable = ({
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
 
+    const onOpenEditDrawer = (row: any) => {
+        setEditEntryData(row)
+        setEditEntryId(row.id)
+        setIsEditDrawerOpen(true)
+    }
+
     const columns = [
         {
             property: 'date_played',
@@ -49,11 +55,7 @@ const EntryTable = ({
                                 id='set-adventure-button'
                                 variant='text'
                                 color='warning'
-                                onClick={() => {
-                                    setEditEntryData(row)
-                                    setEditEntryId(row.id)
-                                    setIsEditDrawerOpen(true)
-                                }}>
+                                onClick={() => onOpenEditDrawer(row)}>
                                 set adventure
                             </Button>
                         </Tooltip>
@@ -79,13 +81,7 @@ const EntryTable = ({
             title: 'Actions',
             render: (row: any) => (
                 <>
-                    <IconButton
-                        aria-label='edit'
-                        onClick={() => {
-                            setEditEntryData(row)
-                            setEditEntryId(row.id)
-                            setIsEditDrawerOpen(true)
-                        }}>
+                    <IconButton aria-label='edit' onClick={() => onOpenEditDrawer(row)}>
                         <EditIcon />
                     </IconButton>
                     <IconButton
