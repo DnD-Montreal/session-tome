@@ -119,6 +119,13 @@ jobs:
           wait-on: http://localhost:8000
           config: baseUrl=http://localhost:8000
 
+        # video should always be generated
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@master
+        with:
+          name: videos
+          path: cypress/videos
+
       - name: Upload Cypress Images
         uses:
           actions/upload-artifact@master
@@ -129,13 +136,6 @@ jobs:
         with:
           name: screenshots
           path: cypress/screenshots
-
-        # video should always be generated
-      - name: Upload Cypress Videos
-        uses: actions/upload-artifact@master
-        with:
-          name: videos
-          path: cypress/videos
 
   Psalm:
     name: Psalm
