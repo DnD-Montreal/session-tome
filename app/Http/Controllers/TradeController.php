@@ -18,8 +18,7 @@ class TradeController extends Controller
     {
         $trades = Trade::where('status', 'open')
                     ->with('item')
-                    ->filtered($request->get('requested_items'))
-                    ->filtered($request->get('description'));
+                    ->filtered($request->get('search'))
 
         if ($itemName = $request->get('item_name')) {
             $trades = $trades->whereHas('item', function (Builder $q) use ($itemName) {
