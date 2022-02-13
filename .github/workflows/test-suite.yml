@@ -86,6 +86,7 @@ jobs:
         run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
 
   Cypress:
+    runs-on: ubuntu-latest
     services:
       mysql:
         image: mysql:5.7
@@ -97,10 +98,19 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
       - name: Serve Site
-        uses: php artisan serve > /dev/null 2>&1 &
+        run: php artisan serve > /dev/null 2>&1 &
+
       - name: Run E2E Test Suite with Cypress
         uses: cypress-io/github-action@v2
         with:
