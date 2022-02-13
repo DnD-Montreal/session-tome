@@ -21,8 +21,8 @@ class CreateEntryItems
     {
         $out = collect();
         $items = collect($items)->sortBy('id');
-        $existing = Item::whereIn('id', $items->pluck('id')->filter())
-            ->where('character_id', $entry->character_id)
+        $existing = $entry->items()
+            ->doesntHave('trades')
             ->get()
             ->getDictionary();
 
@@ -30,6 +30,7 @@ class CreateEntryItems
             // if the item exists, update it
             if (isset($item['id'])) {
                 $out[] = $existing[$item['id']]->fill($item);
+                unset($existing[$item['id']]);
             } else {
                 // otherwise, make a new one
                 $out[] = new Item(
@@ -39,6 +40,10 @@ class CreateEntryItems
                     ], $item)
                 );
             }
+        }
+
+        if (!empty($existing)) {
+            Item::destroy(collect($existing)->pluck('id'));
         }
 
         return $entry->items()->saveMany($out);
