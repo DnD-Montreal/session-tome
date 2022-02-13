@@ -20,16 +20,25 @@ class CreateEntryItems
     public function handle(Entry $entry, array $items)
     {
         $out = collect();
-
-        $entry->items()->delete();
+        $items = collect($items)->sortBy('id');
+        $existing = Item::whereIn('id', $items->pluck('id')->filter())
+            ->where('character_id', $entry->character_id)
+            ->get()
+            ->getDictionary();
 
         foreach ($items as $item) {
-            $out[] = new Item(
-                array_merge([
-                    'author_id' => Auth::id(),
-                    'character_id' => $entry->character_id
-                ], $item)
-            );
+            // if the item exists, update it
+            if (isset($item['id'])) {
+                $out[] = $existing[$item['id']]->fill($item);
+            } else {
+                // otherwise, make a new one
+                $out[] = new Item(
+                    array_merge([
+                        'author_id' => Auth::id(),
+                        'character_id' => $entry->character_id
+                    ], $item)
+                );
+            }
         }
 
         return $entry->items()->saveMany($out);
