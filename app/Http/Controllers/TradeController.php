@@ -22,19 +22,19 @@ class TradeController extends Controller
                     ->filtered($request->get('description'));
 
         if ($itemName = $request->get('item_name')) {
-            $trades = $trades->whereHas('items', function (Builder $q) use ($itemName) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemName) {
                 $q->where('name', 'like', "%{$itemName}%");
             });
         }
 
         if ($itemDescription = $request->get('item_description')) {
-            $trades = $trades->whereHas('items', function (Builder $q) use ($itemDescription) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemDescription) {
                 $q->where('description', 'like', "%{$itemDescription}%");
             });
         }
 
         if ($itemRarity = $request->get('item_rarity')) {
-            $trades = $trades->whereHas('items', function (Builder $q) use ($itemRarity) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemRarity) {
                 $q->where('rarity', 'like', "%{$itemRarity}%");
             });
         }
