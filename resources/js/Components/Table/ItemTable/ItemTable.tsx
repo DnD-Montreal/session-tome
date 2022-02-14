@@ -47,7 +47,7 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
             render: (value: number, row: any) => {
                 if (value === 0) {
                     return (
-                        <Tooltip title='Imported item does not have tier, please manually update it'>
+                        <Tooltip title='This imported item does not have a tier, please update it manually.'>
                             <Button
                                 id='set-tier-button'
                                 color='warning'
