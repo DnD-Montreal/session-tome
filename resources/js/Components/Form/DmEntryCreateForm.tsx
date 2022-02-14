@@ -29,7 +29,7 @@ type DmEntryFormDataType = {
     gp: number
     location: string | null
     date_played: string | null
-    choice: string | null
+    choice: string | undefined
     character_id: number | null
     notes: string
     items: ItemDataType[]
@@ -81,7 +81,7 @@ const DmEntryCreateForm = ({
         gp: 0,
         location: null,
         date_played: new Date().toDateString(),
-        choice: null,
+        choice: undefined,
         character_id: null,
         notes: '',
         items: [],
@@ -97,8 +97,8 @@ const DmEntryCreateForm = ({
                   gp: editData?.gp || 0,
                   location: editData?.location || '',
                   date_played: editData?.date_played || new Date().toDateString(),
-                  choice: '',
-                  character_id: null,
+                  choice: editData?.reward || undefined,
+                  character_id: editData?.character_id || null,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
                   type: 'dm',
