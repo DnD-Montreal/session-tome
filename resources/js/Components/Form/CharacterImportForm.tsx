@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import ClearIcon from '@mui/icons-material/Clear'
-import {Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
+import {Alert, Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
 import {Link as InertiaLink} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
@@ -19,6 +19,7 @@ const ButtonContainer = styled(Box)`
 `
 
 const StyledFooter = styled(Grid)`
+    margin-top: 6px;
     min-width: 40vw;
 `
 
@@ -90,6 +91,9 @@ const CharacterImportForm = () => {
                 value={data.beyond_link}
                 onChange={(e) => setData('beyond_link', e.target.value)}
             />
+            <Alert severity='info'>
+                Note: Imported items will have missing fields, please update them manually
+            </Alert>
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
                     <InertiaLink href={route('character.index')}>
