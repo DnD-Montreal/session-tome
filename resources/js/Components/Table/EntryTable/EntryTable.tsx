@@ -51,7 +51,7 @@ const EntryTable = ({
             render: (value: any, row: any) => {
                 if (!value)
                     return (
-                        <Tooltip title='Imported entry does not have adventure, please manually update it'>
+                        <Tooltip title='This imported entry does not have an adventure, please update it manually.'>
                             <Button
                                 id='set-adventure-button'
                                 variant='text'

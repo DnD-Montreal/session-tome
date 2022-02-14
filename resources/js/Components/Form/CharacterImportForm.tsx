@@ -31,6 +31,11 @@ const StyledIcon = styled(ClearIcon)`
     cursor: pointer;
 `
 
+const StyledAlert = styled(Alert)`
+    background-color: inherit;
+    color: #ffffff;
+`
+
 type CharacterImportFormData = {
     logs: File | null
     beyond_link: string | null
@@ -91,9 +96,10 @@ const CharacterImportForm = () => {
                 value={data.beyond_link}
                 onChange={(e) => setData('beyond_link', e.target.value)}
             />
-            <Alert severity='info'>
-                Note: Imported items will have missing fields, please update them manually
-            </Alert>
+            <StyledAlert severity='warning'>
+                Note: Imported characters will have missing fields for items and entries,
+                please update them manually.
+            </StyledAlert>
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
                     <InertiaLink href={route('character.index')}>
