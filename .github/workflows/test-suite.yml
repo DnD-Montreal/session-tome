@@ -125,15 +125,6 @@ jobs:
       - name: Fix directory cache and permission
         run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
-      - name: Cache FE dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install cypress binary
-        run: .\cypress install
-
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -142,7 +133,7 @@ jobs:
 
       - name: Build Front-End Assets
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn prod
 
       - name: Serve Site
