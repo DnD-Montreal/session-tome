@@ -3,7 +3,7 @@ export const itemData = [
         name: 'Name 1',
         description: 'A tier 3 Common item',
         rarity: 'common',
-        tier: 'Tier 3',
+        tier: 0,
         id: 1,
     },
     {

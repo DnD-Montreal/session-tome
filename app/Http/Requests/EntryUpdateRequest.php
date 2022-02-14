@@ -18,7 +18,7 @@ class EntryUpdateRequest extends FormRequest
     public function authorize()
     {
         if (is_null($this->character_id)) {
-            return $this->type == Entry::TYPE_DM;
+            return $this->type == Entry::TYPE_DM && $this->user()->can('update', $this->entry);
         }
 
         return $this->user()->can('update', Character::findOrFail($this->character_id))  && $this->user()->can('update', $this->entry);
@@ -40,8 +40,8 @@ class EntryUpdateRequest extends FormRequest
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['nullable', 'integer', 'exists:characters,id', 'required_with:choice'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
-            'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'dungeon_master' => ['sometimes', 'string'],
+            'dungeon_master.id' => ['sometimes', 'integer', 'exists:users,id'],
+            'dungeon_master' => ['sometimes'],
             'date_played' => ['required', 'date'],
             'location' => ['sometimes', 'nullable', 'string'],
             'type' => ['required', 'string'],
@@ -51,6 +51,7 @@ class EntryUpdateRequest extends FormRequest
             'downtime' => ['sometimes', 'integer'],
             'notes' => ['nullable', 'string'],
             'items' => ['sometimes', 'array', $requiredChoice],
+            'items.*.id' => ['sometimes', 'integer', 'exists:items,id'],
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
             'items.*.tier' =>  ['integer', 'between:1,4', $requiredIf],

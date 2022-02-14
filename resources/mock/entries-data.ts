@@ -55,7 +55,7 @@ export const entriesData = [
     },
     {
         date: '12-12-2018',
-        adventure: 'Jesus',
+        adventure: null,
         session: 26,
         level: 4,
         gp: 30,

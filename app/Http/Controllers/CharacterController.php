@@ -74,6 +74,7 @@ class CharacterController extends Controller
 
         $entries = $character->entries()
             ->with('adventure', 'items', 'rating')
+
             ->orderBy('date_played', 'desc')
             ->get();
         $factions = array_values(Character::FACTIONS);
