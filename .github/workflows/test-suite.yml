@@ -131,6 +131,9 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
+      - name: Install cypress binary
+        run: .\cypress install
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
