@@ -43,6 +43,12 @@ jobs:
         run: |
           composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: Cache FE dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -88,6 +94,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Cache BE dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -113,6 +125,12 @@ jobs:
       - name: Fix directory cache and permission
         run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
+      - name: Cache FE dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -123,18 +141,6 @@ jobs:
         run: |
           yarn install
           yarn prod
-
-      - name: Cache BE dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
-
-      - name: Cache FE dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &
