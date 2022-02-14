@@ -85,10 +85,11 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
-        // Attempt to find the DM based on the name passed
-        if (empty($entryData['dungeon_master_id']) && $entryData['type'] !== Entry::TYPE_DM) {
-            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
-            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
+            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
+            $entryData->forget('dungeon_master');
+        } else {
+            $entryData['dungeon_master_id'] = null;
         }
 
         $entryData["adventure_id"] = $entryData['adventure']['id'];
@@ -156,10 +157,11 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
-        // Attempt to find the DM based on the name passed
-        if ((empty($entryData['dungeon_master_id']) || !$entry->dungeon_master_id) && $entryData['type'] !== Entry::TYPE_DM) {
-            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
-            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
+            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
+            $entryData->forget('dungeon_master');
+        } else {
+            $entryData['dungeon_master_id'] = null;
         }
 
         $entryData["adventure_id"] = $entryData['adventure']['id'];

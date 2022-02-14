@@ -9,7 +9,7 @@ const StyledLink = styled(inertiaLink)`
 `
 
 type LinkPropType = {
-    href: any
+    href: string
     [key: string]: any
 }
 

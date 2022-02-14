@@ -82,9 +82,7 @@ describe('<DmEntryCreateForm />', () => {
     })
     it('create component fields test', () => {
         render(<DmEntryCreateForm {...createProps} />)
-        const adventureInputField = document.querySelector(
-            'input[name="Adventure Title"]',
-        )
+        const adventureInputField = document.querySelector('#adventures')
         const lengthField = document.querySelector('input[name="Length"]')
         const levelsField = document.querySelector('input[name="Levels"]')
         const gpField = document.querySelector('input[name="GP"]')

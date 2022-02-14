@@ -77,6 +77,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
             </Grid>
             <StyledGrid item xs={12} md={5}>
                 <Autocomplete
+                    label='Adventure'
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
