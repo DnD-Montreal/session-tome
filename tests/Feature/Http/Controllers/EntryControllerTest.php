@@ -663,6 +663,7 @@ class EntryControllerTest extends TestCase
 
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -738,6 +739,7 @@ class EntryControllerTest extends TestCase
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
             'levels' => 5,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -767,7 +769,6 @@ class EntryControllerTest extends TestCase
             'gp' => $gp,
             'choice' => 'campaign_reward',
         ]);
-
         $character->refresh();
 
         $this->assertEquals(0, $character->levels);
@@ -886,5 +887,40 @@ class EntryControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertCount(1, Rating::all());
         $this->assertEquals(21, $rating->categories);
+    }
+
+    /**
+     * @test
+     */
+    public function update_preserves_existing_items()
+    {
+        $character = Character::factory()->create(['user_id' => $this->user->id]);
+        $entry = Entry::factory()->create([
+            'user_id' => $this->user->id,
+            'type' => Entry::TYPE_GAME,
+            'character_id' => $character->id
+        ]);
+        $existingItem = Item::factory()
+            ->create([
+                'entry_id' => $entry->id,
+                'character_id' => $character->id
+            ]);
+        $itemData = [
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            $existingItem->toArray()
+        ];
+
+        $response = $this->actingAs($this->user)->put(
+            route('entry.update', $entry),
+            array_merge($entry->toArray(), ['items' => $itemData], ['adventure' => ['id' => $entry->adventure_id]]),
+        );
+
+        $entry->refresh();
+
+        $response->assertRedirect();
+        $this->assertDatabaseCount('items', 2);
+        $this->assertCount(2, $entry->items);
+        $this->assertDatabaseHas('items', $itemData[0]);
+        $this->assertDatabaseHas('items', $itemData[1]);
     }
 }

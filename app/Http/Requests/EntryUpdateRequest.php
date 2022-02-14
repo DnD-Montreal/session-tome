@@ -18,7 +18,7 @@ class EntryUpdateRequest extends FormRequest
     public function authorize()
     {
         if (is_null($this->character_id)) {
-            return $this->type == Entry::TYPE_DM;
+            return $this->type == Entry::TYPE_DM && $this->user()->can('update', $this->entry);
         }
 
         return $this->user()->can('update', Character::findOrFail($this->character_id))  && $this->user()->can('update', $this->entry);
@@ -50,6 +50,7 @@ class EntryUpdateRequest extends FormRequest
             'downtime' => ['sometimes', 'integer'],
             'notes' => ['nullable', 'string'],
             'items' => ['sometimes', 'array'],
+            'items.*.id' => ['sometimes', 'integer', 'exists:items,id'],
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
             'items.*.tier' =>  ['integer', 'between:1,4', $requiredIf],
