@@ -85,10 +85,11 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
-        // Attempt to find the DM based on the name passed
-        if (empty($entryData['dungeon_master_id']) && $entryData['type'] !== Entry::TYPE_DM) {
-            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
-            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
+            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
+            $entryData->forget('dungeon_master');
+        } else {
+            $entryData['dungeon_master_id'] = null;
         }
 
         $entryData["adventure_id"] = $entryData['adventure']['id'];
@@ -154,12 +155,13 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
+        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData, $entry);
 
-        // Attempt to find the DM based on the name passed
-        if ((empty($entryData['dungeon_master_id']) || !$entry->dungeon_master_id) && $entryData['type'] !== Entry::TYPE_DM) {
-            $assumedDm = User::where('name', 'like', "%{$entryData['dungeon_master']}%")->first();
-            $entryData['dungeon_master_id'] = $assumedDm->id ?? null;
+        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
+            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
+            $entryData->forget('dungeon_master');
+        } else {
+            $entryData['dungeon_master_id'] = null;
         }
 
         $entryData["adventure_id"] = $entryData['adventure']['id'];
@@ -215,7 +217,7 @@ class EntryController extends Controller
      * @param array $itemData
      * @return array
      */
-    private function chooseReward(Collection $entryData, array $itemData): array
+    private function chooseReward(Collection $entryData, array $itemData, Entry $entry = null): array
     {
         if ($entryData->get('choice') == 'advancement') {
             // advancement: increment character's level
@@ -227,6 +229,9 @@ class EntryController extends Controller
             $entryData['levels'] = 0;
         } elseif ($entryData->get('choice') == 'campaign_reward') {
             // campaign reward: set levels = 0, no item(s), should contain custom note
+            if ($entry) {
+                $entry->items()->delete();
+            }
             $itemData = [];
             $entryData['levels'] = 0;
         }

@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Box, IconButton, Typography} from '@mui/material'
+import {Box, Button, IconButton, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link, RarityChip} from 'Components'
 import React, {useState} from 'react'
 import {ItemEditData} from 'Types/item-data'
@@ -44,6 +44,25 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
         {
             property: 'tier',
             title: 'Tier',
+            render: (value: number, row: any) => {
+                if (value === 0) {
+                    return (
+                        <Tooltip title='This imported item does not have a tier, please update it manually.'>
+                            <Button
+                                id='set-tier-button'
+                                color='warning'
+                                variant='text'
+                                onClick={() => {
+                                    setEditData(row)
+                                    setIsEditDrawerOpen(true)
+                                }}>
+                                SET TIER
+                            </Button>
+                        </Tooltip>
+                    )
+                }
+                return value
+            },
         },
         {
             property: null,

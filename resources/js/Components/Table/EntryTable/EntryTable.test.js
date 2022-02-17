@@ -16,6 +16,10 @@ describe('EntryTable', () => {
         const component = render(<EntryTable {...props} />)
         expect(component).toBeDefined()
     })
+    it('set adventure item should work', () => {
+        render(<EntryTable {...props} />)
+        fireEvent.click(document.querySelector('#set-adventure-button'))
+    })
     it('Delete button in row should work', () => {
         render(<EntryTable {...props} />)
         fireEvent.click(screen.getAllByLabelText('delete')[1])

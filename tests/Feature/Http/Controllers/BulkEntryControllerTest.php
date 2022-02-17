@@ -37,8 +37,8 @@ class BulkEntryControllerTest extends TestCase
         $characters = Character::factory(3)->create();
         $adventure = Adventure::factory()->create();
         // Three month difference
-        $startDate = "01-01-2021";
-        $endDate = "01-04-2021";
+        $startDate = "01-01-2022";
+        $endDate = "02-04-2022";
         $freqWeekly = 1;
         $freqBiweekly = 0.5;
         $freqTwiceWeekly = 2;
@@ -76,10 +76,11 @@ class BulkEntryControllerTest extends TestCase
         $responseWeekly->assertRedirect(route('character.show', [
             'character' => $characters[0]->refresh()
         ]));
-        // 3 months at 1(freq) game per week, 12 entries
-        $this->assertCount(12, $entries);
-        $this->assertEquals(Carbon::parse('01-01-2021'), $entries[0]->date_played);
-        $this->assertEquals(Carbon::parse('01-04-2021'), $entries->last()->date_played);
+
+        // 14 saturdays between Jan 1st and April 2nd (inclusive)
+        $this->assertCount(14, $entries);
+        $this->assertEquals(Carbon::parse('01-01-2022'), $entries[0]->date_played);
+        $this->assertEquals(Carbon::parse('02-04-2022'), $entries->last()->date_played);
 
 
         // BiWeekly
@@ -87,10 +88,11 @@ class BulkEntryControllerTest extends TestCase
         $responseBiweekly->assertRedirect(route('character.show', [
             'character' => $characters[1]->refresh()
         ]));
-        // 3 months at .5(freq) games per week, 6 entries
-        $this->assertCount(6, $entries);
-        $this->assertEquals(Carbon::parse('01-01-2021'), $entries[0]->date_played);
-        $this->assertEquals(Carbon::parse('01-04-2021'), $entries->last()->date_played);
+
+        // 14 saturdays in range, cut in half (played every other week), 7 entries
+        $this->assertCount(7, $entries);
+        $this->assertEquals(Carbon::parse('01-01-2022'), $entries[0]->date_played);
+        $this->assertEquals(Carbon::parse('26-03-2022'), $entries->last()->date_played);
 
 
         // Twice per Week
@@ -98,10 +100,11 @@ class BulkEntryControllerTest extends TestCase
         $responseTwiceWeekly->assertRedirect(route('character.show', [
             'character' => $characters[2]->refresh()
         ]));
-        // 3 months at 2(freq) games per week, 24 entries
-        $this->assertCount(24, $entries);
-        $this->assertEquals(Carbon::parse('01-01-2021'), $entries[0]->date_played);
-        $this->assertEquals(Carbon::parse('01-04-2021'), $entries->last()->date_played);
+
+        // This doesnt actually get used in our system, currently.
+        $this->assertCount(31, $entries);
+        $this->assertEquals(Carbon::parse('01-01-2022'), $entries[0]->date_played);
+        $this->assertEquals(Carbon::parse('01-04-2022'), $entries->last()->date_played);
     }
 
     /**

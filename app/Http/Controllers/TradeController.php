@@ -7,6 +7,7 @@ use App\Http\Requests\TradeUpdateRequest;
 use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class TradeController extends Controller
 {
@@ -71,7 +72,15 @@ class TradeController extends Controller
      */
     public function show(Request $request, Trade $trade)
     {
-        return view('trade.show', compact('trade'));
+        $currentUserID = Auth::user()->id;
+        $tradeItem = $trade->item;
+        $tradeCharacter = $trade->character;
+
+        if ($currentUserID == $tradeCharacter->user->id) {
+            $tradeOffers = $trade->items()->with('character');
+            return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter', 'tradeOffers'));
+        }
+        return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter'));
     }
 
     /**
