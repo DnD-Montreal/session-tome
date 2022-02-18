@@ -160,7 +160,6 @@ class EntryControllerTest extends TestCase
         $character = Character::factory()->create();
         $event = Event::factory()->create();
         $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = $this->faker->word;
@@ -173,8 +172,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -191,8 +189,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -207,13 +204,14 @@ class EntryControllerTest extends TestCase
             ->where('character_id', $character->id)
             ->where('event_id', $event->id)
             ->where('dungeon_master_id', $dungeon_master_user->id)
-            ->where('dungeon_master', $dungeon_master)
             ->where('date_played', $date_played)
             ->where('location', $location)
             ->where('type', $type)
             ->where('levels', $levels)
             ->where('gp', $gp)
             ->get();
+
+
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
@@ -224,7 +222,7 @@ class EntryControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_correctly_asserts_the_dm()
+    public function store_correctly_non_system_dms()
     {
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
@@ -260,7 +258,6 @@ class EntryControllerTest extends TestCase
             ->where('campaign_id', $campaign->id)
             ->where('character_id', $character->id)
             ->where('event_id', $event->id)
-            ->where('dungeon_master_id', $dungeon_master_user->id)
             ->where('dungeon_master', $dungeon_master)
             ->where('date_played', $date_played)
             ->where('location', $location)
@@ -285,7 +282,6 @@ class EntryControllerTest extends TestCase
         $character = Character::factory()->create(['user_id' => $this->user->id]);
         $event = Event::factory()->create();
         $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = $this->faker->word;
@@ -303,8 +299,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -320,7 +315,6 @@ class EntryControllerTest extends TestCase
             ->where('character_id', $character->id)
             ->where('event_id', $event->id)
             ->where('dungeon_master_id', $dungeon_master_user->id)
-            ->where('dungeon_master', $dungeon_master)
             ->where('date_played', $date_played)
             ->where('location', $location)
             ->where('type', $type)
@@ -495,7 +489,6 @@ class EntryControllerTest extends TestCase
         $character = Character::factory()->create();
         $event = Event::factory()->create();
         $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = $this->faker->word;
@@ -507,8 +500,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -526,8 +518,7 @@ class EntryControllerTest extends TestCase
             'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -542,8 +533,7 @@ class EntryControllerTest extends TestCase
             'campaign_id' => $campaign->id,
             'character_id' => $character->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -561,7 +551,6 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($character->id, $entry->character_id);
         $this->assertEquals($event->id, $entry->event_id);
         $this->assertEquals($dungeon_master_user->id, $entry->dungeon_master_id);
-        $this->assertEquals($dungeon_master, $entry->dungeon_master);
         $this->assertEquals($date_played, $entry->date_played);
         $this->assertEquals($location, $entry->location);
         $this->assertEquals($type, $entry->type);
@@ -572,7 +561,7 @@ class EntryControllerTest extends TestCase
     /**
      * @test
      */
-    public function update_correctly_asserts_the_correct_dm()
+    public function update_allows_non_system_dms()
     {
         $entry = Entry::factory()->create();
         $adventure = Adventure::factory()->create();
@@ -613,7 +602,6 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($campaign->id, $entry->campaign_id);
         $this->assertEquals($character->id, $entry->character_id);
         $this->assertEquals($event->id, $entry->event_id);
-        $this->assertEquals($dungeon_master_user->id, $entry->dungeon_master_id);
         $this->assertEquals($dungeon_master, $entry->dungeon_master);
         $this->assertEquals($date_played, $entry->date_played);
         $this->assertEquals($location, $entry->location);
@@ -670,23 +658,21 @@ class EntryControllerTest extends TestCase
     public function update_dm_entry_on_character_updates_level()
     {
         $character = Character::factory()->create([
-            'level' => 0,
+            'level' => 1,
         ]);
 
-        $entry = Entry::factory()->create([
+        $entry = Entry::factory()->has(Item::factory(2))->create([
             'type' => Entry::TYPE_DM,
+            'dungeon_master_id' => null,
+            'levels' => 1,
+            'character_id' => null,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
-        $entry->character()->associate($character)->save();
-
-        $oldLevel = $character->level;
+        $entry->user()->associate($this->user)->save();
 
         $adventure = Adventure::factory()->create();
-        $campaign = Campaign::factory()->create();
-        $event = Event::factory()->create();
-        $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
@@ -694,20 +680,18 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
-            'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'character_id' => $character->id,
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
             'gp' => $gp,
+            'items' => [],
             'choice' => 'advancement',
         ]);
 
         $character->refresh();
 
-        $this->assertEquals(1, $character->level);
+        $this->assertEquals(2, $character->level);
     }
 
     /**
@@ -750,10 +734,12 @@ class EntryControllerTest extends TestCase
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
             'levels' => 5,
+            'user_id' => $this->user->id
         ]);
 
         $character->user()->associate($this->user)->save();
         $entry->character()->associate($character)->save();
+        $entry->user()->associate($this->user)->save();
         $entry->items()->saveMany($items);
         $entry->save();
 
@@ -771,6 +757,7 @@ class EntryControllerTest extends TestCase
             'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
+            'character_id' => $character->id,
             'dungeon_master_id' => $dungeon_master_user->id,
             'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
@@ -779,7 +766,6 @@ class EntryControllerTest extends TestCase
             'gp' => $gp,
             'choice' => 'campaign_reward',
         ]);
-
         $character->refresh();
 
         $this->assertEquals(0, $character->levels);
@@ -844,8 +830,7 @@ class EntryControllerTest extends TestCase
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
             'character_id' => $character->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
+            'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
             'type' => $type,
             'rating_data' => [
@@ -883,7 +868,7 @@ class EntryControllerTest extends TestCase
             'adventure' => ['id' => $entry->adventure_id],
             'character_id' => $character->id,
             'date_played' => $entry->date_played,
-            'dungeon_master_id' => $dm->id,
+            'dungeon_master' => ['id' => $dm->id],
             'type' => $entry->type,
             'rating_data' => [
                 "creative" => true,
@@ -899,5 +884,40 @@ class EntryControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertCount(1, Rating::all());
         $this->assertEquals(21, $rating->categories);
+    }
+
+    /**
+     * @test
+     */
+    public function update_preserves_existing_items()
+    {
+        $character = Character::factory()->create(['user_id' => $this->user->id]);
+        $entry = Entry::factory()->create([
+            'user_id' => $this->user->id,
+            'type' => Entry::TYPE_GAME,
+            'character_id' => $character->id
+        ]);
+        $existingItem = Item::factory()
+            ->create([
+                'entry_id' => $entry->id,
+                'character_id' => $character->id
+            ]);
+        $itemData = [
+            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
+            $existingItem->toArray()
+        ];
+
+        $response = $this->actingAs($this->user)->put(
+            route('entry.update', $entry),
+            array_merge($entry->toArray(), ['items' => $itemData], ['adventure' => ['id' => $entry->adventure_id]]),
+        );
+
+        $entry->refresh();
+
+        $response->assertRedirect();
+        $this->assertDatabaseCount('items', 2);
+        $this->assertCount(2, $entry->items);
+        $this->assertDatabaseHas('items', $itemData[0]);
+        $this->assertDatabaseHas('items', $itemData[1]);
     }
 }

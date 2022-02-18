@@ -52,15 +52,15 @@ class Entry extends Model
         'downtime' => 'integer',
     ];
 
-    protected $appends = ['session', 'reward'];
+    protected $appends = ['session', 'reward', 'dungeon_master'];
 
     public const TYPE_GAME = 'game';
     public const TYPE_DM = 'dm';
     public const TYPE_DOWNTIME = 'downtime';
 
-    public const REWARD_ADVANCEMENT = "Advancement";
-    public const REWARD_MAGIC_ITEM = "Magic Item";
-    public const REWARD_CAMPAIGN = "Campaign Reward";
+    public const REWARD_ADVANCEMENT = "advancement";
+    public const REWARD_MAGIC_ITEM = "magic_item";
+    public const REWARD_CAMPAIGN = "campaign_reward";
 
     public function items()
     {
@@ -133,5 +133,10 @@ class Entry extends Model
         }
 
         return self::REWARD_CAMPAIGN;
+    }
+
+    public function getDungeonMasterAttribute()
+    {
+        return $this->dungeonMaster()->first() ?? $this->attributes['dungeon_master'] ?? null;
     }
 }

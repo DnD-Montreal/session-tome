@@ -1,6 +1,6 @@
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined'
 import CreateIcon from '@mui/icons-material/Create'
-import DownloadIcon from '@mui/icons-material/Download'
+// import DownloadIcon from '@mui/icons-material/Download'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
@@ -86,13 +86,13 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     UPDATE
                                 </Button>
                             )}
-                            {getUserId() === character.user_id && (
+                            {/* getUserId() === character.user_id && (
                                 <Button
                                     variant='contained'
                                     startIcon={<DownloadIcon fontSize='small' />}>
                                     EXPORT
                                 </Button>
-                            )}
+                            ) */}
                             <Link
                                 href={route('item.index', {character_id: character.id})}>
                                 <Button

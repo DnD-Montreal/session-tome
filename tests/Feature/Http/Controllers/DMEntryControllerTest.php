@@ -74,8 +74,6 @@ class DMEntryControllerTest extends TestCase
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
         $event = Event::factory()->create();
-        $dungeon_master_user = User::factory()->create();
-        $dungeon_master = $this->faker->word;
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
         $type = Entry::TYPE_DM;
@@ -87,8 +85,6 @@ class DMEntryControllerTest extends TestCase
             'adventure' => ['id' => $adventure->id],
             'campaign_id' => $campaign->id,
             'event_id' => $event->id,
-            'dungeon_master_id' => $dungeon_master_user->id,
-            'dungeon_master' => $dungeon_master,
             'date_played' => $date_played,
             'location' => $location,
             'type' => $type,
@@ -101,8 +97,6 @@ class DMEntryControllerTest extends TestCase
             ->where('adventure_id', $adventure->id)
             ->where('campaign_id', $campaign->id)
             ->where('event_id', $event->id)
-            ->where('dungeon_master_id', $dungeon_master_user->id)
-            ->where('dungeon_master', $dungeon_master)
             ->where('date_played', $date_played)
             ->where('location', $location)
             ->where('type', $type)
