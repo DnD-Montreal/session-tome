@@ -30,7 +30,7 @@ const Authentication = ({
 }: AuthenticationPropType) => {
     const open = Boolean(anchorEl)
     const [selectedTab, setSelectedTab] = useState<number>(0)
-    const {post, wasSuccessful} = useForm({})
+    const {post, get, wasSuccessful} = useForm({})
 
     useEffect(() => {
         if (user) {
@@ -48,7 +48,16 @@ const Authentication = ({
                 anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
                 {user ? (
                     <Box sx={{width: 200}}>
-                        <Button fullWidth variant='text' startIcon={<AccountBoxIcon />}>
+                        <Button
+                            fullWidth
+                            variant='text'
+                            startIcon={<AccountBoxIcon />}
+                            onClick={() => {
+                                get(route('user.edit', user.id))
+                                if (wasSuccessful) {
+                                    setAnchorEl(null)
+                                }
+                            }}>
                             Profile
                         </Button>
                         <Button
