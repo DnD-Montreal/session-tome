@@ -40,7 +40,7 @@ const CampaignCreateForm = ({
                   code: editData?.code,
               }
 
-    const {data, setData, errors, put} =
+    const {data, setData, errors, put, post} =
         useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
 
     return (
@@ -88,12 +88,17 @@ const CampaignCreateForm = ({
                         variant='contained'
                         fullWidth
                         onClick={() => {
-                            put(route('campaign.update', [editId]))
-                            if (onCloseDrawer) {
-                                onCloseDrawer()
+                            if (type === 'Create') {
+                                post(route('campaign.store'))
+                            }
+                            if (type === 'Edit') {
+                                put(route('campaign.update', [editId]))
+                                if (onCloseDrawer) {
+                                    onCloseDrawer()
+                                }
                             }
                         }}>
-                        Save
+                        {type === 'Create' ? 'Create' : 'Save'}
                     </Button>
                 </Grid>
             </Grid>
