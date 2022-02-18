@@ -8,6 +8,7 @@ use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class TradeController extends Controller
 {
@@ -19,7 +20,7 @@ class TradeController extends Controller
     {
         $trades = Trade::where('status', 'open')
                     ->filtered($request->get('search'))
-                    ->with('item');
+                    ->with('item', 'offers');
 
         if ($itemName = $request->get('item_name')) {
             $trades = $trades->whereHas('item', function (Builder $q) use ($itemName) {
@@ -40,7 +41,9 @@ class TradeController extends Controller
         }
         $trades = $trades->get();
 
-        return view('trade.index', compact('trades'));
+        return Inertia::render('Trade/Trade', [
+            'trades' => $trades,
+        ]);
     }
 
     /**
@@ -77,7 +80,7 @@ class TradeController extends Controller
         $tradeCharacter = $trade->character;
 
         if ($currentUserID == $tradeCharacter->user->id) {
-            $tradeOffers = $trade->items()->with('character');
+            $tradeOffers = $trade->offers()->with('character');
             return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter', 'tradeOffers'));
         }
         return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter'));
