@@ -66,7 +66,9 @@ class CampaignController extends Controller
      */
     public function show(Request $request, Campaign $campaign)
     {
-        return view('campaign.show', compact('campaign'));
+        $campaign = $campaign->load('entries');
+
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact('campaign'));
     }
 
     /**

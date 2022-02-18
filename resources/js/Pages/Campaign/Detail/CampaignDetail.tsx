@@ -1,9 +1,10 @@
 import {ThemeProvider} from '@mui/material/styles'
-import {CampaignDetailBox} from 'Components'
+import {CampaignDetailBox, EntryTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
+import {entriesData} from 'Mock/entries-data'
 import React from 'react'
 import {CampaignData} from 'Types/campaign-data'
-import {getFontTheme} from 'Utils'
+import {getFontTheme, useEditDrawer} from 'Utils'
 
 const theme = getFontTheme('Form', 14)
 
@@ -17,6 +18,12 @@ const CampaignDetail = ({campaign}: CampaignDetailPropType) => {
         <ThemeProvider theme={theme}>
             <CampaignDetailBox
             // campaign={campaign}
+            />
+            <EntryTable
+                data={entriesData}
+                setEditEntryId={useEditDrawer}
+                setEditEntryData={useEditDrawer}
+                setIsEditDrawerOpen={useEditDrawer}
             />
         </ThemeProvider>
     )

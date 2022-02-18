@@ -44,6 +44,11 @@ const CampaignDetailBox = () => (
                     <Button
                         variant='contained'
                         startIcon={<CreateIcon fontSize='small' />}>
+                        INVITE
+                    </Button>
+                    <Button
+                        variant='contained'
+                        startIcon={<CreateIcon fontSize='small' />}>
                         UPDATE
                     </Button>
                     <Button
