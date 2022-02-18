@@ -62,6 +62,7 @@ const CampaignCreateForm = ({
                     />
                     {errors?.title && <ErrorText message={errors?.title} />}
                 </StyledGrid>
+                {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <TextField
                         fullWidth
@@ -73,6 +74,7 @@ const CampaignCreateForm = ({
                     />
                     {errors?.code && <ErrorText message={errors?.code} />}
                 </StyledGrid>
+                {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
