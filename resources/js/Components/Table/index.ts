@@ -1,3 +1,4 @@
+export {default as CampaignTable} from './CampaignTable'
 export {default as CharacterTable} from './CharacterTable'
 export {default as DMEntryTable} from './DMEntryTable'
 export {default as EntryTable} from './EntryTable'
