@@ -38,18 +38,20 @@ class TradeControllerTest extends TestCase
         $trades = Trade::factory(3)->has(Item::factory(3), 'items')->create();
 
         $response = $this->get(route('trade.index', [
-            'search' => ['requested_items' => $trades->first()->requested_items, 'description' => $trades->first()->description],
+            'search' => $trades->first()->description,
             'item_name' => $trades->first()->item->first()->name,
             'item_description' => $trades->first()->item->first()->description,
             'item_rarity' => $trades->first()->item->first()->rarity,
         ]));
-
 
         $response = $this->get(route('trade.index'));
 
         $response->assertOk();
         $response->assertViewIs('trade.index');
         $response->assertViewHas('trades');
+        $response->assertViewHas('trades', function ($trades) {
+            return count($trades) == 1;
+        });
     }
 
 
