@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import {Box, Button, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
@@ -33,6 +34,11 @@ const CampaignTable = ({
         <Link href={route('campaign.create')}>
             <Button variant='contained' startIcon={<AddIcon />}>
                 Create
+            </Button>
+        </Link>,
+        <Link href={route('campaign.index')}>
+            <Button variant='contained' startIcon={<MeetingRoomIcon />}>
+                Import
             </Button>
         </Link>,
     ]
