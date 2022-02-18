@@ -7,6 +7,7 @@ use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Models\Character;
+use App\Models\Adventure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,9 +20,8 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $campaigns = Auth::user()->campaigns()->get();
-
-        return view('campaign.index', compact('campaigns'));
+        $campaigns = Campaign::all()->take(10);
+        return Inertia::render('Campaign/Campaign', compact('campaigns'));
     }
 
     /**
