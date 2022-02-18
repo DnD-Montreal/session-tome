@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
+use Inertia\Testing\Assert;
 
 /**
  * @see \App\Http\Controllers\TradeController
@@ -35,7 +36,7 @@ class TradeControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $trades = Trade::factory(3)->has(Item::factory(3), 'items')->create();
+        $trades = Trade::factory(3)->has(Item::factory(3), 'offers')->create();
 
         $response = $this->get(route('trade.index', [
             'search' => $trades->first()->description,
@@ -44,14 +45,12 @@ class TradeControllerTest extends TestCase
             'item_rarity' => $trades->first()->item->first()->rarity,
         ]));
 
-        $response = $this->get(route('trade.index'));
-
         $response->assertOk();
-        $response->assertViewIs('trade.index');
-        $response->assertViewHas('trades');
-        $response->assertViewHas('trades', function ($trades) {
-            return count($trades) == 1;
-        });
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Trade/Trade')
+                ->has('trades', 1)
+        );
     }
 
 
