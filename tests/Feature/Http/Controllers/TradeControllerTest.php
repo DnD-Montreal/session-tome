@@ -36,7 +36,9 @@ class TradeControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $trades = Trade::factory(3)->has(Item::factory(3), 'offers')->create();
+        $trades = Trade::factory(3)
+        ->open()
+        ->has(Item::factory(3), 'offers')->create();
 
         $response = $this->get(route('trade.index', [
             'search' => $trades->first()->description,
