@@ -28,7 +28,8 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => ['string'],
             'email' => ['email'],
-            'password' => ['confirmed']
+            'password' => ['confirmed'],
+            'language' => ['string', 'in:en,fr']
         ];
     }
 }
