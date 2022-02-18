@@ -1,4 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
+import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import LogoutIcon from '@mui/icons-material/Logout'
 import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {LoginForm, RegistrationForm} from 'Components'
@@ -46,7 +48,11 @@ const Authentication = ({
                 anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
                 {user ? (
                     <Box sx={{width: 200}}>
+                        <Button fullWidth variant='text' startIcon={<AccountBoxIcon />}>
+                            Profile
+                        </Button>
                         <Button
+                            startIcon={<LogoutIcon />}
                             fullWidth
                             variant='text'
                             color='error'
