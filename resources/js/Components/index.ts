@@ -5,6 +5,9 @@ export {default as DeleteModal} from './DeleteModal'
 export {default as ErrorText} from './ErrorText'
 export {ItemDetailBox} from './ItemDetail'
 
+// Details
+export {CampaignDetailBox} from './Detail'
+
 // Chips
 export {FactionChip, RarityChip} from './Chips'
 
