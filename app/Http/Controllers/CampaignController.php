@@ -30,7 +30,7 @@ class CampaignController extends Controller
      */
     public function create(Request $request)
     {
-        return view('campaign.create');
+        return Inertia::render('Campaign/Create/CampaignCreate');
     }
 
     /**

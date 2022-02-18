@@ -8,7 +8,7 @@ import route from 'ziggy-js'
 
 type CampaignCreateFormPropType = {
     type: 'Edit' | 'Create'
-    onCloseDrawer: () => void
+    onCloseDrawer?: () => void
     editData?: CampaignData
     editId?: number
 }
@@ -87,7 +87,9 @@ const CampaignCreateForm = ({
                         fullWidth
                         onClick={() => {
                             put(route('campaign.update', [editId]))
-                            onCloseDrawer()
+                            if (onCloseDrawer) {
+                                onCloseDrawer()
+                            }
                         }}>
                         Save
                     </Button>
