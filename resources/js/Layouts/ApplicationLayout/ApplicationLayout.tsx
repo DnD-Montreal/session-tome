@@ -203,7 +203,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                         : ''
                                 }
                                 color='white'
-                                href='/#'>
+                                href={route('campaign.index')}>
                                 Campaigns
                             </InertiaLink>
                         </PaddingGrid>
