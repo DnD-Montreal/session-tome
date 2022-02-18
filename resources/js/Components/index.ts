@@ -22,6 +22,7 @@ export {
 // Forms
 export {
     BulkEntryCreateForm,
+    CampaignCreateForm,
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
