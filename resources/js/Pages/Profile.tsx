@@ -43,7 +43,7 @@ const Profile = () => {
                 onDelete={() => destroy(route('user.destroy', [user.id]))}
             />
             <Grid container rowSpacing={2} style={{maxWidth: '50vw'}}>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{paddingBottom: 6}}>
                     <Typography variant='h4'>Account Settings</Typography>
                 </Grid>
                 <Grid item xs={12}>
