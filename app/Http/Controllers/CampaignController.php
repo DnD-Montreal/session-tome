@@ -11,6 +11,7 @@ use App\Models\Adventure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Log;
 
 class CampaignController extends Controller
 {
@@ -20,8 +21,12 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $campaigns = Campaign::all()->take(10);
-        return Inertia::render('Campaign/Campaign', compact('campaigns'));
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        $campaigns = Auth::user()
+            ->campaigns()
+            ->get();
+        $campaigns->load('characters')->where('character_id', Auth::user()->id);
+        return Inertia::render('Campaign/Campaign', compact('campaigns', 'characters'));
     }
 
     /**
@@ -30,7 +35,16 @@ class CampaignController extends Controller
      */
     public function create(Request $request)
     {
-        return Inertia::render('Campaign/Create/CampaignCreate');
+        $data = $request->validate([
+            'search' => 'sometimes|string',
+        ]);
+        $search = $data['search'] ?? '';
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        return Inertia::render(
+            'Campaign/Create/CampaignCreate',
+            compact('characters', 'adventures')
+        );
     }
 
     /**
