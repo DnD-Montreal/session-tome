@@ -7,7 +7,6 @@ use App\Http\Requests\TradeFulfillRequest;
 use App\Actions\FulfillTrade;
 use App\Models\Item;
 use App\Models\Trade;
-use Inertia\Inertia;
 
 class TradeFulfillmentController extends Controller
 {
