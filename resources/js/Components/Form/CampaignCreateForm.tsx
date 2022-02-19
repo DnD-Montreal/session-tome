@@ -77,17 +77,6 @@ const CampaignCreateForm = ({
                 </StyledGrid>
                 {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <TextField
-                        fullWidth
-                        id='code'
-                        label='Code'
-                        name='Code'
-                        value={data.code}
-                        onChange={(e) => setData('code', e.target.value)}
-                    />
-                    {errors?.code && <ErrorText message={errors?.code} />}
-                </StyledGrid>
-                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Select
                         id='character_id'
                         label='Assigned Character'
@@ -100,7 +89,6 @@ const CampaignCreateForm = ({
                     />
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
                 </StyledGrid>
-                {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Autocomplete
                         label='Adventure'
@@ -120,7 +108,6 @@ const CampaignCreateForm = ({
                         <ErrorText message={errors['adventure.id']} />
                     )}
                 </StyledGrid>
-                {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
