@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LeagueRequest;
+use App\Models\Traits\Accessible;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Actions\GenerateRatingReport;
@@ -20,7 +21,7 @@ class LeagueCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
+    use Accessible;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -29,6 +30,7 @@ class LeagueCrudController extends CrudController
      */
     public function setup()
     {
+        $this->isNotSiteAdmin();
         CRUD::setModel(\App\Models\League::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/league');
         CRUD::setEntityNameStrings('league', 'leagues');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CharacterRequest;
+use App\Models\Traits\Accessible;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -18,7 +19,7 @@ class CharacterCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
+    use Accessible;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -26,6 +27,7 @@ class CharacterCrudController extends CrudController
      */
     public function setup()
     {
+        $this->isNotSiteAdmin();
         CRUD::setModel(\App\Models\Character::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/character');
         CRUD::setEntityNameStrings('character', 'characters');
