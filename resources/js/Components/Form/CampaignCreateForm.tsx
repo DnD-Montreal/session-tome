@@ -1,9 +1,11 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
-import {ErrorText} from 'Components'
+import {Autocomplete, ErrorText, Select} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
+import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
+import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
 type CampaignCreateFormPropType = {
@@ -11,11 +13,16 @@ type CampaignCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: CampaignData
     editId?: number
+    adventures: adventureType[]
+    characters: CharacterData[]
 }
 
 type CampaignFormDataType = {
     title: string | undefined
+    character_id: number | null
     code: string | undefined
+    adventure: adventureType | undefined
+    [key: string]: any
 }
 
 const StyledGrid = styled(Grid)`
@@ -27,17 +34,23 @@ const CampaignCreateForm = ({
     onCloseDrawer,
     editData,
     editId = 0,
+    adventures,
+    characters,
 }: CampaignCreateFormPropType) => {
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: '',
+        character_id: null,
         code: '',
+        adventure: undefined,
     }
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
         type === 'Create'
             ? CAMPAIGN_CREATE_FORM_INITIAL_VALUE
             : {
                   title: editData?.title,
+                  character_id: editData?.character_id || null,
                   code: editData?.code,
+                  adventure: editData?.adventure || undefined,
               }
 
     const {data, setData, errors, put, post} =
@@ -45,7 +58,7 @@ const CampaignCreateForm = ({
 
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid justifyContent='flex-start' container spacing={2}>
                 <Grid item xs={12}>
                     <Typography>
                         Fill out the following fields with your campaign details.
@@ -74,6 +87,39 @@ const CampaignCreateForm = ({
                     />
                     {errors?.code && <ErrorText message={errors?.code} />}
                 </StyledGrid>
+                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                    <Select
+                        id='character_id'
+                        label='Assigned Character'
+                        name='Assigned Character'
+                        value={data.character_id}
+                        onChange={(e) =>
+                            setData('character_id', parseInt(e.target.value))
+                        }
+                        options={characters}
+                    />
+                    {errors?.character_id && <ErrorText message={errors?.character_id} />}
+                </StyledGrid>
+                {type === 'Create' && <StyledGrid item md={2} />}
+                <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                    <Autocomplete
+                        label='Adventure'
+                        id='adventures'
+                        fieldKey='adventures'
+                        onChange={(_, value) => setData('adventure', value)}
+                        defaultValue={data.adventure}
+                        getOptionLabel={(option) => `${option.code} - ${option.title}`}
+                        options={adventures}
+                        resetUrl={
+                            type === 'Create'
+                                ? route('campaign.create')
+                                : route('campaign.index')
+                        }
+                    />
+                    {errors['adventure.id'] && (
+                        <ErrorText message={errors['adventure.id']} />
+                    )}
+                </StyledGrid>
                 {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
             <Grid container spacing={4}>
@@ -101,6 +147,7 @@ const CampaignCreateForm = ({
                         {type === 'Create' ? 'Create' : 'Save'}
                     </Button>
                 </Grid>
+                {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
         </>
     )
