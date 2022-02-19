@@ -7,6 +7,7 @@ use App\Models\Trade;
 use App\Models\Item;
 use App\Models\Character;
 use App\Models\User;
+use App\Exceptions\TradeException;
 use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -29,10 +30,8 @@ class FulfillTrade
         $currentUser = Auth::user();
         $offerUser = $offerCharacter->user;
 
-        // check if somehow a user other than the trade creator has managed to get to this point and it attempting to fulfill this trade.
-        //TODO: also check if trade has been closed (already fulfilled) (soft delete trades on fulfillment?)
-        if (!$currentUser->characters->contains($tradeCharacter)) {
-            //TODO: return some error here
+        if (!$currentUser->characters->contains($tradeCharacter) || $trade->status == Trade::STATUS_CLOSED) {
+            throw new TradeException("The trade could not be fulfilled.");
         }
 
         $tradeItem->character()->disassociate()->save();
@@ -57,5 +56,8 @@ class FulfillTrade
             'user_id' => $offerUser->id,
             'character_id' => $offerCharacter->id]));
         $tradeItem->entry()->associate($offerCharacterEntry)->save();
+
+        $trade->status = Trade::STATUS_CLOSED;
+        $trade->save();
     }
 }
