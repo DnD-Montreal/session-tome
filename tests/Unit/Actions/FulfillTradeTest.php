@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\FulfillTrade;
-use App\Models\Entry;
 use App\Models\Trade;
 use App\Models\Item;
 use App\Models\Character;
@@ -20,6 +19,8 @@ class FulfillTradeTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    public $user;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -33,6 +34,7 @@ class FulfillTradeTest extends TestCase
     public function trade_fulfillment_swaps_items()
     {
         $offerUser = User::factory()->create();
+
 
         $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
         $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
