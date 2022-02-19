@@ -3,6 +3,7 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\FulfillTrade;
+use App\Exceptions\TradeException;
 use App\Models\Trade;
 use App\Models\Item;
 use App\Models\Character;
@@ -42,11 +43,13 @@ class FulfillTradeTest extends TestCase
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
             "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id]);
+            "item_id" => $tradeItem->id,
+            "status" => Trade::STATUS_OPEN,
+            ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
 
-        $trade->items()->attach($offerItem);
+        $trade->offers()->attach($offerItem);
 
         $this->assertContains($tradeItem->id, $tradeCharacter->items->pluck('id'));
         $this->assertNotContains($offerItem->id, $tradeCharacter->items->pluck('id'));
@@ -72,10 +75,38 @@ class FulfillTradeTest extends TestCase
         $this->assertTrue($tradeCharacterEntries->count() > 0);
         $this->assertTrue($offerCharacterEntries->count() > 0);
 
+        $this->assertEquals(Trade::STATUS_CLOSED, $trade->status);
+
         $this->assertNotContains($tradeItem->id, $tradeCharacter->items->pluck('id'));
         $this->assertContains($offerItem->id, $tradeCharacter->items->pluck('id'));
 
         $this->assertNotContains($offerItem->id, $offerCharacter->items->pluck('id'));
         $this->assertContains($tradeItem->id, $offerCharacter->items->pluck('id'));
+    }
+
+    /**
+     * @test
+     */
+    public function trade_fulfillment_on_closed_throws_exception()
+    {
+        $offerUser = User::factory()->create();
+
+        $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
+        $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
+
+        $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
+        $trade = Trade::factory()->create([
+            "character_id" => $tradeCharacter->id,
+            "item_id" => $tradeItem->id]);
+
+        $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
+
+        $trade->offers()->attach($offerItem);
+
+        $trade->status = Trade::STATUS_CLOSED;
+
+        $this->expectException(TradeException::class);
+
+        FulfillTrade::run($trade, $offerItem);
     }
 }
