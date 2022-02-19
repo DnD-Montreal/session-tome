@@ -37,21 +37,47 @@ class TradeControllerTest extends TestCase
     public function index_displays_view()
     {
         $trades = Trade::factory(3)
-        ->open()
-        ->has(Item::factory(3), 'offers')->create();
+                    ->open()
+                    ->has(Item::factory(3), 'offers')
+                    ->create();
 
         $response = $this->get(route('trade.index', [
-            'search' => $trades->first()->description,
-            'item_name' => $trades->first()->item->first()->name,
-            'item_description' => $trades->first()->item->first()->description,
-            'item_rarity' => $trades->first()->item->first()->rarity,
+            'search' => $trades->first()->requested_items,
+            'item_name' => $trades->first()->item->name,
+            'item_description' => $trades->first()->item->description,
+            'item_rarity' => $trades->first()->item->rarity,
         ]));
 
         $response->assertOk();
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component('Trade/Trade')
-                ->has('trades', 1)
+                ->has(
+                    'trades',
+                    1,
+                    fn (Assert $page) => $page
+                ->where('id', $trades->first()->id)
+                ->where('item_id', $trades->first()->item_id)
+                ->where('character_id', $trades->first()->character_id)
+                ->where('requested_items', $trades->first()->requested_items)
+                ->where('description', $trades->first()->description)
+                ->where('status', $trades->first()->status)
+                ->etc()
+                ->has(
+                    'item',
+                    fn (Assert $page) => $page
+                    ->where('id', $trades->first()->item->id)
+                    ->where('entry_id', $trades->first()->item->entry_id)
+                    ->where('character_id', $trades->first()->item->character_id)
+                    ->where('name', $trades->first()->item->name)
+                    ->where('author_id', $trades->first()->item->author_id)
+                    ->where('rarity', $trades->first()->item->rarity)
+                    ->where('tier', $trades->first()->item->tier)
+                    ->where('description', $trades->first()->item->description)
+                    ->etc()
+                )
+                ->has('offers', 3)
+                )
         );
     }
 
