@@ -15,7 +15,7 @@ class TradeFulfillRequest extends FormRequest
     {
         return $this->user()->can('update', $this->trade);
     }
-}
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,4 +28,4 @@ class TradeFulfillRequest extends FormRequest
             'offered_item_id' => ['required', 'integer', 'exists:items,id'],
         ];
     }
-
+}
