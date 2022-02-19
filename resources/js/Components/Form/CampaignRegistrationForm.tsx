@@ -2,34 +2,36 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Checkbox, FormControlLabel, Grid, Typography} from '@mui/material'
 import {ErrorText, Select} from 'Components'
 import React from 'react'
-// import {CampaignData} from 'Types/campaign-data'
-// import {CharacterData} from 'Types/character-data'
+import {CampaignData} from 'Types/campaign-data'
+import {CharacterData} from 'Types/character-data'
 
-type CampaignJoinFormPropType = {
-    // campaign: CampaignData
-    // characters: CharacterData[]
+type CampaignRegistrationFormPropType = {
+    campaign: CampaignData
+    characters: CharacterData[]
 }
 
-type CampaignJoinFormDataType = {
+type CampaignRegistrationFormDataType = {
     character_id: number | null
 }
 
-const charactersMock = ['Bob', 'Tracey', 'Chad']
-
-const CampaignJoinForm = () => {
-    const CAMPAIGN_JOIN_FORM_INITIAL_VALUE: CampaignJoinFormDataType = {
+const CampaignRegistrationForm = ({
+    campaign,
+    characters,
+}: CampaignRegistrationFormPropType) => {
+    const CAMPAIGN_REGISTRATION_FORM_INITIAL_VALUE: CampaignRegistrationFormDataType = {
         character_id: null,
     }
 
-    const {data, errors} = useForm<CampaignJoinFormDataType>(
-        CAMPAIGN_JOIN_FORM_INITIAL_VALUE,
+    const {data, setData, errors} = useForm<CampaignRegistrationFormDataType>(
+        CAMPAIGN_REGISTRATION_FORM_INITIAL_VALUE,
     )
+
     return (
         <Grid container columnSpacing={5} rowSpacing={5}>
             <Grid item xs={12}>
                 <Typography>
-                    You are joining the `&quot;`Campaign 4`&quot;`campaign. Fill out the
-                    following fields to join the campaign
+                    You are joining the &quot;{campaign.title}&quot; campaign. Fill out
+                    the following fields to join the campaign
                 </Typography>
             </Grid>
             <Grid item container direction='row' columnSpacing={30}>
@@ -39,8 +41,10 @@ const CampaignJoinForm = () => {
                         label='Assigned Character'
                         name='Assigned Character'
                         value={data.character_id}
-                        // onChange={(e) => setData('character_id', parseInt(e.target.value))}
-                        options={charactersMock}
+                        onChange={(e) =>
+                            setData('character_id', parseInt(e.target.value))
+                        }
+                        options={characters}
                     />
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
                 </Grid>
@@ -55,5 +59,5 @@ const CampaignJoinForm = () => {
     )
 }
 
-CampaignJoinForm.displayName = 'CampaignJoinForm'
-export default CampaignJoinForm
+CampaignRegistrationForm.displayName = 'CampaignRegistrationForm'
+export default CampaignRegistrationForm

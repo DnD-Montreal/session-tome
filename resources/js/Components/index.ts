@@ -15,7 +15,7 @@ export {CharacterTable, DMEntryTable, EntryTable, ItemTable, RatingTable} from '
 // Forms
 export {
     BulkEntryCreateForm,
-    CampaignJoinForm,
+    CampaignRegistrationForm,
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
