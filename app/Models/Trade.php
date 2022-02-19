@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\Filterable;
 
 class Trade extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,8 +36,13 @@ class Trade extends Model
         'character_id' => 'integer',
     ];
 
+    public const STATUS_OPEN = "open";
+    public const STATUS_CLOSED = "closed";
 
-    public function items()
+    protected $filterableFields = ['requested_items', 'description'];
+
+
+    public function offers()
     {
         return $this->belongsToMany(\App\Models\Item::class);
     }

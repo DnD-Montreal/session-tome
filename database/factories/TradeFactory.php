@@ -32,4 +32,32 @@ class TradeFactory extends Factory
             'status' => $this->faker->randomElement(["open","closed"]),
         ];
     }
+
+    /**
+     * Indicate that the trade is open.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function open()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'open',
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the trade is closed.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function closed()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'open',
+            ];
+        });
+    }
 }
