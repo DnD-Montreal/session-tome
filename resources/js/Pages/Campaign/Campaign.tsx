@@ -3,16 +3,20 @@ import {ThemeProvider} from '@mui/material/styles'
 import {CampaignCreateForm, CampaignTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
+import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 16)
 
 type CampaignPropType = {
     campaigns: CampaignData[]
+    characters: CharacterData[]
+    adventures: adventureType[]
 }
 
-const Campaign = ({campaigns}: CampaignPropType) => {
+const Campaign = ({campaigns, characters, adventures}: CampaignPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number>()
     const [editData, setEditData] = useState<CampaignData>()
@@ -26,6 +30,8 @@ const Campaign = ({campaigns}: CampaignPropType) => {
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}
                         editId={editId}
+                        characters={characters}
+                        adventures={adventures}
                     />
                 }
                 title={<Typography>Edit Campaign</Typography>}

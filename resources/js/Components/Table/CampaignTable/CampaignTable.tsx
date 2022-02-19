@@ -52,6 +52,10 @@ const CampaignTable = ({
             ),
         },
         {
+            property: 'character_id',
+            title: 'Character',
+        },
+        {
             property: 'code',
             title: 'Code',
         },
