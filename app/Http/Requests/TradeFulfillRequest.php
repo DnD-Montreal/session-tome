@@ -13,6 +13,8 @@ class TradeFulfillRequest extends FormRequest
      */
     public function authorize()
     {
+        //dd($this->trade);
+        //dd($this->user()->can('update', $this->trade));
         return $this->user()->can('update', $this->trade);
     }
 

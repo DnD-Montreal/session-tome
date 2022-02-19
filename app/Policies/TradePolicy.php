@@ -23,6 +23,7 @@ class TradePolicy
 
     public function update(User $user, Trade $trade)
     {
+        //dd($trade->character->user->id == $user->id);
         return $trade->character->user->id == $user->id || $user->isSiteAdmin();
     }
 } //this curly brace keeps moving.... keep an eye on it.
