@@ -44,15 +44,18 @@ class FulfillTrade
         $entryData = [
             'date_played' => now(),
             'type' => Entry::TYPE_DOWNTIME,
+            'levels' => 0,
             'notes' => "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name
         ];
 
-        $tradeCharacterEntry = Entry::create(array_merge($entryData, ['user_id' => $currentUser->id]));
-        $tradeCharacterEntry->character()->associate($tradeCharacter)->save();
+        $tradeCharacterEntry = Entry::create(array_merge($entryData, [
+            'user_id' => $currentUser->id,
+            'character_id' => $tradeCharacter->id]));
         $offeredItem->entry()->associate($tradeCharacterEntry)->save();
 
-        $offerCharacterEntry = Entry::create(array_merge($entryData, ['user_id' => $offerUser->id]));
-        $offerCharacterEntry->character()->associate($offerCharacter)->save();
+        $offerCharacterEntry = Entry::create(array_merge($entryData, [
+            'user_id' => $offerUser->id,
+            'character_id' => $offerCharacter->id]));
         $tradeItem->entry()->associate($offerCharacterEntry)->save();
     }
 }
