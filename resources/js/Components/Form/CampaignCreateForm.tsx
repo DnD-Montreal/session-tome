@@ -20,7 +20,6 @@ type CampaignCreateFormPropType = {
 type CampaignFormDataType = {
     title: string | undefined
     character_id: number | null
-    code: string | undefined
     adventure: adventureType | undefined
     [key: string]: any
 }
@@ -40,7 +39,6 @@ const CampaignCreateForm = ({
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: '',
         character_id: null,
-        code: '',
         adventure: undefined,
     }
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
@@ -49,7 +47,6 @@ const CampaignCreateForm = ({
             : {
                   title: editData?.title,
                   character_id: editData?.character_id || null,
-                  code: editData?.code,
                   adventure: editData?.adventure || undefined,
               }
 
