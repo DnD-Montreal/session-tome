@@ -47,10 +47,12 @@ class FulfillTrade
             'notes' => "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name
         ];
 
-        $tradeCharacterEntry = $tradeCharacter->entries()->create(array_merge($entryData, ['user_id' => $currentUser->id]))->save();
+        $tradeCharacterEntry = Entry::create(array_merge($entryData, ['user_id' => $currentUser->id]));
+        $tradeCharacterEntry->character()->associate($tradeCharacter)->save();
         $offeredItem->entry()->associate($tradeCharacterEntry)->save();
 
-        $offerCharacterEntry = $offerCharacter->entries()->create(array_merge($entryData, ['user_id' => $offerUser->id]))->save();
+        $offerCharacterEntry = Entry::create(array_merge($entryData, ['user_id' => $offerUser->id]));
+        $offerCharacterEntry->character()->associate($offerCharacter)->save();
         $tradeItem->entry()->associate($offerCharacterEntry)->save();
     }
 }
