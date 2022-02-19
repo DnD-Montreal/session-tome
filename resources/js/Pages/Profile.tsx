@@ -30,6 +30,7 @@ const Profile = () => {
         errors,
         setData,
         put,
+        reset,
         delete: destroy,
     } = useForm<UserEditDataType>(USER_EDIT_INITIAL_VALUE)
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState<boolean>(false)
@@ -123,7 +124,7 @@ const Profile = () => {
                         size='small'
                         color='secondary'
                         style={{marginLeft: 6}}
-                        onClick={() => setData(USER_EDIT_INITIAL_VALUE)}>
+                        onClick={() => reset()}>
                         Reset
                     </Button>
                     <Button
