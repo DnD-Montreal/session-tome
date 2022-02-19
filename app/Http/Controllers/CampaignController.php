@@ -11,7 +11,6 @@ use App\Models\Adventure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Log;
 
 class CampaignController extends Controller
 {
@@ -25,7 +24,7 @@ class CampaignController extends Controller
         $campaigns = Auth::user()
             ->campaigns()
             ->get();
-        $campaigns->load('characters')->where('character_id', Auth::user()->id);
+        $campaigns->load('characters')->where('user_id', Auth::user()->id);
         return Inertia::render('Campaign/Campaign', compact('campaigns', 'characters'));
     }
 
