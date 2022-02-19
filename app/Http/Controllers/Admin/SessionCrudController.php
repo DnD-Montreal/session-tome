@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Event;
 use App\Http\Requests\SessionRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -41,9 +42,9 @@ class SessionCrudController extends CrudController
     protected function setupListOperation()
     {
         if (!Auth::user()->isSiteAdmin()) {
-            $eventId = Auth::user()->sessions()->pluck('event_id');
-
-            $this->crud->addClause('wherein', 'event_id', $eventId);
+            $leagueId = Auth::user()->roles()->pluck('league_id');
+            $event = Event::wherein('league_id', $leagueId)->pluck('id');
+            $this->crud->addClause('wherein', 'event_id', $event);
         }
 
         CRUD::column('event_id');
