@@ -15,7 +15,7 @@ class EventRequest extends FormRequest
     public function authorize()
     {
         // only allow updates if the user is a site admin
-        return $this->user()->isSiteAdmin();
+        return $this->user()->isSiteAdmin()|| $this->user()->isLeagueAdminRole();
     }
 
     /**
