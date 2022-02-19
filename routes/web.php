@@ -88,7 +88,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->only(['create', 'store']);
 
     Route::resource('trade-fulfillment', App\Http\Controllers\TradeFulfillmentController::class)
-        ->only(['update']);
+        ->only(['store']);
 });
 
 
