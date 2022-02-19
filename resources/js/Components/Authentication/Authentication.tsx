@@ -3,7 +3,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import LogoutIcon from '@mui/icons-material/Logout'
 import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {LoginForm, RegistrationForm} from 'Components'
+import {Link, LoginForm, RegistrationForm} from 'Components'
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {getFontTheme} from 'Utils'
@@ -30,7 +30,7 @@ const Authentication = ({
 }: AuthenticationPropType) => {
     const open = Boolean(anchorEl)
     const [selectedTab, setSelectedTab] = useState<number>(0)
-    const {post, get, wasSuccessful} = useForm({})
+    const {post, wasSuccessful} = useForm({})
 
     useEffect(() => {
         if (user) {
@@ -48,18 +48,14 @@ const Authentication = ({
                 anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
                 {user ? (
                     <Box sx={{width: 200}}>
-                        <Button
-                            fullWidth
-                            variant='text'
-                            startIcon={<AccountBoxIcon />}
-                            onClick={() => {
-                                get(route('user.edit', user.id))
-                                if (wasSuccessful) {
-                                    setAnchorEl(null)
-                                }
-                            }}>
-                            Profile
-                        </Button>
+                        <Link href={route('user.edit', user.id)}>
+                            <Button
+                                fullWidth
+                                variant='text'
+                                startIcon={<AccountBoxIcon />}>
+                                Profile
+                            </Button>
+                        </Link>
                         <Button
                             startIcon={<LogoutIcon />}
                             fullWidth
