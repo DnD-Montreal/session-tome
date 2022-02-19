@@ -12,9 +12,10 @@ class TradeFulfillmentController extends Controller
 {
     /**
      * @param App\Http\Requests\TradeFulfillRequest $request
+     * @param App\Http\Models\Trade $trade
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(TradeFulfillRequest $request, Trade $trade)
+    public function store(TradeFulfillRequest $request, Trade $trade)
     {
         $offeredItem = Item::findOrFail($request->get('offered_item_id'));
 
