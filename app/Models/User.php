@@ -118,6 +118,11 @@ class User extends Authenticatable implements AuthenticatableInterface
         return $this->hasRole(Role::SITE_ADMIN);
     }
 
+    public function isLeagueAdminRole(): bool
+    {
+        return $this->hasRole(Role::LEAGUE_ADMIN);
+    }
+
     /**
      * Check if the user has league admin role on a particular league
      * @param  string $league_name name of league we want to check if user has admin role on
