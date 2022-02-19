@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\SessionRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SessionCrudController
@@ -39,6 +40,12 @@ class SessionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        if (!Auth::user()->isSiteAdmin()) {
+            $eventId = Auth::user()->sessions()->pluck('event_id');
+
+            $this->crud->addClause('wherein', 'event_id', $eventId);
+        }
+
         CRUD::column('event_id');
         CRUD::column('adventure_id');
         CRUD::column('dungeonMaster');

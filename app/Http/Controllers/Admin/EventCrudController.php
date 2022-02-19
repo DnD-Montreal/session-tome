@@ -7,6 +7,7 @@ use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EventCrudController
@@ -41,6 +42,11 @@ class EventCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        if (!Auth::user()->isSiteAdmin()) {
+            $leagueId = Auth::user()->roles()->pluck('league_id');
+            $this->crud->addClause('wherein', 'league_id', $leagueId);
+        }
+
         $this->crud->addButtonFromView('line', 'event_report', 'event_report', 'beginning');
         CRUD::column('league_id');
         CRUD::column('title');
@@ -57,7 +63,6 @@ class EventCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EventRequest::class);
-
         CRUD::field('league_id');
         CRUD::field('title');
         CRUD::field('description');
