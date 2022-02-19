@@ -20,8 +20,9 @@ class TradePolicy
     {
         //
     }
-}
+
     public function update(User $user, Trade $trade)
     {
         return $trade->character->user->id == $user->id || $user->isSiteAdmin();
     }
+} //this curly brace keeps moving.... keep an eye on it.
