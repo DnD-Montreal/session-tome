@@ -35,15 +35,18 @@ class CampaignControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $campaigns = Campaign::factory()->count(3)->create();
+        $campaigns = Campaign::factory()
+            ->count(3)
+            ->create();
 
         $response = $this->get(route('campaign.index'));
 
         $response->assertOk();
         $response->assertViewIs('campaign.index');
-        $response->assertViewHas('campaigns');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Campaign')->has('campaigns')
+        );
     }
-
 
     /**
      * @test
@@ -53,9 +56,10 @@ class CampaignControllerTest extends TestCase
         $response = $this->get(route('campaign.create'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.create');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Create/CampaignCreate')
+        );
     }
-
 
     /**
      * @test
@@ -79,7 +83,7 @@ class CampaignControllerTest extends TestCase
 
         $response = $this->post(route('campaign.store'), [
             'adventure' => ['id' => $adventure->id],
-            'title' => $title
+            'title' => $title,
         ]);
 
         $campaigns = Campaign::query()
@@ -92,7 +96,11 @@ class CampaignControllerTest extends TestCase
         $response->assertRedirect(route('campaign.index'));
         $response->assertSessionHas('campaign.id', $campaign->id);
         $this->assertDatabaseCount('campaign_user', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' =>true]);
+        $this->assertDatabaseHas('campaign_user', [
+            'user_id' => $this->user->id,
+            'campaign_id' => $campaign->id,
+            'is_dm' => true,
+        ]);
     }
 
     /**
@@ -107,7 +115,7 @@ class CampaignControllerTest extends TestCase
         $response = $this->post(route('campaign.store'), [
             'adventure' => ['id' => $adventure->id],
             'title' => $title,
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
 
         $campaigns = Campaign::query()
@@ -121,10 +129,16 @@ class CampaignControllerTest extends TestCase
         $response->assertSessionHas('campaign.id', $campaign->id);
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' => false]);
-        $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' =>$campaign->id]);
+        $this->assertDatabaseHas('campaign_user', [
+            'user_id' => $this->user->id,
+            'campaign_id' => $campaign->id,
+            'is_dm' => false,
+        ]);
+        $this->assertDatabaseHas('campaign_character', [
+            'character_id' => $character->id,
+            'campaign_id' => $campaign->id,
+        ]);
     }
-
 
     /**
      * @test
@@ -140,7 +154,6 @@ class CampaignControllerTest extends TestCase
         $response->assertViewHas('campaign');
     }
 
-
     /**
      * @test
      */
@@ -154,7 +167,6 @@ class CampaignControllerTest extends TestCase
         $response->assertViewIs('campaign.edit');
         $response->assertViewHas('campaign');
     }
-
 
     /**
      * @test
@@ -190,7 +202,6 @@ class CampaignControllerTest extends TestCase
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
     }
-
 
     /**
      * @test
