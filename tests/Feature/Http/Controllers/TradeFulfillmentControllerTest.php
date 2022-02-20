@@ -70,8 +70,38 @@ class TradeFulfillmentControllerTest extends TestCase
             'offered_item_id' => $offerItem->id,
         ]);
 
-        //dd($response);
+        $response->assertRedirect();
+    }
 
+    /**
+     * @test
+     */
+    public function bad_request_update_redirects_with_exception()
+    {
+        $offerUser = User::factory()->create();
+
+
+        $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
+        $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
+
+        $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
+        $trade = Trade::factory()->create([
+            "character_id" => $tradeCharacter->id,
+            "item_id" => $tradeItem->id,
+            "status" => Trade::STATUS_CLOSED,
+        ]);
+
+        $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
+
+        $trade->offers()->attach($offerItem);
+
+        $response = $this->post(route('trade-fulfillment.store', $trade), [
+            'character_id' => $tradeCharacter->id,
+            'offered_item_id' => $offerItem->id,
+        ]);
+
+        $this->assertNotNull($response->exception);
+        $this->assertEquals("The trade could not be fulfilled.", $response->exception->getMessage());
         $response->assertRedirect();
     }
 }
