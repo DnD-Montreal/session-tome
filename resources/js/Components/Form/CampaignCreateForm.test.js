@@ -53,4 +53,14 @@ describe('<CampaignCreateForm />', () => {
 
         fireEvent.click(screen.getByText('Create'))
     })
+    it('edit component fields test', () => {
+        render(<CampaignCreateForm {...editProps} />)
+        const adventureInputField = document.querySelector('#adventures')
+        const titleField = document.querySelector('#title')
+        const characterField = document.querySelector('input[name="Assigned Character"]')
+        fireEvent.change(adventureInputField, {target: {value: 2}})
+        fireEvent.change(titleField, {target: {value: '123'}})
+        fireEvent.change(characterField, {target: {value: createProps.characters[1]}})
+        fireEvent.click(screen.getByText('Save'))
+    })
 })
