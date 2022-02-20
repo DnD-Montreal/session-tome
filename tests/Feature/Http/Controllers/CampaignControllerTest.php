@@ -78,7 +78,7 @@ class CampaignControllerTest extends TestCase
         $title = $this->faker->sentence(4);
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'title' => $title
         ]);
 
@@ -105,7 +105,7 @@ class CampaignControllerTest extends TestCase
         $character = Character::factory()->create();
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'title' => $title,
             'character_id' => $character->id
         ]);
