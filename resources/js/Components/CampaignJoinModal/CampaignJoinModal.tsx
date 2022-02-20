@@ -53,7 +53,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
             }}
             aria-label='campaign-join-modal'>
             <Fade in={open}>
-                <StyledBox>
+                <StyledBox borderRadius={2}>
                     <Grid container rowSpacing={2} alignItems='center'>
                         <Grid item xs={12}>
                             <Typography sx={{color: 'white'}}>{message}</Typography>
@@ -62,7 +62,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                             item
                             xs={12}
                             container
-                            columnSpacing={15}
+                            columnSpacing={10}
                             alignItems='center'>
                             <Grid item xs={12} md={9}>
                                 <TextField
