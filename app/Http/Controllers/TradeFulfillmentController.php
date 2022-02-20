@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\TradeException;
+use App\Exceptions\TradeClosedException;
+use App\Exceptions\TradeNotAllowedException;
 use App\Http\Requests\TradeFulfillRequest;
 use App\Actions\FulfillTrade;
 use App\Models\Item;
@@ -22,7 +23,9 @@ class TradeFulfillmentController extends Controller
 
         try {
             FulfillTrade::run($trade, $offeredItem);
-        } catch (TradeException $e) {
+        } catch (TradeClosedException $e) {
+            return redirect()->back()->withException($e);
+        } catch (TradeNotAllowedException $e) {
             return redirect()->back()->withException($e);
         }
 
