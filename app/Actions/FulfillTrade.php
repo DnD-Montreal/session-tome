@@ -16,10 +16,10 @@ class FulfillTrade
     use AsAction;
 
     /**
-     * Expect an array of item details, create each item and attach them to the appropriate relation objects
+     * Expects a trade and corresponding offer item, swaps them between their characters, creates entries, and closes the trade.
      *
-     * @param Entry $entry
-     * @param array $items
+     * @param Trade $trade
+     * @param Item $offeredItem
      */
     public function handle(Trade $trade, Item $offeredItem)
     {
