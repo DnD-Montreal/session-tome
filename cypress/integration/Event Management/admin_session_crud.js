@@ -14,15 +14,12 @@ describe('Admin Session CRUD Test Suite', () => {
         cy.wait('@last_url')
     })
 
-    afterEach(() => {
-        cy.url().then((urlString) => {
-            last_url = urlString
-        })
-    })
-
     it('Session Index', () => {
         cy.contains('Sessions').click()
         cy.get('table[id="crudTable"]')
+        cy.url().then((urlString) => {
+            last_url = urlString
+        })
     })
 
     it('Session Creation', () => {
