@@ -76,7 +76,7 @@ class TradeFulfillmentControllerTest extends TestCase
     /**
      * @test
      */
-    public function bad_request_update_redirects_with_exception()
+    public function bad_request_update_redirects_with_closed_exception()
     {
         $offerUser = User::factory()->create();
 
@@ -101,7 +101,8 @@ class TradeFulfillmentControllerTest extends TestCase
         ]);
 
         $this->assertNotNull($response->exception);
-        $this->assertEquals("The trade could not be fulfilled.", $response->exception->getMessage());
+        $this->assertEquals("The trade you are attempting to fulfill is closed.", $response->exception->getMessage());
+        $this->assertEquals(400, $response->exception->getCode());
         $response->assertRedirect();
     }
 }
