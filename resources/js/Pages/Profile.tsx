@@ -1,9 +1,18 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Button, Divider, Grid, TextField, Typography} from '@mui/material'
+import {
+    Alert,
+    Button,
+    CircularProgress,
+    Divider,
+    Grid,
+    Snackbar,
+    TextField,
+    Typography,
+} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {DeleteModal, ErrorText, Select} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {getFontTheme, useUser} from 'Utils'
 import route from 'ziggy-js'
 
@@ -31,12 +40,25 @@ const Profile = () => {
         setData,
         put,
         reset,
+        wasSuccessful,
+        processing,
         delete: destroy,
     } = useForm<UserEditDataType>(USER_EDIT_INITIAL_VALUE)
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState<boolean>(false)
+    const [isSuccess, setIsSuccess] = useState<boolean>(wasSuccessful)
 
+    useEffect(() => {
+        setIsSuccess(wasSuccessful)
+    }, [wasSuccessful])
     return (
         <ThemeProvider theme={theme}>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={isSuccess}
+                autoHideDuration={3000}
+                onClose={() => setIsSuccess(false)}>
+                <Alert severity='success'>Account updated!</Alert>
+            </Snackbar>
             <DeleteModal
                 open={isDeleteModalVisible}
                 onClose={() => setIsDeleteModalVisible(false)}
@@ -130,9 +152,13 @@ const Profile = () => {
                     <Button
                         variant='contained'
                         size='small'
-                        style={{marginLeft: 6}}
+                        style={{marginLeft: 6, height: 27}}
                         onClick={() => put(route('user.update', [user.id]))}>
-                        Save
+                        {processing ? (
+                            <CircularProgress color='secondary' size='27px' />
+                        ) : (
+                            'Save'
+                        )}
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
