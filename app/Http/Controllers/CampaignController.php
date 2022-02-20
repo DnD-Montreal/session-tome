@@ -29,6 +29,7 @@ class CampaignController extends Controller
             ->campaigns()
             ->get();
         $campaigns->load('characters')->where('user_id', Auth::user()->id);
+        $campaigns->load('adventure');
         $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         return Inertia::render(
             'Campaign/Campaign',
