@@ -36,7 +36,7 @@ describe('Admin Session CRUD Test Suite', () => {
     })
 
     it('Session Edit', () => {
-        cy.contains('a', 'edit').eq(0).click()
+        cy.contains('a', 'Edit').eq(0).click()
         cy.get('input[name="table"]').clear().type('2')
         cy.get('input[name=start_time]').type('2022-01-01T12:00')
         cy.get('button[type="submit"]').click()
