@@ -7,6 +7,7 @@ use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -34,9 +35,7 @@ class UserControllerTest extends TestCase
      */
     public function edit_displays_view()
     {
-        $user = User::factory()->create();
-
-        $response = $this->get(route('user.edit', $user));
+        $response = $this->get(route('user.edit', $this->user));
 
         $response->assertOk();
         $response->assertInertia(
@@ -64,12 +63,12 @@ class UserControllerTest extends TestCase
      */
     public function update_redirects()
     {
-        $user = User::factory()->create();
+        $user = $this->user;
         $otherUser = User::factory()->create();
         $name = $this->faker->name;
         $email = $this->faker->safeEmail;
-        $password = $this->faker->password;
-        $language = $this->faker->randomElements(['en', 'fr']);
+        $password = "aVerySecurePasssword000";
+        $language = $this->faker->randomElement(['en', 'fr']);
 
         $response = $this->actingAs($user)->put(route('user.update', $otherUser), [
             'name' => $name,
@@ -92,11 +91,10 @@ class UserControllerTest extends TestCase
         $user->refresh();
 
         $response->assertRedirect();
-        $response->assertSessionHas('user.id', $user->id);
 
         $this->assertEquals($name, $user->name);
         $this->assertEquals($email, $user->email);
-        $this->assertEquals($password, $user->password);
+        $this->assertTrue(Hash::check($password, $user->password));
         $this->assertEquals($language, $user->language);
     }
 
@@ -105,11 +103,16 @@ class UserControllerTest extends TestCase
      */
     public function destroy_deletes_and_redirects()
     {
-        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
 
-        $response = $this->delete(route('user.destroy', $user));
+        $response = $this->actingAs($otherUser)->delete(route('user.destroy', $this->user));
+
+        $response->assertForbidden();
+
+
+        $response = $this->delete(route('user.destroy', $this->user));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted($user);
+        $this->assertSoftDeleted($this->user);
     }
 }
