@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
-import {Box, Button, IconButton, Stack, Tooltip} from '@mui/material'
+import {Box, Button, IconButton} from '@mui/material'
 import {characterNameFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
@@ -18,7 +18,7 @@ type CampaignTablePropType = {
 }
 
 type FormDataType = {
-    campaigns: number[]
+    campaign: number
 }
 
 const CampaignTable = ({
@@ -29,7 +29,13 @@ const CampaignTable = ({
 }: CampaignTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
-    const {setData, delete: destroy} = useForm<FormDataType>({campaigns: []})
+    const {
+        data: formData,
+        setData,
+        delete: destroy,
+    } = useForm<FormDataType>({
+        campaign: 0,
+    })
 
     const leftActions = [
         <Link href={route('campaign.create')}>
@@ -78,7 +84,7 @@ const CampaignTable = ({
                     <IconButton aria-label='delete'>
                         <DeleteIcon
                             onClick={() => {
-                                setData('campaigns', [row.id])
+                                setData('campaign', row.id)
                                 setIsDeleteModalOpen(true)
                             }}
                         />
@@ -87,20 +93,7 @@ const CampaignTable = ({
             ),
         },
     ]
-    const bulkSelectActions = selected.length > 0 && (
-        <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
-                <IconButton>
-                    <DeleteIcon
-                        onClick={() => {
-                            setData('campaigns', selected)
-                            setIsDeleteModalOpen(true)
-                        }}
-                    />
-                </IconButton>
-            </Tooltip>
-        </Stack>
-    )
+
     return (
         <Box>
             <DeleteModal
@@ -108,7 +101,7 @@ const CampaignTable = ({
                 warningMessage='Are you sure you want to delete this/these Campaign(s)?'
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
-                    destroy(route('campaign.destroy'))
+                    destroy(route('campaign.destroy', [formData.campaign]))
                     if (selected) {
                         setSelected([])
                     }
@@ -122,7 +115,6 @@ const CampaignTable = ({
                 data={data}
                 columns={columns}
                 tableName='Campaigns'
-                bulkSelectActions={bulkSelectActions}
                 filterProperties={['title']}
             />
         </Box>
