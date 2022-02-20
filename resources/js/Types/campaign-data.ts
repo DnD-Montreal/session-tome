@@ -7,4 +7,5 @@ export type CampaignData = {
     updated_at: string
     code: string
     character_id: number
+    characters: any
 }
