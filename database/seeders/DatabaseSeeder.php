@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Adventure;
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $sessions = $this->generateSessions($events, $dm);
         $characters = $this->generateCharacters($users->merge($dm), $events);
+        $campaigns = $this->generateCampaigns($dm, $users);
         $entries = $this->generateEntries($characters, $sessions, $dm);
         $this->generateEntryMeta($entries);
     }
@@ -70,7 +73,8 @@ class DatabaseSeeder extends Seeder
                 'levels' => rand(0, 1),
                 'event_id' => null,
                 'character_id' => null,
-                'dungeon_master_id' => null
+                'dungeon_master_id' => null,
+                'campaign_id' => null
             ]);
         }
         return $characters;
@@ -86,6 +90,7 @@ class DatabaseSeeder extends Seeder
     private function generateEntries(Collection $characters, Collection $sessions, Collection $dms): Collection
     {
         $entries = [];
+        $adventures = Adventure::factory(200)->create();
 
         foreach ($characters as $character) {
             $session = $sessions->random();
@@ -94,6 +99,7 @@ class DatabaseSeeder extends Seeder
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
+                'campaign_id' => null,
             ];
 
             $items = Item::factory(rand(0, 2))->state([
@@ -106,11 +112,12 @@ class DatabaseSeeder extends Seeder
                 ->create(array_merge([
                 'adventure_id' => $session->adventure_id,
                 'dungeon_master_id' => $session->dungeon_master_id,
-                'event_id' => $session->event_id
+                'event_id' => $session->event_id,
             ], $defaults))->merge($entries);
 
             // Regular Entries --> Home games
             $entries = Entry::factory(8)->create(array_merge([
+                'adventure_id' => $adventures->random()->id,
                 'dungeon_master_id' => $dm->id,
                 'event_id' => null
             ], $defaults))->merge($entries);
@@ -164,5 +171,29 @@ class DatabaseSeeder extends Seeder
                 ])->merge($sessions);
         }
         return $sessions;
+    }
+
+    private function generateCampaigns($dms, $users)
+    {
+        $users = collect($users);
+        $campaigns = collect();
+        $users->each(fn ($user) => $user->load('characters'));
+
+        foreach ($dms as $dm) {
+            $members = $users->random(4);
+            $characters = $members->map(fn ($user) => $user->characters->random());
+
+            $campaigns[] = Campaign::factory(2)
+                ->hasAttached($dm, ['is_dm' => true])
+                ->hasAttached($members)
+                ->hasAttached($characters)
+                ->create();
+        }
+
+        return $campaigns->merge(Campaign::factory(3)
+            ->hasAttached($users[0], ['is_dm' => true])
+            ->hasAttached($members)
+            ->hasAttached($characters)
+            ->create());
     }
 }
