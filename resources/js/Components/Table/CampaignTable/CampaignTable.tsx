@@ -101,7 +101,6 @@ const CampaignTable = ({
             </Tooltip>
         </Stack>
     )
-    console.log(data)
     return (
         <Box>
             <DeleteModal
