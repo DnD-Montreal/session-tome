@@ -19,11 +19,11 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user)
     {
-        if ($user->id != Auth::id() || !$user->isSiteAdmin()) {
-            abort(403);
+        if ($user->id == Auth::id() || $user->isSiteAdmin()) {
+            return Inertia::render('Profile', compact('user'));
         }
 
-        return Inertia::render('Profile', compact('user'));
+        abort(403);
     }
 
     /**
