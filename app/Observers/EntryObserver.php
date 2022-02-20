@@ -109,11 +109,17 @@ class EntryObserver
 
                 //Prep the data to create the entry
                 unset($entryData['campaign_id']); // this is so the observer doesn't fire infinitely
+                // these fields are computed so they don't need to be set
+                unset($entryData['session']);
+                unset($entryData['reward']);
+                unset($entryData['id']);
+
                 $entryData['character_id'] = $character->id; // assign to the correct character
                 $entryData['user_id'] = $character->user->id;// author this entry by the correct person
                 $entryData['type'] = $entryData['type'] == Entry::TYPE_DM
                     ? Entry::TYPE_GAME
                     : $entryData['type'];
+                $entryData['dungeon_master'] = is_array($entryData['dungeon_master']) ? $entryData['dungeon_master']['name'] : $entryData['dungeon_master'];
 
 
                 //Create the Entry and allow the observer to fire to modify the character
@@ -136,7 +142,12 @@ class EntryObserver
         //prep the data
         unset($entryData['campaign_id']);
         unset($entryData['character_id']);
+        // these fields are computed so they don't need to be set
+        unset($entryData['session']);
+        unset($entryData['reward']);
+        unset($entryData['id']);
         $entryData['type'] = Entry::TYPE_DM;
+        $entryData['dungeon_master'] = is_array($entryData['dungeon_master']) ? $entryData['dungeon_master']['name'] : $entryData['dungeon_master'];
 
         foreach ($GMs as $GM) {
             $entryData['user_id'] = $GM->id;
