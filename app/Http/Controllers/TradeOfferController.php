@@ -22,20 +22,15 @@ class TradeOfferController extends Controller
      */
     public function create(Request $request)
     {
-        //REQUEST DOES NOT HAVE TRADE_ID NOR CHARACTER_ID . VALIDATION FAILS
         $offerData = $request->validate([
             'trade_id' => 'required|exists:trades,id|integer',
-            'character_id' => "required|exists:characters,id|integer",
         ]);
-
-        $character = Character::where('user_id', Auth::id())
-            ->findOrFail($offerData['character_id']);
-        $trade = Trade::findOrFail($offerData['trade_id']);
-        $tradeItem = $trade->item()->get();
-
-        $validItems = $character->items()->where('tier', $tradeItem->tier);
-
-        return view('offer.create', compact('validItems'));
+        
+        $trade = Trade::with('item')->findOrFail($offerData['trade_id']);
+        $validItems = Auth::user()->items()->where('rarity', $trade->item->rarity)
+        
+        // will be replaced when page component is created...
+        return view('offer.create', compact('validItems', 'trade'));
     }
 
     /**
