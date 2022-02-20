@@ -20,12 +20,20 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
+        $data = $request->validate([
+            'search' => 'sometimes|string',
+        ]);
+        $search = $data['search'] ?? '';
         $characters = Character::where('user_id', Auth::user()->id)->get();
         $campaigns = Auth::user()
             ->campaigns()
             ->get();
         $campaigns->load('characters')->where('user_id', Auth::user()->id);
-        return Inertia::render('Campaign/Campaign', compact('campaigns', 'characters'));
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
+        return Inertia::render(
+            'Campaign/Campaign',
+            compact('campaigns', 'characters', 'adventures')
+        );
     }
 
     /**
