@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use App\Http\Controllers\TradeOfferController;
 
 require __DIR__ . '/auth.php';
 
@@ -53,6 +54,17 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('item', App\Http\Controllers\ItemController::class);
 
     Route::resource('trade', App\Http\Controllers\TradeController::class);
+
+    Route::put('/offer/update', [App\Http\Controllers\TradeOfferController::class, 'update'])
+        ->name("offer.update");
+
+    Route::get('/offer/edit', [App\Http\Controllers\TradeOfferController::class, 'edit'])
+        ->name("offer.edit");
+
+    Route::get('/offer/create', [App\Http\Controllers\TradeOfferController::class, 'create'])
+        ->name("offer.create");
+
+    Route::resource('offer', App\Http\Controllers\TradeOfferController::class)->except('update', 'edit', 'create');
 
     Route::resource('event', App\Http\Controllers\EventController::class);
 
