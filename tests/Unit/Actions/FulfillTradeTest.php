@@ -3,7 +3,8 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\FulfillTrade;
-use App\Exceptions\TradeException;
+use App\Exceptions\TradeClosedException;
+use App\Exceptions\TradeNotAllowedException;
 use App\Models\Trade;
 use App\Models\Item;
 use App\Models\Character;
@@ -105,7 +106,34 @@ class FulfillTradeTest extends TestCase
 
         $trade->status = Trade::STATUS_CLOSED;
 
-        $this->expectException(TradeException::class);
+        $this->expectException(TradeClosedException::class);
+
+        FulfillTrade::run($trade, $offerItem);
+    }
+
+    /**
+     * @test
+     */
+    public function trade_fulfillment_unauthorized_throws_exception()
+    {
+        $offerUser = User::factory()->create();
+
+        $wrongUser = User::factory()->create();
+
+        $tradeCharacter = Character::factory()->create(['user_id' => $wrongUser->id]);
+        $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
+
+        $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
+        $trade = Trade::factory()->create([
+            "character_id" => $tradeCharacter->id,
+            "item_id" => $tradeItem->id,
+            "status" => Trade::STATUS_OPEN]);
+
+        $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
+
+        $trade->offers()->attach($offerItem);
+
+        $this->expectException(TradeNotAllowedException::class);
 
         FulfillTrade::run($trade, $offerItem);
     }
