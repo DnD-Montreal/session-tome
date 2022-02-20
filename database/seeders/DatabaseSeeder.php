@@ -91,6 +91,8 @@ class DatabaseSeeder extends Seeder
     {
         $entries = [];
         $adventures = Adventure::factory(200)->create();
+        // Only a ~35% chance of an entry being a campaign entry
+        $campaigns = collect(array_fill(0, 35, null))->merge(Campaign::all()->pluck('id'));
 
         foreach ($characters as $character) {
             $session = $sessions->random();
@@ -99,7 +101,7 @@ class DatabaseSeeder extends Seeder
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
-                'campaign_id' => null,
+                'type' => Entry::TYPE_GAME
             ];
 
             $items = Item::factory(rand(0, 2))->state([
@@ -110,16 +112,18 @@ class DatabaseSeeder extends Seeder
             $entries = Entry::factory(2)
                 ->has($items)
                 ->create(array_merge([
-                'adventure_id' => $session->adventure_id,
-                'dungeon_master_id' => $session->dungeon_master_id,
-                'event_id' => $session->event_id,
+                    'adventure_id' => $session->adventure_id,
+                    'dungeon_master_id' => $session->dungeon_master_id,
+                    'event_id' => $session->event_id,
+                    'campaign_id' => null,
             ], $defaults))->merge($entries);
 
             // Regular Entries --> Home games
             $entries = Entry::factory(8)->create(array_merge([
                 'adventure_id' => $adventures->random()->id,
                 'dungeon_master_id' => $dm->id,
-                'event_id' => null
+                'event_id' => null,
+                'campaign_id' => $campaigns->random()
             ], $defaults))->merge($entries);
         }
 
