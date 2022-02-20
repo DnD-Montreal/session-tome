@@ -25,13 +25,14 @@ const CampaignRegistrationForm = ({
     const {data, setData, errors} = useForm<CampaignRegistrationFormDataType>(
         CAMPAIGN_REGISTRATION_FORM_INITIAL_VALUE,
     )
-
+    console.log(campaign)
     return (
         <Grid container columnSpacing={5} rowSpacing={5}>
             <Grid item xs={12}>
                 <Typography>
-                    You are joining the &quot;{campaign.title}&quot; campaign. Fill out
-                    the following fields to join the campaign
+                    You are joining the &quot;
+                    {/* {campaign.title} */}
+                    &quot; campaign. Fill out the following fields to join the campaign
                 </Typography>
             </Grid>
             <Grid item container direction='row' columnSpacing={30}>
