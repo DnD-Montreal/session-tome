@@ -59,7 +59,7 @@ class CampaignController extends Controller
 
         $campaign = Campaign::create($data);
 
-        //user joins capaign
+        //user joins campaign
         $user = Auth::user();
 
         if ($request->has('character_id')) {
