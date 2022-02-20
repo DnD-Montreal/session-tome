@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 /**
@@ -105,10 +106,9 @@ class UserControllerTest extends TestCase
     {
         $otherUser = User::factory()->create();
 
-        $response = $this->actingAs($otherUser)->delete(route('user.destroy', $this->user));
+        $response = $this->delete(route('user.destroy', $otherUser));
 
         $response->assertForbidden();
-
 
         $response = $this->delete(route('user.destroy', $this->user));
 
