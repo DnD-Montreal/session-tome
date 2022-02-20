@@ -37,7 +37,7 @@ const CampaignCreateForm = ({
     characters,
 }: CampaignCreateFormPropType) => {
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
-        title: '',
+        title: undefined,
         character_id: null,
         adventure: undefined,
     }
@@ -46,7 +46,7 @@ const CampaignCreateForm = ({
             ? CAMPAIGN_CREATE_FORM_INITIAL_VALUE
             : {
                   title: editData?.title,
-                  character_id: editData?.character_id || null,
+                  character_id: editData?.characters[0].id || null,
                   adventure: editData?.adventure || undefined,
               }
 
@@ -54,7 +54,7 @@ const CampaignCreateForm = ({
         useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
 
     return (
-        <>
+        <Grid>
             <Grid justifyContent='flex-start' container spacing={2}>
                 <Grid item xs={12}>
                     <Typography>
@@ -133,7 +133,7 @@ const CampaignCreateForm = ({
                 </Grid>
                 {type === 'Create' && <StyledGrid item md={2} />}
             </Grid>
-        </>
+        </Grid>
     )
 }
 

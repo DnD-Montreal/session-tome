@@ -1,8 +1,9 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
 import {CampaignCreateForm, CampaignTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import React, {useState} from 'react'
+import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
@@ -17,9 +18,14 @@ type CampaignPropType = {
 }
 
 const Campaign = ({campaigns, characters, adventures}: CampaignPropType) => {
-    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editId, setEditId] = useState<number>()
-    const [editData, setEditData] = useState<CampaignData>()
+    const {
+        isEditDrawerOpen,
+        setIsEditDrawerOpen,
+        editId,
+        setEditId,
+        editData,
+        setEditData,
+    } = useEditDrawer<CampaignData>()
 
     return (
         <ThemeProvider theme={theme}>
