@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import {Box, Button, IconButton} from '@mui/material'
-import {characterNameFormatter} from '@Utils/formatter'
+import {objectArrayFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
 import {CampaignData} from 'Types/campaign-data'
@@ -61,7 +61,7 @@ const CampaignTable = ({
         {
             property: 'characters',
             title: 'Character',
-            render: (value: any) => characterNameFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: 'code',
