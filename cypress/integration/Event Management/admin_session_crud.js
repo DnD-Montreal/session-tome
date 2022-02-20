@@ -32,5 +32,27 @@ describe('Admin Session CRUD Test Suite', () => {
         cy.get('input[name=table]').type('1')
         cy.get('input[name=start_time]').type('2021-01-01T12:00')
         cy.get('button[type="submit"]').click()
+        cy.contains('Item Created')
+    })
+
+    it('Session Edit', () => {
+        cy.contains('a', 'edit').eq(0).click()
+        cy.get('input[name="table"]').clear().type('2')
+        cy.get('input[name=start_time]').type('2022-01-01T12:00')
+        cy.get('button[type="submit"]').click()
+        cy.contains('Item Edited')
+    })
+
+    it('Session Delete', () => {
+        cy.get('a[data-button-type="delete"]').eq(0).click()
+        cy.contains('Item Deleted')
+    })
+
+    it('Session Detail', () => {
+        cy.contains('a', 'Preview').eq(0).click()
+        cy.contains('Dungeon master:')
+        cy.contains('Language:')
+        cy.contains('Start time:')
+        cy.contains('Table:')
     })
 })
