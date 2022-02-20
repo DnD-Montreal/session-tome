@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user)
     {
-        if ($user->id == Auth::id() || $user->isSiteAdmin()) {
+        if ($user->id == Auth::id() || Auth::user()->isSiteAdmin()) {
             return Inertia::render('Profile', compact('user'));
         }
 
@@ -55,9 +55,13 @@ class UserController extends Controller
      */
     public function destroy(Request $request, User $user)
     {
-        $user->delete();
-        Auth::logout();
+        if ($user->id == Auth::id() || Auth::user()->isSiteAdmin()) {
+            $user->delete();
+            Auth::logout();
 
-        return redirect()->route('homepage');
+            return redirect()->route('homepage');
+        }
+
+        abort(403);
     }
 }
