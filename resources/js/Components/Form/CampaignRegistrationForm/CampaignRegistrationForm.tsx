@@ -1,9 +1,10 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Checkbox, FormControlLabel, Grid, Typography} from '@mui/material'
-import {ErrorText, Select} from 'Components'
+import {Button, Checkbox, FormControlLabel, Grid, Typography} from '@mui/material'
+import {ErrorText, Link, Select} from 'Components'
 import React from 'react'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
+import route from 'ziggy-js'
 
 type CampaignRegistrationFormPropType = {
     campaign: CampaignData
@@ -54,6 +55,21 @@ const CampaignRegistrationForm = ({
                         control={<Checkbox />}
                         label='I am the Game Master for this campaign.'
                     />
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={4}>
+                        <Link href={route('campaign.show')}>
+                            <Button fullWidth>Cancel</Button>
+                        </Link>
+                    </Grid>
+                    <Grid item xs={4} />
+                    <Grid item xs={4}>
+                        <Link href={route('campaign-registration.store')}>
+                            <Button fullWidth variant='contained'>
+                                Join
+                            </Button>
+                        </Link>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
