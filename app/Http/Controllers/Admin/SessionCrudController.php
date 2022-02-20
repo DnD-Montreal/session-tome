@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Event;
 use App\Http\Requests\SessionRequest;
+use App\Models\Session;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,23 @@ class SessionCrudController extends CrudController
     }
 
     /**
+     * Checks to see if a session is accessible as a league admin
+     * @return void
+     */
+    protected function checkIfAccessible()
+    {
+        if (Auth::user()->isLeagueAdminRole()) {
+            $leagueId = Auth::user()->roles()->pluck('league_id');
+            $event = Event::wherein('league_id', $leagueId)->pluck('id');
+            $session = Session::wherein('event_id', $event)->pluck('id')->toArray();
+            $id = $this->crud->getCurrentEntryId();
+            if (!in_array($id, $session)) {
+                abort(403);
+            }
+        }
+    }
+
+    /**
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
@@ -72,6 +90,18 @@ class SessionCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        $this->checkIfAccessible();
+        $this->setupListOperation();
+    }
+
+    /**
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
@@ -79,6 +109,20 @@ class SessionCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+        $this->checkIfAccessible();
         $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the delete operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-delete
+     *
+     */
+    public function destroy($id)
+    {
+        $this->checkIfAccessible();
+        $this->crud->hasAccessOrFail('delete');
+        return $this->crud->delete($id);
     }
 }
