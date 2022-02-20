@@ -55,7 +55,8 @@ describe('Manage Characters Test Suite', () => {
                 cy.get('#length').clear().type('2')
                 cy.get('#levels').clear().type('1')
                 cy.get('#gp').clear().type('12')
-                cy.get('#dungeon_master').clear().type('Test DM')
+                cy.get('#dungeon_master').click()
+                cy.get('li[role=option]').eq(0).click()
                 cy.get('#notes').clear().type('Test notes')
                 cy.contains('button', 'Continue').click()
 
@@ -79,7 +80,8 @@ describe('Manage Characters Test Suite', () => {
         cy.get('#length').clear().type('1')
         cy.get('#levels').clear().type('2')
         cy.get('#gp').clear().type('21')
-        cy.get('#dungeon_master').clear().type('Other Test DM')
+        cy.get('#dungeon_master').click()
+        cy.get('li[role=option]').eq(1).click()
         cy.get('#notes').type('. More notes.')
 
         cy.contains('button', 'Continue').click()

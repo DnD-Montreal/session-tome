@@ -2,13 +2,11 @@ import Chip from '@mui/material/Chip'
 import React from 'react'
 
 type FactionChipPropType = {
-    value: string
+    value: string | null
 }
 
 const FactionChip = ({value}: FactionChipPropType) => {
-    if (value == null) {
-        return null
-    }
+    if (!value) return null
     let colorObj
     switch (value) {
         case 'The Harpers':

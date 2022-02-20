@@ -18,6 +18,10 @@ import React, {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
+const StyledTableCell = styled(TableCell)`
+    max-width: 600px;
+`
+
 const Container = styled.div`
     min-width: 66vw;
 `
@@ -168,15 +172,15 @@ const DataTable = ({
                 <Table aria-label='simple table'>
                     <TableHead>
                         <TableRow>
-                            {isSelectable && <TableCell />}
+                            {isSelectable && <StyledTableCell />}
                             {columns.map((column: any, index: number) => (
-                                <TableCell
+                                <StyledTableCell
                                     padding={
                                         !isSelectable && index === 0 ? 'none' : undefined
                                     }
                                     align='center'>
                                     {column.title}
-                                </TableCell>
+                                </StyledTableCell>
                             ))}
                         </TableRow>
                     </TableHead>
@@ -200,7 +204,7 @@ const DataTable = ({
                                         tabIndex={-1}
                                         selected={isRowSelected}>
                                         {isSelectable && selected && setSelected && (
-                                            <TableCell padding='checkbox'>
+                                            <StyledTableCell padding='checkbox'>
                                                 <Checkbox
                                                     data-testid='table-checkbox'
                                                     onClick={() => {
@@ -221,36 +225,36 @@ const DataTable = ({
                                                     color='primary'
                                                     checked={isRowSelected}
                                                 />
-                                            </TableCell>
+                                            </StyledTableCell>
                                         )}
                                         {columns.map((item: any) => {
                                             if (!item.property) {
                                                 if (!item.render) return <TableCell />
                                                 return (
-                                                    <TableCell align='center'>
+                                                    <StyledTableCell align='center'>
                                                         {item.render(row)}
-                                                    </TableCell>
+                                                    </StyledTableCell>
                                                 )
                                             }
                                             if (!item.render) {
                                                 return (
-                                                    <TableCell
+                                                    <StyledTableCell
                                                         key={item.property}
                                                         align='center'>
                                                         <Typography>
                                                             {row[item.property]}
                                                         </Typography>
-                                                    </TableCell>
+                                                    </StyledTableCell>
                                                 )
                                             }
                                             if (!Object.keys(row).includes(item.property))
-                                                return <TableCell />
+                                                return <StyledTableCell />
                                             return (
-                                                <TableCell
+                                                <StyledTableCell
                                                     key={item.property}
                                                     align='center'>
                                                     {item.render(row[item.property], row)}
-                                                </TableCell>
+                                                </StyledTableCell>
                                             )
                                         })}
                                     </TableRow>

@@ -43,6 +43,12 @@ jobs:
         run: |
           composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: Cache FE dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -71,6 +77,43 @@ jobs:
             tests/coverage.xml:clover
             coverage/clover.xml:clover
 
+  Cypress:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: sessiontome
+          MYSQL_USER: application
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secretroot
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache BE dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-8.x-php-8.0-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: xdebug
+
+      - name: Configure Composer
+        run: |
+          composer install -n --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Install Backpack
+        run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
+
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
@@ -82,8 +125,16 @@ jobs:
       - name: Fix directory cache and permission
         run: rm -rf storage/framework/cache/* && chmod -R 777 storage
 
-      - name: Install Backpack
-        run: php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag=public
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: yarn
+
+      - name: Build Front-End Assets
+        run: |
+          yarn install --frozen-lockfile
+          yarn prod
 
       - name: Serve Site
         run: php artisan serve > /dev/null 2>&1 &
@@ -96,6 +147,13 @@ jobs:
           wait-on: http://localhost:8000
           config: baseUrl=http://localhost:8000
 
+        # video should always be generated
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@master
+        with:
+          name: videos
+          path: cypress/videos
+
       - name: Upload Cypress Images
         uses:
           actions/upload-artifact@master
@@ -106,13 +164,6 @@ jobs:
         with:
           name: screenshots
           path: cypress/screenshots
-
-        # video should always be generated
-      - name: Upload Cypress Videos
-        uses: actions/upload-artifact@master
-        with:
-          name: videos
-          path: cypress/videos
 
   Psalm:
     name: Psalm

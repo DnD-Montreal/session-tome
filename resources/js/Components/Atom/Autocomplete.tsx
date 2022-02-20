@@ -10,9 +10,16 @@ type AutocompletePropType = {
     fieldKey: string
     onClear?: () => void
     resetUrl: any
+    label?: string
 } & Omit<AutocompleteProps<any, false, false, false, any>, 'renderInput'>
 
-const Autocomplete = ({onClear, fieldKey, resetUrl, ...props}: AutocompletePropType) => (
+const Autocomplete = ({
+    onClear,
+    fieldKey,
+    resetUrl,
+    label,
+    ...props
+}: AutocompletePropType) => (
     <MuiAutoComplete
         freeSolo
         autoComplete
@@ -36,9 +43,7 @@ const Autocomplete = ({onClear, fieldKey, resetUrl, ...props}: AutocompletePropT
                 })
             }
         }}
-        renderInput={(params) => (
-            <TextField {...params} fullWidth label='Adventure' name='Adventure Title' />
-        )}
+        renderInput={(params) => <TextField {...params} fullWidth label={label} />}
     />
 )
 

@@ -5,6 +5,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
+import {startCase} from 'lodash'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
 import {itemFormatter} from 'Utils'
@@ -42,7 +43,7 @@ const DMEntryTable = ({
             property: 'date_played',
             title: 'Date',
             render: (value: string) => (
-                <Typography>{dayjs(value).format('YYYY-MM-DD HH:mm')}</Typography>
+                <Typography>{dayjs(value).format('LLL')}</Typography>
             ),
         },
         {
@@ -64,6 +65,7 @@ const DMEntryTable = ({
         {
             property: 'reward',
             title: 'Reward',
+            render: (value: any) => <Typography>{startCase(value)}</Typography>,
         },
         {
             property: 'items',
