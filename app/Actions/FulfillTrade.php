@@ -7,7 +7,8 @@ use App\Models\Trade;
 use App\Models\Item;
 use App\Models\Character;
 use App\Models\User;
-use App\Exceptions\TradeException;
+use App\Exceptions\TradeClosedException;
+use App\Exceptions\TradeNotAllowedException;
 use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -30,8 +31,12 @@ class FulfillTrade
         $currentUser = Auth::user();
         $offerUser = $offerCharacter->user;
 
-        if (!$currentUser->characters->contains($tradeCharacter) || $trade->status == Trade::STATUS_CLOSED) {
-            throw new TradeException("The trade could not be fulfilled.");
+        if (!$currentUser->characters->contains($tradeCharacter)) {
+            throw new TradeNotAllowedException();
+        }
+
+        if ($trade->status == Trade::STATUS_CLOSED) {
+            throw new TradeClosedException();
         }
 
         $tradeItem->character()->disassociate()->save();
