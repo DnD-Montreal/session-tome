@@ -9,7 +9,6 @@ use App\Models\Item;
 use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use function PHPUnit\Framework\isNull;
 
@@ -52,6 +51,19 @@ class TradeOfferController extends Controller
         } else {
             return redirect()->back()->withErrors(['error' => 'Offer does not meet rarity requirements']);
         }
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Item $item
+     * @param \App\Models\Trade $trade
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request, Item $offer, Trade $trade)
+    {
+        $trade->offers()->detach($offer);
 
         return redirect()->back();
     }
