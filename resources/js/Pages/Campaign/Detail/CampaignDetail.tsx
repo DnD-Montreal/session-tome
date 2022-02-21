@@ -1,18 +1,33 @@
-import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
+import {CampaignDetailBox, EntryTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
+import {entriesData} from 'Mock/entries-data'
 import React from 'react'
+import {CampaignData} from 'Types/campaign-data'
 import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 14)
 
-const CharacterDetail = () => (
+type CampaignDetailPropType = {
+    campaign: CampaignData
+}
+
+const CampaignDetail = () => (
     <ThemeProvider theme={theme}>
-        <Typography>Under construction</Typography>
+        <CampaignDetailBox
+        // campaign={campaign}
+        />
+        <EntryTable
+            data={entriesData}
+            setEditEntryId={useEditDrawer}
+            setEditEntryData={useEditDrawer}
+            setIsEditDrawerOpen={useEditDrawer}
+        />
     </ThemeProvider>
 )
 
-CharacterDetail.displayName = 'CharacterDetail'
-CharacterDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
+CampaignDetail.displayName = 'CampaignDetail'
+CampaignDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
-export default CharacterDetail
+export default CampaignDetail

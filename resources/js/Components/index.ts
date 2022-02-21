@@ -3,6 +3,9 @@ export {default as Authentication} from './Authentication'
 export {default as DeleteModal} from './DeleteModal'
 export {default as ErrorText} from './ErrorText'
 
+// Details
+export {CampaignDetailBox} from './Detail'
+
 // Chips
 export {FactionChip, RarityChip} from './Chips'
 

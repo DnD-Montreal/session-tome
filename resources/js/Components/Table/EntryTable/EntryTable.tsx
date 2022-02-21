@@ -69,6 +69,18 @@ const EntryTable = ({
             title: 'Session',
         },
         {
+            property: 'levels',
+            title: 'Level',
+        },
+        {
+            property: 'gp',
+            title: 'GP',
+        },
+        {
+            property: 'downtime',
+            title: 'Downtime',
+        },
+        {
             property: 'reward',
             title: 'Reward',
             render: (value: any) => <Typography>{startCase(value)}</Typography>,
