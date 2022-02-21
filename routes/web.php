@@ -31,7 +31,7 @@ Route::get('/', function () {
 })->name('homepage');
 
 Route::middleware(['auth', 'throttle'])->group(function () {
-    Route::resource('user', App\Http\Controllers\UserController::class);
+    Route::resource('user', App\Http\Controllers\UserController::class)->only(['edit', 'update', 'destroy']);
 
     Route::resource('rating', App\Http\Controllers\RatingController::class);
 
