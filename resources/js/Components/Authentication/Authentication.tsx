@@ -44,8 +44,8 @@ const Authentication = ({
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
+                transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
                 {user ? (
                     <Box sx={{width: 200}}>
                         <Link href={route('user.edit', user.id)}>
