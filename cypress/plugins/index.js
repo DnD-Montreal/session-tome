@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable no-unused-vars */
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -20,4 +22,5 @@ module.exports = (on, config) => {
     // `config` is the resolved Cypress config
 
     on('task', require('./swap-env'))
+    on('task', require('./helper-functions'))
 }
