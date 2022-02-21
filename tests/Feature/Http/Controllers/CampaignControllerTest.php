@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -35,15 +36,17 @@ class CampaignControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $campaigns = Campaign::factory()->count(3)->create();
+        $campaigns = Campaign::factory()
+            ->count(3)
+            ->create();
 
         $response = $this->get(route('campaign.index'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.index');
-        $response->assertViewHas('campaigns');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Campaign')->has('campaigns')
+        );
     }
-
 
     /**
      * @test
@@ -53,9 +56,10 @@ class CampaignControllerTest extends TestCase
         $response = $this->get(route('campaign.create'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.create');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Create/CampaignCreate')
+        );
     }
-
 
     /**
      * @test
@@ -78,8 +82,8 @@ class CampaignControllerTest extends TestCase
         $title = $this->faker->sentence(4);
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
-            'title' => $title
+            'adventure' => ['id' => $adventure->id],
+            'title' => $title,
         ]);
 
         $campaigns = Campaign::query()
@@ -92,7 +96,11 @@ class CampaignControllerTest extends TestCase
         $response->assertRedirect(route('campaign.index'));
         $response->assertSessionHas('campaign.id', $campaign->id);
         $this->assertDatabaseCount('campaign_user', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' =>true]);
+        $this->assertDatabaseHas('campaign_user', [
+            'user_id' => $this->user->id,
+            'campaign_id' => $campaign->id,
+            'is_dm' => true,
+        ]);
     }
 
     /**
@@ -105,9 +113,9 @@ class CampaignControllerTest extends TestCase
         $character = Character::factory()->create();
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'title' => $title,
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
 
         $campaigns = Campaign::query()
@@ -121,10 +129,16 @@ class CampaignControllerTest extends TestCase
         $response->assertSessionHas('campaign.id', $campaign->id);
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' => false]);
-        $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' =>$campaign->id]);
+        $this->assertDatabaseHas('campaign_user', [
+            'user_id' => $this->user->id,
+            'campaign_id' => $campaign->id,
+            'is_dm' => false,
+        ]);
+        $this->assertDatabaseHas('campaign_character', [
+            'character_id' => $character->id,
+            'campaign_id' => $campaign->id,
+        ]);
     }
-
 
     /**
      * @test
@@ -136,10 +150,12 @@ class CampaignControllerTest extends TestCase
         $response = $this->get(route('campaign.show', $campaign));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.show');
-        $response->assertViewHas('campaign');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Campaign/Detail/CampaignDetail')
+                ->has('campaign')
+        );
     }
-
 
     /**
      * @test
@@ -154,7 +170,6 @@ class CampaignControllerTest extends TestCase
         $response->assertViewIs('campaign.edit');
         $response->assertViewHas('campaign');
     }
-
 
     /**
      * @test
@@ -190,7 +205,6 @@ class CampaignControllerTest extends TestCase
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
     }
-
 
     /**
      * @test

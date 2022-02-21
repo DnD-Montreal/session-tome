@@ -1,4 +1,5 @@
 export {default as BulkEntryCreateForm} from './BulkEntryCreateForm'
+export {default as CampaignCreateForm} from './CampaignCreateForm'
 export {default as CampaignRegistrationForm} from './CampaignRegistrationForm'
 export {default as CharacterCreateForm} from './CharacterCreateForm'
 export {default as CharacterImportForm} from './CharacterImportForm'
