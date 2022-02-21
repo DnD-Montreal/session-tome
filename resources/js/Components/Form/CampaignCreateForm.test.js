@@ -11,7 +11,10 @@ const editProps = {
     onCloserDrawer: mockFunction,
     editData: {
         title: 'Campaign1',
-        character_id: 1,
+        characters: [
+            {id: 1, name: 'John'},
+            {id: 2, name: 'John2'},
+        ],
         adventure: 0,
     },
     editId: 0,
