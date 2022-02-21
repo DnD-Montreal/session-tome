@@ -34,13 +34,15 @@ type CampaignJoinModalPropType = {
 }
 
 type CampaignJoinModalDataType = {
-    code: string | ''
+    code: string | undefined
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
-    const {data, setData, errors, clearErrors, post} = useForm({
-        code: '',
-    })
+    const {data, setData, errors, clearErrors, post} = useForm<CampaignJoinModalDataType>(
+        {
+            code: undefined,
+        },
+    )
     return (
         <Modal
             open={open}
@@ -69,7 +71,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                     id='invite-code'
                                     label='Invite Code'
                                     variant='outlined'
-                                    defaultValue={data.code}
+                                    value={data.code}
                                     onChange={(e) => setData('code', e.target.value)}
                                 />
                                 {errors?.code && <ErrorText message={errors?.code} />}
