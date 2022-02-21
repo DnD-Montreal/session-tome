@@ -78,6 +78,9 @@ class FulfillTradeTest extends TestCase
 
         $this->assertEquals(Trade::STATUS_CLOSED, $trade->status);
 
+        $this->assertCount(1, $trade->offers);
+        $this->assertContains($offerItem->id, $trade->offers()->pluck('id'));
+
         $this->assertNotContains($tradeItem->id, $tradeCharacter->items->pluck('id'));
         $this->assertContains($offerItem->id, $tradeCharacter->items->pluck('id'));
 
