@@ -81,21 +81,41 @@ class TradeOfferControllerTest extends TestCase
             'rarity' => 'common'
         ]);
 
-        $response = $this->post(route('offer.store'), [
+        $response = $this->from('/')->post(route('offer.store'), [
             'trade_id' => $trade->id,
             'item_id' => $offer->id
         ]);
 
-        $response = $this->post(route('offer.store'), [
+        $response->assertRedirect('/');
+
+        $response = $this->from('/')->post(route('offer.store'), [
             'trade_id' => $trade->id,
             'item_id' => $invalidOffer->id
         ]);
 
-        //check if trade now has $offer in offers()
+        $response->assertRedirect('/');
+
         $this->assertTrue($trade->offers()->get()->contains($offer));
-        //check if store rejected $invalidOffer
         $this->assertFalse($trade->offers()->get()->contains($invalidOffer));
 
         //add redirect assertion if we change redirect to specific view
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_detaches_offer()
+    {
+        $offer = Item::factory()->create([
+            'id' => 333,
+            'description' => "test item"
+        ]);
+        $trade = Trade::factory()->create();
+        $trade->offers()->attach($offer);
+
+        $response = $this->from('/')->delete(route('offer.destroy', [$offer, $trade]));
+
+        $response->assertRedirect('/');
+        $this->assertNotContains($offer, $trade->offers);
     }
 }
