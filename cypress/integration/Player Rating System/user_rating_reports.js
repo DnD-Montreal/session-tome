@@ -1,10 +1,12 @@
-describe('Admin Event CRUD Test Suite', () => {
+describe('User Rating Reports Test Suite', () => {
     let last_url = ''
+    let download_folder = ''
 
     before(() => {
         cy.refreshDatabase()
         cy.seed('FastSeeder')
         last_url = `${Cypress.config('baseUrl')}/admin/dashboard/`
+        download_folder = Cypress.config('downloadsFolder')
     })
 
     beforeEach(() => {
@@ -15,20 +17,42 @@ describe('Admin Event CRUD Test Suite', () => {
     })
 
     it('Game Masters Report', () => {
-        cy.intercept('GET', '**/report/rating').as('rating_report')
-
         cy.contains('Users').click()
         cy.get('table[id="crudTable"]')
-        cy.contains('a', 'Rating Report').click()
-        cy.wait('@rating_report').its('response.statusCode').should('eq', 200)
+
+        cy.window()
+            .document()
+            .then((doc) => {
+                doc.addEventListener('click', () => {
+                    setTimeout(() => {
+                        doc.location.reload()
+                    }, 1000)
+                })
+                cy.contains('a', 'Rating Report').click()
+            })
+
+        cy.task('list_downloaded_files', download_folder).then((downloaded_files) => {
+            expect(downloaded_files.join('')).to.include('rating-report.csv')
+        })
     })
 
     it('League Rating Report', () => {
-        cy.intercept('GET', '**/league/*/report').as('league_rating_report')
-
         cy.contains('Leagues').click()
         cy.get('table[id="crudTable"]')
-        cy.contains('a', 'League Rating Report').click()
-        cy.wait('@league_rating_report').its('response.statusCode').should('eq', 200)
+
+        cy.window()
+            .document()
+            .then((doc) => {
+                doc.addEventListener('click', () => {
+                    setTimeout(() => {
+                        doc.location.reload()
+                    }, 1000)
+                })
+                cy.contains('a', 'League Rating Report').click()
+            })
+
+        cy.task('list_downloaded_files', download_folder).then((downloaded_files) => {
+            expect(downloaded_files.join('')).to.include('league-rating-report.csv')
+        })
     })
 })
