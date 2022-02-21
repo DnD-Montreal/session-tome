@@ -61,7 +61,7 @@ class SessionCrudController extends CrudController
      */
     protected function checkIfAccessible()
     {
-        if (Auth::user()->isLeagueAdminRole()) {
+        if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $event = Event::wherein('league_id', $leagueId)->pluck('id');
             $session = Session::wherein('event_id', $event)->pluck('id')->toArray();
@@ -80,7 +80,7 @@ class SessionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        if (Auth::user()->isLeagueAdminRole()) {
+        if (!Auth::user()->isSiteAdmin()) {
             CRUD::addField([
                 'label' => 'Event',
                 'type' => 'select',

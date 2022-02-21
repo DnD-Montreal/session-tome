@@ -62,7 +62,7 @@ class EventCrudController extends CrudController
      */
     protected function checkIfAccessible()
     {
-        if (Auth::user()->isLeagueAdminRole()) {
+        if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $event = Event::wherein('league_id', $leagueId)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
@@ -80,7 +80,7 @@ class EventCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        if (Auth::user()->isLeagueAdminRole()) {
+        if (!Auth::user()->isSiteAdmin()) {
             CRUD::addField([
                 'label' => 'League',
                 'type' => 'select',
