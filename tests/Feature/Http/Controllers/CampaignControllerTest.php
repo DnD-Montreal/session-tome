@@ -42,7 +42,6 @@ class CampaignControllerTest extends TestCase
         $response = $this->get(route('campaign.index'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.index');
         $response->assertInertia(
             fn (Assert $page) => $page->component('Campaign/Campaign')->has('campaigns')
         );
