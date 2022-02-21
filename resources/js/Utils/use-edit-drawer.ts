@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const useEditDrawer = <T>() => {
+export const useEditDrawer = <T>() => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editId, setEditId] = useState<number>()
     const [editData, setEditData] = useState<T>()
@@ -14,5 +14,3 @@ const useEditDrawer = <T>() => {
         setEditData,
     }
 }
-
-export default useEditDrawer
