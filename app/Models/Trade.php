@@ -42,7 +42,7 @@ class Trade extends Model
     protected $filterableFields = ['requested_items', 'description'];
 
 
-    public function items()
+    public function offers()
     {
         return $this->belongsToMany(\App\Models\Item::class);
     }
