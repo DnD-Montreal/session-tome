@@ -55,6 +55,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('trade', App\Http\Controllers\TradeController::class);
 
+    Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
+        ->name("offer.destroy");
+
     Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
         ->name("offer.store");
 
