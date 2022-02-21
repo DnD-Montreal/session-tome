@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class SessionRequest extends FormRequest
 {
@@ -14,8 +16,21 @@ class SessionRequest extends FormRequest
      */
     public function authorize()
     {
-        // only allow updates if the user is a site admin
-        return $this->user()->isSiteAdmin()|| $this->user()->isLeagueAdminRole();
+        //if user is a site admin they can update/create any session
+        if ($this->user()->isSiteAdmin()) {
+            return true;
+        }
+
+        // if user is a league admin verify that they can create/update the session
+        if ($this->user()->isLeagueAdminRole()) {
+            $eventIdRequest = request()->input('event_id');
+            $leagueId = Auth::user()->roles()->pluck('league_id');
+            $event = Event::wherein('league_id', $leagueId)->pluck('id')->toarray();
+            if (!in_array($eventIdRequest, $event)) {
+                abort(403);
+            }
+            return true;
+        }
     }
 
     /**
