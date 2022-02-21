@@ -55,16 +55,11 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('trade', App\Http\Controllers\TradeController::class);
 
-    Route::put('/offer/update', [App\Http\Controllers\TradeOfferController::class, 'update'])
-        ->name("offer.update");
+    Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
+        ->name("offer.store");
 
-    Route::get('/offer/edit', [App\Http\Controllers\TradeOfferController::class, 'edit'])
-        ->name("offer.edit");
-
-    Route::get('/offer/create', [App\Http\Controllers\TradeOfferController::class, 'create'])
+    Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
         ->name("offer.create");
-
-    Route::resource('offer', App\Http\Controllers\TradeOfferController::class)->except('update', 'edit', 'create');
 
     Route::resource('event', App\Http\Controllers\EventController::class);
 
