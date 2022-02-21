@@ -17,7 +17,7 @@ class EventController extends Controller
     {
         $events = Event::all();
 
-        return view('event.index', compact('events'));
+        return Inertia::render('Event/Event', compact('events'));
     }
 
     /**
