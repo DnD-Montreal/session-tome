@@ -80,8 +80,21 @@ class SessionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(SessionRequest::class);
+        if (Auth::user()->isLeagueAdminRole()) {
+            CRUD::addField([
+                'label' => 'Event',
+                'type' => 'select',
+                'name' => 'event_id',
+                'options' => (function ($query) {
+                    $leagueId = Auth::user()->roles()->pluck('league_id');
+                    $event = Event::wherein('league_id', $leagueId)->pluck('id');
+                    $query->wherein('id', $event);
+                    return $query->get();
+                }),
+            ]);
+        }
 
+        CRUD::setValidation(SessionRequest::class);
         CRUD::field('event_id');
         CRUD::field('adventure_id');
         CRUD::field('dungeonMaster');

@@ -80,6 +80,19 @@ class EventCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        if (Auth::user()->isLeagueAdminRole()) {
+            CRUD::addField([
+                'label' => 'League',
+                'type' => 'select',
+                'name' => 'league_id',
+                'options' => (function ($query) {
+                    $leagueId = Auth::user()->roles()->pluck('league_id');
+                    $query->wherein('id', $leagueId);
+                    return $query->get();
+                }),
+            ]);
+        }
+
         CRUD::setValidation(EventRequest::class);
         CRUD::field('league_id');
         CRUD::field('title');
