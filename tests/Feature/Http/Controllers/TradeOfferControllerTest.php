@@ -27,27 +27,6 @@ class TradeOfferControllerTest extends TestCase
         Auth::login($this->user);
     }
 
-    /**
-     * @test
-     */
-    public function edit_displays_offer_view()
-    {
-        $trade = Trade::factory()->create([
-        ]);
-        $item = Item::factory()->create([
-        ]);
-
-        $trade->items()->attach($item);
-
-        //Request parameters being passed as headers array in request??..
-        $response = $this->get(route('offer.edit'), [
-            'trade_id' => $trade->id,
-            'item_id' => $item->id
-        ]);
-
-        $response->assertOk();
-        $response->assertViewIs('offer.edit');
-    }
 
     /**
      * @test
@@ -63,16 +42,12 @@ class TradeOfferControllerTest extends TestCase
         ]);
         $character->items()->saveMany($items);
 
-        //CREATE REQUEST NOT WORKING
-        $response = $this->actingAs($this->user)->get(route('offer.create'), [
-            'trade_id' => $trade->id,
-            'character_id' => $character->id
-        ]);
+        //create request not passing params
+        $response = $this->actingAs($this->user)->get(route('offer.create', $trade));
 
         $response->assertOk();
         $response->assertViewIs('offer.create');
     }
-
 
     /**
      * @test
@@ -80,7 +55,7 @@ class TradeOfferControllerTest extends TestCase
     public function store_attaches_offer_to_trade()
     {
         $item = Item::factory()->create([
-            'tier' => 3,
+            'rarity' => 'rare',
             'id' => 234,
             'description' => "listed"
         ]);
@@ -99,8 +74,11 @@ class TradeOfferControllerTest extends TestCase
 
         $offer = Item::factory()->create([
             'character_id' => $character->id,
-            'tier' => $item->tier,
+            'rarity' => $item->rarity,
             'description' => "offered"
+        ]);
+        $invalidOffer = Item::factory()->create([
+            'rarity' => 'common'
         ]);
 
         $response = $this->post(route('offer.store'), [
@@ -108,54 +86,15 @@ class TradeOfferControllerTest extends TestCase
             'item_id' => $offer->id
         ]);
 
-        //check if trade now has $offer in items()
-        $this->assertTrue($trade->items()->get()->contains($offer));
-
-        //add redirect assertion if we change redirect to specific view
-    }
-
-    /**
-     * @test
-     */
-    public function update_replaces_offer_item()
-    {
-        //create listed trade item, offers and new offer to replace one of existing
-        $character = Character::factory()->create([
-            'user_id' => $this->user->id
-        ]);
-        $item = Item::factory()->create([
-            'description' => "listed",
-            'tier' => 3,
-            'id' => 111
-        ]);
-        $oldOffer = Item::factory()->create([
-            'tier' => $item->tier,
-            'character_id' => $character->id,
-            'description' => "testold",
-            'id' => 789
-        ]);
-        $newOffer = Item::factory()->create([
-            'tier' => $item->tier,
-            'character_id' => $character->id,
-            'description' => "testnew",
-            'id' => 345
+        $response = $this->post(route('offer.store'), [
+            'trade_id' => $trade->id,
+            'item_id' => $invalidOffer->id
         ]);
 
-        $trade = Trade::factory()->create([
-            'id' => 101,
-            'item_id' => $item->id
-        ]);
-        $trade->item()->associate($item);
-        $trade->items()->attach($oldOffer);
-
-        //NOT PASSING TRADE & OFFER
-        $response = $this->actingAs($this->user)->put(route('offer.update'), [
-            'item_id' => $newOffer->id,
-            'replace_id' => $oldOffer->id,
-            'trade_id' => $trade->id
-        ]);
-
-        $this->assertTrue($trade->items()->get()->contains($newOffer));
+        //check if trade now has $offer in offers()
+        $this->assertTrue($trade->offers()->get()->contains($offer));
+        //check if store rejected $invalidOffer
+        $this->assertFalse($trade->offers()->get()->contains($invalidOffer));
 
         //add redirect assertion if we change redirect to specific view
     }
