@@ -63,12 +63,7 @@ class FulfillTrade
             'character_id' => $offerCharacter->id]));
         $tradeItem->entry()->associate($offerCharacterEntry)->save();
 
-        foreach ($trade->offers as $offer) {
-            if ($offer->id == $offeredItem->id) {
-                continue;
-            }
-            $trade->offers()->detach($offer->id);
-        }
+        $trade->offers()->sync([]);
 
         $trade->status = Trade::STATUS_CLOSED;
         $trade->save();
