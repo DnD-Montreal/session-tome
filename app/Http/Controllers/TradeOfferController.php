@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use function PHPUnit\Framework\isNull;
 
@@ -49,7 +50,7 @@ class TradeOfferController extends Controller
         if (!is_null($offerItem)) {
             $trade->offers()->attach($offerItem);
         } else {
-            return Redirect::back()->withErrors(['error' => 'Offer does not meet rarity requirements']);
+            return redirect()->back()->withErrors(['error' => 'Offer does not meet rarity requirements']);
         }
 
         return redirect()->back();
