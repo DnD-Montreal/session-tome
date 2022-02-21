@@ -67,10 +67,12 @@ class FulfillTradeTest extends TestCase
 
         $offerCharacterEntries = $offerCharacter->entries()
             ->where('notes', "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name)
+            ->where('downtime', -5)
             ->get();
 
         $tradeCharacterEntries = $tradeCharacter->entries()
             ->where('notes', "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name)
+            ->where('downtime', -5)
             ->get();
 
         $this->assertTrue($tradeCharacterEntries->count() > 0);
