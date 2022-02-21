@@ -20,38 +20,12 @@ class TradeOfferController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Trade $trade)
     {
-        $offerData = $request->validate([
-            'trade_id' => 'required|exists:trades,id|integer',
-        ]);
-        
-        $trade = Trade::with('item')->findOrFail($offerData['trade_id']);
-        $validItems = Auth::user()->items()->where('rarity', $trade->item->rarity)
-        
+        $validItems = Auth::user()->items()->where('rarity', $trade->item->rarity);
+
         // will be replaced when page component is created...
         return view('offer.create', compact('validItems', 'trade'));
-    }
-
-    /**
-     * Retrieve Trade Offer to edit
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request)
-    {
-        //rrequest params passed in "headers" instead of request parameters...
-
-        $offerData = $request->validate([
-            'trade_id' => 'required|exists:trades,id|integer',
-            'item_id' => 'required|exists:items,id|integer',
-        ]);
-
-        $trade = Trade::findOrFail($offerData['trade_id']);
-        $item = Item::findOrFail($offerData['item_id']);
-
-        return view('offer.edit', compact('item', 'trade'));
     }
 
     /**
@@ -67,49 +41,15 @@ class TradeOfferController extends Controller
             'trade_id' => 'required|exists:trades,id|integer'
         ]);
 
-        //findOrFail redundant?
         $trade = Trade::findOrFail($offerData['trade_id']);
         $dataItem = Item::findOrFail($offerData['item_id']);
-        $offerItem = ($dataItem->tier == $trade->item()->get()[0]->tier) ? $dataItem : null;
-
+        $offerItem = ($dataItem->rarity == $trade->item()->get()[0]->rarity) ? $dataItem : null;
 
         // Attach offered item that meets rarity criteria
         if (!is_null($offerItem)) {
-            $trade->items()->attach($offerItem);
-        }
-
-        return redirect()->back();
-    }
-
-    /**
-     * Update existing trade offer
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Trade $trade
-     * @param \App\Models\Item $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request)
-    {
-        //TRADE & ITEM EMPTY, might be problem with route?
-        $offerData = $request->validate([
-            'item_id' => 'required|exists:items,id|integer',
-            'replace_id' => 'required|exists:items,id|integer',
-            'trade_id' => 'required|exists:trades,id|integer'
-        ]);
-
-        //item to replace existing offer
-        $oldOffer = Item::findOrFail($offerData['replace_id']);
-        $newOffer = Item::findOrFail($offerData['item_id']);
-        $trade = Trade::findOrFail($offerData['trade_id']);
-
-
-        //does not work since $trade empty
-        $newOffer = ($newOffer->tier == $trade->item()->get()[0]->tier) ? $newOffer : null;
-
-        if (!is_null($newOffer)) {
-            $trade->items()->detach($oldOffer);
-            $trade->items()->attach($newOffer);
+            $trade->offers()->attach($offerItem);
+        } else {
+            return Redirect::back()->withErrors(['error' => 'Offer does not meet rarity requirements']);
         }
 
         return redirect()->back();
