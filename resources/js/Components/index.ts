@@ -10,11 +10,19 @@ export {FactionChip, RarityChip} from './Chips'
 export {CharacterDetailBox, ItemDetailBox} from './Detail'
 
 // Tables
-export {CharacterTable, DMEntryTable, EntryTable, ItemTable, RatingTable} from './Table'
+export {
+    CampaignTable,
+    CharacterTable,
+    DMEntryTable,
+    EntryTable,
+    ItemTable,
+    RatingTable,
+} from './Table'
 
 // Forms
 export {
     BulkEntryCreateForm,
+    CampaignCreateForm,
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
