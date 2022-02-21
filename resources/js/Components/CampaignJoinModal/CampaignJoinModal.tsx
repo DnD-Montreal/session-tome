@@ -9,7 +9,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
+import {ErrorText, Link} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -31,17 +31,16 @@ type CampaignJoinModalPropType = {
 }
 
 type CampaignJoinModalDataType = {
-    code: string | ''
+    code: string | undefined
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
     const CAMPAIGN_JOIN_MODAL_FORM_INITIAL_VALUE: CampaignJoinModalDataType = {
-        code: '',
+        code: undefined,
     }
     const {data, setData, errors, clearErrors, post} = useForm(
         CAMPAIGN_JOIN_MODAL_FORM_INITIAL_VALUE,
     )
-
     return (
         <Modal
             open={open}
@@ -56,7 +55,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                 <StyledBox borderRadius={2}>
                     <Grid container rowSpacing={2} alignItems='center'>
                         <Grid item xs={12}>
-                            <Typography sx={{color: 'white'}}>{message}</Typography>
+                            <Typography color='secondary'>{message}</Typography>
                         </Grid>
                         <Grid
                             item
@@ -76,6 +75,10 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                 {errors?.code && <ErrorText message={errors?.code} />}
                             </Grid>
                             <Grid item xs={12} md={3}>
+                                {/* For testing CampaignRegistrationForm */}
+                                <Link href={route('campaign-registration.create')}>
+                                    <Button fullWidth>Test</Button>
+                                </Link>
                                 <Button
                                     variant='outlined'
                                     onClick={() => {
