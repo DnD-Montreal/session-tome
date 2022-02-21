@@ -1,12 +1,13 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
-import {getFontTheme, useEditDrawer} from 'Utils'
+import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 16)
 

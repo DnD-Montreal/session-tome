@@ -1,10 +1,11 @@
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
 import {CampaignDetailBox, EntryTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import {entriesData} from 'Mock/entries-data'
 import React from 'react'
 import {CampaignData} from 'Types/campaign-data'
-import {getFontTheme, useEditDrawer} from 'Utils'
+import {getFontTheme} from 'Utils'
 
 const theme = getFontTheme('Form', 14)
 
