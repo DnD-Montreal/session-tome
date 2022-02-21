@@ -12,6 +12,7 @@ type OptionsType = {
 type SelectPropType = {
     options: any
     type?: string
+    hasNoneOption?: boolean
 } & TextFieldProps
 
 const StyledTextField = styled(TextField)`
@@ -19,7 +20,7 @@ const StyledTextField = styled(TextField)`
     border-radius: ${(props) => props.type === 'filled' && '4px'};
 `
 
-const Select = ({options, type, ...props}: SelectPropType) => {
+const Select = ({options, type, hasNoneOption, ...props}: SelectPropType) => {
     const getOptions = () => {
         if (options.length === 0) {
             return <Typography style={{marginLeft: 12}}>No data...</Typography>
@@ -41,6 +42,7 @@ const Select = ({options, type, ...props}: SelectPropType) => {
     }
     return (
         <StyledTextField fullWidth select type={type} {...props} style={{width: '100%'}}>
+            {hasNoneOption && <MenuItem key='none'>None</MenuItem>}
             {getOptions()}
         </StyledTextField>
     )

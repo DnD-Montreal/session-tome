@@ -2,10 +2,10 @@ import {useForm} from '@inertiajs/inertia-react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
+import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoom'
 import {Box, Button, IconButton} from '@mui/material'
 import {objectArrayFormatter} from '@Utils/formatter'
-import {DataTable, DeleteModal, Link} from 'Components'
+import {CampaignJoinModal, DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
 import {CampaignData} from 'Types/campaign-data'
 import route from 'ziggy-js'
@@ -29,6 +29,7 @@ const CampaignTable = ({
 }: CampaignTablePropType) => {
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+    const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false)
     const {
         data: formData,
         setData,
@@ -43,11 +44,12 @@ const CampaignTable = ({
                 Create
             </Button>
         </Link>,
-        <Link href={route('campaign.index')}>
-            <Button variant='contained' startIcon={<MeetingRoomIcon />}>
-                Import
-            </Button>
-        </Link>,
+        <Button
+            variant='contained'
+            startIcon={<MeetingRoomOutlinedIcon />}
+            onClick={() => setIsJoinModalOpen(true)}>
+            JOIN
+        </Button>,
     ]
 
     const columns = [
@@ -106,6 +108,11 @@ const CampaignTable = ({
                         setSelected([])
                     }
                 }}
+            />
+            <CampaignJoinModal
+                open={isJoinModalOpen}
+                onClose={() => setIsJoinModalOpen(false)}
+                message='Please enter the invite code of the campaign.'
             />
             <DataTable
                 leftActions={leftActions}

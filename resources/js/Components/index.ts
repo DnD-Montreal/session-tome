@@ -1,5 +1,6 @@
 // Components
 export {default as Authentication} from './Authentication'
+export {default as CampaignJoinModal} from './CampaignJoinModal'
 export {default as DeleteModal} from './DeleteModal'
 export {default as ErrorText} from './ErrorText'
 
@@ -26,6 +27,7 @@ export {
 export {
     BulkEntryCreateForm,
     CampaignCreateForm,
+    CampaignRegistrationForm,
     CharacterCreateForm,
     CharacterImportForm,
     DmEntryCreateForm,
