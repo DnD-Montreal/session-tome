@@ -146,12 +146,14 @@ class CampaignControllerTest extends TestCase
     public function show_displays_view()
     {
         $campaign = Campaign::factory()->create();
-
         $response = $this->get(route('campaign.show', $campaign));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.show');
-        $response->assertViewHas('campaign');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Campaign/Detail/CampaignDetail')
+                ->has('campaign')
+        );
     }
 
     /**
