@@ -1,4 +1,4 @@
-describe('Admin Event CRUD Test Suite', () => {
+describe('Event Reports Test Suite', () => {
     let last_url = ''
     let download_folder = ''
 
