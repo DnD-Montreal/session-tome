@@ -42,11 +42,12 @@ class TradeOfferControllerTest extends TestCase
         ]);
         $character->items()->saveMany($items);
 
-        //create request not passing params
         $response = $this->actingAs($this->user)->get(route('offer.create', $trade));
 
         $response->assertOk();
         $response->assertViewIs('offer.create');
+        $response->assertViewHas('validItems');
+        $response->assertViewHas('trade');
     }
 
     /**
