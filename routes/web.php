@@ -86,6 +86,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
         ->only(['create', 'store']);
+
+    Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
+        ->name('trade-fulfillment.store');
 });
 
 
