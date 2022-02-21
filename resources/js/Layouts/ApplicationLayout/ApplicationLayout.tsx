@@ -198,12 +198,12 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
                                 className={
-                                    route().current()?.includes('campgaign')
+                                    route().current()?.includes('campaign')
                                         ? 'active'
                                         : ''
                                 }
                                 color='white'
-                                href='/#'>
+                                href={route('campaign.index')}>
                                 Campaigns
                             </InertiaLink>
                         </PaddingGrid>

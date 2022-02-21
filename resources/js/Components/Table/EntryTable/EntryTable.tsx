@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
-import {itemFormatter} from '@Utils/formatter'
+import {objectArrayFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
 import {startCase} from 'lodash'
@@ -88,7 +88,7 @@ const EntryTable = ({
         {
             property: 'items',
             title: 'Magic Items',
-            render: (value: any) => itemFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: null,

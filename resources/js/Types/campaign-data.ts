@@ -1,6 +1,11 @@
 export type CampaignData = {
+    id: number
+    adventure: any
     adventure_id: number
     title: string
-    character_id: string
-    // sessions_played: number
+    created_at: string
+    updated_at: string
+    code: string
+    character_id: number
+    characters: any
 }
