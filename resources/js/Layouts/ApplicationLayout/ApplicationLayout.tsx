@@ -143,7 +143,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             <Grid
                                 item
                                 container
-                                justifyContent={window.innerWidth < 768 ? '' : 'center'}
+                                justifyContent='center'
                                 style={{cursor: 'pointer', margin: '0 auto'}}
                                 onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>

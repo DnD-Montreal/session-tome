@@ -15,17 +15,26 @@ const Button = ({loading = false, size = 'medium', children, ...props}: ButtonPr
     const getLoadingSize = () => {
         switch (size) {
             case 'small':
-                return '27px'
+                return {
+                    buttonHeight: '27px',
+                    loadingSize: '21px',
+                }
             case 'large':
-                return '38.5px'
+                return {
+                    buttonHeight: '38.5px',
+                    loadingSize: '32.5px',
+                }
             default:
-                return '33px'
+                return {
+                    buttonHeight: '33px',
+                    loadingSize: '27px',
+                }
         }
     }
     return (
-        <MuiButton size={size} {...props} style={{height: getLoadingSize()}}>
+        <MuiButton size={size} {...props} style={{height: getLoadingSize().buttonHeight}}>
             {loading ? (
-                <CircularProgress color='secondary' size={getLoadingSize()} />
+                <CircularProgress color='secondary' size={getLoadingSize().loadingSize} />
             ) : (
                 children
             )}
