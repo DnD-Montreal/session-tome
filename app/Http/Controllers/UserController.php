@@ -6,62 +6,73 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
 
 class UserController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User $user
-     * @return \Inertia\Response
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function index(Request $request)
     {
-        if ($user->id == Auth::id() || Auth::user()->isSiteAdmin()) {
-            return Inertia::render('Profile', compact('user'));
-        }
+        $users = User::all();
 
-        abort(403);
+        return view('user.index', compact('users'));
     }
 
     /**
-     * @param \App\Http\Requests\UserUpdateRequest $request
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function create(Request $request)
     {
-        $user->update($request->safe(['name', 'email', 'language']));
+        return view('user.create');
+    }
 
-        // Handle password changes
-        if ($newPassword = $request->safe(['password'])) {
-            $newPassword['password'] = Hash::make($newPassword['password']);
-            $user->update($newPassword);
-            // if the user updated their password, then re-auth them because their session will be invalidated.
-            Auth::login($user);
-        }
 
-        $request->session()->flash('user.id', $user->id);
-
-        return redirect()->back();
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, User $user)
+    {
+        return view('user.show', compact('user'));
     }
 
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, User $user)
+    {
+        return view('user.edit', compact('user'));
+    }
+
+    /**
+     * @param \App\Http\Requests\UserUpdateRequest $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        $user->update($request->validated());
+
+        $request->session()->flash('user.id', $user->id);
+
+        return redirect()->route('user.index');
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, User $user)
     {
-        if ($user->id == Auth::id() || Auth::user()->isSiteAdmin()) {
-            $user->delete();
-            Auth::logout();
+        $user->delete();
 
-            return redirect()->route('homepage');
-        }
-
-        abort(403);
+        return redirect()->route('user.index');
     }
 }

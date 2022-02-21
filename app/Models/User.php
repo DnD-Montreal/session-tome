@@ -30,7 +30,6 @@ class User extends Authenticatable implements AuthenticatableInterface
         'name',
         'email',
         'password',
-        'language'
     ];
 
     /**

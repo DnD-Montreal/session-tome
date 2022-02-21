@@ -140,12 +140,12 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             user={user}
                         />
                         <UserAvatarColumn item container xs={12} md={3}>
-                            <Grid item xs={2} />
+                            <Grid md={3} />
                             <Grid
                                 item
                                 container
                                 xs
-                                md={4}
+                                md={3}
                                 justifyContent={
                                     window.innerWidth > 768 ? 'end' : 'center'
                                 }

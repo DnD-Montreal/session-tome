@@ -31,7 +31,7 @@ Route::get('/', function () {
 })->name('homepage');
 
 Route::middleware(['auth', 'throttle'])->group(function () {
-    Route::resource('user', App\Http\Controllers\UserController::class)->only(['edit', 'update', 'destroy']);
+    Route::resource('user', App\Http\Controllers\UserController::class);
 
     Route::resource('rating', App\Http\Controllers\RatingController::class);
 
@@ -86,9 +86,6 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
         ->only(['create', 'store']);
-
-    Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
-        ->name('trade-fulfillment.store');
 });
 
 
