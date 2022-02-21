@@ -19,11 +19,6 @@ module.exports = (on) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
 
-    on('task', import('./swap-env'))
-
-    on('task', {
-        downloaded_files(download_folder) {
-            return fs.readdirSync(download_folder)
-        },
-    })
+    on('task', require('./swap-env'))
+    on('task', require('./helper-functions'))
 }
