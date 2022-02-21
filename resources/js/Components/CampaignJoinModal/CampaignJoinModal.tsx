@@ -34,16 +34,13 @@ type CampaignJoinModalPropType = {
 }
 
 type CampaignJoinModalDataType = {
-    code: string | undefined
+    code: string | ''
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
-    const CAMPAIGN_JOIN_MODAL_FORM_INITIAL_VALUE: CampaignJoinModalDataType = {
-        code: undefined,
-    }
-    const {data, setData, errors, clearErrors, post} = useForm(
-        CAMPAIGN_JOIN_MODAL_FORM_INITIAL_VALUE,
-    )
+    const {data, setData, errors, clearErrors, post} = useForm({
+        code: '',
+    })
     return (
         <Modal
             open={open}
