@@ -49,6 +49,7 @@ class FulfillTrade
             'date_played' => now(),
             'type' => Entry::TYPE_DOWNTIME,
             'levels' => 0,
+            'downtime' => -5,
             'notes' => "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name
         ];
 
