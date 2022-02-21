@@ -9,7 +9,10 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText, Link} from 'Components'
+import {
+    ErrorText,
+    // Link
+} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -76,9 +79,9 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 {/* For testing CampaignRegistrationForm */}
-                                <Link href={route('campaign-registration.create')}>
+                                {/* <Link href={route('campaign-registration.create')}>
                                     <Button fullWidth>Test</Button>
-                                </Link>
+                                </Link> */}
                                 <Button
                                     variant='outlined'
                                     onClick={() => {
