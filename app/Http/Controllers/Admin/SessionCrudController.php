@@ -45,6 +45,8 @@ class SessionCrudController extends CrudController
         if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $event = Event::wherein('league_id', $leagueId)->pluck('id');
+
+            /** @psalm-suppress UndefinedFunction */
             $this->crud->addClause('wherein', 'event_id', $event);
         }
 
