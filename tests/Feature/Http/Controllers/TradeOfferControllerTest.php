@@ -57,17 +57,11 @@ class TradeOfferControllerTest extends TestCase
     {
         $item = Item::factory()->create([
             'rarity' => 'rare',
-            'id' => 234,
             'description' => "listed"
         ]);
 
-        $trade = Trade::factory()->create([
-            'id' => 456,
-            'item_id' => $item->id
-        ]);
-        //If item_id not explicitly set as in line 87, the item_id increments by 1
-        //after during store request... below line not sufficient
-        //$trade->item()->associate($item);
+        $trade = Trade::factory()->create();
+        $trade->item()->associate($item)->save();
 
         $character = Character::factory()->create([
             'user_id' => $this->user->id
@@ -89,12 +83,13 @@ class TradeOfferControllerTest extends TestCase
 
         $response->assertRedirect('/');
 
-        $response = $this->from('/')->post(route('offer.store'), [
+        $responseInvalid = $this->from('/')->post(route('offer.store'), [
             'trade_id' => $trade->id,
             'item_id' => $invalidOffer->id
         ]);
 
-        $response->assertRedirect('/');
+        $responseInvalid->assertRedirect('/');
+        $responseInvalid->assertSessionHasErrors();
 
         $this->assertTrue($trade->offers()->get()->contains($offer));
         $this->assertFalse($trade->offers()->get()->contains($invalidOffer));
@@ -107,14 +102,23 @@ class TradeOfferControllerTest extends TestCase
      */
     public function destroy_detaches_offer()
     {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
         $offer = Item::factory()->create([
-            'id' => 333,
-            'description' => "test item"
+            'character_id' => $character->id,
         ]);
         $trade = Trade::factory()->create();
         $trade->offers()->attach($offer);
 
-        $response = $this->from('/')->delete(route('offer.destroy', [$offer, $trade]));
+        $invalid_user = User::factory()->create();
+
+        $response_invalid = $this->actingAs($invalid_user)->from('/')->delete(route('offer.destroy', [$offer, $trade]));
+
+        $response_invalid->assertRedirect('/');
+        $response_invalid->assertSessionHasErrors();
+
+        $response = $this->actingAs($this->user)->from('/')->delete(route('offer.destroy', [$offer, $trade]));
 
         $response->assertRedirect('/');
         $this->assertNotContains($offer, $trade->offers);
