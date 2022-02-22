@@ -4,7 +4,6 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Link, LoginForm, RegistrationForm} from 'Components'
-import i18n from 'i18next'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -37,7 +36,6 @@ const Authentication = ({
 
     useEffect(() => {
         if (user) {
-            i18n.changeLanguage(user.language)
             setAnchorEl(null)
         }
     }, [user])

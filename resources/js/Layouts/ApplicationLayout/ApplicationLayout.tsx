@@ -5,9 +5,10 @@ import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication, Link as InertiaLink} from 'Components'
+import i18n from 'i18next'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
-import React, {ReactNode, useState} from 'react'
+import React, {ReactNode, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import SVG from 'react-inlinesvg'
 import {UsePageType} from 'Types/global'
@@ -89,6 +90,14 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     const {auth} = usePage<UsePageType>().props
     const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
+    // const [currentLanguage, setCurrentLanguage] = useState<'en' | 'fr'>('en')
+
+    useEffect(() => {
+        if (user) {
+            i18n.changeLanguage(user.language)
+        }
+    }, [user])
+
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
     }
