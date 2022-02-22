@@ -63,10 +63,10 @@ class TradeOfferController extends Controller
      */
     public function destroy(Request $request, Item $offer, Trade $trade)
     {
-        if ($offer->user()->id == Auth::user()->id) {
+        if ($offer->user()->id == Auth::user()->id && $trade->offers->contains($offer)) {
             $trade->offers()->detach($offer);
         } else {
-            return redirect()->back()->withErrors(['error' => 'Offer item not owned by user']);
+            return redirect()->back()->withErrors(['error' => 'Offer must exist and be owned by user']);
         }
 
         return redirect()->back();
