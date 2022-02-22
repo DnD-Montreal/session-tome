@@ -128,7 +128,7 @@ const DataTable = ({
                             ),
                         }}
                         fullWidth
-                        label={`Search ${tableName}`}
+                        label={`${t('common.search')} ${t(`tableName.${tableName}`)}`}
                         id='search-filter'
                         onChange={(e: any) => {
                             if (e.target.value === '' || !e.target.value) {

@@ -50,7 +50,8 @@
         "characters": "Characters",
         "campaigns": "Campaigns",
         "ratings": "Ratings",
-        "skip": "Skip"
+        "skip": "Skip",
+        "search": "Search"
     },
     "component": {
         "no-data": "No data...",
