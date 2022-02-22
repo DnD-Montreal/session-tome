@@ -1,7 +1,15 @@
 import {useForm} from '@inertiajs/inertia-react'
 import ClearIcon from '@mui/icons-material/Clear'
-import {Alert, Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
-import {Link as InertiaLink} from 'Components'
+import {
+    Alert,
+    Box,
+    Button as MuiButton,
+    Grid,
+    Link,
+    TextField,
+    Typography,
+} from '@mui/material'
+import {Button, Link as InertiaLink} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -42,7 +50,7 @@ type CharacterImportFormData = {
 }
 
 const CharacterImportForm = () => {
-    const {data, setData, post} = useForm<CharacterImportFormData>({
+    const {data, setData, post, processing} = useForm<CharacterImportFormData>({
         beyond_link: null,
         logs: null,
     })
@@ -68,12 +76,12 @@ const CharacterImportForm = () => {
                         multiple={false}
                         type='file'
                     />
-                    <Button
+                    <MuiButton
                         disabled={Boolean(data.beyond_link)}
                         variant='contained'
                         component='span'>
                         Upload
-                    </Button>
+                    </MuiButton>
                 </Label>
                 {data?.logs && (
                     <Grid>
@@ -109,6 +117,7 @@ const CharacterImportForm = () => {
                 <Grid item md={8} />
                 <Grid item md={2} xs={6}>
                     <Button
+                        loading={processing}
                         variant='contained'
                         fullWidth
                         onClick={() => {
