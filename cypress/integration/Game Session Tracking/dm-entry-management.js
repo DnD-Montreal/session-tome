@@ -1,3 +1,5 @@
+const {cy} = require('date-fns/locale')
+
 describe('DM Entry Management Test Suite', () => {
     let number_of_remaining_dm_entries = 0
     const new_item_name = 'NewItemName'
@@ -130,7 +132,7 @@ describe('DM Entry Management Test Suite', () => {
 
     it('Attach Campaign Reward DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_campaign_reward')
-
+        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
@@ -140,12 +142,13 @@ describe('DM Entry Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
         cy.wait('@attach_campaign_reward').its('response.statusCode').should('eq', 303)
+        cy.wait('@fetchDMEntry')
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Attach Advancement DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_advancement')
-
+        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(1).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
@@ -155,12 +158,13 @@ describe('DM Entry Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
         cy.wait('@attach_advancement').its('response.statusCode').should('eq', 303)
+        cy.wait('@fetchDMEntry')
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
     it('Attach Item DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_magic_item')
-
+        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(2).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
@@ -170,6 +174,7 @@ describe('DM Entry Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
         cy.wait('@attach_magic_item').its('response.statusCode').should('eq', 303)
+        cy.wait('@fetchDMEntry')
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
