@@ -3,6 +3,7 @@ import {Button, Grid, TextField, Typography} from '@mui/material'
 import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {ErrorText, Select} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {ItemEditData} from 'Types/item-data'
 import route from 'ziggy-js'
@@ -18,19 +19,17 @@ const StyledGrid = styled(Grid)`
 
 const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
     const {data, setData, errors, put} = useForm(editData)
-
+    const {t} = useTranslation()
     return (
         <>
-            <Typography>
-                Fill out the following fields with your character&apos;s item details.
-            </Typography>
+            <Typography>{t('itemDetail.fill-out-fields')}</Typography>
             <Grid container spacing={0}>
                 <StyledGrid item xs={12}>
                     <TextField
                         margin='normal'
                         fullWidth
                         id='name'
-                        label='Name'
+                        label={t('form.name')}
                         name='Name'
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
@@ -42,7 +41,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         margin='normal'
                         fullWidth
                         id='description'
-                        label='Description'
+                        label={t('form.description')}
                         name='Description'
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
@@ -55,7 +54,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         required
                         id='rarity'
                         label='Rarity'
-                        name='Rarity'
+                        name={t('form.rarity')}
                         value={data.rarity}
                         onChange={(e) => setData('rarity', e.target.value)}
                         options={rarityOptions}
@@ -68,7 +67,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         fullWidth
                         required
                         id='tier'
-                        label='Tier'
+                        label={t('form.tier')}
                         name='Tier'
                         value={data.tier}
                         onChange={(e) => setData('tier', parseInt(e.target.value))}
@@ -80,7 +79,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
             <Grid container spacing={4}>
                 <Grid item xs={4}>
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 </Grid>
                 <Grid item xs={4} />
@@ -92,7 +91,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                             put(route('item.update', [editData.id]))
                             onCloseDrawer()
                         }}>
-                        Save
+                        {t('common.save')}
                     </Button>
                 </Grid>
             </Grid>

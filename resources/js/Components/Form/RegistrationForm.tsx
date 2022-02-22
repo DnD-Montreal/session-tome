@@ -1,6 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, TextField, Typography} from '@mui/material'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import route from 'ziggy-js'
 
@@ -10,20 +11,23 @@ const StyledErrorText = styled(Typography)`
 `
 
 type RegisterFormDataType = {
-    email: string
-    password: string
-    name: string
-    password_confirmation: string
+    email: string | undefined
+    password: string | undefined
+    name: string | undefined
+    password_confirmation: string | undefined
 }
 
-const LoginForm = () => {
+const RegistrationForm = () => {
+    const {t} = useTranslation()
     const registerFormInitialValues = {
-        email: '',
-        password: '',
-        name: '',
-        password_confirmation: '',
+        email: undefined,
+        password: undefined,
+        name: undefined,
+        password_confirmation: undefined,
     }
-    const {data, setData, post, errors, reset} = useForm(registerFormInitialValues)
+    const {data, setData, post, errors, reset} = useForm<RegisterFormDataType>(
+        registerFormInitialValues,
+    )
 
     return (
         <Box>
@@ -32,7 +36,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 id='username'
-                label='Username'
+                label={t('form.username')}
                 name='username'
                 autoComplete='username'
                 onChange={(e) => setData('name', e.target.value)}
@@ -44,7 +48,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 id='email'
-                label='Email Address'
+                label={t('form.email')}
                 name='email'
                 autoComplete='email'
                 onChange={(e) => setData('email', e.target.value)}
@@ -56,7 +60,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 name='password'
-                label='Password'
+                label={t('form.password')}
                 type='password'
                 id='password'
                 autoComplete='current-password'
@@ -70,7 +74,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 id='confirmPassword'
-                label='Confirm password'
+                label={t('form.confirm-password')}
                 name='confirmPassword'
                 type='password'
                 onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -96,11 +100,11 @@ const LoginForm = () => {
                     }
                 }}
                 sx={{mt: 3, mb: 2}}>
-                Register
+                {t('common.register')}
             </Button>
         </Box>
     )
 }
 
-LoginForm.displayName = 'LoginForm'
-export default LoginForm
+RegistrationForm.displayName = 'RegistrationForm'
+export default RegistrationForm

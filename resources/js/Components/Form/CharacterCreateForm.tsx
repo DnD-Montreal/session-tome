@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
@@ -35,6 +36,7 @@ const CharacterCreateForm = ({
     editId = 0,
     factions,
 }: CharacterCreateFormPropType) => {
+    const {t} = useTranslation()
     const CHARACTER_CREATE_FORM_INITIAL_VALUE: CharacterFormDataType = {
         name: '',
         race: '',
@@ -66,16 +68,14 @@ const CharacterCreateForm = ({
 
     const stepOneContent = (
         <>
-            <Typography>
-                Fill out the following fields with your character&apos;s details.
-            </Typography>
+            <Typography>{t('characterDetail.fill-out-fields')}</Typography>
             <Grid container spacing={0}>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <TextField
                         margin='normal'
                         fullWidth
                         id='name'
-                        label='Name'
+                        label={t('form.name')}
                         name='Name'
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
@@ -88,7 +88,7 @@ const CharacterCreateForm = ({
                         margin='normal'
                         fullWidth
                         id='race'
-                        label='Race'
+                        label={t('form.race')}
                         name='Race'
                         value={data.race}
                         onChange={(e) => setData('race', e.target.value)}
@@ -100,7 +100,7 @@ const CharacterCreateForm = ({
                         margin='normal'
                         fullWidth
                         id='class'
-                        label='Class'
+                        label={t('form.class')}
                         name='Class'
                         value={data.class}
                         onChange={(e) => setData('class', e.target.value)}
@@ -112,7 +112,7 @@ const CharacterCreateForm = ({
                     <Select
                         margin='normal'
                         id='faction'
-                        label='Faction'
+                        label={t('form.faction')}
                         name='Faction'
                         value={data.faction}
                         onChange={(e) => setData('faction', e.target.value)}
@@ -125,7 +125,7 @@ const CharacterCreateForm = ({
                         margin='normal'
                         fullWidth
                         id='level'
-                        label='Level'
+                        label={t('form.level')}
                         name='Level'
                         InputLabelProps={{
                             shrink: true,
@@ -158,7 +158,7 @@ const CharacterCreateForm = ({
                         margin='normal'
                         fullWidth
                         id='downtime'
-                        label='Downtime'
+                        label={t('form.downtime')}
                         name='Downtime'
                         InputProps={{
                             inputProps: {
@@ -185,7 +185,7 @@ const CharacterCreateForm = ({
 
     const stepTwoContent = (
         <Box sx={{minWidth: type === 'Create' ? '40vw' : undefined}}>
-            <Typography>Do you want this character to be public?</Typography>
+            <Typography>{t('characterDetail.public-status')}</Typography>
             <Switch
                 id='status'
                 checked={data.status === 'public'}
@@ -205,18 +205,18 @@ const CharacterCreateForm = ({
             <Grid item xs={4}>
                 {type === 'Create' ? (
                     <Link href={route('character.index')}>
-                        <Button fullWidth>Cancel</Button>
+                        <Button fullWidth>{t('common.cancel')}</Button>
                     </Link>
                 ) : (
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 )}
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
                 <Button variant='contained' onClick={() => setActiveStep(1)} fullWidth>
-                    Continue
+                    {t('common.continue')}
                 </Button>
             </Grid>
         </Grid>
@@ -226,7 +226,7 @@ const CharacterCreateForm = ({
         <Grid container spacing={4}>
             <Grid item xs={4}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
-                    Previous
+                    {t('common.previous')}
                 </Button>
             </Grid>
             <Grid item xs={4} />
@@ -255,7 +255,7 @@ const CharacterCreateForm = ({
                             }
                         }
                     }}>
-                    {type === 'Create' ? 'Create' : 'Save'}
+                    {type === 'Create' ? t('common.create') : t('common.save')}
                 </Button>
             </Grid>
         </Grid>

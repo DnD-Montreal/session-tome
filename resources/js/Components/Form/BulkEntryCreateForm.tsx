@@ -5,6 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import {Autocomplete, ErrorText, Link, Select, StepperForm} from 'Components'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -53,6 +54,7 @@ const frequencies = [
 ]
 
 const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
+    const {t} = useTranslation()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
         start_date: new Date(),
         end_date: new Date(),
@@ -66,18 +68,16 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
     )
     const [activeStep, setActiveStep] = useState<number>(0)
 
-    const stepTitles = [{label: 'Details'}]
+    const stepTitles = [{label: t('entry.details')}]
 
     const stepOneContent = (
         <Grid container>
             <Grid item xs={12}>
-                <Typography>
-                    Fill out the following fields about your future sessions.
-                </Typography>
+                <Typography>{t('entry.fill-out-fields')}</Typography>
             </Grid>
             <StyledGrid item xs={12} md={5}>
                 <Autocomplete
-                    label='Adventure'
+                    label={t('entry.adventures')}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -95,7 +95,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                 <Select
                     id='frequency'
                     required
-                    label='Frequency'
+                    label={t('entry.frequency')}
                     name='Frequency'
                     value={data.frequency}
                     onChange={(e) => setData('frequency', parseFloat(e.target.value))}
@@ -109,14 +109,14 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     fullWidth
                     variant='filled'
                     id='id'
-                    label='Assigned Character'
+                    label={t('entry.assigned-character')}
                     defaultValue={character.name}
                 />
             </StyledGrid>
             <StyledGrid item xs={12} md={5}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
-                        label='Start Date and Time'
+                        label={t('entry.start-date-and-time')}
                         value={data.start_date}
                         inputFormat='yyyy-MM-dd HH:mm'
                         onChange={(e) => {
@@ -133,7 +133,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
             <StyledGrid item xs={12} md={5}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
-                        label='End Date and Time'
+                        label={t('entry.end-date-and-time')}
                         value={data.end_date}
                         inputFormat='yyyy-MM-dd HH:mm'
                         onChange={(e) => {
@@ -155,7 +155,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 <Link href={route('character.show', [character.id])}>
-                    <Button fullWidth>Cancel</Button>
+                    <Button fullWidth>{t('common.cancel')}</Button>
                 </Link>
             </Grid>
             <Grid item xs={4} />
@@ -171,7 +171,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                             clearErrors()
                         }
                     }}>
-                    Create
+                    {t('common.create')}
                 </Button>
             </Grid>
         </StyledGrid>

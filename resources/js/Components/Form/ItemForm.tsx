@@ -4,6 +4,7 @@ import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {Select} from 'Components'
 import {cloneDeep} from 'lodash'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {ItemData} from 'Types/item-data'
 
 type ItemFormPropType = {
@@ -12,6 +13,7 @@ type ItemFormPropType = {
 }
 
 const ItemForm = ({items, setData}: ItemFormPropType) => {
+    const {t} = useTranslation()
     const ITEM_INITIAL_VALUES = {
         name: '',
         rarity: '',
@@ -37,11 +39,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography>
-                        Fill out the following fields with your Magic Item details. Please
-                        note that the first item is the one that gets attached to a
-                        character should you choose to accept the Magic item as a reward.
-                    </Typography>
+                    <Typography>{t('itemDetail.fill-out-fields-create')}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <Button
@@ -51,7 +49,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                             newItems.push(ITEM_INITIAL_VALUES)
                             setData('items', newItems)
                         }}>
-                        Add Item
+                        {t('itemDetail.add-item')}
                     </Button>
                 </Grid>
             </Grid>
@@ -81,7 +79,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 fullWidth
                                 required
                                 id='name'
-                                label='Name'
+                                label={t('form.name')}
                                 name='Item name'
                                 value={item.name}
                                 onChange={(e) =>
@@ -94,7 +92,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 id='rarity'
                                 required
                                 label='Rarity'
-                                name='Rarity'
+                                name={t('form.rarity')}
                                 value={item.rarity}
                                 onChange={(e) =>
                                     handleOnChange('rarity', e.target.value, index)
@@ -107,7 +105,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 id='tier'
                                 required
                                 label='Tier'
-                                name='Tier'
+                                name={t('form.tier')}
                                 value={item.tier}
                                 onChange={(e) =>
                                     handleOnChange('tier', e.target.value, index)
@@ -121,7 +119,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 rows={3}
                                 fullWidth
                                 id='description'
-                                label='Description'
+                                label={t('form.description')}
                                 name='Description'
                                 value={item.description}
                                 onChange={(e) =>
