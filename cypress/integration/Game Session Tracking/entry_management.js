@@ -72,7 +72,6 @@ describe('Manage Characters Test Suite', () => {
     })
 
     it('Edit Character Entry', () => {
-        cy.intercept('GET', '**/character/*').as('getCharacter')
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit Entry')
         cy.get('#adventures').click()
@@ -87,7 +86,7 @@ describe('Manage Characters Test Suite', () => {
 
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
-        cy.wait('@getCharacter')
+        cy.wait('@last_url')
         cy.contains('Edit Entry').should('not.exist')
     })
 

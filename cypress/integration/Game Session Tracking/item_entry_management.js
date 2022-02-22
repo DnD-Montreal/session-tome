@@ -81,13 +81,12 @@ describe('Item Entry Management Test Suite', () => {
     })
 
     it('Edit Item Entry', () => {
-        cy.intercept('GET', '**/character/*').as('getCharacter')
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit Entry')
         cy.contains('button', 'Continue').click()
         cy.get('svg[data-testid="ClearIcon"]').eq(0).click()
         cy.contains('button', 'Save').click()
-        cy.wait('@getCharacter')
+        cy.wait('@last_url')
         cy.contains('Edit Entry').should('not.exist')
         cy.contains(newer_item_name)
         cy.contains(new_item_name).should('not.exist')
