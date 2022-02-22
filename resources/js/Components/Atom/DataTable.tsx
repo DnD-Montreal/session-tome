@@ -15,6 +15,7 @@ import {
     Typography,
 } from '@mui/material'
 import React, {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'
 
@@ -70,6 +71,7 @@ const DataTable = ({
     leftActions,
     rightActions,
 }: DataTablePropType) => {
+    const {t} = useTranslation()
     // Table states
     const [currentRows, setCurrentRows] = useState(data)
     const [page, setPage] = useState(DEFAULT_PAGE)
@@ -149,7 +151,7 @@ const DataTable = ({
                                 color='inherit'
                                 variant='subtitle1'
                                 component='div'>
-                                {selected?.length} selected
+                                {`${selected?.length} ${t('component.selected')}`}
                             </Typography>
                         ) : (
                             <Typography
@@ -157,7 +159,7 @@ const DataTable = ({
                                 variant='h6'
                                 id='tableTitle'
                                 component='div'>
-                                {tableName}
+                                {t(`tableName.${tableName}`)}
                             </Typography>
                         )}
                     </Grid>

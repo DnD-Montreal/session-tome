@@ -4,6 +4,7 @@ import useEditDrawer from '@Utils/use-edit-drawer'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
@@ -26,6 +27,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
         editData,
         setEditData,
     } = useEditDrawer<EntriesData>()
+    const {t} = useTranslation()
 
     return (
         <ThemeProvider theme={theme}>
@@ -40,7 +42,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         characters={characters}
                     />
                 }
-                title={<Typography>Edit DM Entry</Typography>}
+                title={<Typography>{t('entry.edit-dm-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

@@ -8,6 +8,7 @@ import {Authentication, Link as InertiaLink} from 'Components'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
 import React, {ReactNode, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import SVG from 'react-inlinesvg'
 import {UsePageType} from 'Types/global'
 import {getFontTheme} from 'Utils'
@@ -84,6 +85,7 @@ type LayoutProps = {
 }
 
 const ApplicationLayout = ({children}: LayoutProps) => {
+    const {t} = useTranslation()
     const {auth} = usePage<UsePageType>().props
     const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
@@ -164,7 +166,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href='/#'>
-                                Home
+                                {t('common.home')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
@@ -177,7 +179,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href={route('character.index')}>
-                                Characters
+                                {t('common.characters')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
@@ -187,7 +189,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href='/#'>
-                                Item Shop
+                                {t('common.item-shop')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
@@ -199,7 +201,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href='/#'>
-                                Campaigns
+                                {t('common.campaigns')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
@@ -209,7 +211,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href={route('rating.index')}>
-                                Ratings
+                                {t('common.ratings')}
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>

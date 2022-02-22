@@ -74,7 +74,7 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
             data={reportedRatings}
             isSelectable={false}
             columns={columns}
-            tableName='Ratings'
+            tableName='rating'
             filterProperties={['name']}
         />
     )

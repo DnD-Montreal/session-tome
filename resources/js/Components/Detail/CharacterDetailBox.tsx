@@ -6,6 +6,7 @@ import IosShareIcon from '@mui/icons-material/IosShare'
 import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {useUser} from 'Utils'
 import route from 'ziggy-js'
@@ -34,7 +35,7 @@ type CharDetailBoxPropType = {
 
 const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropType) => {
     const {getUserId} = useUser()
-
+    const {t} = useTranslation()
     return (
         <Box sx={{p: 5, backgroundColor: 'primary'}}>
             <Grid container spacing={6}>
@@ -46,31 +47,35 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                 </Grid>
                 <Grid item container columnSpacing={1} rowSpacing={5} xs={8}>
                     <Grid item xs={12}>
-                        <StyledTypography>NAME</StyledTypography>
+                        <StyledTypography>{t('characterDetail.name')}</StyledTypography>
                         <Typography>{character.name}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>RACE</StyledTypography>
+                        <StyledTypography>{t('characterDetail.race')}</StyledTypography>
                         <Typography>{character.race}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>CLASS</StyledTypography>
+                        <StyledTypography>{t('characterDetail.class')}</StyledTypography>
                         <Typography>{character.class}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>FACTION</StyledTypography>
+                        <StyledTypography>
+                            {t('characterDetail.faction')}
+                        </StyledTypography>
                         <Typography>{character.faction}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>LEVEL</StyledTypography>
+                        <StyledTypography>{t('characterDetail.level')}</StyledTypography>
                         <Typography>{character.level}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>DOWNTIME</StyledTypography>
+                        <StyledTypography>
+                            {t('characterDetail.downtime')}
+                        </StyledTypography>
                         <Typography>{character.downtime}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <StyledTypography>STATUS</StyledTypography>
+                        <StyledTypography>{t('characterDetail.status')}</StyledTypography>
                         <StyledStatus>{character.status}</StyledStatus>
                     </Grid>
                     <Grid item xs={12}>
@@ -83,7 +88,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     onClick={() => {
                                         setIsEditDrawerOpen(true)
                                     }}>
-                                    UPDATE
+                                    {t('common.update')}
                                 </Button>
                             )}
                             {/* getUserId() === character.user_id && (
@@ -98,7 +103,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                 <Button
                                     variant='contained'
                                     startIcon={<IosShareIcon fontSize='small' />}>
-                                    ITEMS
+                                    {t('common.items')}
                                 </Button>
                             </Link>
                             <Link
@@ -109,7 +114,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     data-testid='entry-button'
                                     variant='contained'
                                     startIcon={<HistoryEduIcon fontSize='small' />}>
-                                    Entry
+                                    {t('common.entry')}
                                 </Button>
                             </Link>
                             <Link
@@ -122,7 +127,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                                     startIcon={
                                         <CollectionsBookmarkIcon fontSize='small' />
                                     }>
-                                    Bulk Entry
+                                    {t('common.bulk-entry')}
                                 </Button>
                             </Link>
                         </Stack>

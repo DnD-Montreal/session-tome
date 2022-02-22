@@ -5,8 +5,8 @@ import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/ma
 import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
-import {startCase} from 'lodash'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
@@ -27,6 +27,7 @@ const EntryTable = ({
     setEditEntryData,
     setIsEditDrawerOpen,
 }: EntryPropType) => {
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
@@ -57,7 +58,7 @@ const EntryTable = ({
                                 variant='text'
                                 color='warning'
                                 onClick={() => onOpenEditDrawer(row)}>
-                                set adventure
+                                {t('entry.set-adventure')}
                             </Button>
                         </Tooltip>
                     )
@@ -71,7 +72,7 @@ const EntryTable = ({
         {
             property: 'reward',
             title: 'Reward',
-            render: (value: any) => <Typography>{startCase(value)}</Typography>,
+            render: (value: any) => <Typography>{t(`enums.${value}`)}</Typography>,
         },
         {
             property: 'items',
@@ -117,7 +118,7 @@ const EntryTable = ({
         <Box>
             <DeleteModal
                 open={isDeleteModalOpen}
-                warningMessage='Are you sure you want to delete this/these entry(ies)?'
+                warningMessage={t('entry.delete-message')}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('entry.destroy'))
@@ -133,7 +134,7 @@ const EntryTable = ({
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='Entries'
+                tableName='entry'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['adventure']}
             />

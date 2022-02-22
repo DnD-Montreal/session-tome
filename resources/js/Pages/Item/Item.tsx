@@ -3,6 +3,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import {Drawer, ItemEditForm, ItemTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {ItemEditData} from 'Types/item-data'
 import {getFontTheme} from 'Utils'
 
@@ -12,6 +13,7 @@ type ItemPropType = {
     items: ItemEditData[]
 }
 const Item = ({items}: ItemPropType) => {
+    const {t} = useTranslation()
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [editData, setEditData] = useState<ItemEditData>({
         name: '',
@@ -30,7 +32,7 @@ const Item = ({items}: ItemPropType) => {
                         editData={editData}
                     />
                 }
-                title={<Typography>Edit Item</Typography>}
+                title={<Typography>{t('itemDetail.edit-item')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

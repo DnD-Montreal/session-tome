@@ -1,5 +1,6 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
 import {
     CharacterCreateForm,
     CharacterDetailBox,
@@ -9,6 +10,7 @@ import {
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
@@ -31,55 +33,60 @@ const CharacterDetail = ({
     adventures,
     gameMasters,
 }: CharacterDetailPropType) => {
-    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
-    const [editEntryData, setEditEntryData] = useState<EntriesData>()
-    const [editEntryId, setEditEntryId] = useState<number>(0)
+    const {t} = useTranslation()
+    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
+        useState<boolean>(false)
+
+    const {
+        isEditDrawerOpen,
+        setIsEditDrawerOpen,
+        editId,
+        setEditId,
+        editData,
+        setEditData,
+    } = useEditDrawer<EntriesData>()
+
     return (
         <ThemeProvider theme={theme}>
             <Drawer
                 content={
                     <CharacterCreateForm
                         type='Edit'
-                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        onCloseDrawer={() => setIsCharacterEditDrawerOpen(false)}
                         editData={character}
                         editId={character.id}
                         factions={factions}
                     />
                 }
-                title={<Typography>Edit Character</Typography>}
-                isOpen={isEditDrawerOpen}
-                onClose={() => {
-                    setIsEditDrawerOpen(false)
-                }}
+                title={<Typography>{t('characterDetail.edit-character')}</Typography>}
+                isOpen={isCharacterEditDrawerOpen}
+                onClose={() => setIsCharacterEditDrawerOpen(false)}
             />
             <Drawer
                 content={
                     <EntryCreateForm
                         type='Edit'
-                        onCloseDrawer={() => setIsEditEntryDrawerOpen(false)}
-                        editData={editEntryData}
-                        editId={editEntryId}
+                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        editData={editData}
+                        editId={editId}
                         character={character}
                         adventures={adventures}
                         gameMasters={gameMasters}
                     />
                 }
-                title={<Typography>Edit Entry</Typography>}
-                isOpen={isEditEntryDrawerOpen}
-                onClose={() => {
-                    setIsEditEntryDrawerOpen(false)
-                }}
+                title={<Typography>{t('characterDetail.edit-character')}</Typography>}
+                isOpen={isEditDrawerOpen}
+                onClose={() => setIsEditDrawerOpen(false)}
             />
             <CharacterDetailBox
                 character={character}
-                setIsEditDrawerOpen={setIsEditDrawerOpen}
+                setIsEditDrawerOpen={setIsCharacterEditDrawerOpen}
             />
             <EntryTable
                 data={entries}
-                setEditEntryId={setEditEntryId}
-                setEditEntryData={setEditEntryData}
-                setIsEditDrawerOpen={setIsEditEntryDrawerOpen}
+                setEditEntryId={setEditId}
+                setEditEntryData={setEditData}
+                setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
         </ThemeProvider>
     )

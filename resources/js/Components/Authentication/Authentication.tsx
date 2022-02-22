@@ -4,7 +4,9 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Link, LoginForm, RegistrationForm} from 'Components'
+import i18n from 'i18next'
 import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
@@ -28,12 +30,14 @@ const Authentication = ({
     setAnchorEl,
     user,
 }: AuthenticationPropType) => {
+    const {t} = useTranslation()
     const open = Boolean(anchorEl)
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const {post, wasSuccessful} = useForm({})
 
     useEffect(() => {
         if (user) {
+            i18n.changeLanguage(user.language)
             setAnchorEl(null)
         }
     }, [user])
@@ -54,7 +58,7 @@ const Authentication = ({
                                 fullWidth
                                 variant='text'
                                 startIcon={<AccountBoxIcon />}>
-                                Profile
+                                {t('authentication.profile')}
                             </Button>
                         </Link>
                         <Button
@@ -69,7 +73,7 @@ const Authentication = ({
                                     setAnchorEl(null)
                                 }
                             }}>
-                            Logout
+                            {t('authentication.logout')}
                         </Button>
                     </Box>
                 ) : (
@@ -82,8 +86,8 @@ const Authentication = ({
                             <Tabs
                                 value={selectedTab}
                                 onChange={(e, newValue) => setSelectedTab(newValue)}>
-                                <Tab label='Login' />
-                                <Tab label='Register' />
+                                <Tab label={t('authentication.login')} />
+                                <Tab label={t('authentication.register')} />
                             </Tabs>
                         </Box>
                         {selectedTab === 0 ? <LoginForm /> : <RegistrationForm />}
