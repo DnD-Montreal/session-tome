@@ -41,18 +41,18 @@ const EntryTable = ({
     const columns = [
         {
             property: 'date_played',
-            title: 'Date',
+            title: t('tableColumn.date'),
             render: (value: string) => (
                 <Typography>{dayjs(value).format('LLL')}</Typography>
             ),
         },
         {
             property: 'adventure',
-            title: 'Adventure Title',
+            title: t('tableColumn.adventure'),
             render: (value: any, row: any) => {
                 if (!value)
                     return (
-                        <Tooltip title='This imported entry does not have an adventure, please update it manually.'>
+                        <Tooltip title={t('entry.no-adventure-warning') ?? ''}>
                             <Button
                                 id='set-adventure-button'
                                 variant='text'
@@ -67,21 +67,21 @@ const EntryTable = ({
         },
         {
             property: 'session',
-            title: 'Session',
+            title: t('tableColumn.session'),
         },
         {
             property: 'reward',
-            title: 'Reward',
+            title: t('tableColumn.reward'),
             render: (value: any) => <Typography>{t(`enums.${value}`)}</Typography>,
         },
         {
             property: 'items',
-            title: 'Magic Items',
+            title: t('tableColumn.items'),
             render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: any) => (
                 <>
                     <IconButton aria-label='edit' onClick={() => onOpenEditDrawer(row)}>
@@ -101,7 +101,7 @@ const EntryTable = ({
     ]
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
+            <Tooltip title={t('common.delete') ?? ''}>
                 <IconButton
                     aria-label='bulkdelete'
                     onClick={() => {

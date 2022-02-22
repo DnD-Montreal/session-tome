@@ -61,37 +61,37 @@ const CharacterTable = ({
     const columns = [
         {
             property: 'name',
-            title: 'Name',
+            title: t('tableColumn.name'),
             render: (value: string, row: CharacterData) => (
                 <Link href={route('character.show', [row.id])}>{value}</Link>
             ),
         },
         {
             property: 'race',
-            title: 'Race',
+            title: t('tableColumn.race'),
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
             property: 'class',
-            title: 'Class',
+            title: t('tableColumn.class'),
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
             property: 'level',
-            title: 'Level',
+            title: t('tableColumn.level'),
         },
         {
             property: 'faction',
-            title: 'Faction',
+            title: t('tableColumn.faction'),
             render: (value: string) => <FactionChip value={value} />,
         },
         {
             property: 'downtime',
-            title: 'Downtime',
+            title: t('tableColumn.downtime'),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: CharacterData) => (
                 <>
                     <IconButton
@@ -115,9 +115,10 @@ const CharacterTable = ({
             ),
         },
     ]
+
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
+            <Tooltip title={t('common.delete') ?? ''}>
                 <IconButton>
                     <DeleteIcon
                         onClick={() => {

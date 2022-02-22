@@ -26,14 +26,14 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
     const columns = [
         {
             property: 'name',
-            title: 'Name',
+            title: t('tableColumn.name'),
             render: (value: string, row: ItemEditData) => (
                 <Link href={route('item.show', [row.id])}>{value}</Link>
             ),
         },
         {
             property: 'description',
-            title: 'Description',
+            title: t('tableColumn.description'),
             render: (value: string) => (
                 <Typography>
                     {value === '""' ? t('itemDetail.no-description') : value}
@@ -42,12 +42,12 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
         },
         {
             property: 'rarity',
-            title: 'Rarity',
+            title: t('tableColumn.rarity'),
             render: (value: string) => <RarityChip value={value} />,
         },
         {
             property: 'tier',
-            title: 'Tier',
+            title: t('tableColumn.tier'),
             render: (value: number, row: any) => {
                 if (value === 0) {
                     return (
@@ -70,7 +70,7 @@ const ItemTable = ({data, setIsEditDrawerOpen, setEditData}: ItemTablePropType) 
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: any) => (
                 <>
                     <IconButton

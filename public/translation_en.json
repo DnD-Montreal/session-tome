@@ -69,7 +69,8 @@
         "start-date-and-time": "Start Date and Time",
         "end-date-and-time": "End Date and Time",
         "fill-out-fields-dm": "Fill out the following fields with your DM Entry details.",
-        "fill-out-fields-entry": "Fill out the following fields with your Entry details."
+        "fill-out-fields-entry": "Fill out the following fields with your Entry details.",
+        "no-adventure-warning": "This imported entry does not have an adventure, please update it manually."
     },
     "enums": {
         "common": "Common",
@@ -139,7 +140,26 @@
         "new-password": "New password"
     },
     "rating": {
-        "fill-out-fields": "Select what you like about your Game Master."
+        "fill-out-fields": "Select what you like about your Game Master.",
+        "league-event-ratings-only": "League Event Ratings Only"
+    },
+    "tableColumn": {
+        "name": "Name",
+        "race": "Race",
+        "class": "Class",
+        "level": "Level",
+        "faction": "Faction",
+        "downtime": "Downtime",
+        "actions": "Actions",
+        "date": "Date",
+        "adventure": "Adventure Title",
+        "session": "Session",
+        "character": "Character",
+        "reward": "Reward",
+        "items": "Magic Items",
+        "description": "Description",
+        "rarity": "Rarity",
+        "tier": "Tier"
     },
     "tableName": {
         "character": "Characters",
