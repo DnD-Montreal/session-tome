@@ -111,7 +111,7 @@ const EntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, processing, put} =
+    const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
@@ -366,19 +366,13 @@ const EntryCreateForm = ({
                     onClick={() => {
                         if (type === 'Edit') {
                             put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
                         } else {
                             post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
+                        }
+                        if (!wasSuccessful) {
+                            setActiveStep(0)
+                        } else {
+                            clearErrors()
                         }
                     }}>
                     {type === 'Create' ? t('common.create') : t('common.save')}

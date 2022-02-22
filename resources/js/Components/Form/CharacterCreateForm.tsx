@@ -59,12 +59,15 @@ const CharacterCreateForm = ({
                   status: editData?.status || 'private',
               }
 
-    const {data, setData, errors, clearErrors, post, put} = useForm(
+    const {data, setData, errors, clearErrors, post, put, wasSuccessful} = useForm(
         CHARACTER_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
 
-    const stepTitles = [{label: 'Enter details'}, {label: 'Privacy details'}]
+    const stepTitles = [
+        {label: t('characterDetail.enter-details')},
+        {label: t('characterDetail.privacy-details')},
+    ]
 
     const stepOneContent = (
         <>
@@ -237,21 +240,16 @@ const CharacterCreateForm = ({
                     onClick={() => {
                         if (type === 'Create') {
                             post(route('character.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
                         }
                         if (type === 'Edit') {
                             put(route('character.update', [editId]))
-                            if (Object.keys(errors).length) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
+                        }
+                        if (!wasSuccessful) {
+                            setActiveStep(0)
+                        } else {
+                            clearErrors()
+                            if (onCloseDrawer) {
+                                onCloseDrawer()
                             }
                         }
                     }}>

@@ -18,7 +18,7 @@ const StyledGrid = styled(Grid)`
 `
 
 const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
-    const {data, setData, errors, put} = useForm(editData)
+    const {data, setData, errors, put, wasSuccessful} = useForm(editData)
     const {t} = useTranslation()
     return (
         <>
@@ -89,6 +89,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         fullWidth
                         onClick={() => {
                             put(route('item.update', [editData.id]))
+                            if (!wasSuccessful) return
                             onCloseDrawer()
                         }}>
                         {t('common.save')}

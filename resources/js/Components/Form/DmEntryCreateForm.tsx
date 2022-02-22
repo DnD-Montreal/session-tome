@@ -116,10 +116,10 @@ const DmEntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, processing, put} =
+    const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<DmEntryFormDataType>(DM_ENTRY_FORM_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
-    const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
+    const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -288,19 +288,13 @@ const DmEntryCreateForm = ({
                     onClick={() => {
                         if (type === 'Edit') {
                             put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
                         } else {
                             post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
+                        }
+                        if (!wasSuccessful) {
+                            setActiveStep(0)
+                        } else {
+                            clearErrors()
                         }
                     }}>
                     {type === 'Create' ? t('common.create') : t('common.save')}

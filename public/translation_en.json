@@ -23,7 +23,9 @@
         "adventure-league-dot-com": "AdventurersLeagueLog.com ",
         "import-help-text-2": "logs or by entering your character's ",
         "DND-beyond": "D&D Beyond.",
-        "import-note": "Note: Imported characters will have missing fields for items and entries, please update them manually."
+        "import-note": "Note: Imported characters will have missing fields for items and entries, please update them manually.",
+        "enter-details": "Enter details",
+        "privacy-details": "Privacy details"
     },
     "common": {
         "create": "Create",
