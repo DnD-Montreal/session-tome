@@ -1,5 +1,5 @@
-import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import {EventTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {EventData} from 'Types/event-data'
@@ -8,13 +8,13 @@ import {getFontTheme} from 'Utils'
 const theme = getFontTheme('Form', 16)
 
 type EventPropType = {
-    events: EventData[]
+  events: EventData[]
 }
 
-const Event = () => (
-    <ThemeProvider theme={theme}>
-        <Typography>Under construction</Typography>
-    </ThemeProvider>
+const Event = ({events}: EventPropType) => (
+  <ThemeProvider theme={theme}>
+    <EventTable data={events} />
+  </ThemeProvider>
 )
 
 Event.displayName = 'Event'
