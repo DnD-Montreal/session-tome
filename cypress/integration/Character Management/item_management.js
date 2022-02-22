@@ -33,7 +33,7 @@ describe('Manage Items Test Suite', () => {
             .click()
         cy.contains('button', 'Items').click()
         cy.wait('@item')
-        cy.contains('Search Items')
+        // cy.contains('Search Items')
         cy.contains('Rarity')
         cy.contains('Tier')
         cy.contains('Rows per page:')
@@ -82,7 +82,7 @@ describe('Manage Items Test Suite', () => {
     })
 
     it('Item Detail Edit Drawer', () => {
-        cy.contains('button', 'UPDATE').click()
+        cy.contains('button', 'Update').click()
         cy.contains('Edit Item')
         cy.get('#name').clear().type(newer_item_name)
         cy.get('#rarity').click()

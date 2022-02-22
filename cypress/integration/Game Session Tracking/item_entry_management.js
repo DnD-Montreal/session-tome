@@ -93,7 +93,7 @@ describe('Item Entry Management Test Suite', () => {
 
     it('Delete Item Entry', () => {
         cy.intercept('GET', `${Cypress.Laravel.route('item.index')}*`).as('item')
-        cy.contains('button', 'ITEMS').click()
+        cy.contains('button', 'Items').click()
         cy.wait('@item')
         cy.contains(newer_item_name)
 

@@ -95,7 +95,9 @@ const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxProp
                 <Grid item xs={12}>
                     <StyledTypography>{t('itemDetail.description')}</StyledTypography>
                     <Typography>
-                        {item.description === '""' ? 'No description' : item.description}
+                        {item.description === '""'
+                            ? t('itemDetail.no-description')
+                            : item.description}
                     </Typography>
                 </Grid>
             </Grid>
