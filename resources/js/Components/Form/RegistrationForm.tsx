@@ -100,7 +100,7 @@ const RegistrationForm = () => {
                     }
                 }}
                 sx={{mt: 3, mb: 2}}>
-                {t('common.register')}
+                {t('authentication.register')}
             </Button>
         </Box>
     )
