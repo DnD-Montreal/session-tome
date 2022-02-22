@@ -31,7 +31,7 @@ describe('Manage Items Test Suite', () => {
         )
             .eq(1)
             .click()
-        cy.contains('button', 'ITEMS').click()
+        cy.contains('button', 'Items').click()
         cy.wait('@item')
         cy.contains('Search Items')
         cy.contains('Rarity')

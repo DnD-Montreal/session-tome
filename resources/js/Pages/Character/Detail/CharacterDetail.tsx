@@ -74,7 +74,7 @@ const CharacterDetail = ({
                         gameMasters={gameMasters}
                     />
                 }
-                title={<Typography>{t('characterDetail.edit-character')}</Typography>}
+                title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
             />
