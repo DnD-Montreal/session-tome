@@ -103,7 +103,7 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('svg[data-testid=DeleteIcon]').eq(0).click()
         cy.contains('button', 'Delete').click()
 
-        cy.contains('button', 'ITEMS').click()
+        cy.contains('button', 'Items').click()
         cy.wait('@item')
         cy.contains(newer_item_name).should('not.exist')
     })
