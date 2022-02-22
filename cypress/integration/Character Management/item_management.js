@@ -59,7 +59,7 @@ describe('Manage Items Test Suite', () => {
     })
 
     it('Item Edit Drawer', () => {
-        cy.intercept('PUT', `${Cypress.Laravel.route('item.index')}*`).as('editItem')
+        cy.intercept('PUT', '**/item/*').as('editItem')
         cy.intercept('GET', `${Cypress.Laravel.route('item.index')}*`).as('fetchItem')
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit Item')
@@ -67,7 +67,7 @@ describe('Manage Items Test Suite', () => {
         cy.get('#rarity').click()
         cy.contains('li', 'Very Rare').click()
         cy.get('#tier').click()
-        cy.contains('li', '1').click()
+        cy.contains('li', '3').click()
         cy.contains('button', 'Save').click()
         cy.wait(['@editItem', '@fetchItem'])
         cy.contains('Edit Item').should('not.exist')
@@ -85,7 +85,7 @@ describe('Manage Items Test Suite', () => {
     })
 
     it('Item Detail Edit Drawer', () => {
-        cy.intercept('PUT', `${Cypress.Laravel.route('item.index')}*`).as('editItem')
+        cy.intercept('PUT', '**/item/*').as('editItem')
         cy.intercept('GET', `${Cypress.Laravel.route('item.index')}*`).as('fetchItem')
         cy.contains('button', 'Update').click()
         cy.contains('Edit Item')
@@ -93,7 +93,7 @@ describe('Manage Items Test Suite', () => {
         cy.get('#rarity').click()
         cy.contains('li', 'Very Rare').click()
         cy.get('#tier').click()
-        cy.contains('li', '1').click()
+        cy.contains('li', '3').click()
         cy.contains('button', 'Save').click()
         cy.wait(['@editItem', '@fetchItem'])
         cy.contains('Edit Item').should('not.exist')

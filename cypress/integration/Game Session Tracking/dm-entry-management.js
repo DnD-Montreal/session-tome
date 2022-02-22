@@ -132,7 +132,7 @@ describe('DM Entry Management Test Suite', () => {
 
     it('Attach Campaign Reward DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_campaign_reward')
-        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
+        cy.intercept('GET', '**/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(0).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
@@ -148,7 +148,7 @@ describe('DM Entry Management Test Suite', () => {
 
     it('Attach Advancement DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_advancement')
-        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
+        cy.intercept('GET', '**/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(1).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
@@ -164,7 +164,7 @@ describe('DM Entry Management Test Suite', () => {
 
     it('Attach Item DM Entry', () => {
         cy.intercept('PUT', '**/entry/*').as('attach_magic_item')
-        cy.intercept('GET', '/dm-entry').as('fetchDMEntry')
+        cy.intercept('GET', '**/dm-entry').as('fetchDMEntry')
         cy.get('svg[data-testid=EditIcon]').eq(2).click()
         cy.contains('Edit DM Entry')
         cy.get('#character_id').click()
