@@ -49,7 +49,7 @@ class Item extends Model
     //trade this item is listed in
     public function trade()
     {
-        return $this->belongsTo(\App\Models\Trade::class);
+        return $this->hasOne(\App\Models\Trade::class);
     }
 
     public function entry()
