@@ -120,11 +120,11 @@ const DmEntryCreateForm = ({
         useForm<DmEntryFormDataType>(DM_ENTRY_FORM_INITIAL_VALUE)
 
     useEffect(() => {
-        if (wasSuccessful && onCloseDrawer) {
+        if (wasSuccessful) {
             clearErrors()
-            onCloseDrawer()
-        } else {
-            setActiveStep(0)
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
         }
     }, [wasSuccessful])
 

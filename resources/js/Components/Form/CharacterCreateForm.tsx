@@ -65,11 +65,11 @@ const CharacterCreateForm = ({
     const [activeStep, setActiveStep] = useState<number>(0)
 
     useEffect(() => {
-        if (wasSuccessful && onCloseDrawer) {
+        if (wasSuccessful) {
             clearErrors()
-            onCloseDrawer()
-        } else {
-            setActiveStep(0)
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
         }
     }, [wasSuccessful])
 

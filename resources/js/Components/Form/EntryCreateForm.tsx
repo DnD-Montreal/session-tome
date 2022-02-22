@@ -114,14 +114,16 @@ const EntryCreateForm = ({
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
+
     useEffect(() => {
-        if (wasSuccessful && onCloseDrawer) {
+        if (wasSuccessful) {
             clearErrors()
-            onCloseDrawer()
-        } else {
-            setActiveStep(0)
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
         }
     }, [wasSuccessful])
+
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
         editData ? Boolean(editData?.dungeon_master_id) : true,
     )

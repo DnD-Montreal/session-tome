@@ -69,6 +69,7 @@ describe('DM Entry Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.contains('button', 'Save').click()
         cy.wait('@dm_entry_edit').its('response.statusCode').should('eq', 303)
+        cy.wait('@dm_entry')
         cy.contains('Edit DM Entry').should('not.exist')
     })
 
