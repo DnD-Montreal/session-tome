@@ -27,11 +27,8 @@ class BackPackControllerTest extends TestCase
     use WithFaker;
 
     public $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
+    public String $adminEvent = "/admin/event";
+    public String $adminDashboard = "/admin/dashboard";
 
     public function createLeagueAdmin()
     {
@@ -61,7 +58,7 @@ class BackPackControllerTest extends TestCase
     public function test_admin_user_has_access()
     {
         $this->createSiteAdmin();
-        $response = $this->get(('/admin/dashboard'));
+        $response = $this->get(($this->adminDashboard));
         $response->assertOk();
     }
 
@@ -71,7 +68,7 @@ class BackPackControllerTest extends TestCase
     public function test_league_admin_user_has_access()
     {
         $this->createLeagueAdmin();
-        $response = $this->get(('/admin/dashboard'));
+        $response = $this->get(($this->adminDashboard));
         $response->assertOk();
     }
 
@@ -81,7 +78,7 @@ class BackPackControllerTest extends TestCase
     public function test_user_does_not_have_access()
     {
         $this->createNonAdmin();
-        $response = $this->get(('/admin/dashboard'));
+        $response = $this->get(($this->adminDashboard));
         $this->assertEquals(302, $response->status());
     }
 
@@ -193,7 +190,7 @@ class BackPackControllerTest extends TestCase
         $description = $this->faker->text;
         $location = $this->faker->word;
 
-        $response = $this->post('/admin/event', [
+        $response = $this->post($this->adminEvent, [
             'league_id' => $league->id,
             'title' => $title,
             'description' => $description,
@@ -215,7 +212,7 @@ class BackPackControllerTest extends TestCase
         $description = $this->faker->text;
         $location = $this->faker->word;
 
-        $response = $this->post('/admin/event', [
+        $response = $this->post($this->adminEvent, [
             'league_id' => $league->id,
             'title' => $title,
             'description' => $description,
@@ -240,8 +237,7 @@ class BackPackControllerTest extends TestCase
         $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
         $this->user->roles()->attach($siteRole, ['league_id' => $league->id]);
 
-
-        $response = $this->post('/admin/event', [
+        $response = $this->post($this->adminEvent, [
             'league_id' => $league->id,
             'title' => $title,
             'description' => $description,
