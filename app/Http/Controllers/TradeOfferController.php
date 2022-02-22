@@ -29,7 +29,7 @@ class TradeOfferController extends Controller
     }
 
     /**
-     *store trade offer
+     * Store trade offer
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -63,7 +63,11 @@ class TradeOfferController extends Controller
      */
     public function destroy(Request $request, Item $offer, Trade $trade)
     {
-        $trade->offers()->detach($offer);
+        if ($offer->user()->id == Auth::user()->id) {
+            $trade->offers()->detach($offer);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Offer item not owned by user']);
+        }
 
         return redirect()->back();
     }
