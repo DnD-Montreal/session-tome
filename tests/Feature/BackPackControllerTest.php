@@ -224,4 +224,30 @@ class BackPackControllerTest extends TestCase
 
         $response->assertRedirect();
     }
+
+    /**
+     * @test
+     */
+    public function test_backpack_authorized_for_league_admin_event()
+    {
+        $this->createLeagueAdmin();
+
+        $league = League::factory()->create();
+        $title = $this->faker->sentence(4);
+        $description = $this->faker->text;
+        $location = $this->faker->word;
+
+        $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
+        $this->user->roles()->attach($siteRole, ['league_id' => $league->id]);
+
+
+        $response = $this->post('/admin/event', [
+            'league_id' => $league->id,
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+        ]);
+
+        $response->assertRedirect();
+    }
 }
