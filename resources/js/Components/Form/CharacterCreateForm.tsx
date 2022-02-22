@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -63,6 +63,15 @@ const CharacterCreateForm = ({
         CHARACTER_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
+
+    useEffect(() => {
+        if (wasSuccessful && onCloseDrawer) {
+            clearErrors()
+            onCloseDrawer()
+        } else {
+            setActiveStep(0)
+        }
+    }, [wasSuccessful])
 
     const stepTitles = [
         {label: t('characterDetail.enter-details')},
@@ -243,14 +252,6 @@ const CharacterCreateForm = ({
                         }
                         if (type === 'Edit') {
                             put(route('character.update', [editId]))
-                        }
-                        if (!wasSuccessful) {
-                            setActiveStep(0)
-                        } else {
-                            clearErrors()
-                            if (onCloseDrawer) {
-                                onCloseDrawer()
-                            }
                         }
                     }}>
                     {type === 'Create' ? t('common.create') : t('common.save')}

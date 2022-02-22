@@ -5,7 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'Components'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -114,6 +114,14 @@ const EntryCreateForm = ({
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
+    useEffect(() => {
+        if (wasSuccessful && onCloseDrawer) {
+            clearErrors()
+            onCloseDrawer()
+        } else {
+            setActiveStep(0)
+        }
+    }, [wasSuccessful])
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
         editData ? Boolean(editData?.dungeon_master_id) : true,
     )
@@ -368,11 +376,6 @@ const EntryCreateForm = ({
                             put(route('entry.update', [editId]))
                         } else {
                             post(route('entry.store'))
-                        }
-                        if (!wasSuccessful) {
-                            setActiveStep(0)
-                        } else {
-                            clearErrors()
                         }
                     }}>
                     {type === 'Create' ? t('common.create') : t('common.save')}

@@ -1,8 +1,8 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Grid, TextField, Typography} from '@mui/material'
 import {rarityOptions, tierOptions} from '@Utils/option-constants'
-import {ErrorText, Select} from 'Components'
-import React from 'react'
+import {Button, ErrorText, Select} from 'Components'
+import React, {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {ItemEditData} from 'Types/item-data'
@@ -18,8 +18,16 @@ const StyledGrid = styled(Grid)`
 `
 
 const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
-    const {clearErrors, data, setData, errors, put, wasSuccessful} = useForm(editData)
+    const {clearErrors, data, setData, errors, put, wasSuccessful, processing} =
+        useForm(editData)
     const {t} = useTranslation()
+    useEffect(() => {
+        if (wasSuccessful) {
+            clearErrors()
+            onCloseDrawer()
+        }
+    }, [wasSuccessful])
+
     return (
         <>
             <Typography>{t('itemDetail.fill-out-fields')}</Typography>
@@ -85,15 +93,10 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                 <Grid item xs={4} />
                 <Grid item xs={4}>
                     <Button
+                        loading={processing}
                         variant='contained'
                         fullWidth
-                        onClick={() => {
-                            put(route('item.update', [editData.id]))
-                            if (wasSuccessful) {
-                                clearErrors()
-                                onCloseDrawer()
-                            }
-                        }}>
+                        onClick={() => put(route('item.update', [editData.id]))}>
                         {t('common.save')}
                     </Button>
                 </Grid>

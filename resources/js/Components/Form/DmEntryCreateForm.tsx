@@ -13,7 +13,7 @@ import {
     Select,
     StepperForm,
 } from 'Components'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -115,10 +115,19 @@ const DmEntryCreateForm = ({
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
               }
-
+    const [activeStep, setActiveStep] = useState<number>(0)
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<DmEntryFormDataType>(DM_ENTRY_FORM_INITIAL_VALUE)
-    const [activeStep, setActiveStep] = useState<number>(0)
+
+    useEffect(() => {
+        if (wasSuccessful && onCloseDrawer) {
+            clearErrors()
+            onCloseDrawer()
+        } else {
+            setActiveStep(0)
+        }
+    }, [wasSuccessful])
+
     const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
@@ -290,11 +299,6 @@ const DmEntryCreateForm = ({
                             put(route('entry.update', [editId]))
                         } else {
                             post(route('entry.store'))
-                        }
-                        if (!wasSuccessful) {
-                            setActiveStep(0)
-                        } else {
-                            clearErrors()
                         }
                     }}>
                     {type === 'Create' ? t('common.create') : t('common.save')}

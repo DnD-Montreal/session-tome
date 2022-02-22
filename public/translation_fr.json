@@ -84,7 +84,11 @@
         "flexible": "Flexible",
         "friendly": "Friendly",
         "helpful": "Helpful",
-        "prepared": "Prepared"
+        "prepared": "Prepared",
+        "campaign_reward": "Campaign Reward",
+        "advancement": "Advancement",
+        "magic_item": "Magic item",
+        "-": "-"
     },
     "form": {
         "name": "Name",
