@@ -1,10 +1,13 @@
 import {enUS, frFR} from '@mui/material/locale'
 import {createTheme} from '@mui/material/styles'
-import i18n from 'i18next'
 
 type ThemeType = 'Form' | 'Normal'
 
-export const getFontTheme = (type: ThemeType, fontSize?: number) => {
+export const getFontTheme = (
+    type: ThemeType,
+    fontSize?: number,
+    language: string = 'en',
+) => {
     switch (type) {
         case 'Form':
             return createTheme(
@@ -44,7 +47,7 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                         },
                     },
                 },
-                i18n.language.includes('en') ? enUS : frFR,
+                language.includes('en') ? enUS : frFR,
             )
         default:
         case 'Normal':
@@ -66,7 +69,7 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                         mode: 'dark',
                     },
                 },
-                i18n.language.includes('en') ? enUS : frFR,
+                language.includes('en') ? enUS : frFR,
             )
     }
 }

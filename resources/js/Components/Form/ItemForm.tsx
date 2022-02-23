@@ -1,6 +1,5 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import {Box, Button, Grid, TextField, Typography} from '@mui/material'
-import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {Select} from 'Components'
 import {cloneDeep} from 'lodash'
 import React from 'react'
@@ -34,6 +33,29 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
         newItems[index] = newItem
         setData('items', newItems)
     }
+
+    const rarityOptions = [
+        {
+            title: t('enums.common'),
+            id: 'common',
+        },
+        {
+            title: t('enums.uncommon'),
+            id: 'uncommon',
+        },
+        {
+            title: t('enums.rare'),
+            id: 'rare',
+        },
+        {
+            title: t('enums.very_rare'),
+            id: 'very_rare',
+        },
+        {
+            title: t('enums.legendary'),
+            id: 'legendary',
+        },
+    ]
 
     return (
         <>
@@ -110,7 +132,7 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                                 onChange={(e) =>
                                     handleOnChange('tier', e.target.value, index)
                                 }
-                                options={tierOptions}
+                                options={[1, 2, 3, 4]}
                             />
                         </Grid>
                         <Grid item xs={12}>

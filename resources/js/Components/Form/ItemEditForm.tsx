@@ -1,6 +1,5 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Grid, TextField, Typography} from '@mui/material'
-import {rarityOptions, tierOptions} from '@Utils/option-constants'
 import {Button, ErrorText, Select} from 'Components'
 import React, {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -27,6 +26,29 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
             onCloseDrawer()
         }
     }, [wasSuccessful])
+
+    const rarityOptions = [
+        {
+            title: t('enums.common'),
+            id: 'common',
+        },
+        {
+            title: t('enums.uncommon'),
+            id: 'uncommon',
+        },
+        {
+            title: t('enums.rare'),
+            id: 'rare',
+        },
+        {
+            title: t('enums.very_rare'),
+            id: 'very_rare',
+        },
+        {
+            title: t('enums.legendary'),
+            id: 'legendary',
+        },
+    ]
 
     return (
         <>
@@ -79,7 +101,7 @@ const ItemEditForm = ({onCloseDrawer, editData}: ItemEditFormPropType) => {
                         name='Tier'
                         value={data.tier}
                         onChange={(e) => setData('tier', parseInt(e.target.value))}
-                        options={tierOptions}
+                        options={[1, 2, 3, 4]}
                     />
                     {errors?.tier && <ErrorText message={errors?.tier} />}
                 </StyledGrid>
