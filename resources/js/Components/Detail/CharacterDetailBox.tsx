@@ -23,11 +23,6 @@ const StyledTypography = styled(Typography)({
     fontSize: 11,
 })
 
-const StyledStatus = styled(Typography)({
-    color: '#a0a2a3',
-    textTransform: 'capitalize',
-})
-
 type CharDetailBoxPropType = {
     character: any
     setIsEditDrawerOpen: (payload: boolean) => void
@@ -76,7 +71,7 @@ const CharacterDetailBox = ({character, setIsEditDrawerOpen}: CharDetailBoxPropT
                     </Grid>
                     <Grid item xs={4}>
                         <StyledTypography>{t('characterDetail.status')}</StyledTypography>
-                        <StyledStatus>{character.status}</StyledStatus>
+                        <Typography>{t(`enums.${character.status}`)}</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Stack spacing={3} direction='row'>

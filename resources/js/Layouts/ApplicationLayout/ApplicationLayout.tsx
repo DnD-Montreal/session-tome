@@ -5,6 +5,7 @@ import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication, Link as InertiaLink} from 'Components'
+import dayjs from 'dayjs'
 import i18n from 'i18next'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
@@ -90,11 +91,11 @@ const ApplicationLayout = ({children}: LayoutProps) => {
     const {auth} = usePage<UsePageType>().props
     const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
-    // const [currentLanguage, setCurrentLanguage] = useState<'en' | 'fr'>('en')
 
     useEffect(() => {
         if (user) {
             i18n.changeLanguage(user.language)
+            dayjs.locale(user?.language?.includes('en') ? 'en' : 'fr-ca')
         }
     }, [user])
 
@@ -108,7 +109,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         if (user) {
             return user.name
         }
-        return 'Login'
+        return t('authentication.login')
     }
     return (
         <ThemeProvider theme={theme}>

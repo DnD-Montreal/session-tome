@@ -97,7 +97,7 @@ const CharacterImportForm = () => {
                     </Grid>
                 )}
             </ButtonContainer>
-            <Typography>OR</Typography>
+            <Typography>{t('common.or')}</Typography>
             <TextField
                 disabled={Boolean(data.logs)}
                 margin='normal'

@@ -51,7 +51,8 @@
         "campaigns": "Campaigns",
         "ratings": "Ratings",
         "skip": "Skip",
-        "search": "Search"
+        "search": "Search",
+        "or": "OR"
     },
     "component": {
         "no-data": "No data...",
@@ -89,7 +90,9 @@
         "campaign_reward": "Campaign Reward",
         "advancement": "Advancement",
         "magic_item": "Magic item",
-        "-": "-"
+        "-": "-",
+        "private": "Private",
+        "public": "Public"
     },
     "form": {
         "name": "Name",
