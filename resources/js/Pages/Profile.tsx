@@ -126,7 +126,7 @@ const Profile = () => {
                         size='small'
                         options={[
                             {value: 'en', title: 'English'},
-                            {value: 'fr', title: 'French'},
+                            {value: 'fr', title: 'Français'},
                         ]}
                         value={data.language}
                         onChange={(e) => setData('language', e.target.value)}

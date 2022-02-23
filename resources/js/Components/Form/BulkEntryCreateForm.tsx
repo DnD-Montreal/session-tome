@@ -38,23 +38,23 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
-const frequencies = [
-    {
-        name: 'Once a week',
-        value: 1,
-    },
-    {
-        name: 'Once every two weeks',
-        value: 0.5,
-    },
-    {
-        name: 'Once a month',
-        value: 0.25,
-    },
-]
-
 const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
     const {t} = useTranslation()
+
+    const frequencies = [
+        {
+            name: t('form.frequency.weekly'),
+            value: 1,
+        },
+        {
+            name: t('form.frequency.bi-monthly'),
+            value: 0.5,
+        },
+        {
+            name: t('form.frequency.monthly'),
+            value: 0.25,
+        },
+    ]
     const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
         start_date: new Date(),
         end_date: new Date(),

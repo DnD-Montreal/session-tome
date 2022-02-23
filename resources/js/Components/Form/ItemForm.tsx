@@ -91,8 +91,8 @@ const ItemForm = ({items, setData}: ItemFormPropType) => {
                             <Select
                                 id='rarity'
                                 required
-                                label='Rarity'
-                                name={t('form.rarity')}
+                                label={t('form.rarity')}
+                                name='Rarity'
                                 value={item.rarity}
                                 onChange={(e) =>
                                     handleOnChange('rarity', e.target.value, index)

@@ -1,22 +1,24 @@
+import i18n from 'i18next'
+
 export const rarityOptions = [
     {
-        title: 'Common',
+        title: i18n.t('enums.common'),
         id: 'common',
     },
     {
-        title: 'Uncommon',
+        title: i18n.t('enums.uncommon'),
         id: 'uncommon',
     },
     {
-        title: 'Rare',
+        title: i18n.t('enums.rare'),
         id: 'rare',
     },
     {
-        title: 'Very Rare',
+        title: i18n.t('enums.very_rare'),
         id: 'very_rare',
     },
     {
-        title: 'Legendary',
+        title: i18n.t('enums.legendary'),
         id: 'legendary',
     },
 ]

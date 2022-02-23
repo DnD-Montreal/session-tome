@@ -105,7 +105,7 @@ const CharacterImportForm = () => {
                 id='ddBeyondLink'
                 label={t('characterDetail.DND-beyond')}
                 name='D&D Beyond Link'
-                helperText="Enter your character's link on D&D Beyond."
+                helperText={t('characterDetail.import-help-text-3')}
                 value={data.beyond_link}
                 onChange={(e) => setData('beyond_link', e.target.value)}
             />

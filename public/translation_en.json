@@ -25,7 +25,8 @@
         "DND-beyond": "D&D Beyond.",
         "import-note": "Note: Imported characters will have missing fields for items and entries, please update them manually.",
         "enter-details": "Enter details",
-        "privacy-details": "Privacy details"
+        "privacy-details": "Privacy details",
+        "import-help-text-3": "Enter your character's link on D&D Beyond."
     },
     "common": {
         "create": "Create",
@@ -117,7 +118,12 @@
         "email": "Email Address",
         "password": "Password",
         "confirm-password": "Confirm Password",
-        "username": "Username"
+        "username": "Username",
+        "frequency": {
+            "weekly": "Une fois par semaine",
+            "bi-monthly": "Une fois chaque deux semaines",
+            "monthly": "Une fois par mois"
+        }
     },
     "itemDetail": {
         "name": "Name",

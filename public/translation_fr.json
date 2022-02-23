@@ -18,14 +18,15 @@
         "edit-character": "Modifier le personnage",
         "edit-entry": "Modifier le saisie",
         "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage",
-        "public-status": "Acceptez-vous que ce personnage soit rendu publique",
+        "public-status": "Acceptez-vous que ce personnage soit rendu publique?",
         "import-help-text": "Importez les saisies de vos personnages en téléchargeant les logs de ",
         "adventure-league-dot-com": "AdventurersLeagueLog.com ",
         "import-help-text-2": "ou entrez la fiche de personnage sur ",
-        "DND-beyond": "D&D Beyond.",
+        "DND-beyond": "D&D Beyond",
         "import-note": "Note: Les personnages importés auront des champs vide pour les objets et saisies, merci de les saisir manuellement.",
         "enter-details": "Ajouter des détails",
-        "privacy-details": "Confidentialité"
+        "privacy-details": "Confidentialité",
+        "import-help-text-3": "Entrer votre lien sur D&D Beyond."
     },
     "common": {
         "create": "Créer",
@@ -117,7 +118,12 @@
         "email": "Courriel",
         "password": "Mot de passe",
         "confirm-password": "Confirmez votre mot de passe",
-        "username": "Nom d'utilisateur"
+        "username": "Nom d'utilisateur",
+        "frequency": {
+            "weekly": "Once a week",
+            "bi-monthly": "Once every two weeks",
+            "monthly": "Once a month"
+        }
     },
     "itemDetail": {
         "name": "Nom",
