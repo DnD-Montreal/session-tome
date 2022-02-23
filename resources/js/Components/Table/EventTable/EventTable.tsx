@@ -6,10 +6,6 @@ type EventTablePropType = {
     data: EventData[]
 }
 
-type FormDataType = {
-    events: number[]
-}
-
 const EventTable = ({data}: EventTablePropType) => {
     const columns = [
         {
@@ -21,8 +17,9 @@ const EventTable = ({data}: EventTablePropType) => {
             title: 'Event Title',
         },
         {
-            property: 'league_id',
+            property: 'league',
             title: 'League',
+            render: (value: any) => value.name,
         },
         {
             property: 'description',
@@ -33,7 +30,6 @@ const EventTable = ({data}: EventTablePropType) => {
             title: 'Participation',
         },
     ]
-
     return (
         <DataTable
             isSelectable={false}

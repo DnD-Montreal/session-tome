@@ -17,6 +17,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $events = Event::all();
+        $events->load('league');
         return Inertia::render('Event/Event', compact('events'));
     }
 
