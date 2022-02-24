@@ -1,4 +1,4 @@
-import {fireEvent, render} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import React from 'react'
 
 import Profile from './Profile'
@@ -20,5 +20,8 @@ describe('Profile', () => {
         fireEvent.click(document.querySelector('[data-cy="reset-button"]'))
         fireEvent.click(document.querySelector('[data-cy="save-button"]'))
         fireEvent.click(document.querySelector('[data-cy="delete-account-button"]'))
+        fireEvent.click(screen.getByText('Cancel'))
+        fireEvent.click(document.querySelector('[data-cy="delete-account-button"]'))
+        fireEvent.click(screen.getByText('Delete'))
     })
 })
