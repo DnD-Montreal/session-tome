@@ -76,19 +76,19 @@ class TradeOfferControllerTest extends TestCase
             'rarity' => 'common'
         ]);
 
-        $response = $this->from('/')->post(route('offer.store'), [
+        $response = $this->post(route('offer.store'), [
             'trade_id' => $trade->id,
             'item_id' => $offer->id
         ]);
 
-        $response->assertRedirect('/');
+        $response->assertRedirect();
 
-        $responseInvalid = $this->from('/')->post(route('offer.store'), [
+        $responseInvalid = $this->post(route('offer.store'), [
             'trade_id' => $trade->id,
             'item_id' => $invalidOffer->id
         ]);
 
-        $responseInvalid->assertRedirect('/');
+        $responseInvalid->assertRedirect();
         $responseInvalid->assertSessionHasErrors();
 
         $this->assertTrue($trade->offers()->get()->contains($offer));
@@ -113,14 +113,14 @@ class TradeOfferControllerTest extends TestCase
 
         $invalid_user = User::factory()->create();
 
-        $response_invalid = $this->actingAs($invalid_user)->from('/')->delete(route('offer.destroy', [$offer, $trade]));
+        $response_invalid = $this->actingAs($invalid_user)->delete(route('offer.destroy', [$offer, $trade]));
 
-        $response_invalid->assertRedirect('/');
+        $response_invalid->assertRedirect();
         $response_invalid->assertSessionHasErrors();
 
-        $response = $this->actingAs($this->user)->from('/')->delete(route('offer.destroy', [$offer, $trade]));
+        $response = $this->actingAs($this->user)->delete(route('offer.destroy', [$offer, $trade]));
 
-        $response->assertRedirect('/');
+        $response->assertRedirect();
         $this->assertNotContains($offer, $trade->offers);
     }
 }
