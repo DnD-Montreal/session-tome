@@ -3,6 +3,7 @@ import DoneIcon from '@mui/icons-material/Done'
 import {Chip, Typography} from '@mui/material'
 import {DataTable} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 import route from 'ziggy-js'
 
@@ -12,6 +13,7 @@ type RatingTablePropType = {
 }
 
 const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
+    const {t} = useTranslation()
     const leftActions = [
         <Chip
             onClick={() =>
@@ -19,7 +21,7 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
                     preserveScroll: true,
                 })
             }
-            label='League Event Ratings Only'
+            label={t('rating.league-event-ratings-only')}
             avatar={fromEvent ? <DoneIcon /> : undefined}
             variant={fromEvent ? undefined : 'outlined'}
             color={fromEvent ? 'primary' : undefined}
@@ -29,39 +31,39 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
     const columns = [
         {
             property: 'name',
-            title: 'Name',
+            title: t('tableColumn.name'),
         },
         {
             property: null,
-            title: 'Creative',
+            title: t('enums.creative'),
             render: (row: ReportedRatingData) => (
                 <Typography>{row?.total_ratings?.CREATIVE ?? '0'}</Typography>
             ),
         },
         {
             property: null,
-            title: 'Flexible',
+            title: t('enums.flexible'),
             render: (row: ReportedRatingData) => (
                 <Typography>{row?.total_ratings?.FLEXIBLE ?? '0'}</Typography>
             ),
         },
         {
             property: null,
-            title: 'Friendly',
+            title: t('enums.friendly'),
             render: (row: ReportedRatingData) => (
                 <Typography>{row?.total_ratings?.FRIENDLY ?? '0'}</Typography>
             ),
         },
         {
             property: null,
-            title: 'Helpful',
+            title: t('enums.helpful'),
             render: (row: ReportedRatingData) => (
                 <Typography>{row?.total_ratings?.HELPFUL ?? '0'}</Typography>
             ),
         },
         {
             property: null,
-            title: 'Prepared',
+            title: t('enums.prepared'),
             render: (row: ReportedRatingData) => (
                 <Typography>{row?.total_ratings?.PREPARED ?? '0'}</Typography>
             ),
@@ -74,7 +76,7 @@ const RatingTable = ({reportedRatings, fromEvent}: RatingTablePropType) => {
             data={reportedRatings}
             isSelectable={false}
             columns={columns}
-            tableName='Ratings'
+            tableName='rating'
             filterProperties={['name']}
         />
     )

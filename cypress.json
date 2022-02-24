@@ -3,5 +3,6 @@
     "videoCompression": false,
     "viewportWidth": 1920,
     "viewportHeight": 1080,
-    "responseTimeout": 60000
+    "responseTimeout": 60000,
+    "retries": 3
 }

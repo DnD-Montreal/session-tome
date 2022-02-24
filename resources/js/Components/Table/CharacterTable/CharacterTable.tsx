@@ -8,6 +8,7 @@ import PublishIcon from '@mui/icons-material/Publish'
 import {Box, Button, Chip, IconButton, Stack, Tooltip} from '@mui/material'
 import {DataTable, DeleteModal, FactionChip, Link} from 'Components'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
@@ -28,6 +29,7 @@ const CharacterTable = ({
     setEditId,
     setEditData,
 }: CharTablePropType) => {
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({characters: []})
@@ -35,23 +37,23 @@ const CharacterTable = ({
     const leftActions = [
         <Link href={route('character.create')}>
             <Button variant='contained' startIcon={<AddIcon />}>
-                Create
+                {t('common.create')}
             </Button>
         </Link>,
         <Link href={route('adventures-league-import.index')}>
             <Button variant='contained' startIcon={<PublishIcon />}>
-                Import
+                {t('common.import')}
             </Button>
         </Link>,
         // <Button variant='contained' startIcon={<FileDownloadIcon />}>
-        //     Export
+        //     {t('common.export')}
         // </Button>,
     ]
 
     const rightActions = [
         <Link href={route('dm-entry.index')}>
             <Button variant='contained' startIcon={<AutoStoriesIcon />}>
-                DM Entry
+                {t('common.dm-entry')}
             </Button>
         </Link>,
     ]
@@ -59,37 +61,37 @@ const CharacterTable = ({
     const columns = [
         {
             property: 'name',
-            title: 'Name',
+            title: t('tableColumn.name'),
             render: (value: string, row: CharacterData) => (
                 <Link href={route('character.show', [row.id])}>{value}</Link>
             ),
         },
         {
             property: 'race',
-            title: 'Race',
+            title: t('tableColumn.race'),
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
             property: 'class',
-            title: 'Class',
+            title: t('tableColumn.class'),
             render: (value: string) => <Chip label={value} variant='outlined' />,
         },
         {
             property: 'level',
-            title: 'Level',
+            title: t('tableColumn.level'),
         },
         {
             property: 'faction',
-            title: 'Faction',
+            title: t('tableColumn.faction'),
             render: (value: string) => <FactionChip value={value} />,
         },
         {
             property: 'downtime',
-            title: 'Downtime',
+            title: t('tableColumn.downtime'),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: CharacterData) => (
                 <>
                     <IconButton
@@ -113,9 +115,10 @@ const CharacterTable = ({
             ),
         },
     ]
+
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
+            <Tooltip title={t('common.delete') ?? ''}>
                 <IconButton>
                     <DeleteIcon
                         onClick={() => {
@@ -132,7 +135,7 @@ const CharacterTable = ({
         <Box>
             <DeleteModal
                 open={isDeleteModalOpen}
-                warningMessage='Are you sure you want to delete this/these character(s)?'
+                warningMessage={t('characterDetail.delete-message')}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('character.destroy'))
@@ -149,7 +152,7 @@ const CharacterTable = ({
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='Characters'
+                tableName='character'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['name', 'race']}
             />
