@@ -5,8 +5,8 @@ import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/ma
 import {itemFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
-import {startCase} from 'lodash'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
@@ -27,6 +27,7 @@ const EntryTable = ({
     setEditEntryData,
     setIsEditDrawerOpen,
 }: EntryPropType) => {
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
@@ -40,24 +41,24 @@ const EntryTable = ({
     const columns = [
         {
             property: 'date_played',
-            title: 'Date',
+            title: t('tableColumn.date'),
             render: (value: string) => (
                 <Typography>{dayjs(value).format('LLL')}</Typography>
             ),
         },
         {
             property: 'adventure',
-            title: 'Adventure Title',
+            title: t('tableColumn.adventure'),
             render: (value: any, row: any) => {
                 if (!value)
                     return (
-                        <Tooltip title='This imported entry does not have an adventure, please update it manually.'>
+                        <Tooltip title={t('entry.no-adventure-warning') ?? ''}>
                             <Button
                                 id='set-adventure-button'
                                 variant='text'
                                 color='warning'
                                 onClick={() => onOpenEditDrawer(row)}>
-                                set adventure
+                                {t('entry.set-adventure')}
                             </Button>
                         </Tooltip>
                     )
@@ -66,21 +67,21 @@ const EntryTable = ({
         },
         {
             property: 'session',
-            title: 'Session',
+            title: t('tableColumn.session'),
         },
         {
             property: 'reward',
-            title: 'Reward',
-            render: (value: any) => <Typography>{startCase(value)}</Typography>,
+            title: t('tableColumn.reward'),
+            render: (value: any) => <Typography>{t(`enums.${value}`)}</Typography>,
         },
         {
             property: 'items',
-            title: 'Magic Items',
+            title: t('tableColumn.items'),
             render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: any) => (
                 <>
                     <IconButton aria-label='edit' onClick={() => onOpenEditDrawer(row)}>
@@ -100,7 +101,7 @@ const EntryTable = ({
     ]
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
+            <Tooltip title={t('common.delete') ?? ''}>
                 <IconButton
                     aria-label='bulkdelete'
                     onClick={() => {
@@ -117,7 +118,7 @@ const EntryTable = ({
         <Box>
             <DeleteModal
                 open={isDeleteModalOpen}
-                warningMessage='Are you sure you want to delete this/these entry(ies)?'
+                warningMessage={t('entry.delete-message')}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('entry.destroy'))
@@ -133,7 +134,7 @@ const EntryTable = ({
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='Entries'
+                tableName='entry'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['adventure']}
             />

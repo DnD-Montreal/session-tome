@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import {Button, Link as InertiaLink} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import route from 'ziggy-js'
 
@@ -50,6 +51,7 @@ type CharacterImportFormData = {
 }
 
 const CharacterImportForm = () => {
+    const {t} = useTranslation()
     const {data, setData, post, processing} = useForm<CharacterImportFormData>({
         beyond_link: null,
         logs: null,
@@ -57,12 +59,15 @@ const CharacterImportForm = () => {
     return (
         <StyledBox>
             <Typography>
-                Import character log by uploading your{' '}
+                {t('characterDetail.import-help-text')}
                 <Link href='https://www.adventurersleaguelog.com/'>
-                    AdventurersLeagueLog.com
-                </Link>{' '}
-                logs or by entering your character&apos;s{' '}
-                <Link href='https://www.dndbeyond.com/'>D&D Beyond</Link> link.
+                    {t('characterDetail.adventure-league-dot-com')}
+                </Link>
+                {t('characterDetail.import-help-text-2')}
+                <Link href='https://www.dndbeyond.com/'>
+                    {t('characterDetail.DND-beyond')}
+                </Link>
+                .
             </Typography>
             <ButtonContainer>
                 <Label htmlFor='ALimport'>
@@ -80,7 +85,7 @@ const CharacterImportForm = () => {
                         disabled={Boolean(data.beyond_link)}
                         variant='contained'
                         component='span'>
-                        Upload
+                        {t('common.upload')}
                     </MuiButton>
                 </Label>
                 {data?.logs && (
@@ -92,26 +97,25 @@ const CharacterImportForm = () => {
                     </Grid>
                 )}
             </ButtonContainer>
-            <Typography>OR</Typography>
+            <Typography>{t('common.or')}</Typography>
             <TextField
                 disabled={Boolean(data.logs)}
                 margin='normal'
                 fullWidth
                 id='ddBeyondLink'
-                label='D&D Beyond Link'
+                label={t('characterDetail.DND-beyond')}
                 name='D&D Beyond Link'
-                helperText="Enter your character's link on D&D Beyond."
+                helperText={t('characterDetail.import-help-text-3')}
                 value={data.beyond_link}
                 onChange={(e) => setData('beyond_link', e.target.value)}
             />
             <StyledAlert severity='warning'>
-                Note: Imported characters will have missing fields for items and entries,
-                please update them manually.
+                {t('characterDetail.import-note')}
             </StyledAlert>
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
                     <InertiaLink href={route('character.index')}>
-                        <Button fullWidth>Cancel</Button>
+                        <Button fullWidth>{t('common.cancel')}</Button>
                     </InertiaLink>
                 </Grid>
                 <Grid item md={8} />
@@ -128,7 +132,7 @@ const CharacterImportForm = () => {
                                 post(route('beyond-import.store'))
                             }
                         }}>
-                        Import
+                        {t('common.import')}
                     </Button>
                 </Grid>
             </StyledFooter>

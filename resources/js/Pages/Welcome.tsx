@@ -1,9 +1,12 @@
 import RoomIcon from '@mui/icons-material/Room'
-import {Box, Button, Card, CardContent, Container, Grid, Typography} from '@mui/material'
+import {Box, Card, CardContent, Container, Grid, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import {Select} from 'Components'
+import i18n from 'i18next'
 import {ApplicationLayout} from 'Layouts'
 import {welcomeEventData} from 'Mock/event-data'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {getFontTheme} from 'Utils'
 
@@ -32,6 +35,8 @@ const StyledCard = styled(Card)`
 
 const Welcome = () => {
     const theme = getFontTheme('Form', 16)
+    const {t} = useTranslation()
+
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth='lg'>
@@ -43,15 +48,16 @@ const Welcome = () => {
                     justifyContent='center'>
                     <Grid item xs={12}>
                         <Typography sx={{textAlign: 'center'}} component='div'>
-                            Welcome to{' '}
-                            <StyledBox display='inline'>Session Tome</StyledBox>. Create
-                            an account to manage your characters, campaigns, and items at
-                            D&D MLT events.
+                            {t('welcome.welcome-text-1')}
+                            <StyledBox display='inline'>
+                                {t('welcome.session-tome')}
+                            </StyledBox>
+                            {t('welcome.welcome-text-2')}
                         </Typography>
                     </Grid>
                     <StyledCardContainer item xs container direction='row' spacing={2}>
                         <Grid item xs={12}>
-                            <StyledBox>Upcoming Events</StyledBox>
+                            <StyledBox>{t('welcome.upcoming-events')}</StyledBox>
                         </Grid>
                         {welcomeEventData.map((event: {ename: string; date: string}) => (
                             <Grid item xs={4} key={event.ename}>
@@ -68,17 +74,22 @@ const Welcome = () => {
                             </Grid>
                         ))}
                     </StyledCardContainer>
-                    <CenteredGrid item xs container direction='row' spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography sx={{textAlign: 'center'}}>
-                                Click on the CHECK IN button to check in at an event.
-                            </Typography>
-                        </Grid>
-                        <Grid sx={{textAlign: 'center'}} item xs={12}>
-                            <Button variant='contained'>Check In</Button>
-                        </Grid>
-                    </CenteredGrid>
                 </CenteredGrid>
+                <Grid container style={{marginTop: 16}}>
+                    <Grid item xs={4} />
+                    <Grid item xs={4}>
+                        <Select
+                            options={['English', 'Français']}
+                            onChange={(e) => {
+                                i18n.changeLanguage(
+                                    e.target.value === 'English' ? 'en' : 'fr',
+                                )
+                            }}
+                            defaultValue='English'
+                        />
+                    </Grid>
+                    <Grid item xs={4} />
+                </Grid>
             </Container>
         </ThemeProvider>
     )

@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, TextField} from '@mui/material'
 import {ErrorText} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import route from 'ziggy-js'
 
 type LoginFormDataType = {
@@ -10,6 +11,7 @@ type LoginFormDataType = {
 }
 
 const LoginForm = () => {
+    const {t} = useTranslation()
     const LOGIN_FORM_INITIAL_VALUE: LoginFormDataType = {
         email: '',
         password: '',
@@ -22,7 +24,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 id='email'
-                label='Email Address'
+                label={t('form.email')}
                 name='email'
                 autoComplete='email'
                 onChange={(e) => setData('email', e.target.value)}
@@ -34,7 +36,7 @@ const LoginForm = () => {
                 required
                 fullWidth
                 name='password'
-                label='Password'
+                label={t('form.password')}
                 type='password'
                 id='password'
                 autoComplete='current-password'
@@ -55,7 +57,7 @@ const LoginForm = () => {
                     }
                 }}
                 sx={{mt: 3, mb: 2}}>
-                Sign In
+                {t('authentication.sign-in')}
             </Button>
         </Box>
     )

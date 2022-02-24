@@ -117,12 +117,14 @@ describe('<EntryCreateForm />', () => {
         const lengthField = document.querySelector('input[name="Length"]')
         const levelsField = document.querySelector('input[name="Levels"]')
         const gpField = document.querySelector('input[name="GP"]')
-        const dungeonMasterField = document.querySelector('#dungeon_master')
-
+        const dungeonMasterCheckbox = document.querySelector('#is_gm_in-system')
         const notesField = document.querySelector('#notes')
-
+        fireEvent.change(document.querySelector('#dungeon_master'), {target: {value: 1}})
+        fireEvent.click(dungeonMasterCheckbox)
         fireEvent.change(adventureInputField, {target: {value: 2}})
-        fireEvent.change(dungeonMasterField, {target: {value: 2}})
+        fireEvent.change(document.querySelector('#dungeon_master'), {
+            target: {value: 'abc'},
+        })
         fireEvent.change(locationField, {target: {value: '123'}})
         fireEvent.change(lengthField, {target: {value: 'a'}})
         fireEvent.change(lengthField, {target: {value: -1}})
