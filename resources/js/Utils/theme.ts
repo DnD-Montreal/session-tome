@@ -19,6 +19,18 @@ export const getFontTheme = (type: ThemeType, fontSize?: number) => {
                         main: '#D3D7C6',
                         dark: '#D3D7C6',
                     },
+                    info: {
+                        main: '#86B8F4',
+                        dark: '#86B8F4',
+                    },
+                    warning: {
+                        main: '#CAA93C',
+                        dark: '#CAA93C',
+                    },
+                    error: {
+                        main: '#CC5D56',
+                        dark: '#CC5D56',
+                    },
                     mode: 'dark',
                 },
                 components: {

@@ -1,7 +1,15 @@
 import {useForm} from '@inertiajs/inertia-react'
 import ClearIcon from '@mui/icons-material/Clear'
-import {Box, Button, Grid, Link, TextField, Typography} from '@mui/material'
-import {Link as InertiaLink} from 'Components'
+import {
+    Alert,
+    Box,
+    Button as MuiButton,
+    Grid,
+    Link,
+    TextField,
+    Typography,
+} from '@mui/material'
+import {Button, Link as InertiaLink} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -19,6 +27,7 @@ const ButtonContainer = styled(Box)`
 `
 
 const StyledFooter = styled(Grid)`
+    margin-top: 6px;
     min-width: 40vw;
 `
 
@@ -30,13 +39,18 @@ const StyledIcon = styled(ClearIcon)`
     cursor: pointer;
 `
 
+const StyledAlert = styled(Alert)`
+    background-color: inherit;
+    color: #ffffff;
+`
+
 type CharacterImportFormData = {
     logs: File | null
     beyond_link: string | null
 }
 
 const CharacterImportForm = () => {
-    const {data, setData, post} = useForm<CharacterImportFormData>({
+    const {data, setData, post, processing} = useForm<CharacterImportFormData>({
         beyond_link: null,
         logs: null,
     })
@@ -62,12 +76,12 @@ const CharacterImportForm = () => {
                         multiple={false}
                         type='file'
                     />
-                    <Button
+                    <MuiButton
                         disabled={Boolean(data.beyond_link)}
                         variant='contained'
                         component='span'>
                         Upload
-                    </Button>
+                    </MuiButton>
                 </Label>
                 {data?.logs && (
                     <Grid>
@@ -90,6 +104,10 @@ const CharacterImportForm = () => {
                 value={data.beyond_link}
                 onChange={(e) => setData('beyond_link', e.target.value)}
             />
+            <StyledAlert severity='warning'>
+                Note: Imported characters will have missing fields for items and entries,
+                please update them manually.
+            </StyledAlert>
             <StyledFooter container>
                 <Grid item md={2} xs={6}>
                     <InertiaLink href={route('character.index')}>
@@ -99,6 +117,7 @@ const CharacterImportForm = () => {
                 <Grid item md={8} />
                 <Grid item md={2} xs={6}>
                     <Button
+                        loading={processing}
                         variant='contained'
                         fullWidth
                         onClick={() => {

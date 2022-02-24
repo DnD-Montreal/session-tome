@@ -1,12 +1,13 @@
 // Components
 export {default as Authentication} from './Authentication'
-export {CharacterDetailBox} from './CharacterDetail'
 export {default as DeleteModal} from './DeleteModal'
 export {default as ErrorText} from './ErrorText'
-export {ItemDetailBox} from './ItemDetail'
 
 // Chips
 export {FactionChip, RarityChip} from './Chips'
+
+// Details
+export {CharacterDetailBox, ItemDetailBox} from './Detail'
 
 // Tables
 export {CharacterTable, DMEntryTable, EntryTable, ItemTable, RatingTable} from './Table'
@@ -26,6 +27,7 @@ export {
 // Atoms
 export {
     Autocomplete,
+    Button,
     DataTable,
     Drawer,
     Link,

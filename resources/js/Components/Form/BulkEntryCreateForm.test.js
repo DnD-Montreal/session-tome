@@ -23,9 +23,7 @@ describe('BulkEntryCreateForm', () => {
     })
     it('create component fields test', () => {
         render(<BulkEntryCreateForm {...testProps} />)
-        const adventureInputField = document.querySelector(
-            'input[name="Adventure Title"]',
-        )
+        const adventureInputField = document.querySelector('#adventures')
         const frequencyField = document.querySelector('input[name="Frequency"]')
         const startDateField = document.querySelector('#start_date')
         const endDateField = document.querySelector('#end_date')

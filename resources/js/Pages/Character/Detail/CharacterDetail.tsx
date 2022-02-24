@@ -21,6 +21,7 @@ type CharacterDetailPropType = {
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
+    gameMasters: any[]
 }
 
 const CharacterDetail = ({
@@ -28,6 +29,7 @@ const CharacterDetail = ({
     entries,
     factions,
     adventures,
+    gameMasters,
 }: CharacterDetailPropType) => {
     const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
     const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
@@ -60,6 +62,7 @@ const CharacterDetail = ({
                         editId={editEntryId}
                         character={character}
                         adventures={adventures}
+                        gameMasters={gameMasters}
                     />
                 }
                 title={<Typography>Edit Entry</Typography>}

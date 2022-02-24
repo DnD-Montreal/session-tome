@@ -140,16 +140,11 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             user={user}
                         />
                         <UserAvatarColumn item container xs={12} md={3}>
-                            <Grid md={3} />
                             <Grid
                                 item
                                 container
-                                xs
-                                md={3}
-                                justifyContent={
-                                    window.innerWidth > 768 ? 'end' : 'center'
-                                }
-                                style={{cursor: 'pointer'}}
+                                justifyContent='center'
+                                style={{cursor: 'pointer', margin: '0 auto'}}
                                 onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>
                                 <Avatar sx={{bgcolor: '#4E302E'}} />

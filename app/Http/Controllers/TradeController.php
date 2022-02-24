@@ -6,6 +6,9 @@ use App\Http\Requests\TradeStoreRequest;
 use App\Http\Requests\TradeUpdateRequest;
 use App\Models\Trade;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class TradeController extends Controller
 {
@@ -15,9 +18,32 @@ class TradeController extends Controller
      */
     public function index(Request $request)
     {
-        $trades = Trade::all();
+        $trades = Trade::where('status', 'open')
+                    ->filtered($request->get('search'))
+                    ->with('item', 'offers');
 
-        return view('trade.index', compact('trades'));
+        if ($itemName = $request->get('item_name')) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemName) {
+                $q->where('name', 'like', "%{$itemName}%");
+            });
+        }
+
+        if ($itemDescription = $request->get('item_description')) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemDescription) {
+                $q->where('description', 'like', "%{$itemDescription}%");
+            });
+        }
+
+        if ($itemRarity = $request->get('item_rarity')) {
+            $trades = $trades->whereHas('item', function (Builder $q) use ($itemRarity) {
+                $q->where('rarity', $itemRarity);
+            });
+        }
+        $trades = $trades->get();
+
+        return Inertia::render('Trade/Trade', [
+            'trades' => $trades,
+        ]);
     }
 
     /**
@@ -49,7 +75,15 @@ class TradeController extends Controller
      */
     public function show(Request $request, Trade $trade)
     {
-        return view('trade.show', compact('trade'));
+        $currentUserID = Auth::user()->id;
+        $tradeItem = $trade->item;
+        $tradeCharacter = $trade->character;
+
+        if ($currentUserID == $tradeCharacter->user->id) {
+            $tradeOffers = $trade->offers()->with('character');
+            return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter', 'tradeOffers'));
+        }
+        return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter'));
     }
 
     /**
