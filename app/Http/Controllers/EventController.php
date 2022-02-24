@@ -6,6 +6,7 @@ use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EventController extends Controller
 {
@@ -16,8 +17,8 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $events = Event::all();
-
-        return view('event.index', compact('events'));
+        $events->load('league');
+        return Inertia::render('Event/Event', compact('events'));
     }
 
     /**

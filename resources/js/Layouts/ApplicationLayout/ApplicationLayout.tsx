@@ -140,11 +140,16 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             user={user}
                         />
                         <UserAvatarColumn item container xs={12} md={3}>
+                            <Grid item xs={2} />
                             <Grid
                                 item
                                 container
-                                justifyContent='center'
-                                style={{cursor: 'pointer', margin: '0 auto'}}
+                                xs
+                                md={4}
+                                justifyContent={
+                                    window.innerWidth > 768 ? 'end' : 'center'
+                                }
+                                style={{cursor: 'pointer'}}
                                 onClick={handleClick}>
                                 <Username data-cy='user'>{getUsername()}</Username>
                                 <Avatar sx={{bgcolor: '#4E302E'}} />
@@ -210,6 +215,16 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 color='white'
                                 href={route('rating.index')}>
                                 Ratings
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={
+                                    route().current()?.includes('event') ? 'active' : ''
+                                }
+                                color='white'
+                                href={route('event.index')}>
+                                Events
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>

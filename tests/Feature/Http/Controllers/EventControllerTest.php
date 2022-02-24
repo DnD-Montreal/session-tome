@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
+use Inertia\Testing\Assert;
 
 /**
  * @see \App\Http\Controllers\EventController
@@ -34,15 +35,17 @@ class EventControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $events = Event::factory()->count(3)->create();
+        $events = Event::factory()
+            ->count(3)
+            ->create();
 
         $response = $this->get(route('event.index'));
 
         $response->assertOk();
-        $response->assertViewIs('event.index');
-        $response->assertViewHas('events');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Event/Event')->has('events')
+        );
     }
-
 
     /**
      * @test
@@ -54,7 +57,6 @@ class EventControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('event.create');
     }
-
 
     /**
      * @test
@@ -98,7 +100,6 @@ class EventControllerTest extends TestCase
         $response->assertSessionHas('event.id', $event->id);
     }
 
-
     /**
      * @test
      */
@@ -113,7 +114,6 @@ class EventControllerTest extends TestCase
         $response->assertViewHas('event');
     }
 
-
     /**
      * @test
      */
@@ -127,7 +127,6 @@ class EventControllerTest extends TestCase
         $response->assertViewIs('event.edit');
         $response->assertViewHas('event');
     }
-
 
     /**
      * @test
@@ -169,7 +168,6 @@ class EventControllerTest extends TestCase
         $this->assertEquals($description, $event->description);
         $this->assertEquals($location, $event->location);
     }
-
 
     /**
      * @test
