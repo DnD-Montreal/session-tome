@@ -34,6 +34,7 @@ export {
 // Atoms
 export {
     Autocomplete,
+    Button,
     DataTable,
     Drawer,
     Link,

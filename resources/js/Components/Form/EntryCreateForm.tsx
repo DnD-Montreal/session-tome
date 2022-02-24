@@ -2,16 +2,9 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {
-    Button,
-    Checkbox,
-    FormControlLabel,
-    Grid,
-    TextField,
-    Typography,
-} from '@mui/material'
+import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {Autocomplete, ErrorText, Link, NumberInput, StepperForm} from 'Components'
+import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -116,7 +109,7 @@ const EntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, put} =
+    const {data, setData, errors, clearErrors, post, processing, put} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
@@ -367,6 +360,7 @@ const EntryCreateForm = ({
             <Grid item xs={4} />
             <Grid item xs={4}>
                 <Button
+                    loading={processing}
                     variant='contained'
                     fullWidth
                     onClick={() => {

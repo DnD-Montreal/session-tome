@@ -1,16 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {
-    Alert,
-    Button,
-    CircularProgress,
-    Divider,
-    Grid,
-    Snackbar,
-    TextField,
-    Typography,
-} from '@mui/material'
+import {Alert, Divider, Grid, Snackbar, TextField, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {DeleteModal, ErrorText, Select} from 'Components'
+import {Button, DeleteModal, ErrorText, Select} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useEffect, useState} from 'react'
 import {getFontTheme, useUser} from 'Utils'
@@ -150,15 +141,12 @@ const Profile = () => {
                         Reset
                     </Button>
                     <Button
+                        loading={processing}
                         variant='contained'
                         size='small'
-                        style={{marginLeft: 6, height: 27}}
+                        style={{marginLeft: 6}}
                         onClick={() => put(route('user.update', [user.id]))}>
-                        {processing ? (
-                            <CircularProgress color='secondary' size='27px' />
-                        ) : (
-                            'Save'
-                        )}
+                        Save
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
