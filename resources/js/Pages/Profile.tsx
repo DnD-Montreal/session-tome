@@ -68,6 +68,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                     <Typography variant='h5'>{t('profile.email')}</Typography>
                     <TextField
+                        id='email'
                         fullWidth
                         placeholder='Email'
                         size='small'
@@ -80,6 +81,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                     <Typography variant='h5'>{t('profile.username')}</Typography>
                     <TextField
+                        id='username'
                         fullWidth
                         placeholder='Username'
                         size='small'
@@ -92,6 +94,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                     <Typography variant='h5'>{t('profile.change-password')}</Typography>
                     <TextField
+                        id='password'
                         fullWidth
                         placeholder={t('profile.new-password')}
                         size='small'
@@ -103,6 +106,7 @@ const Profile = () => {
                     />
                     {errors?.password && <ErrorText message={errors?.password} />}
                     <TextField
+                        id='confirm-password'
                         fullWidth
                         placeholder={t('profile.confirm-new-password')}
                         size='small'
@@ -123,6 +127,7 @@ const Profile = () => {
                 <Grid item xs={12}>
                     <Typography variant='h5'>{t('profile.language')}</Typography>
                     <Select
+                        id='language'
                         size='small'
                         options={[
                             {value: 'en', title: 'English'},
@@ -136,6 +141,7 @@ const Profile = () => {
                 <Grid item xs={12} />
                 <Grid container item xs={12}>
                     <Button
+                        data-cy='reset-button'
                         size='small'
                         color='secondary'
                         style={{marginLeft: 6}}
@@ -143,6 +149,7 @@ const Profile = () => {
                         {t('common.reset')}
                     </Button>
                     <Button
+                        data-cy='save-button'
                         loading={processing}
                         variant='contained'
                         size='small'
@@ -162,6 +169,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <Button
+                        data-cy='delete-account-button'
                         variant='contained'
                         size='small'
                         color='error'
