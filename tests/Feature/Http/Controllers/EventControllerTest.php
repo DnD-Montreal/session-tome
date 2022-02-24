@@ -43,7 +43,7 @@ class EventControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page->component('Event/Event')->has('event')
+            fn (Assert $page) => $page->component('Event/Event')->has('events')
         );
     }
 
