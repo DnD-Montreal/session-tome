@@ -2,10 +2,19 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {Autocomplete, ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
-import React, {useState} from 'react'
+import {
+    Autocomplete,
+    Button,
+    ErrorText,
+    Link,
+    NumberInput,
+    Select,
+    StepperForm,
+} from 'Components'
+import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -73,6 +82,7 @@ const DmEntryCreateForm = ({
     adventures,
     characters,
 }: DmEntryCreateFormPropType) => {
+    const {t} = useTranslation()
     const {getUserId} = useUser()
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         user_id: getUserId(),
@@ -105,22 +115,28 @@ const DmEntryCreateForm = ({
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
               }
-
-    const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
-        DM_ENTRY_FORM_INITIAL_VALUE,
-    )
     const [activeStep, setActiveStep] = useState<number>(0)
-    const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
+    const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
+        useForm<DmEntryFormDataType>(DM_ENTRY_FORM_INITIAL_VALUE)
+
+    useEffect(() => {
+        if (wasSuccessful) {
+            clearErrors()
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
+        }
+    }, [wasSuccessful])
+
+    const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography>
-                    Fill out the following fields with your DM Entry details.
-                </Typography>
+                <Typography>{t('entry.fill-out-fields-dm')}</Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    label='Adventure'
+                    label={t('entry.adventures')}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -140,7 +156,7 @@ const DmEntryCreateForm = ({
                 <TextField
                     fullWidth
                     id='location'
-                    label='Location'
+                    label={t('form.location')}
                     name='Location'
                     value={data.location}
                     onChange={(e) => setData('location', e.target.value)}
@@ -152,7 +168,7 @@ const DmEntryCreateForm = ({
                     valueType='integer'
                     fieldKey='length'
                     id='length'
-                    label='Length'
+                    label={t('form.length')}
                     name='Length'
                     min={0}
                     value={data.length}
@@ -165,7 +181,7 @@ const DmEntryCreateForm = ({
                     valueType='integer'
                     fieldKey='levels'
                     id='levels'
-                    label='Levels'
+                    label={t('form.levels')}
                     name='Levels'
                     min={0}
                     max={20}
@@ -179,7 +195,7 @@ const DmEntryCreateForm = ({
                     valueType='float'
                     fieldKey='gp'
                     id='gp'
-                    label='GP'
+                    label={t('form.gp')}
                     name='GP'
                     value={data.gp}
                     setData={setData}
@@ -189,7 +205,7 @@ const DmEntryCreateForm = ({
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
-                        label='Date'
+                        label={t('form.date')}
                         value={data.date_played}
                         onChange={(e) => {
                             setData('date_played', e)
@@ -203,7 +219,7 @@ const DmEntryCreateForm = ({
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 <Select
                     id='choice'
-                    label='Reward Choice'
+                    label={t('form.reward-choice')}
                     name='Reward Choice'
                     value={data.choice}
                     onChange={(e) => setData('choice', e.target.value)}
@@ -214,7 +230,7 @@ const DmEntryCreateForm = ({
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
                 <Select
                     id='character_id'
-                    label='Assigned Character'
+                    label={t('form.assigned-character')}
                     name='Assigned Character'
                     value={data.character_id}
                     onChange={(e) => setData('character_id', parseInt(e.target.value))}
@@ -229,7 +245,7 @@ const DmEntryCreateForm = ({
                     margin='normal'
                     fullWidth
                     id='notes'
-                    label='Notes'
+                    label={t('form.notes')}
                     name='Notes'
                     value={data.notes}
                     onChange={(e) => setData('notes', e.target.value)}
@@ -248,18 +264,18 @@ const DmEntryCreateForm = ({
             <Grid item xs={4}>
                 {type === 'Create' ? (
                     <Link href={route('dm-entry.index')}>
-                        <Button fullWidth>Cancel</Button>
+                        <Button fullWidth>{t('common.cancel')}</Button>
                     </Link>
                 ) : (
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 )}
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
                 <Button variant='contained' onClick={() => setActiveStep(1)} fullWidth>
-                    Continue
+                    {t('common.continue')}
                 </Button>
             </Grid>
         </StyledGrid>
@@ -269,33 +285,23 @@ const DmEntryCreateForm = ({
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 <Button fullWidth onClick={() => setActiveStep(0)}>
-                    Previous
+                    {t('common.previous')}
                 </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
                 <Button
+                    loading={processing}
                     variant='contained'
                     fullWidth
                     onClick={() => {
                         if (type === 'Edit') {
                             put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
                         } else {
                             post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
                         }
                     }}>
-                    {type === 'Create' ? 'Create' : 'Save'}
+                    {type === 'Create' ? t('common.create') : t('common.save')}
                 </Button>
             </Grid>
         </StyledGrid>

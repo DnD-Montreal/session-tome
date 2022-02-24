@@ -88,10 +88,10 @@ describe('<DmEntryCreateForm />', () => {
         const gpField = document.querySelector('input[name="GP"]')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
-        const choiceInputField = document.querySelector('input[name="Reward Choice"]')
-        const characterInputField = document.querySelector(
-            'input[name="Assigned Character"]',
-        )
+        // const choiceInputField = document.querySelector('#choice')
+        // const characterInputField = document.querySelector(
+        // '#character_id',
+        // )
         fireEvent.change(adventureInputField, {target: {value: 1}})
         fireEvent.change(lengthField, {target: {value: 'a'}})
         fireEvent.change(lengthField, {target: {value: -1}})
@@ -119,8 +119,8 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(notesField, {target: {value: '12'}})
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Previous'))
-        fireEvent.change(choiceInputField, {target: {value: 'advancement'}})
-        fireEvent.change(characterInputField, {target: {value: 1}})
+        // fireEvent.change(choiceInputField, {target: {value: 'advancement'}})
+        // fireEvent.change(characterInputField, {target: {value: 1}})
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Add Item'))
         const nameField = document.querySelector('#name')
@@ -141,6 +141,10 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.change(notesField, {target: {value: '1332'}})
         fireEvent.click(screen.getByText('Continue'))
         fireEvent.click(screen.getByText('Save'))
+    })
+    it('edit cancel test', () => {
+        render(<DmEntryCreateForm {...editProps} />)
+        fireEvent.click(screen.getByText('Cancel'))
     })
     it('Item test', () => {
         render(<ItemForm {...itemProps} />)

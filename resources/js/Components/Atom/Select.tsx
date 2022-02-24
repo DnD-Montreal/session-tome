@@ -1,5 +1,6 @@
 import {MenuItem, TextField, TextFieldProps, Typography} from '@mui/material'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 
 type OptionsType = {
@@ -21,9 +22,12 @@ const StyledTextField = styled(TextField)`
 `
 
 const Select = ({options, type, hasNoneOption, ...props}: SelectPropType) => {
+    const {t} = useTranslation()
     const getOptions = () => {
         if (options.length === 0) {
-            return <Typography style={{marginLeft: 12}}>No data...</Typography>
+            return (
+                <Typography style={{marginLeft: 12}}>{t('component.no-data')}</Typography>
+            )
         }
         if (typeof options[0] === 'string' || typeof options[0] === 'number') {
             return options.map((option: string) => (

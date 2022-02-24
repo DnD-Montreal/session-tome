@@ -86,6 +86,7 @@ describe('Item Entry Management Test Suite', () => {
         cy.contains('button', 'Continue').click()
         cy.get('svg[data-testid="ClearIcon"]').eq(0).click()
         cy.contains('button', 'Save').click()
+        cy.wait('@last_url')
         cy.contains('Edit Entry').should('not.exist')
         cy.contains(newer_item_name)
         cy.contains(new_item_name).should('not.exist')
@@ -93,7 +94,7 @@ describe('Item Entry Management Test Suite', () => {
 
     it('Delete Item Entry', () => {
         cy.intercept('GET', `${Cypress.Laravel.route('item.index')}*`).as('item')
-        cy.contains('button', 'ITEMS').click()
+        cy.contains('button', 'Items').click()
         cy.wait('@item')
         cy.contains(newer_item_name)
 
@@ -103,7 +104,7 @@ describe('Item Entry Management Test Suite', () => {
         cy.get('svg[data-testid=DeleteIcon]').eq(0).click()
         cy.contains('button', 'Delete').click()
 
-        cy.contains('button', 'ITEMS').click()
+        cy.contains('button', 'Items').click()
         cy.wait('@item')
         cy.contains(newer_item_name).should('not.exist')
     })
