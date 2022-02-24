@@ -153,6 +153,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         />
                         <UserAvatarColumn item container xs={12} md={3}>
                             <Grid
+                                data-cy='user-column'
                                 item
                                 container
                                 justifyContent='center'
