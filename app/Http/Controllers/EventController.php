@@ -18,6 +18,7 @@ class EventController extends Controller
     {
         $events = Event::all();
         $events->load('league');
+        $events->load('user')->where()
         return Inertia::render('Event/Event', compact('events'));
     }
 
