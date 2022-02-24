@@ -2,9 +2,17 @@ import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
-import {Autocomplete, ErrorText, Link, NumberInput, Select, StepperForm} from 'Components'
+import {
+    Autocomplete,
+    Button,
+    ErrorText,
+    Link,
+    NumberInput,
+    Select,
+    StepperForm,
+} from 'Components'
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -106,9 +114,8 @@ const DmEntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, put} = useForm<DmEntryFormDataType>(
-        DM_ENTRY_FORM_INITIAL_VALUE,
-    )
+    const {data, setData, errors, clearErrors, post, processing, put} =
+        useForm<DmEntryFormDataType>(DM_ENTRY_FORM_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
     const stepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
     const stepOneContent = (
@@ -275,6 +282,7 @@ const DmEntryCreateForm = ({
             <Grid item xs={4} />
             <Grid item xs={4}>
                 <Button
+                    loading={processing}
                     variant='contained'
                     fullWidth
                     onClick={() => {

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
 
-class UserUpdateRequest extends FormRequest
+class TradeFulfillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->user);
+        return $this->user()->can('update', $this->trade);
     }
 
     /**
@@ -25,10 +24,8 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string'],
-            'email' => ['email'],
-            'password' => ['confirmed', Rules\Password::defaults()],
-            'language' => ['string', 'in:en,fr']
+            'character_id' => ['required', 'integer', 'exists:characters,id'],
+            'offered_item_id' => ['required', 'integer', 'exists:items,id'],
         ];
     }
 }

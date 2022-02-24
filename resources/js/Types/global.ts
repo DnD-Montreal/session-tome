@@ -3,8 +3,10 @@ import {Page} from '@inertiajs/inertia'
 export type UserType = {
     user: {
         id: number
+        email: string
+        name: string
         [key: string]: any
-    } | null
+    }
 }
 
 export type UsePageType = {
