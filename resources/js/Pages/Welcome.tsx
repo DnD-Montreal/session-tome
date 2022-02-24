@@ -2,7 +2,7 @@ import RoomIcon from '@mui/icons-material/Room'
 import {Box, Button, Card, CardContent, Container, Grid, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {ApplicationLayout} from 'Layouts'
-import {eventData} from 'Mock/event-data'
+import {welcomeEventData} from 'Mock/event-data'
 import React from 'react'
 import styled from 'styled-components'
 import {getFontTheme} from 'Utils'
@@ -53,7 +53,7 @@ const Welcome = () => {
                         <Grid item xs={12}>
                             <StyledBox>Upcoming Events</StyledBox>
                         </Grid>
-                        {eventData.map((event: {ename: string; date: string}) => (
+                        {welcomeEventData.map((event: {ename: string; date: string}) => (
                             <Grid item xs={4} key={event.ename}>
                                 <StyledCard>
                                     <StyledCardContent>
