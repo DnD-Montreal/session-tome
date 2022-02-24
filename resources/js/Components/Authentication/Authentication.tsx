@@ -1,8 +1,11 @@
 import {useForm} from '@inertiajs/inertia-react'
+import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import LogoutIcon from '@mui/icons-material/Logout'
 import {Box, Button, Popover, Tab, Tabs} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
-import {LoginForm, RegistrationForm} from 'Components'
+import {Link, LoginForm, RegistrationForm} from 'Components'
 import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
@@ -26,6 +29,7 @@ const Authentication = ({
     setAnchorEl,
     user,
 }: AuthenticationPropType) => {
+    const {t} = useTranslation()
     const open = Boolean(anchorEl)
     const [selectedTab, setSelectedTab] = useState<number>(0)
     const {post, wasSuccessful} = useForm({})
@@ -42,11 +46,22 @@ const Authentication = ({
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}>
+                transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
                 {user ? (
-                    <Box sx={{width: 200}}>
+                    <Box sx={{width: 150}}>
+                        <Link href={route('user.edit', user.id)}>
+                            <Button
+                                size='large'
+                                fullWidth
+                                variant='text'
+                                startIcon={<AccountBoxIcon />}>
+                                {t('authentication.profile')}
+                            </Button>
+                        </Link>
                         <Button
+                            size='large'
+                            startIcon={<LogoutIcon />}
                             fullWidth
                             variant='text'
                             color='error'
@@ -56,7 +71,7 @@ const Authentication = ({
                                     setAnchorEl(null)
                                 }
                             }}>
-                            Logout
+                            {t('authentication.logout')}
                         </Button>
                     </Box>
                 ) : (
@@ -69,8 +84,8 @@ const Authentication = ({
                             <Tabs
                                 value={selectedTab}
                                 onChange={(e, newValue) => setSelectedTab(newValue)}>
-                                <Tab label='Login' />
-                                <Tab label='Register' />
+                                <Tab label={t('authentication.login')} />
+                                <Tab label={t('authentication.register')} />
                             </Tabs>
                         </Box>
                         {selectedTab === 0 ? <LoginForm /> : <RegistrationForm />}

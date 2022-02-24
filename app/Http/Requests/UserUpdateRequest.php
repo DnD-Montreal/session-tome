@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -28,7 +27,8 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => ['string'],
             'email' => ['email'],
-            'password' => ['confirmed']
+            'password' => ['confirmed', Rules\Password::defaults()],
+            'language' => ['string', 'in:en,fr']
         ];
     }
 }

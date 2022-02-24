@@ -4,6 +4,7 @@ import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
 import placeholderImage from 'Images/PlaceholderImage.png'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import {ItemData} from 'Types/item-data'
@@ -32,101 +33,77 @@ type ItemDetailBoxPropType = {
     setIsEditDrawerOpen: (payload: boolean) => void
 }
 
-const rarityOptions = [
-    {
-        label: 'Common',
-        value: 'common',
-    },
-    {
-        label: 'Uncommon',
-        value: 'uncommon',
-    },
-    {
-        label: 'Rare',
-        value: 'rare',
-    },
-    {
-        label: 'Very Rare',
-        value: 'very_rare',
-    },
-    {
-        label: 'Legendary',
-        value: 'legendary',
-    },
-]
-
-const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxPropType) => (
-    <Box sx={{p: 5, backgroundColor: 'primary'}}>
-        <Grid container rowSpacing={2}>
-            <Grid container item xs={5}>
-                <Grid item>
-                    <Link href={route('character.show', [character.id])}>
-                        <CharacterNameTypography>
-                            {character.name}
-                        </CharacterNameTypography>
-                    </Link>
+const ItemDetailBox = ({item, setIsEditDrawerOpen, character}: ItemDetailBoxPropType) => {
+    const {t} = useTranslation()
+    return (
+        <Box sx={{p: 5, backgroundColor: 'primary'}}>
+            <Grid container rowSpacing={2}>
+                <Grid container item xs={5}>
+                    <Grid item>
+                        <Link href={route('character.show', [character.id])}>
+                            <CharacterNameTypography>
+                                {character.name}
+                            </CharacterNameTypography>
+                        </Link>
+                        <Typography>
+                            {'>'} {item.name}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid item xs={7} />
+                <Grid item xs={12} />
+            </Grid>
+            <Grid container spacing={6}>
+                <Grid item xs={6}>
+                    <Img width='425' alt='avatar' src={placeholderImage} />
+                </Grid>
+                <Grid item container columnSpacing={1} rowSpacing={5} xs={6}>
+                    <Grid item xs={12}>
+                        <StyledTypography>{t('itemDetail.name')}</StyledTypography>
+                        <Typography>{item.name}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <StyledTypography>{t('itemDetail.rarity')}</StyledTypography>
+                        <Typography>{t(`enums.${item.rarity}`)}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <StyledTypography>{t('itemDetail.tier')}</StyledTypography>
+                        <Typography>{item.tier}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Stack spacing={3} direction='row'>
+                            <Button
+                                data-testid='update-button'
+                                variant='contained'
+                                startIcon={<CreateIcon fontSize='small' />}
+                                onClick={() => {
+                                    setIsEditDrawerOpen(true)
+                                }}>
+                                {t('common.update')}
+                            </Button>
+                            <Button
+                                variant='contained'
+                                startIcon={<CompareArrowsIcon fontSize='small' />}>
+                                {t('itemDetail.trade')}
+                            </Button>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid container rowSpacing={6}>
+                <Grid item xs={12} />
+                <Grid item xs={12}>
+                    <StyledTypography>{t('itemDetail.description')}</StyledTypography>
                     <Typography>
-                        {'>'} {item.name}
+                        {item.description === '""'
+                            ? t('itemDetail.no-description')
+                            : item.description}
                     </Typography>
                 </Grid>
             </Grid>
-            <Grid item xs={7} />
-            <Grid item xs={12} />
-        </Grid>
-        <Grid container spacing={6}>
-            <Grid item xs={6}>
-                <Img width='425' alt='avatar' src={placeholderImage} />
-            </Grid>
-            <Grid item container columnSpacing={1} rowSpacing={5} xs={6}>
-                <Grid item xs={12}>
-                    <StyledTypography>NAME</StyledTypography>
-                    <Typography>{item.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <StyledTypography>RARITY</StyledTypography>
-                    <Typography>
-                        {
-                            rarityOptions.filter(
-                                (rarityOption) => rarityOption.value === item.rarity,
-                            )[0].label
-                        }
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <StyledTypography>TIER</StyledTypography>
-                    <Typography>{item.tier}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Stack spacing={3} direction='row'>
-                        <Button
-                            data-testid='update-button'
-                            variant='contained'
-                            startIcon={<CreateIcon fontSize='small' />}
-                            onClick={() => {
-                                setIsEditDrawerOpen(true)
-                            }}>
-                            UPDATE
-                        </Button>
-                        <Button
-                            variant='contained'
-                            startIcon={<CompareArrowsIcon fontSize='small' />}>
-                            TRADE
-                        </Button>
-                    </Stack>
-                </Grid>
-            </Grid>
-        </Grid>
-        <Grid container rowSpacing={6}>
-            <Grid item xs={12} />
-            <Grid item xs={12}>
-                <StyledTypography>DESCRIPTION</StyledTypography>
-                <Typography>
-                    {item.description === '""' ? 'No description' : item.description}
-                </Typography>
-            </Grid>
-        </Grid>
-    </Box>
-)
+        </Box>
+    )
+}
 
 ItemDetailBox.displayName = 'ItemDetailBox'
 export default ItemDetailBox

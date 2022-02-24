@@ -66,7 +66,7 @@ describe('Character Exploration Test Suite', () => {
         ).as('getPublicCharacter')
         cy.visit(character_exploration_link, {id: character_exploration_id})
         cy.wait('@getPublicCharacter')
-        cy.contains('button', 'UPDATE').click()
+        cy.contains('button', 'Update').click()
         cy.contains('button', 'Continue').click()
         cy.get('#status').uncheck()
         cy.contains('button', 'Save').click()
