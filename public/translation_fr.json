@@ -92,8 +92,8 @@
         "advancement": "Avancement",
         "magic_item": "Objet magique",
         "-": "-",
-        "private": "Privé",
-        "public": "Public"
+        "private": "Privée",
+        "public": "Publique"
     },
     "form": {
         "name": "Nom",
