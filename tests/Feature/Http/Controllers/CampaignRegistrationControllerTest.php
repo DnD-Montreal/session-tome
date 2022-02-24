@@ -41,7 +41,7 @@ class CampaignRegistrationControllerTest extends TestCase
 
         $response->assertInertia(
             fn (Assert $page) => $page
-                ->component("Campaign/Detail/CampaignDetail")
+                ->component('Campaign/Registration/Create/CampaignRegistrationCreate')
                 ->has('campaign')
         );
     }

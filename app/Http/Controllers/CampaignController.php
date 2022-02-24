@@ -7,6 +7,7 @@ use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Models\Character;
+use App\Models\Adventure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,18 +20,39 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $campaigns = Auth::user()->campaigns()->get();
-
-        return view('campaign.index', compact('campaigns'));
+        $data = $request->validate([
+            'search' => 'sometimes|string',
+        ]);
+        $search = $data['search'] ?? '';
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        $campaigns = Auth::user()
+            ->campaigns()
+            ->get();
+        $campaigns->load('characters')->where('user_id', Auth::user()->id);
+        $campaigns->load('adventure');
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
+        return Inertia::render(
+            'Campaign/Campaign',
+            compact('campaigns', 'characters', 'adventures')
+        );
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create(Request $request)
     {
-        return view('campaign.create');
+        $data = $request->validate([
+            'search' => 'sometimes|string',
+        ]);
+        $search = $data['search'] ?? '';
+        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        return Inertia::render(
+            'Campaign/Create/CampaignCreate',
+            compact('characters', 'adventures')
+        );
     }
 
     /**
@@ -40,10 +62,13 @@ class CampaignController extends Controller
     public function store(CampaignStoreRequest $request)
     {
         $data = $request->validated();
+        // TODO: Look into using prepareForValidation in Request Validator
+        $data['adventure_id'] = $data['adventure']['id'];
+        unset($data['adventure']['id']);
 
         $campaign = Campaign::create($data);
 
-        //user joins capaign
+        //user joins campaign
         $user = Auth::user();
 
         if ($request->has('character_id')) {
@@ -66,7 +91,9 @@ class CampaignController extends Controller
      */
     public function show(Request $request, Campaign $campaign)
     {
-        return view('campaign.show', compact('campaign'));
+        $campaign = $campaign->load('entries');
+
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact('campaign'));
     }
 
     /**

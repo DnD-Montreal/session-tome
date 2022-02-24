@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import {startCase} from 'lodash'
 import React, {useState} from 'react'
 import {EntriesData} from 'Types/entries-data'
-import {itemFormatter} from 'Utils'
+import {objectArrayFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
@@ -70,7 +70,7 @@ const DMEntryTable = ({
         {
             property: 'items',
             title: 'Magic Items',
-            render: (value: any) => itemFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: null,
