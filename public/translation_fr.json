@@ -14,19 +14,19 @@
         "level": "NIVEAU",
         "downtime": "TEMPS LIBRE",
         "status": "VISIBILITÉ",
-        "delete-message": "Êtes-vous certian de vouloir supprimer ce/ces personnage(s)",
+        "delete-message": "Êtes-vous certain de vouloir supprimer ce/ces personnage(s)?",
         "edit-character": "Modifier le personnage",
-        "edit-entry": "Modifier le saisie",
-        "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage",
+        "edit-entry": "Modifier la session",
+        "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage.",
         "public-status": "Acceptez-vous que ce personnage soit rendu publique?",
         "import-help-text": "Importez les saisies de vos personnages en téléchargeant les logs de ",
         "adventure-league-dot-com": "AdventurersLeagueLog.com ",
-        "import-help-text-2": "ou entrez la fiche de personnage sur ",
+        "import-help-text-2": "ou entrez le lien de la fiche de personnage sur ",
         "DND-beyond": "D&D Beyond",
-        "import-note": "Note: Les personnages importés auront des champs vide pour les objets et saisies, merci de les saisir manuellement.",
+        "import-note": "Note: Les personnages importés auront des champs vide pour les objets et sessions, merci de les saisir manuellement.",
         "enter-details": "Ajouter des détails",
         "privacy-details": "Confidentialité",
-        "import-help-text-3": "Entrer votre lien sur D&D Beyond."
+        "import-help-text-3": "Entrer votre lien de la fiche sur D&D Beyond."
     },
     "common": {
         "create": "Créer",
@@ -42,9 +42,9 @@
         "previous": "Précédant",
         "reset": "Réinitialiser",
         "items": "Objets",
-        "entry": "Saisie",
-        "bulk-entry": "Saisie groupée",
-        "dm-entry": "Saisie de MJ",
+        "entry": "Session",
+        "bulk-entry": "Groupe de sessions",
+        "dm-entry": "Session de MJ",
         "unassigned": "Non attribué",
         "home": "Page d'Accueil",
         "item-shop": "Magasin d'objets",
@@ -60,9 +60,9 @@
         "selected": "Sélectionné"
     },
     "entry": {
-        "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces saisie(s)",
+        "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces session(s)",
         "set-adventure": "Définir l'aventure",
-        "edit-dm-entry": "Modifier MJ",
+        "edit-dm-entry": "Modifier la session de MJ",
         "details": "Détails",
         "magic-items": "Objets magiques",
         "fill-out-fields": "Remplissez les champs suivant à propos de vos futures sessions.",
@@ -71,9 +71,9 @@
         "assigned-character": "Personne assigné",
         "start-date-and-time": "Date et heure du début",
         "end-date-and-time": "Date et heure de la fin",
-        "fill-out-fields-dm": "Saisissez les champs suivants a propos du MJ.",
-        "fill-out-fields-entry": "Saisissez les champs suivants.",
-        "no-adventure-warning": "Cette saisie importée n'a pas d'aventure associée, veuillez l'ajouter manuellement"
+        "fill-out-fields-dm": "Saisissez les champs suivants avec la session du MJ.",
+        "fill-out-fields-entry": "Saisissez les champs suivants de la session.",
+        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement"
     },
     "enums": {
         "common": "Commun",
@@ -120,9 +120,9 @@
         "confirm-password": "Confirmez votre mot de passe",
         "username": "Nom d'utilisateur",
         "frequency": {
-            "weekly": "Once a week",
-            "bi-monthly": "Once every two weeks",
-            "monthly": "Once a month"
+            "weekly": "Une fois par semaine",
+            "bi-monthly": "Une fois par deux semaines",
+            "monthly": "Une fois par mois"
         }
     },
     "itemDetail": {
@@ -154,7 +154,7 @@
         "new-password": "Nouveau mot de passe"
     },
     "rating": {
-        "fill-out-fields": "Sélectionnnez ce que vous appriciez de votre Maître de Jeu",
+        "fill-out-fields": "Sélectionnnez ce que vous appréciez de votre Maître de Jeu",
         "league-event-ratings-only": "Évaluations des évènements de la ligue seulement"
     },
     "tableColumn": {
@@ -177,8 +177,8 @@
     },
     "tableName": {
         "character": "Personnages",
-        "dm-entry": "Saisies du MJ",
-        "entry": "Saisies",
+        "dm-entry": "Sessions du MJ",
+        "entry": "Sessions",
         "item": "Objets",
         "rating": "Évaluations"
     },
