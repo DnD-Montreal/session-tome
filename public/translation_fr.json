@@ -132,13 +132,13 @@
         "trade": "Échange",
         "description": "Description",
         "no-description": "Pas de description",
-        "tier-warning": "Cet objet importé n'a pas de tier, merci de mettre à jour manuellement",
+        "tier-warning": "Cet objet importé n'a pas de tier, merci de mettre à jour manuellement.",
         "set-tier": "Définir le tier",
         "delete-message": "Êtes-vous sûr de vouloir supprimer cet/ces objet(s) ?",
         "edit-item": "Modifier l'objet",
         "add-item": "Ajouter un objet",
-        "fill-out-fields": "Remplir les champs suivants avec les détails l'objet de votre personnage",
-        "fill-out-fields-create": "Remplissez les champs suiants à partir de la description de votre objet magique. Merci de noter que le premier objet magique est celu iqu isera attaché à votre personnage si vous choisissez de le recevoir en récompense."
+        "fill-out-fields": "Remplir les champs suivants avec les détails l'objet de votre personnage.",
+        "fill-out-fields-create": "Remplissez les champs suiants à partir de la description de votre objet magique. Merci de noter que le premier objet magique est celui qui sera attaché à votre personnage si vous choisissez de le recevoir en récompense."
     },
     "profile": {
         "account-updated": "Compte mis à jour!",
@@ -148,7 +148,7 @@
         "change-password": "Changez votre mot de passe",
         "language": "Langue",
         "delete-user-account": "Effacer le compte",
-        "delete-warning-message": "Attention ! Cela supprimera votre compte définitivement",
+        "delete-warning-message": "Attention! Cela supprimera votre compte définitivement!",
         "delete-my-account": "Supprimer mon compte",
         "confirm-new-password": "Confirmation du mot de passe",
         "new-password": "Nouveau mot de passe"
