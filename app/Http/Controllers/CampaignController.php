@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CampaignStoreRequest;
 use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
+use App\Models\Entry;
 use App\Models\User;
 use App\Models\Character;
 use App\Models\Adventure;
@@ -87,13 +88,19 @@ class CampaignController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Campaign $campaign)
     {
-        $campaign = $campaign->load('entries');
+        $campaign = $campaign->load('entries', 'characters');
+        $userCharacter = $campaign->characters()
+            ->where('user_id', Auth::id())
+            ->with(['entries' => function ($q) use ($campaign) {
+                return $q->where('campaign_id', $campaign->id);
+            }, 'entries.adventure'])
+            ->first();
 
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact('campaign'));
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact(['campaign', 'userCharacter']));
     }
 
     /**
