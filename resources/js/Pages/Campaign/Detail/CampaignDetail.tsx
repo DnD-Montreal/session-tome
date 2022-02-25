@@ -13,19 +13,20 @@ type CampaignDetailPropType = {
     campaign: CampaignData
 }
 
-const CampaignDetail = () => (
-    <ThemeProvider theme={theme}>
-        <CampaignDetailBox
-        // campaign={campaign}
-        />
-        <EntryTable
-            data={entriesData}
-            setEditEntryId={useEditDrawer}
-            setEditEntryData={useEditDrawer}
-            setIsEditDrawerOpen={useEditDrawer}
-        />
-    </ThemeProvider>
-)
+const CampaignDetail = ({campaign}: CampaignDetailPropType) => {
+    console.log(campaign)
+    return (
+        <ThemeProvider theme={theme}>
+            <CampaignDetailBox campaign={campaign} />
+            <EntryTable
+                data={entriesData}
+                setEditEntryId={useEditDrawer}
+                setEditEntryData={useEditDrawer}
+                setIsEditDrawerOpen={useEditDrawer}
+            />
+        </ThemeProvider>
+    )
+}
 
 CampaignDetail.displayName = 'CampaignDetail'
 CampaignDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>

@@ -15,16 +15,12 @@ type CampaignDetailBoxPropType = {
     campaign: CampaignData
 }
 
-const CampaignDetailBox = () => (
-    // {campaign}: CampaignDetailBoxPropType
+const CampaignDetailBox = ({campaign}: CampaignDetailBoxPropType) => (
     <Box sx={{p: 5, backgroundColor: 'primary'}}>
         <Grid container columnSpacing={1} rowSpacing={6} xs={6}>
             <Grid item xs={12}>
                 <StyledTypography>NAME</StyledTypography>
-                <Typography>
-                    {/* {campaign.title} */}
-                    Campaign 1
-                </Typography>
+                <Typography>{campaign.title}</Typography>
             </Grid>
             <Grid item xs={12}>
                 <StyledTypography>SESSIONS PLAYED</StyledTypography>
@@ -35,9 +31,12 @@ const CampaignDetailBox = () => (
             </Grid>
             <Grid item xs={12}>
                 <StyledTypography>CHARACTERS</StyledTypography>
-                <Typography>
-                    Character 1, Character 27, Character 31, Character 45
-                </Typography>
+                {campaign.characters.map((char: any, index: any) => (
+                    <Typography>
+                        {char.name}
+                        {index < campaign.characters.length - 1 ? ', ' : ''}
+                    </Typography>
+                ))}
             </Grid>
             <Grid item>
                 <Stack spacing={3} direction='row'>
