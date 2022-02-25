@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {useForm} from '@inertiajs/inertia-react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
@@ -8,10 +9,12 @@ import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'C
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
+import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {ItemData} from 'Types/item-data'
 import {RatingCategoryType} from 'Types/rating-data'
+import {UserCharacterData} from 'Types/user-character-data'
 import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
@@ -24,10 +27,12 @@ type GameMasterData = {
 
 type EntryCreateFormPropType = {
     type: 'Edit' | 'Create'
+    campaignEntry?: boolean
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
-    character: CharacterData
+    campaign?: CampaignData
+    character: CharacterData | UserCharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
 }
@@ -59,9 +64,11 @@ const StyledTextField = styled(TextField)({
 
 const EntryCreateForm = ({
     type,
+    // campaignEntry,
     onCloseDrawer,
     editData,
     editId = 0,
+    // campaign,
     character,
     adventures,
     gameMasters,
@@ -289,11 +296,35 @@ const EntryCreateForm = ({
     const editStepContent = [stepOneContent, stepThreeContent]
     const createStepContent = [stepOneContent, stepTwoContent, stepThreeContent]
 
+    // const cancelButton = () => {
+    //     if (campaignEntry === true) {
+    //         return (
+    //             <Link href={route('campaign.show', [campaign.id])}>
+    //                 <Button fullWidth>Cancel</Button>
+    //             </Link>
+    //         )
+    //     }
+
+    //         return (type === 'Create' ? (
+    //             <Link href={route('character.show', [character.id])}>
+    //                 <Button fullWidth>Cancel</Button>
+    //             </Link>
+    //         ) : (
+    //             <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
+    //                 Cancel
+    //             </Button>
+    //         ))
+
+    // }
+
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 {type === 'Create' ? (
-                    <Link href={route('character.show', [character.id])}>
+                    <Link
+                        href={route('character.show', [character.id])}
+                        // {campaignEntry ? route('campaign.show', [campaign.id]) : route('character.show', [character.id])}
+                    >
                         <Button fullWidth>Cancel</Button>
                     </Link>
                 ) : (
