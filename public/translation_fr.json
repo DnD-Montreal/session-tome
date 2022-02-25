@@ -18,7 +18,7 @@
         "edit-character": "Modifier le personnage",
         "edit-entry": "Modifier la session",
         "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage.",
-        "public-status": "Acceptez-vous que ce personnage soit rendu publique?",
+        "public-status": "Acceptez-vous que ce personnage soit rendu public?",
         "import-help-text": "Importez les saisies de vos personnages en téléchargeant les logs de ",
         "adventure-league-dot-com": "AdventurersLeagueLog.com ",
         "import-help-text-2": "ou entrez le lien de la fiche de personnage sur ",
@@ -60,7 +60,7 @@
         "selected": "Sélectionné"
     },
     "entry": {
-        "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces session(s)",
+        "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces session(s)?",
         "set-adventure": "Définir l'aventure",
         "edit-dm-entry": "Modifier la session de MJ",
         "details": "Détails",
@@ -73,7 +73,7 @@
         "end-date-and-time": "Date et heure de la fin",
         "fill-out-fields-dm": "Saisissez les champs suivants avec la session du MJ.",
         "fill-out-fields-entry": "Saisissez les champs suivants de la session.",
-        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement"
+        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement."
     },
     "enums": {
         "common": "Commun",
@@ -154,7 +154,7 @@
         "new-password": "Nouveau mot de passe"
     },
     "rating": {
-        "fill-out-fields": "Sélectionnnez ce que vous appréciez de votre Maître de Jeu",
+        "fill-out-fields": "Sélectionnnez ce que vous appréciez de votre Maître de Jeu.",
         "league-event-ratings-only": "Évaluations des évènements de la ligue seulement"
     },
     "tableColumn": {
@@ -185,7 +185,7 @@
     "welcome": {
         "welcome-text-1": "Bienvenue à ",
         "session-tome": "Session Tome",
-        "welcome-text-2": ". Créer un compte pour gérer vos personnages, campagnes et objets pour les parties de D&D",
+        "welcome-text-2": ". Créer un compte pour gérer vos personnages, campagnes et objets pour les parties de D&D.",
         "upcoming-events": "Évènements à venir"
     }
 }
