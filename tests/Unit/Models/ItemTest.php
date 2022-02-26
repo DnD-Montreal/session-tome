@@ -65,4 +65,20 @@ class ItemTest extends TestCase
 
         $this->assertEquals($user->id, $item->author->id);
     }
+
+    /**
+     * @test
+     */
+    public function can_be_listed_in_trade()
+    {
+        $item = Item::factory()->create([
+            'description' => "listed item"
+        ]);
+        $trade = Trade::factory()->create();
+
+        $item->trade()->save($trade);
+
+        $this->assertCount(1, $item->trade()->get());
+        $this->assertEquals($trade->id, $item->trade->id);
+    }
 }
