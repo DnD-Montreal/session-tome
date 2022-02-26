@@ -1,12 +1,13 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
+import useEditDrawer from '@Utils/use-edit-drawer'
+import useUser from '@Utils/use-user'
 import {CharacterCreateForm, CharacterTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import React, {useState} from 'react'
+import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
-
-const theme = getFontTheme('Form', 16)
 
 type CharacterPropType = {
     characters: CharacterData[]
@@ -14,12 +15,19 @@ type CharacterPropType = {
 }
 
 const Character = ({characters, factions}: CharacterPropType) => {
-    const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false)
-    const [editId, setEditId] = useState<number>()
-    const [editData, setEditData] = useState<CharacterData>()
+    const {
+        isEditDrawerOpen,
+        setIsEditDrawerOpen,
+        editId,
+        setEditId,
+        editData,
+        setEditData,
+    } = useEditDrawer<CharacterData>()
+    const {t} = useTranslation()
+    const {language} = useUser()
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getFontTheme('Form', 16, language)}>
             <Drawer
                 content={
                     <CharacterCreateForm
@@ -30,7 +38,7 @@ const Character = ({characters, factions}: CharacterPropType) => {
                         factions={factions}
                     />
                 }
-                title={<Typography>Edit Character</Typography>}
+                title={<Typography>{t('characterDetail.edit-character')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
