@@ -23,6 +23,7 @@ class Session extends Model
         'dungeon_master_id',
         'table',
         'start_time',
+        'end_time',
         'language',
     ];
 
@@ -37,6 +38,7 @@ class Session extends Model
         'adventure_id' => 'integer',
         'dungeon_master_id' => 'integer',
         'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     protected $with = ['event'];
