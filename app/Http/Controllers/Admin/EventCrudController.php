@@ -45,10 +45,10 @@ class EventCrudController extends CrudController
     {
         if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::wherein('league_id', $leagueId)->pluck('id');
+            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
 
             /** @psalm-suppress UndefinedFunction */
-            $this->crud->addClause('wherein', 'id', $event);
+            $this->crud->addClause('whereIn', 'id', $event);
         }
 
         $this->crud->addButtonFromView('line', 'event_report', 'event_report', 'beginning');
@@ -66,7 +66,7 @@ class EventCrudController extends CrudController
     {
         if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::wherein('league_id', $leagueId)->pluck('id')->toArray();
+            $event = Event::whereIn('league_id', $leagueId)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
             if (!in_array($id, $event)) {
                 abort(403);
@@ -89,7 +89,7 @@ class EventCrudController extends CrudController
                 'name' => 'league_id',
                 'options' => (function ($query) {
                     $leagueId = Auth::user()->roles()->pluck('league_id');
-                    $query->wherein('id', $leagueId);
+                    $query->whereIn('id', $leagueId);
                     return $query->get();
                 }),
             ]);
