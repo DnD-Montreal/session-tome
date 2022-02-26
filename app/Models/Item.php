@@ -40,9 +40,16 @@ class Item extends Model
     public const RARITY = ["common","uncommon","rare","very_rare","legendary"];
 
 
+    //trades this item is offered to
     public function trades()
     {
         return $this->belongsToMany(\App\Models\Trade::class);
+    }
+
+    //trade this item is listed in
+    public function trade()
+    {
+        return $this->hasOne(\App\Models\Trade::class);
     }
 
     public function entry()
