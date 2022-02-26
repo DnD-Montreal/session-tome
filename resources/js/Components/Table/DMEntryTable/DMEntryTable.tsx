@@ -5,8 +5,8 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
-import {startCase} from 'lodash'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
 import {itemFormatter} from 'Utils'
 import route from 'ziggy-js'
@@ -28,53 +28,54 @@ const DMEntryTable = ({
     setEditData,
     setIsEditDrawerOpen,
 }: DMEntryPropType) => {
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const {setData, delete: destroy} = useForm<FormDataType>({entries: []})
     const leftActions = [
         <Link href={route('dm-entry.create')}>
             <Button variant='contained' startIcon={<HistoryEduIcon />}>
-                Create
+                {t('common.create')}
             </Button>
         </Link>,
     ]
     const columns = [
         {
             property: 'date_played',
-            title: 'Date',
+            title: t('tableColumn.date'),
             render: (value: string) => (
                 <Typography>{dayjs(value).format('LLL')}</Typography>
             ),
         },
         {
             property: 'adventure',
-            title: 'Adventure Title',
+            title: t('tableColumn.adventure'),
             render: (value: any) => <Chip label={value.title} variant='outlined' />,
         },
         {
             property: 'session',
-            title: 'Session',
+            title: t('tableColumn.session'),
         },
         {
             property: 'character',
-            title: 'Character',
+            title: t('tableColumn.character'),
             render: (value: any) => (
-                <Chip label={value?.name ?? 'Unassigned'} variant='outlined' />
+                <Chip label={value?.name ?? t('common.unassigned')} variant='outlined' />
             ),
         },
         {
             property: 'reward',
-            title: 'Reward',
-            render: (value: any) => <Typography>{startCase(value)}</Typography>,
+            title: t('tableColumn.reward'),
+            render: (value: any) => <Typography>{t(`enums.${value}`)}</Typography>,
         },
         {
             property: 'items',
-            title: 'Magic Items',
+            title: t('tableColumn.items'),
             render: (value: any) => itemFormatter(value),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: any) => (
                 <>
                     <IconButton
@@ -100,7 +101,7 @@ const DMEntryTable = ({
     ]
     const bulkSelectActions = selected.length > 0 && (
         <Stack direction='row' justifyContent='flex-end'>
-            <Tooltip title='Delete'>
+            <Tooltip title={t('common.delete') ?? ''}>
                 <IconButton
                     aria-label='bulkdelete'
                     onClick={() => {
@@ -117,7 +118,7 @@ const DMEntryTable = ({
         <Box>
             <DeleteModal
                 open={isDeleteModalOpen}
-                warningMessage='Are you sure you want to delete this/these entry(ies)?'
+                warningMessage={t('entry.delete-message')}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('entry.destroy'))
@@ -134,7 +135,7 @@ const DMEntryTable = ({
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='DM Entries'
+                tableName='dm-entry'
                 bulkSelectActions={bulkSelectActions}
                 filterProperties={['adventure']}
             />
