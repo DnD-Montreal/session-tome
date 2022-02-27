@@ -103,8 +103,8 @@ class Session extends Model
         $startTime = $this->start_time;
         $endTime= $this->end_time;
 
-        $startsWithin = $startTime < $otherSessionStart && $otherSessionStart < $endTime;
-        $endsWithin = $startTime < $otherSessionEnd && $otherSessionEnd < $endTime;
+        $startsWithin = $startTime <= $otherSessionStart && $otherSessionStart <= $endTime;
+        $endsWithin = $startTime <= $otherSessionEnd && $otherSessionEnd <= $endTime;
 
         return $startsWithin || $endsWithin;
     }
