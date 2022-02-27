@@ -45,7 +45,10 @@ class EventRegistrationController extends Controller
             ->orWhereHas('dungeonMaster', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('start_date', '>', now());
+            ->where('start_date', '>', now())
+            ->get();
+
+        dump($userSessions);
 
         if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
