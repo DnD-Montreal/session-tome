@@ -29,26 +29,12 @@ class EventRegistrationController extends Controller
 
         $userId = Auth::id();
 
-        /*
-        Get all sessions that the current user is involved in as either a player or a game master
-        =====================================================================================
-        The final where statement is there to reduce the amount of sessions in the query result
-        thus improving performance, however it potentially introduces an edge case
-        where the user can register for a session s1 which overlaps with a session s2 when
-        s2 is already in progress and the user is involved in s2.
-        If the edge case becomes an issue, remove the final where clause.
-        Keep in mind that removing it may result in a loss of performance
-        */
         $userSessions = Session::whereHas('characters', function ($q) use ($userId) {
             $q->where('user_id', $userId);
-        })
-            ->orWhereHas('dungeonMaster', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-            })
-            ->where('start_date', '>', now())
-            ->get();
+        })->orWhereHas('dungeonMaster', function ($q) use ($userId) {
+            $q->where('id', $userId);
+        })->get();
 
-        dump($userSessions);
 
         if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
