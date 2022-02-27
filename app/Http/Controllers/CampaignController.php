@@ -92,7 +92,7 @@ class CampaignController extends Controller
      */
     public function show(Request $request, Campaign $campaign)
     {
-        $campaign = $campaign->load('entries', 'characters', 'adventure');
+        $campaign = $campaign->load('characters', 'adventure');
         $userCharacter = $campaign->characters()
             ->where('user_id', Auth::id())
             ->with(['entries' => function ($q) use ($campaign) {
