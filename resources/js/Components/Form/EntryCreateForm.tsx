@@ -32,6 +32,10 @@ type EntryCreateFormPropType = {
     character: CharacterData | UserCharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type EntryFormDataType = {
@@ -67,6 +71,7 @@ const EntryCreateForm = ({
     character,
     adventures,
     gameMasters,
+    campaigns,
 }: EntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -90,6 +95,7 @@ const EntryCreateForm = ({
         character_id: character.id,
         user_id: getUserId(),
         adventure: undefined,
+        campaign: undefined,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -110,6 +116,7 @@ const EntryCreateForm = ({
                   character_id: character.id,
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
+                  campaign: editData?.campaign || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
@@ -265,7 +272,20 @@ const EntryCreateForm = ({
                     label={t('form.game-master-has-account')}
                 />
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 7} />
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <Autocomplete
+                    id='campaigns'
+                    fieldKey='campaigns'
+                    onChange={(_, value) => setData('campaign', value)}
+                    defaultValue={data.campaign}
+                    getOptionLabel={(option) => option.title}
+                    options={campaigns}
+                    resetUrl={resetUrl}
+                    label={t('entry.campaigns')}
+                />
+                {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={2} />}
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <StyledTextField
                     disabled

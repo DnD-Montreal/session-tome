@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adventure;
+use App\Models\Campaign;
 use App\Models\Entry;
 use App\Models\Character;
 use Illuminate\Http\Request;
@@ -20,15 +21,17 @@ class DMEntryController extends Controller
         $search = $request->get("search", "");
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
-            ->with('character', 'adventure', 'items')
+            ->with('character', 'adventure', 'items', 'campaign')
             ->orderBy('date_played', 'desc')
             ->get();
         $characters = Auth::user()->characters;
 
+        // not using compact to allow for partial reloads
         return Inertia::render('DMEntry/DMEntry', [
             'entries' => $entries,
             'characters' => $characters,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'campaigns' => fn () => Campaign::filtered($search)->whereRelation('users', 'id', Auth::id())->get(['id', 'title']),
         ]);
     }
 
@@ -40,12 +43,12 @@ class DMEntryController extends Controller
     {
         $search = $request->get("search");
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        $campaigns = Auth::user()->campaigns;
 
+        // not using compact to allow for partial reloads
         return Inertia::render('Entry/Create/DmEntryCreate', [
             'characters' => $characters,
-            'campaigns' => $campaigns,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'campaigns' => fn () => Campaign::filtered($search)->whereRelation('users', 'id', Auth::id())->get(['id', 'title']),
         ]);
     }
 }

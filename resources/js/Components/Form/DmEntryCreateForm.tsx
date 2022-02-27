@@ -29,6 +29,10 @@ type DmEntryCreateFormPropType = {
     editId?: number
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type DmEntryFormDataType = {
@@ -80,6 +84,7 @@ const DmEntryCreateForm = ({
     editId = 0,
     adventures,
     characters,
+    campaigns,
 }: DmEntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -96,6 +101,7 @@ const DmEntryCreateForm = ({
         items: [],
         type: 'dm',
         adventure: undefined,
+        campaign: undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
@@ -113,6 +119,7 @@ const DmEntryCreateForm = ({
                   type: 'dm',
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
+                  campaign: editData?.campaign || undefined,
               }
     const [activeStep, setActiveStep] = useState<number>(0)
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
@@ -127,6 +134,8 @@ const DmEntryCreateForm = ({
         }
     }, [wasSuccessful])
 
+    const resetUrl =
+        type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
     const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
@@ -142,11 +151,7 @@ const DmEntryCreateForm = ({
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={
-                        type === 'Create'
-                            ? route('dm-entry.create')
-                            : route('dm-entry.index')
-                    }
+                    resetUrl={resetUrl}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -237,6 +242,20 @@ const DmEntryCreateForm = ({
                 />
                 {errors?.character_id && <ErrorText message={errors?.character_id} />}
             </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <Autocomplete
+                    id='campaigns'
+                    fieldKey='campaigns'
+                    onChange={(_, value) => setData('campaign', value)}
+                    defaultValue={data.campaign}
+                    getOptionLabel={(option) => option.title}
+                    options={campaigns}
+                    resetUrl={resetUrl}
+                    label={t('entry.campaigns')}
+                />
+                {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={7} />}
             <StyledGrid item xs={12}>
                 <TextField
                     multiline

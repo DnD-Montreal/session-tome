@@ -59,4 +59,15 @@ class EntryUpdateRequest extends FormRequest
             'rating_data' => ['nullable', 'sometimes', 'array']
         ];
     }
+
+    public function prepareForValidation()
+    {
+        // TODO: Refactor "adventure.id" and "dungeon_master.id" to use this method as well
+        // involves changing controllers back to expecting "adventure_id", etc...
+        if ($campaign = $this->get('campaign')) {
+            $this->merge([
+                'campaign_id' => $campaign['id']
+            ]);
+        }
+    }
 }
