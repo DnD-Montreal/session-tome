@@ -169,7 +169,7 @@ class EntryControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('entry.store'), [
             'user_id' => $user->id,
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -186,7 +186,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -497,7 +497,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -516,7 +516,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
@@ -530,7 +530,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
