@@ -1,6 +1,7 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
+import useUser from '@Utils/use-user'
 import {CampaignCreateForm, CampaignTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
@@ -26,9 +27,10 @@ const Campaign = ({campaigns, characters, adventures}: CampaignPropType) => {
         setEditData,
     } = useEditDrawer<CampaignData>()
     const {t} = useTranslation()
+    const {language} = useUser()
 
     return (
-        <ThemeProvider theme={getFontTheme('Form', 16)}>
+        <ThemeProvider theme={getFontTheme('Form', 16, language)}>
             <Drawer
                 content={
                     <CampaignCreateForm
