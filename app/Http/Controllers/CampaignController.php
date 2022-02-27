@@ -99,7 +99,7 @@ class CampaignController extends Controller
                 return $q->where('campaign_id', $campaign->id);
             }, 'entries.adventure'])
             ->first();
-        $characters = $campaign->characters;
+        $characters = Auth::user()->characters;
         $adventure = $campaign->adventure;
 
         return Inertia::render('Campaign/Detail/CampaignDetail', compact([
