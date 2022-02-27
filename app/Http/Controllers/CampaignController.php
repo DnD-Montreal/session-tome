@@ -92,15 +92,22 @@ class CampaignController extends Controller
      */
     public function show(Request $request, Campaign $campaign)
     {
-        $campaign = $campaign->load('entries', 'characters');
+        $campaign = $campaign->load('entries', 'characters', 'adventure');
         $userCharacter = $campaign->characters()
             ->where('user_id', Auth::id())
             ->with(['entries' => function ($q) use ($campaign) {
                 return $q->where('campaign_id', $campaign->id);
             }, 'entries.adventure'])
             ->first();
-        $characters = Character::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact(['campaign', 'userCharacter', 'characters']));
+        $characters = $campaign->characters;
+        $adventure = $campaign->adventure;
+
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact([
+            'campaign',
+            'userCharacter',
+            'characters',
+            'adventure'
+        ]));
     }
 
     /**
