@@ -9,7 +9,10 @@ import {getFontTheme} from 'Utils'
 type DmEntryCreateType = {
     adventures: adventureType[]
     characters: CharacterData[]
-    campaigns: any
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 const DmEntryCreate = ({adventures, characters, campaigns}: DmEntryCreateType) => {
