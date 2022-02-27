@@ -71,7 +71,6 @@ const Username = styled(Typography)`
         margin-top: 10px;
     }
     margin: 10px 6px 0px 0px;
-    // font-size: 14px;
     font-family: 'Roboto';
     font-weight: 400;
 `
