@@ -7,6 +7,7 @@ import {Box, Button, IconButton} from '@mui/material'
 import {objectArrayFormatter} from '@Utils/formatter'
 import {CampaignJoinModal, DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {CampaignData} from 'Types/campaign-data'
 import route from 'ziggy-js'
 
@@ -27,6 +28,7 @@ const CampaignTable = ({
     setEditId,
     setEditData,
 }: CampaignTablePropType) => {
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false)
@@ -41,37 +43,37 @@ const CampaignTable = ({
     const leftActions = [
         <Link href={route('campaign.create')}>
             <Button variant='contained' startIcon={<AddIcon />}>
-                Create
+                {t('common.create')}
             </Button>
         </Link>,
         <Button
             variant='contained'
             startIcon={<MeetingRoomOutlinedIcon />}
             onClick={() => setIsJoinModalOpen(true)}>
-            JOIN
+            {t('common.join')}
         </Button>,
     ]
 
     const columns = [
         {
             property: 'title',
-            title: 'Title',
+            title: t('tableColumn.title'),
             render: (value: string, row: CampaignData) => (
                 <Link href={route('campaign.show', [row.id])}>{value}</Link>
             ),
         },
         {
             property: 'characters',
-            title: 'Character',
+            title: t('tableColumn.characters'),
             render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: 'code',
-            title: 'Code',
+            title: t('tableColumn.code'),
         },
         {
             property: null,
-            title: 'Actions',
+            title: t('tableColumn.actions'),
             render: (row: CampaignData) => (
                 <>
                     <IconButton
@@ -100,7 +102,7 @@ const CampaignTable = ({
         <Box>
             <DeleteModal
                 open={isDeleteModalOpen}
-                warningMessage='Are you sure you want to delete this/these Campaign(s)?'
+                warningMessage={t('campaign.delete-message')}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('campaign.destroy', [formData.campaign]))
@@ -112,7 +114,7 @@ const CampaignTable = ({
             <CampaignJoinModal
                 open={isJoinModalOpen}
                 onClose={() => setIsJoinModalOpen(false)}
-                message='Please enter the invite code of the campaign.'
+                message={t('campaign.enter-invite-code')}
             />
             <DataTable
                 leftActions={leftActions}
@@ -121,7 +123,7 @@ const CampaignTable = ({
                 isSelectable
                 data={data}
                 columns={columns}
-                tableName='Campaigns'
+                tableName='campaigns'
                 filterProperties={['title']}
             />
         </Box>

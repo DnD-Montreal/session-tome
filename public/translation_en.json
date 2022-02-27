@@ -6,6 +6,11 @@
         "register": "Register",
         "sign-in": "Sign In"
     },
+    "campaign": {
+        "edit-campaign": "Edit Campaign",
+        "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
+        "enter-invite-code": "Please enter the invite code of the campaign."
+    },
     "characterDetail": {
         "name": "NAME",
         "race": "RACE",
@@ -53,7 +58,8 @@
         "ratings": "Ratings",
         "skip": "Skip",
         "search": "Search",
-        "or": "OR"
+        "or": "OR",
+        "join": "Join"
     },
     "component": {
         "no-data": "No data...",
@@ -174,7 +180,10 @@
         "items": "Magic Items",
         "description": "Description",
         "rarity": "Rarity",
-        "tier": "Tier"
+        "tier": "Tier",
+        "title": "Title",
+        "characters": "Characters",
+        "code": "Code"
     },
     "tableName": {
         "character": "Characters",
