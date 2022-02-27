@@ -40,6 +40,8 @@ const PrimaryRow = styled(Grid)`
 
 const SecondaryRow = styled(Grid)`
     text-align: center;
+    width: 80vw;
+    margin: auto;
     @media only screen and (min-width: 900px) {
         height: 96px;
     }
