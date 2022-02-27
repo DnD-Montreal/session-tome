@@ -1,6 +1,6 @@
 {
     "authentication": {
-        "login": "Login",
+        "login": "LOGIN",
         "logout": "Logout",
         "profile": "Profile",
         "register": "Register",
