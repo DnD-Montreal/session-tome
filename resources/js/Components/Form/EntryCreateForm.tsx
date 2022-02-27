@@ -131,6 +131,12 @@ const EntryCreateForm = ({
         }
     }, [wasSuccessful])
 
+    useEffect(() => {
+        if (errors) {
+            setActiveStep(0)
+        }
+    }, [errors])
+
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
         editData ? Boolean(editData?.dungeon_master_id) : true,
     )
