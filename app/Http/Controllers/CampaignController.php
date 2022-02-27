@@ -99,8 +99,8 @@ class CampaignController extends Controller
                 return $q->where('campaign_id', $campaign->id);
             }, 'entries.adventure'])
             ->first();
-
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact(['campaign', 'userCharacter']));
+        $characters = Character::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('Campaign/Detail/CampaignDetail', compact(['campaign', 'userCharacter', 'characters']));
     }
 
     /**

@@ -1,4 +1,5 @@
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CreateIcon from '@mui/icons-material/Create'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
@@ -17,9 +18,14 @@ const StyledTypography = styled(Typography)({
 type CampaignDetailBoxPropType = {
     campaign: CampaignData
     userCharacter: UserCharacterData
+    setIsEditDrawerOpen: (payload: boolean) => void
 }
 
-const CampaignDetailBox = ({campaign, userCharacter}: CampaignDetailBoxPropType) => {
+const CampaignDetailBox = ({
+    campaign,
+    userCharacter,
+    setIsEditDrawerOpen,
+}: CampaignDetailBoxPropType) => {
     const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
 
     const handleClick = () => {
@@ -48,7 +54,11 @@ const CampaignDetailBox = ({campaign, userCharacter}: CampaignDetailBoxPropType)
                         <StyledTypography>NAME</StyledTypography>
                         <Typography>{campaign.title}</Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
+                        <StyledTypography>ADVENTURE</StyledTypography>
+                        <Typography>{campaign.adventure}</Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <StyledTypography>SESSIONS PLAYED</StyledTypography>
                         <Typography>25</Typography>
                     </Grid>
@@ -65,13 +75,16 @@ const CampaignDetailBox = ({campaign, userCharacter}: CampaignDetailBoxPropType)
                         <Stack spacing={3} direction='row'>
                             <Button
                                 variant='contained'
-                                startIcon={<CreateIcon fontSize='small' />}
+                                startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={handleClick}>
                                 INVITE
                             </Button>
                             <Button
                                 variant='contained'
-                                startIcon={<CreateIcon fontSize='small' />}>
+                                startIcon={<CreateIcon fontSize='small' />}
+                                onClick={() => {
+                                    setIsEditDrawerOpen(true)
+                                }}>
                                 UPDATE
                             </Button>
                             <Link

@@ -8,7 +8,6 @@ import {
     Autocomplete,
     Button,
     ErrorText,
-    Link,
     NumberInput,
     Select,
     StepperForm,
@@ -254,9 +253,13 @@ const DmEntryCreateForm = ({
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
                 {type === 'Create' ? (
-                    <Link href={route('dm-entry.index')}>
-                        <Button fullWidth>Cancel</Button>
-                    </Link>
+                    <Button
+                        fullWidth
+                        onClick={() => {
+                            window.history.back()
+                        }}>
+                        Cancel
+                    </Button>
                 ) : (
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
                         Cancel

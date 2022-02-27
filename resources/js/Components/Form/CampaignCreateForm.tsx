@@ -15,6 +15,7 @@ type CampaignCreateFormPropType = {
     editId?: number
     adventures: adventureType[]
     characters: CharacterData[]
+    disabledAdventure?: boolean
 }
 
 type CampaignFormDataType = {
@@ -35,6 +36,7 @@ const CampaignCreateForm = ({
     editId = 0,
     adventures,
     characters,
+    disabledAdventure,
 }: CampaignCreateFormPropType) => {
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
@@ -87,20 +89,31 @@ const CampaignCreateForm = ({
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    <Autocomplete
-                        label='Adventure'
-                        id='adventures'
-                        fieldKey='adventures'
-                        onChange={(_, value) => setData('adventure', value)}
-                        defaultValue={data.adventure}
-                        getOptionLabel={(option) => `${option.code} - ${option.title}`}
-                        options={adventures}
-                        resetUrl={
-                            type === 'Create'
-                                ? route('campaign.create')
-                                : route('campaign.index')
-                        }
-                    />
+                    {disabledAdventure ? (
+                        <TextField
+                            disabled
+                            label='Adventure'
+                            id='adventure'
+                            defaultValue={data.adventure}
+                        />
+                    ) : (
+                        <Autocomplete
+                            label='Adventure'
+                            id='adventures'
+                            fieldKey='adventures'
+                            onChange={(_, value) => setData('adventure', value)}
+                            defaultValue={data.adventure}
+                            getOptionLabel={(option) =>
+                                `${option.code} - ${option.title}`
+                            }
+                            options={adventures}
+                            resetUrl={
+                                type === 'Create'
+                                    ? route('campaign.create')
+                                    : route('campaign.index')
+                            }
+                        />
+                    )}
                     {errors['adventure.id'] && (
                         <ErrorText message={errors['adventure.id']} />
                     )}
