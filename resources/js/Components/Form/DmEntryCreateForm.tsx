@@ -30,7 +30,10 @@ type DmEntryCreateFormPropType = {
     editId?: number
     adventures: adventureType[]
     characters: CharacterData[]
-    campaigns: any
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type DmEntryFormDataType = {
@@ -99,6 +102,7 @@ const DmEntryCreateForm = ({
         items: [],
         type: 'dm',
         adventure: undefined,
+        campaign: undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
@@ -116,6 +120,7 @@ const DmEntryCreateForm = ({
                   type: 'dm',
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
+                  campaign: editData?.campaign || undefined,
               }
     const [activeStep, setActiveStep] = useState<number>(0)
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =

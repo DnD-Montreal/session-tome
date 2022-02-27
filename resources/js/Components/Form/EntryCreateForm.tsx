@@ -31,7 +31,10 @@ type EntryCreateFormPropType = {
     character: CharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
-    campaigns: any
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type EntryFormDataType = {

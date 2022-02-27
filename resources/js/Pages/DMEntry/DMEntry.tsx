@@ -15,9 +15,13 @@ type DMEntryPropType = {
     entries: EntriesData[]
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
+const DMEntry = ({entries, adventures, characters, campaigns}: DMEntryPropType) => {
     const {
         isEditDrawerOpen,
         setIsEditDrawerOpen,
@@ -40,7 +44,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         editId={editId}
                         adventures={adventures}
                         characters={characters}
-                        campaigns={[]}
+                        campaigns={campaigns}
                     />
                 }
                 title={<Typography>{t('entry.edit-dm-entry')}</Typography>}

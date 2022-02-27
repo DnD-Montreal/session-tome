@@ -23,6 +23,10 @@ type CharacterDetailPropType = {
     factions: string[]
     adventures: adventureType[]
     gameMasters: any[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 const CharacterDetail = ({
@@ -31,6 +35,7 @@ const CharacterDetail = ({
     factions,
     adventures,
     gameMasters,
+    campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
     const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
@@ -72,7 +77,7 @@ const CharacterDetail = ({
                         character={character}
                         adventures={adventures}
                         gameMasters={gameMasters}
-                        campaigns={[]}
+                        campaigns={campaigns}
                     />
                 }
                 title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
