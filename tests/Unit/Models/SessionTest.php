@@ -76,6 +76,11 @@ class SessionTest extends TestCase
             'end_time' => $dateD1
         ]);
 
+        $sessionE = Session::factory()->create([
+            'start_time' => $dateD0,
+            'end_time' => $dateD1
+        ]);
+
         //A and B
         $this->assertFalse($sessionA->overlapsWith($sessionB));
         $this->assertFalse($sessionB->overlapsWith($sessionA));
@@ -99,5 +104,9 @@ class SessionTest extends TestCase
         //C and D
         $this->assertFalse($sessionC->overlapsWith($sessionD));
         $this->assertFalse($sessionD->overlapsWith($sessionC));
+
+        //D and E
+        $this->assertTrue($sessionD->overlapsWith($sessionE));
+        $this->assertTrue($sessionE->overlapsWith($sessionD));
     }
 }
