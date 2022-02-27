@@ -73,7 +73,8 @@
         "end-date-and-time": "Date et heure de la fin",
         "fill-out-fields-dm": "Saisissez les champs suivants avec la session du MJ.",
         "fill-out-fields-entry": "Saisissez les champs suivants de la session.",
-        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement."
+        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement.",
+        "campaigns": "Campagne"
     },
     "enums": {
         "common": "Commun",
@@ -180,7 +181,8 @@
         "dm-entry": "Sessions du MJ",
         "entry": "Sessions",
         "item": "Objets",
-        "rating": "Évaluations"
+        "rating": "Évaluations",
+        "campaigns": "Campagnes"
     },
     "welcome": {
         "welcome-text-1": "Bienvenue à ",

@@ -30,6 +30,7 @@ type DmEntryCreateFormPropType = {
     editId?: number
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: any
 }
 
 type DmEntryFormDataType = {
@@ -81,6 +82,7 @@ const DmEntryCreateForm = ({
     editId = 0,
     adventures,
     characters,
+    campaigns,
 }: DmEntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -128,6 +130,8 @@ const DmEntryCreateForm = ({
         }
     }, [wasSuccessful])
 
+    const resetUrl =
+        type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
     const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
@@ -143,11 +147,7 @@ const DmEntryCreateForm = ({
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={
-                        type === 'Create'
-                            ? route('dm-entry.create')
-                            : route('dm-entry.index')
-                    }
+                    resetUrl={resetUrl}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -238,6 +238,20 @@ const DmEntryCreateForm = ({
                 />
                 {errors?.character_id && <ErrorText message={errors?.character_id} />}
             </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <Autocomplete
+                    id='campaigns'
+                    fieldKey='campaigns'
+                    onChange={(_, value) => setData('campaign', value)}
+                    defaultValue={data.campaign}
+                    getOptionLabel={(option) => option.title}
+                    options={campaigns}
+                    resetUrl={resetUrl}
+                    label={t('entry.campaigns')}
+                />
+                {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={7} />}
             <StyledGrid item xs={12}>
                 <TextField
                     multiline

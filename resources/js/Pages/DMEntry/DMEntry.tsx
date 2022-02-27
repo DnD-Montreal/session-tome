@@ -40,6 +40,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         editId={editId}
                         adventures={adventures}
                         characters={characters}
+                        campaigns={[]}
                     />
                 }
                 title={<Typography>{t('entry.edit-dm-entry')}</Typography>}

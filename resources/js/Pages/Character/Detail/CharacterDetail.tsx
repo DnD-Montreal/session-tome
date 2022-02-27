@@ -72,6 +72,7 @@ const CharacterDetail = ({
                         character={character}
                         adventures={adventures}
                         gameMasters={gameMasters}
+                        campaigns={[]}
                     />
                 }
                 title={<Typography>{t('characterDetail.edit-entry')}</Typography>}

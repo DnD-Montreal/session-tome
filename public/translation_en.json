@@ -73,7 +73,8 @@
         "end-date-and-time": "End Date and Time",
         "fill-out-fields-dm": "Fill out the following fields with your DM Entry details.",
         "fill-out-fields-entry": "Fill out the following fields with your Entry details.",
-        "no-adventure-warning": "This imported entry does not have an adventure, please update it manually."
+        "no-adventure-warning": "This imported entry does not have an adventure, please update it manually.",
+        "campaigns": "Campaign"
     },
     "enums": {
         "common": "Common",
@@ -180,7 +181,8 @@
         "dm-entry": "DM Entries",
         "entry": "Entries",
         "item": "Items",
-        "rating": "Ratings"
+        "rating": "Ratings",
+        "campaigns": "Campaigns"
     },
     "welcome": {
         "welcome-text-1": "Welcome to ",
