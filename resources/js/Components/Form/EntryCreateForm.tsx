@@ -5,7 +5,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, NumberInput, StepperForm} from 'Components'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -67,6 +68,7 @@ const EntryCreateForm = ({
     adventures,
     gameMasters,
 }: EntryCreateFormPropType) => {
+    const {t} = useTranslation()
     const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
         location: '',
@@ -110,20 +112,30 @@ const EntryCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, post, processing, put} =
+    const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
         useForm<EntryFormDataType>(ENTRY_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
+
+    useEffect(() => {
+        if (wasSuccessful) {
+            clearErrors()
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
+        }
+    }, [wasSuccessful])
+
     const [isGmInSystem, setIsGmInSystem] = useState<boolean>(
         editData ? Boolean(editData?.dungeon_master_id) : true,
     )
-    const editStepTitles = [{label: 'Details'}, {label: 'Magic Items'}]
+    const editStepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const createStepTitles = [
-        {label: 'Details'},
+        {label: t('entry.details')},
         {
-            label: 'Rating',
-            optional: <Typography variant='caption'> Optional </Typography>,
+            label: t('common.ratings'),
+            optional: <Typography variant='caption'>{t('common.optional')}</Typography>,
         },
-        {label: 'Magic Items'},
+        {label: t('entry.magic-items')},
     ]
 
     const resetUrl =
@@ -134,9 +146,7 @@ const EntryCreateForm = ({
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography>
-                    Fill out the following fields with your Entry details.
-                </Typography>
+                <Typography>{t('entry.fill-out-fields-entry')}</Typography>
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
@@ -147,7 +157,7 @@ const EntryCreateForm = ({
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
                     resetUrl={resetUrl}
-                    label='Adventure'
+                    label={t('entry.adventures')}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -156,7 +166,7 @@ const EntryCreateForm = ({
                 <TextField
                     fullWidth
                     id='location'
-                    label='Location'
+                    label={t('form.location')}
                     name='Location'
                     value={data.location}
                     onChange={(e) => setData('location', e.target.value)}
@@ -168,7 +178,7 @@ const EntryCreateForm = ({
                     fieldKey='length'
                     valueType='integer'
                     id='length'
-                    label='Length'
+                    label={t('form.length')}
                     name='Length'
                     min={0}
                     value={data.length}
@@ -181,7 +191,7 @@ const EntryCreateForm = ({
                     fieldKey='levels'
                     valueType='integer'
                     id='levels'
-                    label='Levels'
+                    label={t('form.levels')}
                     name='Levels'
                     min={0}
                     max={20}
@@ -195,7 +205,7 @@ const EntryCreateForm = ({
                     fieldKey='gp'
                     valueType='float'
                     id='gp'
-                    label='GP'
+                    label={t('form.gp')}
                     name='GP'
                     value={data.gp}
                     setData={setData}
@@ -205,7 +215,7 @@ const EntryCreateForm = ({
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
-                        label='Date'
+                        label={t('form.date')}
                         value={data.date_played}
                         onChange={(e) => {
                             setData('date_played', e)
@@ -226,7 +236,7 @@ const EntryCreateForm = ({
                         getOptionLabel={(option) => option.name}
                         onChange={(_, value) => setData('dungeon_master', value)}
                         resetUrl={resetUrl}
-                        label='Gamemaster'
+                        label={t('form.game-master')}
                     />
                 ) : (
                     <TextField
@@ -252,7 +262,7 @@ const EntryCreateForm = ({
                             }}
                         />
                     }
-                    label='Gamemaster has a Session Tome account'
+                    label={t('form.game-master-has-account')}
                 />
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 7} />
@@ -262,7 +272,7 @@ const EntryCreateForm = ({
                     fullWidth
                     variant='filled'
                     id='id'
-                    label='Assigned Character'
+                    label={t('form.assigned-character')}
                     defaultValue={character.name}
                 />
             </StyledGrid>
@@ -273,7 +283,7 @@ const EntryCreateForm = ({
                     margin='normal'
                     fullWidth
                     id='notes'
-                    label='Notes'
+                    label={t('form.notes')}
                     name='Notes'
                     value={data.notes}
                     onChange={(e) => setData('notes', e.target.value)}
@@ -299,11 +309,11 @@ const EntryCreateForm = ({
                         onClick={() => {
                             window.history.back()
                         }}>
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 ) : (
                     <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 )}
             </Grid>
@@ -317,7 +327,7 @@ const EntryCreateForm = ({
                             : setActiveStep(1)
                     }
                     fullWidth>
-                    Continue
+                    {t('common.continue')}
                 </Button>
             </Grid>
         </StyledGrid>
@@ -327,7 +337,7 @@ const EntryCreateForm = ({
         <StyledGrid container spacing={4}>
             <Grid item md={4}>
                 <Button onClick={() => setActiveStep(0)} fullWidth>
-                    Previous
+                    {t('common.previous')}
                 </Button>
             </Grid>
             <Grid item md={4}>
@@ -338,12 +348,12 @@ const EntryCreateForm = ({
                         setActiveStep(2)
                     }}
                     fullWidth>
-                    Skip
+                    {t('common.skip')}
                 </Button>
             </Grid>
             <Grid item md={4}>
                 <Button variant='contained' onClick={() => setActiveStep(2)} fullWidth>
-                    Continue
+                    {t('common.continue')}
                 </Button>
             </Grid>
         </StyledGrid>
@@ -359,7 +369,7 @@ const EntryCreateForm = ({
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
-                    Previous
+                    {t('common.previous')}
                 </Button>
             </Grid>
             <Grid item xs={4} />
@@ -371,22 +381,11 @@ const EntryCreateForm = ({
                     onClick={() => {
                         if (type === 'Edit') {
                             put(route('entry.update', [editId]))
-                            if (!Object.keys(errors).length) {
-                                clearErrors()
-                                if (onCloseDrawer) {
-                                    onCloseDrawer()
-                                }
-                            }
                         } else {
                             post(route('entry.store'))
-                            if (errors) {
-                                setActiveStep(0)
-                            } else {
-                                clearErrors()
-                            }
                         }
                     }}>
-                    {type === 'Create' ? 'Create' : 'Save'}
+                    {type === 'Create' ? t('common.create') : t('common.save')}
                 </Button>
             </Grid>
         </StyledGrid>

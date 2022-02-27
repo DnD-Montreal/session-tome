@@ -1,15 +1,15 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
+import useUser from '@Utils/use-user'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {getFontTheme} from 'Utils'
-
-const theme = getFontTheme('Form', 16)
 
 type DMEntryPropType = {
     entries: EntriesData[]
@@ -26,9 +26,11 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
         editData,
         setEditData,
     } = useEditDrawer<EntriesData>()
+    const {t} = useTranslation()
+    const {language} = useUser()
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getFontTheme('Form', 16, language)}>
             <Drawer
                 content={
                     <DmEntryCreateForm
@@ -40,7 +42,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         characters={characters}
                     />
                 }
-                title={<Typography>Edit DM Entry</Typography>}
+                title={<Typography>{t('entry.edit-dm-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

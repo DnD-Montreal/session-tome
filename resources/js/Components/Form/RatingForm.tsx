@@ -9,6 +9,7 @@ import FactCheckIcon from '@mui/icons-material/FactCheck'
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined'
 import {Box, Button, Grid, Typography} from '@mui/material'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {RatingCategoryType} from 'Types/rating-data'
 
@@ -32,97 +33,115 @@ const StyledButton = styled(Button)`
     border-color: white;
 `
 
-const RatingForm = ({ratings, setData}: RatingFormPropType) => (
-    <StyledBox>
-        <StyledTypography>Select what you like about your Game Master.</StyledTypography>
-        <Grid container direction='row' spacing={2} justifyContent='center'>
-            <Grid item xs={12} md>
-                <StyledButton
-                    onClick={() => {
-                        setData('rating_data', {...ratings, creative: !ratings?.creative})
-                    }}
-                    variant={ratings?.creative ? 'contained' : 'outlined'}
-                    startIcon={
-                        ratings?.creative ? (
-                            <BrushIcon fontSize='small' />
-                        ) : (
-                            <BrushOutlinedIcon fontSize='small' />
-                        )
-                    }
-                    className={ratings?.creative ? 'filled' : ''}
-                    aria-label='creative'>
-                    Creative
-                </StyledButton>
+const RatingForm = ({ratings, setData}: RatingFormPropType) => {
+    const {t} = useTranslation()
+    return (
+        <StyledBox>
+            <StyledTypography>{t('rating.fill-out-fields')}</StyledTypography>
+            <Grid container direction='row' spacing={2} justifyContent='center'>
+                <Grid item xs={12} md>
+                    <StyledButton
+                        onClick={() => {
+                            setData('rating_data', {
+                                ...ratings,
+                                creative: !ratings?.creative,
+                            })
+                        }}
+                        variant={ratings?.creative ? 'contained' : 'outlined'}
+                        startIcon={
+                            ratings?.creative ? (
+                                <BrushIcon fontSize='small' />
+                            ) : (
+                                <BrushOutlinedIcon fontSize='small' />
+                            )
+                        }
+                        className={ratings?.creative ? 'filled' : ''}
+                        aria-label='creative'>
+                        {t('enums.creative')}
+                    </StyledButton>
+                </Grid>
+                <Grid item xs={12} md>
+                    <StyledButton
+                        onClick={() => {
+                            setData('rating_data', {
+                                ...ratings,
+                                flexible: !ratings?.flexible,
+                            })
+                        }}
+                        variant={ratings?.flexible ? 'contained' : 'outlined'}
+                        startIcon={<CableIcon fontSize='small' />}
+                        className={ratings?.flexible ? 'filled' : ''}
+                        aria-label='flexible'>
+                        {t('enums.flexible')}
+                    </StyledButton>
+                </Grid>
+                <Grid item xs={12} md>
+                    <StyledButton
+                        onClick={() => {
+                            setData('rating_data', {
+                                ...ratings,
+                                friendly: !ratings?.friendly,
+                            })
+                        }}
+                        variant={ratings?.friendly ? 'contained' : 'outlined'}
+                        startIcon={
+                            ratings?.friendly ? (
+                                <EmojiEmotionsIcon fontSize='small' />
+                            ) : (
+                                <EmojiEmotionsOutlinedIcon fontSize='small' />
+                            )
+                        }
+                        className={ratings?.friendly ? 'filled' : ''}
+                        aria-label='friendly'>
+                        {t('enums.friendly')}
+                    </StyledButton>
+                </Grid>
+                <Grid item xs={12} md>
+                    <StyledButton
+                        onClick={() => {
+                            setData('rating_data', {
+                                ...ratings,
+                                helpful: !ratings?.helpful,
+                            })
+                        }}
+                        variant={ratings?.helpful ? 'contained' : 'outlined'}
+                        startIcon={
+                            ratings?.helpful ? (
+                                <BackpackIcon fontSize='small' />
+                            ) : (
+                                <BackpackOutlinedIcon fontSize='small' />
+                            )
+                        }
+                        className={ratings?.helpful ? 'filled' : ''}
+                        aria-label='helpful'>
+                        {t('enums.helpful')}
+                    </StyledButton>
+                </Grid>
+                <Grid item xs={12} md>
+                    <StyledButton
+                        onClick={() => {
+                            setData('rating_data', {
+                                ...ratings,
+                                prepared: !ratings?.prepared,
+                            })
+                        }}
+                        variant={ratings?.prepared ? 'contained' : 'outlined'}
+                        startIcon={
+                            ratings?.prepared ? (
+                                <FactCheckIcon fontSize='small' />
+                            ) : (
+                                <FactCheckOutlinedIcon fontSize='small' />
+                            )
+                        }
+                        className={ratings?.prepared ? 'filled' : ''}
+                        aria-label='prepared'>
+                        {t('enums.prepared')}
+                    </StyledButton>
+                </Grid>
             </Grid>
-            <Grid item xs={12} md>
-                <StyledButton
-                    onClick={() => {
-                        setData('rating_data', {...ratings, flexible: !ratings?.flexible})
-                    }}
-                    variant={ratings?.flexible ? 'contained' : 'outlined'}
-                    startIcon={<CableIcon fontSize='small' />}
-                    className={ratings?.flexible ? 'filled' : ''}
-                    aria-label='flexible'>
-                    Flexible
-                </StyledButton>
-            </Grid>
-            <Grid item xs={12} md>
-                <StyledButton
-                    onClick={() => {
-                        setData('rating_data', {...ratings, friendly: !ratings?.friendly})
-                    }}
-                    variant={ratings?.friendly ? 'contained' : 'outlined'}
-                    startIcon={
-                        ratings?.friendly ? (
-                            <EmojiEmotionsIcon fontSize='small' />
-                        ) : (
-                            <EmojiEmotionsOutlinedIcon fontSize='small' />
-                        )
-                    }
-                    className={ratings?.friendly ? 'filled' : ''}
-                    aria-label='friendly'>
-                    Friendly
-                </StyledButton>
-            </Grid>
-            <Grid item xs={12} md>
-                <StyledButton
-                    onClick={() => {
-                        setData('rating_data', {...ratings, helpful: !ratings?.helpful})
-                    }}
-                    variant={ratings?.helpful ? 'contained' : 'outlined'}
-                    startIcon={
-                        ratings?.helpful ? (
-                            <BackpackIcon fontSize='small' />
-                        ) : (
-                            <BackpackOutlinedIcon fontSize='small' />
-                        )
-                    }
-                    className={ratings?.helpful ? 'filled' : ''}
-                    aria-label='helpful'>
-                    Helpful
-                </StyledButton>
-            </Grid>
-            <Grid item xs={12} md>
-                <StyledButton
-                    onClick={() => {
-                        setData('rating_data', {...ratings, prepared: !ratings?.prepared})
-                    }}
-                    variant={ratings?.prepared ? 'contained' : 'outlined'}
-                    startIcon={
-                        ratings?.prepared ? (
-                            <FactCheckIcon fontSize='small' />
-                        ) : (
-                            <FactCheckOutlinedIcon fontSize='small' />
-                        )
-                    }
-                    className={ratings?.prepared ? 'filled' : ''}
-                    aria-label='prepared'>
-                    Prepared
-                </StyledButton>
-            </Grid>
-        </Grid>
-    </StyledBox>
-)
+        </StyledBox>
+    )
+}
 
 RatingForm.displayName = 'RatingForm'
 export default RatingForm

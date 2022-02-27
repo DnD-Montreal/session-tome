@@ -27,7 +27,8 @@
             "Images/*": ["resources/images/*"],
             "Mock/*": ["resources/mock/*"],
             "Types/*": ["resources/js/Types/*"],
-            "hoc/*": ["resources/js/hoc/*"]
+            "hoc/*": ["resources/js/hoc/*"],
+            "public/*": ["public/*"]
         }
     },
     "include": ["./resources", "**/*.ts", "./custom.d.ts"],
