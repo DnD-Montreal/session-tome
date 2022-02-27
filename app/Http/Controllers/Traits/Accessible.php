@@ -12,7 +12,7 @@ trait Accessible
     public function isNotSiteAdmin()
     {
         if (!Auth::user()->isSiteAdmin()) {
-            abort(403);
+            $this->crud->denyAccess(['create', 'show', 'list', 'reorder', 'delete']);
         }
     }
 }
