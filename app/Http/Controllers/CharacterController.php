@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CharacterStoreRequest;
 use App\Http\Requests\CharacterUpdateRequest;
 use App\Models\Adventure;
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -73,18 +74,20 @@ class CharacterController extends Controller
         $search = $request->get('search', "");
 
         $entries = $character->entries()
-            ->with('adventure', 'items', 'rating')
-
+            ->with('adventure', 'items', 'rating', 'campaign')
             ->orderBy('date_played', 'desc')
             ->get();
+
         $factions = array_values(Character::FACTIONS);
 
+        // Not using compact to allow for partial reloads
         return Inertia::render('Character/Detail/CharacterDetail', [
             'character' => $character,
             'entries' => $entries,
             'factions' => $factions,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
             'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
+            'campaigns' => fn () => Campaign::filtered($search)->whereRelation('users', 'id', Auth::id())->get(['id', 'title']),
         ]);
     }
 
