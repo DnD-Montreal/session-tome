@@ -61,7 +61,7 @@ class SessionCrudController extends CrudController
      * Checks to see if a session is accessible as a league admin
      * @return void
      */
-    protected function checkIfAccessible(String $access)
+    protected function checkIfAccessible(String $crudAction)
     {
         if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
@@ -69,7 +69,7 @@ class SessionCrudController extends CrudController
             $session = Session::whereIn('event_id', $event)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
             if (!in_array($id, $session)) {
-                $this->crud->denyAccess($access);
+                $this->crud->denyAccess($crudAction);
             }
         }
     }

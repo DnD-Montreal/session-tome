@@ -62,14 +62,14 @@ class EventCrudController extends CrudController
      * Checks to see if an event is accessible as a league admin
      * @return void
      */
-    protected function checkIfAccessible(String $access)
+    protected function checkIfAccessible(String $crudAction)
     {
         if (!Auth::user()->isSiteAdmin()) {
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $event = Event::whereIn('league_id', $leagueId)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
             if (!in_array($id, $event)) {
-                $this->crud->denyAccess($access);
+                $this->crud->denyAccess($crudAction);
             }
         }
     }
