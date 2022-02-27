@@ -35,7 +35,6 @@ class EventRegistrationController extends Controller
             $q->where('id', $userId);
         })->get();
 
-
         if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
             $session = Session::hasOpenSeats($data['event_id'])
