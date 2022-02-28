@@ -21,7 +21,6 @@ class EventCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -56,6 +55,12 @@ class EventCrudController extends CrudController
         CRUD::column('title');
         CRUD::column('description');
         CRUD::column('location');
+        CRUD::addColumn([
+            'name' => 'sessions',
+            'type' => 'relationship',
+            'attribute' => "table_title",
+            'label' => "Tables",
+            ]);
     }
 
     /**
@@ -82,6 +87,8 @@ class EventCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(EventRequest::class);
+
         if (!Auth::user()->isSiteAdmin()) {
             CRUD::addField([
                 'label' => 'League',
@@ -95,17 +102,10 @@ class EventCrudController extends CrudController
             ]);
         }
 
-        CRUD::setValidation(EventRequest::class);
         CRUD::field('league_id');
         CRUD::field('title');
         CRUD::field('description');
         CRUD::field('location');
-        CRUD::addField([
-            'name' => 'sessions',
-            'type' => 'relationship',
-            'attribute' => "table_title",
-            'label' => "Tables",
-        ]);
     }
 
     /**
