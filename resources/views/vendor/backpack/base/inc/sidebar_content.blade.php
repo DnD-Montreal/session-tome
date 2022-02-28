@@ -13,7 +13,7 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('session') }}'><i class="las la-chair"></i> Sessions</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('trade') }}'><i class="las la-exchange-alt"></i> Trades</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user') }}'><i class="las la-user"></i> Users</a></li>
-@elseif (Auth::user()->isLeagueAdmin())
+@elseif (Auth::user()->isLeagueAdminRole())
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('event') }}'><i class="las la-calendar"></i> Events</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('session') }}'><i class="las la-chair"></i> Sessions</a></li>
 @endif
