@@ -97,7 +97,10 @@ const CampaignDetailBox = ({
                                     Entry
                                 </Button>
                             </Link>
-                            <Link href={route('dm-entry.create')}>
+                            <Link
+                                href={route('dm-entry.create').concat(
+                                    `?campaign_id=${campaign.id}`,
+                                )}>
                                 <Button
                                     variant='contained'
                                     startIcon={<AutoStoriesIcon fontSize='small' />}>
