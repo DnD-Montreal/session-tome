@@ -7,6 +7,7 @@ import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
+import {useUser} from '@Utils/index'
 
 type CampaignCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -45,12 +46,18 @@ const CampaignCreateForm = ({
         character_id: null,
         adventure: undefined,
     }
+
+    const {user} = useUser()
+
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
         type === 'Create'
             ? CAMPAIGN_CREATE_FORM_INITIAL_VALUE
             : {
                   title: editData?.title,
-                  character_id: editData?.characters[0].id || null,
+                  character_id:
+                      editData?.characters.filter(
+                          (c: CharacterData): c is CharacterData => c.user_id === user.id,
+                      )[0].id || null,
                   adventure: editData?.adventure || undefined,
               }
 
