@@ -69,6 +69,23 @@ class DMEntryControllerTest extends TestCase
     /**
      * @test
      */
+    public function create_displays_view_with_campaign_info()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->get(route('dm-entry.create', ["campaign_id" => $campaign->id]));
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component("Entry/Create/DmEntryCreate")
+                ->has('adventures')
+                ->has('campaigns')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function storing_dm_entries_redirects()
     {
         $adventure = Adventure::factory()->create();

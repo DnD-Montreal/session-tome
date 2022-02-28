@@ -44,11 +44,19 @@ class DMEntryController extends Controller
         $search = $request->get("search");
         $characters = Character::where('user_id', Auth::user()->id)->get();
 
+        if ($campaignId = $request->get("campaign_id")) {
+            $campaign = Campaign::where('id', $campaignId);
+            $adventure = Campaign::where('id', $campaignId)->first()->adventure();
+        } else {
+            $adventure = Adventure::filtered($search);
+            $campaign = Campaign::filtered($search)->whereRelation('users', 'id', Auth::id());
+        }
+
         // not using compact to allow for partial reloads
         return Inertia::render('Entry/Create/DmEntryCreate', [
             'characters' => $characters,
-            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
-            'campaigns' => fn () => Campaign::filtered($search)->whereRelation('users', 'id', Auth::id())->get(['id', 'title']),
+            'adventures' => fn () => $adventure->get(['id', 'title', 'code']),
+            'campaigns' => fn () => $campaign->get(['id', 'title']),
         ]);
     }
 }
