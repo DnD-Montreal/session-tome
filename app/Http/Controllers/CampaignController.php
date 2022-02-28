@@ -100,14 +100,14 @@ class CampaignController extends Controller
             }, 'entries.adventure'])
             ->first();
         $characters = Auth::user()->characters;
-        $adventure = $campaign->adventure;
+        $search = $request->get('search', "");
 
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact([
-            'campaign',
-            'userCharacter',
-            'characters',
-            'adventure'
-        ]));
+        return Inertia::render('Campaign/Detail/CampaignDetail', [
+            'campaign' => $campaign,
+            'userCharacter' => $userCharacter,
+            'characters' => $characters,
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code'])
+        ]);
     }
 
     /**
