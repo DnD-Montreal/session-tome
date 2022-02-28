@@ -1,6 +1,6 @@
 {
     "authentication": {
-        "login": "Login",
+        "login": "LOGIN",
         "logout": "Logout",
         "profile": "Profile",
         "register": "Register",
@@ -185,7 +185,7 @@
     "welcome": {
         "welcome-text-1": "Welcome to ",
         "session-tome": "Session Tome",
-        "welcome-text-2": ". Create an account to manage your characters, campaigns and items at D&D events",
+        "welcome-text-2": ". Create an account to manage your characters, campaigns and items at D&D events.",
         "upcoming-events": "Upcoming Events"
     }
 }
