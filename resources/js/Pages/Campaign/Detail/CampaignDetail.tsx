@@ -10,6 +10,7 @@ import {
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
@@ -23,6 +24,7 @@ type CampaignDetailPropType = {
     userCharacter: UserCharacterData
     gameMasters: any[]
     characters: CharacterData[]
+    adventures: adventureType[]
 }
 
 const CampaignDetail = ({
@@ -30,6 +32,7 @@ const CampaignDetail = ({
     userCharacter,
     gameMasters,
     characters,
+    adventures,
 }: CampaignDetailPropType) => {
     const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
     const [editEntryData, setEditEntryData] = useState<EntriesData>()
@@ -45,9 +48,8 @@ const CampaignDetail = ({
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={campaign}
                         editId={campaign.id}
+                        adventures={adventures}
                         characters={characters}
-                        campaign={campaign}
-                        campaignDetail
                     />
                 }
                 title={<Typography>Edit Campaign</Typography>}
@@ -67,7 +69,6 @@ const CampaignDetail = ({
                         adventures={userCharacter.entries.map((entry) => entry.adventure)}
                         gameMasters={gameMasters}
                         campaigns={userCharacter.entries.map((entry) => entry.campaign)}
-                        campaignEntry
                     />
                 }
                 title={<Typography>Edit Entry</Typography>}
