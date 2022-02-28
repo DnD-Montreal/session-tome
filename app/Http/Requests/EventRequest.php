@@ -22,7 +22,7 @@ class EventRequest extends FormRequest
         }
 
         // if user is a league admin verify that they can create/update the event
-        if ($this->user()->isLeagueAdminRole()) {
+        if ($this->user()->isLeagueAdmin()) {
             $leagueIdRequest = request()->input('league_id');
             $leagueId = Auth::user()->roles()->pluck('league_id')->toarray();
             if (!in_array($leagueIdRequest, $leagueId)) {
