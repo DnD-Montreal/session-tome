@@ -35,8 +35,7 @@ const CampaignDetail = ({
     const [editEntryData, setEditEntryData] = useState<EntriesData>()
     const [editEntryId, setEditEntryId] = useState<number>(0)
     const {isEditDrawerOpen, setIsEditDrawerOpen} = useEditDrawer<CampaignData>()
-    console.log(campaign)
-    console.log(userCharacter)
+    console.log(campaign.adventure)
     return (
         <ThemeProvider theme={theme}>
             <Drawer
@@ -47,8 +46,8 @@ const CampaignDetail = ({
                         editData={campaign}
                         editId={campaign.id}
                         characters={characters}
-                        adventures={userCharacter.entries.map((entry) => entry.adventure)}
-                        disabledAdventure
+                        campaign={campaign}
+                        campaignDetail
                     />
                 }
                 title={<Typography>Edit Campaign</Typography>}
@@ -67,6 +66,8 @@ const CampaignDetail = ({
                         character={userCharacter}
                         adventures={userCharacter.entries.map((entry) => entry.adventure)}
                         gameMasters={gameMasters}
+                        campaigns={userCharacter.entries.map((entry) => entry.campaign)}
+                        campaignEntry
                     />
                 }
                 title={<Typography>Edit Entry</Typography>}

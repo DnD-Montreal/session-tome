@@ -13,9 +13,10 @@ type CampaignCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: CampaignData
     editId?: number
-    adventures: adventureType[]
+    adventures?: adventureType[]
     characters: CharacterData[]
-    disabledAdventure?: boolean
+    campaign?: CampaignData
+    campaignDetail?: boolean
 }
 
 type CampaignFormDataType = {
@@ -36,8 +37,10 @@ const CampaignCreateForm = ({
     editId = 0,
     adventures,
     characters,
-    disabledAdventure,
+    campaignDetail,
+    campaign,
 }: CampaignCreateFormPropType) => {
+    console.log(campaign?.adventure)
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
         character_id: null,
@@ -89,14 +92,7 @@ const CampaignCreateForm = ({
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    {disabledAdventure ? (
-                        <TextField
-                            disabled
-                            label='Adventure'
-                            id='adventure'
-                            defaultValue={data.adventure}
-                        />
-                    ) : (
+                    {!campaignDetail && adventures && (
                         <Autocomplete
                             label='Adventure'
                             id='adventures'
@@ -112,6 +108,15 @@ const CampaignCreateForm = ({
                                     ? route('campaign.create')
                                     : route('campaign.index')
                             }
+                        />
+                    )}
+                    {campaignDetail && campaign && (
+                        <TextField
+                            disabled
+                            fullWidth
+                            label='Adventure'
+                            id='adventure'
+                            defaultValue={campaign.adventure.title}
                         />
                     )}
                     {errors['adventure.id'] && (

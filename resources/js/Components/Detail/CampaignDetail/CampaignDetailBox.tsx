@@ -54,18 +54,18 @@ const CampaignDetailBox = ({
                         <StyledTypography>NAME</StyledTypography>
                         <Typography>{campaign.title}</Typography>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <StyledTypography>ADVENTURE</StyledTypography>
-                        <Typography>{campaign.adventure}</Typography>
+                        <Typography>{campaign.adventure.title}</Typography>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <StyledTypography>SESSIONS PLAYED</StyledTypography>
                         <Typography>25</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <StyledTypography>CHARACTERS</StyledTypography>
                         {campaign.characters.map((char: any, index: any) => (
-                            <Typography>
+                            <Typography display='inline'>
                                 {char.name}
                                 {index < campaign.characters.length - 1 ? ', ' : ''}
                             </Typography>
