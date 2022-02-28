@@ -92,7 +92,7 @@ class CampaignControllerTest extends TestCase
         $response->assertRedirect(route('campaign.index'));
         $response->assertSessionHas('campaign.id', $campaign->id);
         $this->assertDatabaseCount('campaign_user', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' =>true, 'is_owner' =>true]);
+        $this->assertDatabaseHas('campaign_user', ['user_id' => $this->user->id, 'campaign_id' => $campaign->id, 'is_dm' => true, 'is_owner' => true]);
     }
 
     /**
