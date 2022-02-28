@@ -65,7 +65,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
-        $this->assertDatabaseHas('campaign_user', ['user_id' =>$this->user->id, 'campaign_id' =>$campaign->id, 'is_dm' => false, 'is_owner' =>false]);
+        $this->assertDatabaseHas('campaign_user', ['user_id' => $this->user->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => false]);
         $this->assertDatabaseHas('campaign_character', ['character_id' =>$inputData['character_id'], 'campaign_id' =>$campaign->id]);
     }
 
