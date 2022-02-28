@@ -36,7 +36,6 @@ type EntryCreateFormPropType = {
         id: number
         title: string
     }[]
-    campaignEntry?: boolean
 }
 
 type EntryFormDataType = {
