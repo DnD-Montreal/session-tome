@@ -32,7 +32,13 @@ class SessionCrudController extends CrudController
         CRUD::setModel(\App\Models\Session::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/session');
         CRUD::setEntityNameStrings('session', 'sessions');
+
+        $this->leagueId = Auth::user()->roles()->pluck('league_id');
+        $this->eventId = Event::whereIn('league_id', $this->leagueId)->pluck('id');
     }
+
+    private $leagueId;
+    private $eventId;
 
     /**
      * Define what happens when the List operation is loaded.
@@ -43,13 +49,10 @@ class SessionCrudController extends CrudController
     protected function setupListOperation()
     {
         if (!Auth::user()->isSiteAdmin()) {
-            $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
-
             /** @psalm-suppress UndefinedFunction */
-            $this->crud->addClause('whereIn', 'event_id', $event);
+            $this->crud->addClause('whereIn', 'event_id', $this->eventId);
 
-            if ($event->count() == 0) {
+            if ($this->eventId->count() == 0) {
                 $this->crud->removeButton('create');
             }
         }
@@ -68,9 +71,7 @@ class SessionCrudController extends CrudController
     protected function checkIfAccessible(String $crudAction)
     {
         if (!Auth::user()->isSiteAdmin()) {
-            $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
-            $session = Session::whereIn('event_id', $event)->pluck('id')->toArray();
+            $session = Session::whereIn('event_id', $this->eventId)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
             if (!in_array($id, $session)) {
                 $this->crud->denyAccess($crudAction);
@@ -86,10 +87,10 @@ class SessionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(SessionRequest::class);
+
         if (!Auth::user()->isSiteAdmin()) {
-            $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
-            if ($event->count() == 0) {
+            if ($this->eventId->count() == 0) {
                 $this->crud->denyAccess('create');
             }
             CRUD::addField([
@@ -97,15 +98,12 @@ class SessionCrudController extends CrudController
                 'type' => 'select',
                 'name' => 'event_id',
                 'options' => (function ($query) {
-                    $leagueId = Auth::user()->roles()->pluck('league_id');
-                    $event = Event::whereIn('league_id', $leagueId)->pluck('id');
-                    $query->whereIn('id', $event);
+                    $query->whereIn('id', $this->eventId);
                     return $query->get();
                 }),
             ]);
         }
 
-        CRUD::setValidation(SessionRequest::class);
         CRUD::field('event_id');
         CRUD::field('adventure_id');
         CRUD::field('dungeonMaster');

@@ -31,7 +31,13 @@ class EventCrudController extends CrudController
         CRUD::setModel(\App\Models\Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/event');
         CRUD::setEntityNameStrings('event', 'events');
+
+        $this->leagueId = Auth::user()->roles()->pluck('league_id');
+        $this->eventId = Event::whereIn('league_id', $this->leagueId)->pluck('id');
     }
+
+    private $leagueId;
+    private $eventId;
 
     /**
      * Define what happens when the List operation is loaded.
@@ -39,15 +45,11 @@ class EventCrudController extends CrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
-
     protected function setupListOperation()
     {
         if (!Auth::user()->isSiteAdmin()) {
-            $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
-
             /** @psalm-suppress UndefinedFunction */
-            $this->crud->addClause('whereIn', 'id', $event);
+            $this->crud->addClause('whereIn', 'id', $this->eventId);
         }
 
         $this->crud->addButtonFromView('line', 'event_report', 'event_report', 'beginning');
@@ -70,10 +72,8 @@ class EventCrudController extends CrudController
     protected function checkIfAccessible(String $crudAction)
     {
         if (!Auth::user()->isSiteAdmin()) {
-            $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::whereIn('league_id', $leagueId)->pluck('id')->toArray();
             $id = $this->crud->getCurrentEntryId();
-            if (!in_array($id, $event)) {
+            if (!in_array($id, $this->eventId->toarray())) {
                 $this->crud->denyAccess($crudAction);
             }
         }
@@ -95,8 +95,7 @@ class EventCrudController extends CrudController
                 'type' => 'select',
                 'name' => 'league_id',
                 'options' => (function ($query) {
-                    $leagueId = Auth::user()->roles()->pluck('league_id');
-                    $query->whereIn('id', $leagueId);
+                    $query->whereIn('id', $this->leagueId);
                     return $query->get();
                 }),
             ]);
