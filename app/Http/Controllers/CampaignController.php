@@ -136,7 +136,7 @@ class CampaignController extends Controller
 
         $request->session()->flash('campaign.id', $campaign->id);
 
-        return redirect()->route('campaign.index');
+        return redirect()->back();
     }
 
     /**
