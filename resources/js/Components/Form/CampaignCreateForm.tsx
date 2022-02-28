@@ -40,7 +40,6 @@ const CampaignCreateForm = ({
     campaignDetail,
     campaign,
 }: CampaignCreateFormPropType) => {
-    console.log(campaign?.adventure)
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
         character_id: null,
