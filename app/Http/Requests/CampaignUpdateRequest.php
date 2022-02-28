@@ -28,4 +28,13 @@ class CampaignUpdateRequest extends FormRequest
             'title' => ['required', 'string'],
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        if ($adventure = $this->get('adventure')) {
+            $this->merge([
+                'adventure_id' => $adventure['id']
+            ]);
+        }
+    }
 }
