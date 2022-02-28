@@ -3,6 +3,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
+import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, NumberInput, StepperForm} from 'Components'
 import React, {useEffect, useState} from 'react'
@@ -75,6 +76,9 @@ const EntryCreateForm = ({
 }: EntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
+    const parameters = useUrlParams()
+    const {campaign_id} = parameters
+
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
         location: '',
         length: 0,
@@ -94,8 +98,8 @@ const EntryCreateForm = ({
         type: 'game',
         character_id: character.id,
         user_id: getUserId(),
-        adventure: undefined,
-        campaign: undefined,
+        adventure: campaign_id ? adventures[0] : undefined,
+        campaign: campaign_id ? campaigns[0] : undefined,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -163,6 +167,7 @@ const EntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    disabled={Boolean(campaign_id)}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -288,6 +293,7 @@ const EntryCreateForm = ({
                     options={campaigns}
                     resetUrl={resetUrl}
                     label={t('entry.campaigns')}
+                    disabled={Boolean(campaign_id)}
                 />
                 {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
             </StyledGrid>
