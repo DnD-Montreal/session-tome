@@ -44,11 +44,11 @@ class CampaignRegistrationController extends Controller
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
         if ($request->has('character_id')) {
-            $user->campaigns()->attach($campaign, ['is_dm' => false]);
+            $user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => false]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->attach($campaign);
         } else {
-            $user->campaigns()->attach($campaign, ['is_dm' => true]);
+            $user->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
         }
 
         return redirect('campaign.index');
