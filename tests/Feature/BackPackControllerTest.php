@@ -33,6 +33,15 @@ class BackPackControllerTest extends TestCase
     public function createLeagueAdmin()
     {
         $this->user = User::factory()->create();
+        $league = League::factory()->create();
+        $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
+        $this->user->roles()->attach($siteRole, ['league_id' => $league->id]);
+        Auth::login($this->user);
+    }
+
+    public function createLeagueAdminWithNoLeagueId()
+    {
+        $this->user = User::factory()->create();
         $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN]);
         $this->user->roles()->attach($siteRole);
         Auth::login($this->user);
@@ -75,6 +84,17 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
+    public function test_league_admin_user_with_no_id_has_no_access()
+    {
+        $this->createLeagueAdminWithNoLeagueId();
+        $response = $this->get(($this->adminDashboard));
+        $response->assertRedirect();
+    }
+
+
+    /**
+     * @test
+     */
     public function test_user_does_not_have_access()
     {
         $this->createNonAdmin();
@@ -85,7 +105,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_crud_actions()
+    public function test_admin_has_access_to_crud_actions()
     {
         $this->createSiteAdmin();
 
@@ -109,7 +129,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_crud_actions_league_admin_access_denied()
+    public function test_league_admin_access_denied_to_crud_actions()
     {
         $this->createLeagueAdmin();
 
@@ -133,11 +153,35 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_crud_actions_league_admin_accessible()
+    public function test_league_admin_with_no_league_id_access_denied_to_crud_actions()
+    {
+        $this->createLeagueAdminWithNoLeagueId();
+
+        $models = ['adventure', 'campaign', 'character', 'entry', 'league', 'rating', 'role', 'trade', 'user'];
+        $classes = [Adventure::class, Campaign::class, Character::class, Entry::class, League::class, Rating::class, Role::class, Trade::class, User::class];
+
+        for ($i = 0; $i < count($models); $i++) {
+            $object = $classes[$i]::factory()->create();
+            $id = $object->id;
+
+            // model index is not accessible
+            $response = $this->get("/admin/$models[$i]");
+            $response->assertRedirect();
+
+            // model data is not readable
+            $response = $this->get("/admin/$models[$i]/$id/show");
+            $response->assertRedirect();
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function test_league_admin_accessible_has_access_to_create_and_session_Crud()
     {
         $this->createLeagueAdmin();
 
-        $models = ['event','session'];
+        $models = ['event', 'session'];
         $classes = [Event::class, Session::class];
 
         for ($i = 0; $i < count($models); $i++) {
@@ -157,7 +201,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_not_authorized_for_league_admin_session()
+    public function test_league_admin_not_authorized_to_create_a_session_from_a_different_league()
     {
         $this->createLeagueAdmin();
 
@@ -181,7 +225,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_not_authorized_for_league_admin_event()
+    public function test_league_admin_not_authorized_to_create_event_for_different_league()
     {
         $this->createLeagueAdmin();
 
@@ -203,7 +247,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_backpack_authorized_for_site_admin_event()
+    public function test_site_admin_authorized_to_create_event()
     {
         $this->createSiteAdmin();
 
@@ -218,27 +262,21 @@ class BackPackControllerTest extends TestCase
             'description' => $description,
             'location' => $location,
         ]);
-
         $response->assertRedirect();
     }
 
     /**
      * @test
      */
-    public function test_backpack_authorized_for_league_admin_event()
+    public function test_league_admin_authorized_to_create_event()
     {
         $this->createLeagueAdmin();
-
-        $league = League::factory()->create();
         $title = $this->faker->sentence(4);
         $description = $this->faker->text;
         $location = $this->faker->word;
 
-        $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
-        $this->user->roles()->attach($siteRole, ['league_id' => $league->id]);
-
         $response = $this->post($this->adminEvent, [
-            'league_id' => $league->id,
+            'league_id' => $this->user->roles()->pluck('league_id')->first(),
             'title' => $title,
             'description' => $description,
             'location' => $location,
