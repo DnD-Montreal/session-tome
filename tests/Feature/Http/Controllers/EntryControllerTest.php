@@ -136,6 +136,32 @@ class EntryControllerTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function create_displays_view_with_campaign_info()
+    {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+        $campaign = Campaign::factory()->has(Adventure::factory())->create();
+
+        $response = $this->get(route('entry.create', [
+            'character_id' => $character->id,
+            'campaign_id' => $campaign->id,
+            ]));
+
+        $response->assertOk();
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/Entry/Create/EntryCreate')
+                ->has('character')
+                ->has('campaigns')
+        );
+    }
+
+
 
     /**
      * @test

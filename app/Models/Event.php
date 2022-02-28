@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,12 @@ class Event extends Model
         'league_id' => 'integer',
     ];
 
+    protected $appends = [
+        'scheduled_dates',
+        'total_seats',
+        'seats_left',
+        'seats_taken'
+    ];
 
     public function entries()
     {
@@ -46,5 +53,33 @@ class Event extends Model
     public function league()
     {
         return $this->belongsTo(\App\Models\League::class);
+    }
+
+    public function getScheduledDatesAttribute()
+    {
+        $dates = $this->sessions()
+            ->orderBy('start_time')
+            ->pluck('start_time')
+            ->unique();
+
+        return [
+            $dates->first(),
+            $dates->last()
+        ];
+    }
+
+    public function getTotalSeatsAttribute()
+    {
+        return (int) $this->sessions()->sum('seats');
+    }
+
+    public function getSeatsLeftAttribute()
+    {
+        return (int) $this->sessions()->get()->pluck('open_seats')->sum();
+    }
+
+    public function getSeatsTakenAttribute()
+    {
+        return (int) $this->total_seats - $this->seats_left;
     }
 }
