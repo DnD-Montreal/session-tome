@@ -46,7 +46,7 @@ const Select = ({options, type, hasNoneOption, ...props}: SelectPropType) => {
     }
     return (
         <StyledTextField fullWidth select type={type} {...props} style={{width: '100%'}}>
-            {hasNoneOption && <MenuItem key='none'>None</MenuItem>}
+            {hasNoneOption && <MenuItem key='none'>{t('common.none')}</MenuItem>}
             {getOptions()}
         </StyledTextField>
     )

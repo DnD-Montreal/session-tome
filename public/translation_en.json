@@ -59,7 +59,8 @@
         "skip": "Skip",
         "search": "Search",
         "or": "OR",
-        "join": "Join"
+        "join": "Join",
+        "none": "None"
     },
     "component": {
         "no-data": "No data...",
