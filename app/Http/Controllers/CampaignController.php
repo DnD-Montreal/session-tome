@@ -26,16 +26,15 @@ class CampaignController extends Controller
         ]);
         $search = $data['search'] ?? '';
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        $campaigns = Auth::user()
-            ->campaigns()
-            ->get();
+        $campaigns = Auth::user()->campaigns()->get();
         $campaigns->load('characters')->where('user_id', Auth::user()->id);
         $campaigns->load('adventure');
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
-        return Inertia::render(
-            'Campaign/Campaign',
-            compact('campaigns', 'characters', 'adventures')
-        );
+
+        return Inertia::render('Campaign/Campaign', [
+            'campaigns' => $campaigns,
+            'characters' => $characters,
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code'])
+        ]);
     }
 
     /**
@@ -50,10 +49,7 @@ class CampaignController extends Controller
         $search = $data['search'] ?? '';
         $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        return Inertia::render(
-            'Campaign/Create/CampaignCreate',
-            compact('characters', 'adventures')
-        );
+        return Inertia::render('Campaign/Create/CampaignCreate', compact('characters', 'adventures'));
     }
 
     /**
@@ -127,7 +123,16 @@ class CampaignController extends Controller
      */
     public function update(CampaignUpdateRequest $request, Campaign $campaign)
     {
-        $campaign->update($request->validated());
+        $data = $request->validated();
+
+        if ($data['character_id']) {
+            $playerCharacters = $campaign->characters()
+                ->where('user_id', "!=", Auth::id())
+                ->pluck('id');
+            $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
+        }
+
+        $campaign->update($data);
 
         $request->session()->flash('campaign.id', $campaign->id);
 
