@@ -73,10 +73,7 @@ class DMEntryControllerTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $response = $this->get(
-            route('dm-entry.create'),
-            ["campaign_id" => $campaign->id]
-        );
+        $response = $this->get(route('dm-entry.create', ["campaign_id" => $campaign->id]));
 
         $response->assertInertia(
             fn (Assert $page) => $page
