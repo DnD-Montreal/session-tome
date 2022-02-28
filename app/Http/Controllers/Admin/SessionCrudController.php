@@ -48,6 +48,10 @@ class SessionCrudController extends CrudController
 
             /** @psalm-suppress UndefinedFunction */
             $this->crud->addClause('whereIn', 'event_id', $event);
+
+            if ($event->count() == 0) {
+                $this->crud->removeButton('create');
+            }
         }
 
         CRUD::column('event_id');
@@ -83,6 +87,11 @@ class SessionCrudController extends CrudController
     protected function setupCreateOperation()
     {
         if (!Auth::user()->isSiteAdmin()) {
+            $leagueId = Auth::user()->roles()->pluck('league_id');
+            $event = Event::whereIn('league_id', $leagueId)->pluck('id');
+            if ($event->count() == 0) {
+                $this->crud->denyAccess('create');
+            }
             CRUD::addField([
                 'label' => 'Event',
                 'type' => 'select',
