@@ -27,7 +27,7 @@ class AdventureCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Adventure::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/adventure');
         CRUD::setEntityNameStrings('adventure', 'adventures');

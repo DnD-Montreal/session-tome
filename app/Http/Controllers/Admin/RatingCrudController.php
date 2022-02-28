@@ -27,7 +27,7 @@ class RatingCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Rating::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/rating');
         CRUD::setEntityNameStrings('rating', 'ratings');

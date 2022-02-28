@@ -30,7 +30,7 @@ class LeagueCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\League::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/league');
         CRUD::setEntityNameStrings('league', 'leagues');

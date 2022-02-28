@@ -27,7 +27,7 @@ class TradeCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Trade::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/trade');
         CRUD::setEntityNameStrings('trade', 'trades');

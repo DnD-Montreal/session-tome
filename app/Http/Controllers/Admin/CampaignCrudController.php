@@ -27,7 +27,7 @@ class CampaignCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Campaign::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/campaign');
         CRUD::setEntityNameStrings('campaign', 'campaigns');

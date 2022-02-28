@@ -27,7 +27,7 @@ class CharacterCrudController extends CrudController
      */
     public function setup()
     {
-        $this->isNotSiteAdmin();
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Character::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/character');
         CRUD::setEntityNameStrings('character', 'characters');
