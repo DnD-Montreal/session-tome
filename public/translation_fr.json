@@ -59,7 +59,8 @@
         "skip": "Passer",
         "search": "Recherche",
         "or": "OU",
-        "join": "Joindre"
+        "join": "Joindre",
+        "none": "Aucun"
     },
     "component": {
         "no-data": "Aucune donnée...",

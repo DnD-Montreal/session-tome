@@ -1,5 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
+import {useUser} from '@Utils/index'
 import {Autocomplete, ErrorText, Select} from 'Components'
 import React from 'react'
 import styled from 'styled-components'
@@ -7,7 +8,6 @@ import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
-import {useUser} from '@Utils/index'
 
 type CampaignCreateFormPropType = {
     type: 'Edit' | 'Create'
@@ -82,6 +82,7 @@ const CampaignCreateForm = ({
                 {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Select
+                        hasNoneOption
                         id='character_id'
                         label='Assigned Character'
                         name='Assigned Character'
