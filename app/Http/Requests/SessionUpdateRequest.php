@@ -29,6 +29,7 @@ class SessionUpdateRequest extends FormRequest
             'dungeon_master_id' => ['required', 'integer', 'exists:users,id'],
             'table' => ['required', 'string'],
             'start_time' => ['required'],
+            'end_time' => ['required'],
         ];
     }
 }

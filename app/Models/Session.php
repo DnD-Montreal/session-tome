@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,7 @@ class Session extends Model
         'dungeon_master_id',
         'table',
         'start_time',
+        'end_time',
         'language',
     ];
 
@@ -37,6 +39,7 @@ class Session extends Model
         'adventure_id' => 'integer',
         'dungeon_master_id' => 'integer',
         'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     protected $with = ['event'];
@@ -84,5 +87,25 @@ class Session extends Model
 
         return $q->withCount('characters')
             ->having('characters_count', "<", DB::raw('seats'));
+    }
+
+    /**
+     * Determines if this session overlaps with the given session
+     * @param Session $otherSession
+     * @return bool true if overlapping
+     */
+
+    public function overlapsWith(Session $otherSession): bool
+    {
+        $otherSessionStart = $otherSession->start_time;
+        $otherSessionEnd = $otherSession->end_time;
+
+        $startTime = $this->start_time;
+        $endTime= $this->end_time;
+
+        $startsWithin = $startTime <= $otherSessionStart && $otherSessionStart <= $endTime;
+        $endsWithin = $startTime <= $otherSessionEnd && $otherSessionEnd <= $endTime;
+
+        return $startsWithin || $endsWithin;
     }
 }
