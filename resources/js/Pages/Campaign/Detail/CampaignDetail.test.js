@@ -1,11 +1,11 @@
 import {render} from '@testing-library/react'
 import React from 'react'
 
-import CharacterDetail from './CampaignDetail'
+import CampaignDetail from './CampaignDetail'
 
-describe('<CharacterDetail />', () => {
+describe('<CampaignDetail />', () => {
     it('Component should render', () => {
-        const component = render(<CharacterDetail />)
+        const component = render(<CampaignDetail />)
         expect(component).toBeDefined()
     })
 })

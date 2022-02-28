@@ -136,6 +136,13 @@ const DmEntryCreateForm = ({
 
     const resetUrl =
         type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
+
+    useEffect(() => {
+        if (errors) {
+            setActiveStep(0)
+        }
+    }, [errors])
+
     const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>

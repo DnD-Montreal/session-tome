@@ -14,10 +14,8 @@ type CampaignCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: CampaignData
     editId?: number
-    adventures?: adventureType[]
+    adventures: adventureType[]
     characters: CharacterData[]
-    campaign?: CampaignData
-    campaignDetail?: boolean
 }
 
 type CampaignFormDataType = {
@@ -38,8 +36,6 @@ const CampaignCreateForm = ({
     editId = 0,
     adventures,
     characters,
-    campaignDetail,
-    campaign,
 }: CampaignCreateFormPropType) => {
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
@@ -98,33 +94,20 @@ const CampaignCreateForm = ({
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
-                    {!campaignDetail && adventures && (
-                        <Autocomplete
-                            label='Adventure'
-                            id='adventures'
-                            fieldKey='adventures'
-                            onChange={(_, value) => setData('adventure', value)}
-                            defaultValue={data.adventure}
-                            getOptionLabel={(option) =>
-                                `${option.code} - ${option.title}`
-                            }
-                            options={adventures}
-                            resetUrl={
-                                type === 'Create'
-                                    ? route('campaign.create')
-                                    : route('campaign.index')
-                            }
-                        />
-                    )}
-                    {campaignDetail && campaign && (
-                        <TextField
-                            disabled
-                            fullWidth
-                            label='Adventure'
-                            id='adventure'
-                            defaultValue={campaign.adventure.title}
-                        />
-                    )}
+                    <Autocomplete
+                        label='Adventure'
+                        id='adventures'
+                        fieldKey='adventures'
+                        onChange={(_, value) => setData('adventure', value)}
+                        defaultValue={data.adventure}
+                        getOptionLabel={(option) => `${option.code} - ${option.title}`}
+                        options={adventures}
+                        resetUrl={
+                            type === 'Create'
+                                ? route('campaign.create')
+                                : route('campaign.index')
+                        }
+                    />
                     {errors['adventure.id'] && (
                         <ErrorText message={errors['adventure.id']} />
                     )}
@@ -132,9 +115,21 @@ const CampaignCreateForm = ({
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
-                    </Button>
+                    {type === 'Create' ? (
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                window.history.back()
+                            }}>
+                            Cancel
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => onCloseDrawer && onCloseDrawer()}
+                            fullWidth>
+                            Cancel
+                        </Button>
+                    )}
                 </Grid>
                 <Grid item xs={4} />
                 <Grid item xs={4}>

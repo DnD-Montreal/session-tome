@@ -51,7 +51,7 @@ const CampaignDetailBox = ({
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6} xs={6}>
                     <Grid item xs={12}>
-                        <StyledTypography>NAME</StyledTypography>
+                        <StyledTypography>CAMPAIGN TITLE</StyledTypography>
                         <Typography>{campaign.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -89,7 +89,7 @@ const CampaignDetailBox = ({
                             </Button>
                             <Link
                                 href={route('entry.create').concat(
-                                    `?character_id=${userCharacter.id}`,
+                                    `?character_id=${userCharacter.id}&campaign_id=${campaign.id}`,
                                 )}>
                                 <Button
                                     variant='contained'
