@@ -29,7 +29,13 @@ class CheckIfAdmin
      */
     private function checkIfUserIsAdmin($user): bool
     {
-        return $user->isLeagueAdminRole() || $user->isSiteAdmin();
+        if ($user->isSiteAdmin()) {
+            return true;
+        } elseif ($user->roles()->pluck('league_id')->whereNotNull()->count() > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
