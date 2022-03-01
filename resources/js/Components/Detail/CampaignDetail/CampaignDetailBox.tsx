@@ -2,7 +2,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CreateIcon from '@mui/icons-material/Create'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
+import {Alert, Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -34,10 +34,11 @@ const CampaignDetailBox = ({
         <>
             <Snackbar
                 open={openInviteSnackbar}
-                autoHideDuration={5000}
-                onClose={() => setOpenInviteSnackbar(false)}
-                message={t('campaignDetail.invite-copied')}
-            />
+                autoHideDuration={3000}
+                onClose={() => setOpenInviteSnackbar(false)}>
+                <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
+            </Snackbar>
+
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6}>
                     <Grid item xs={12}>
