@@ -51,9 +51,8 @@ const CampaignCreateForm = ({
             : {
                   title: editData?.title,
                   character_id:
-                      editData?.characters.filter(
-                          (c: CharacterData): c is CharacterData => c.user_id === user.id,
-                      )[0].id || null,
+                      editData?.characters.filter((c) => c.user_id === user.id)[0].id ||
+                      null,
                   adventure: editData?.adventure || undefined,
               }
 
