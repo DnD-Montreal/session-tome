@@ -228,7 +228,7 @@ const CharacterCreateForm = ({
                             ? window.history.back()
                             : onCloseDrawer && onCloseDrawer()
                     }>
-                    {t('campaign.cancel')}
+                    {t('common.cancel')}
                 </Button>
             </Grid>
             <Grid item xs={4} />
