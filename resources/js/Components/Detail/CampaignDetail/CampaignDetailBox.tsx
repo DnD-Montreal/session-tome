@@ -5,6 +5,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
 import {Link} from 'Components'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CampaignData} from 'Types/campaign-data'
 import {UserCharacterData} from 'Types/user-character-data'
@@ -26,6 +27,7 @@ const CampaignDetailBox = ({
     userCharacter,
     setIsEditDrawerOpen,
 }: CampaignDetailBoxPropType) => {
+    const {t} = useTranslation()
     const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
 
     const handleClick = () => {
@@ -51,19 +53,27 @@ const CampaignDetailBox = ({
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6} xs={6}>
                     <Grid item xs={12}>
-                        <StyledTypography>CAMPAIGN TITLE</StyledTypography>
+                        <StyledTypography>
+                            {t('campaignDetail.campaign-title')}
+                        </StyledTypography>
                         <Typography>{campaign.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>ADVENTURE</StyledTypography>
+                        <StyledTypography>
+                            {t('campaignDetail.adventure')}
+                        </StyledTypography>
                         <Typography>{campaign.adventure.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>SESSIONS PLAYED</StyledTypography>
+                        <StyledTypography>
+                            {t('campaignDetail.sessions-played')}
+                        </StyledTypography>
                         <Typography>{userCharacter.entries.length}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>CHARACTERS</StyledTypography>
+                        <StyledTypography>
+                            {t('campaignDetail.characters')}
+                        </StyledTypography>
                         <Typography>
                             {campaign.characters.map((c: any) => c.name).join(', ')}
                         </Typography>
@@ -74,7 +84,7 @@ const CampaignDetailBox = ({
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={handleClick}>
-                                INVITE
+                                {t('campaignDetail.invite')}
                             </Button>
                             <Button
                                 variant='contained'
@@ -82,7 +92,7 @@ const CampaignDetailBox = ({
                                 onClick={() => {
                                     setIsEditDrawerOpen(true)
                                 }}>
-                                UPDATE
+                                {t('campaignDetail.update')}
                             </Button>
                             <Link
                                 href={route('entry.create').concat(
@@ -91,7 +101,7 @@ const CampaignDetailBox = ({
                                 <Button
                                     variant='contained'
                                     startIcon={<HistoryEduIcon fontSize='small' />}>
-                                    Entry
+                                    {t('campaignDetail.entry')}
                                 </Button>
                             </Link>
                             <Link
@@ -101,7 +111,7 @@ const CampaignDetailBox = ({
                                 <Button
                                     variant='contained'
                                     startIcon={<AutoStoriesIcon fontSize='small' />}>
-                                    DM Entry
+                                    {t('campaignDetail.dm-entry')}
                                 </Button>
                             </Link>
                         </Stack>

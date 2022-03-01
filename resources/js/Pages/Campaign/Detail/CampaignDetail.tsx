@@ -1,6 +1,7 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
+import useUser from '@Utils/use-user'
 import {
     CampaignCreateForm,
     CampaignDetailBox,
@@ -10,14 +11,13 @@ import {
 } from 'Components'
 import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
+import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {UserCharacterData} from 'Types/user-character-data'
 import {getFontTheme} from 'Utils'
-
-const theme = getFontTheme('Form', 14)
 
 type CampaignDetailPropType = {
     campaign: CampaignData
@@ -38,9 +38,11 @@ const CampaignDetail = ({
     const [editEntryData, setEditEntryData] = useState<EntriesData>()
     const [editEntryId, setEditEntryId] = useState<number>(0)
     const {isEditDrawerOpen, setIsEditDrawerOpen} = useEditDrawer<CampaignData>()
+    const {t} = useTranslation()
+    const {language} = useUser()
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
             <Drawer
                 content={
                     <CampaignCreateForm
@@ -52,7 +54,7 @@ const CampaignDetail = ({
                         characters={characters}
                     />
                 }
-                title={<Typography>Edit Campaign</Typography>}
+                title={<Typography>{t('campaign.edit-campaign')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)
@@ -71,7 +73,7 @@ const CampaignDetail = ({
                         campaigns={userCharacter.entries.map((entry) => entry.campaign)}
                     />
                 }
-                title={<Typography>Edit Entry</Typography>}
+                title={<Typography>{t('edit-entry')}</Typography>}
                 isOpen={isEditEntryDrawerOpen}
                 onClose={() => {
                     setIsEditEntryDrawerOpen(false)

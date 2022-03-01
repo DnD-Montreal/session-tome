@@ -11,6 +11,16 @@
         "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
         "enter-invite-code": "Please enter the invite code of the campaign."
     },
+    "campaignDetail":{
+        "campaign-title": "CAMPAIGN TITLE",
+        "adventure":"ADVENTURE",
+        "sessions-played": "SESSIONS PLAYED",
+        "characters": "CHARACTERS",
+        "invite": "INVITE",
+        "update": "UPDATE",
+        "entry": "ENTRY",
+        "dm-entry": "DM Entry"
+    },
     "characterDetail": {
         "name": "NAME",
         "race": "RACE",
