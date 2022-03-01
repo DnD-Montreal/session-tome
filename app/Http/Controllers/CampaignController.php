@@ -126,7 +126,7 @@ class CampaignController extends Controller
     {
         $data = $request->validated();
 
-        if ($data['character_id']) {
+        if (isset($data['character_id'])) {
             $playerCharacters = $campaign->characters()
                 ->where('user_id', "!=", Auth::id())
                 ->pluck('id');
