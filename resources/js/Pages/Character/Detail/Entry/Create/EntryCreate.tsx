@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {EntryCreateForm} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -33,6 +32,5 @@ const EntryCreate = ({character, adventures, gameMasters}: EntryCreatePropType) 
 }
 
 EntryCreate.displayName = 'EntryCreate'
-EntryCreate.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default EntryCreate

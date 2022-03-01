@@ -33,7 +33,7 @@ describe('Character Exploration Test Suite', () => {
         cy.visit('/')
         cy.wait('@landingpage')
         cy.get('[data-testid="PersonIcon"]').click()
-        cy.contains('button', 'Login').click()
+        cy.contains('button', 'LOGIN').click()
         cy.get('#email').type(testuser_email)
         cy.get('#password').type(incomplete_password)
         cy.get('button[type="submit"]').click()

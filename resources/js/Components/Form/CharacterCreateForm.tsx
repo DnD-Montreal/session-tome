@@ -73,6 +73,12 @@ const CharacterCreateForm = ({
         }
     }, [wasSuccessful])
 
+    useEffect(() => {
+        if (errors) {
+            setActiveStep(0)
+        }
+    }, [errors])
+
     const stepTitles = [
         {label: t('characterDetail.enter-details')},
         {label: t('characterDetail.privacy-details')},
