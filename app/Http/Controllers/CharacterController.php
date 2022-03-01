@@ -78,9 +78,11 @@ class CharacterController extends Controller
             ->orderBy('date_played', 'desc')
             ->get();
         $factions = array_values(Character::FACTIONS);
+        $characters = Character::where('user_id', Auth::user()->id)->get();
 
         return Inertia::render('Character/Detail/CharacterDetail', [
             'character' => $character,
+            'characters' => $characters,
             'entries' => $entries,
             'factions' => $factions,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),

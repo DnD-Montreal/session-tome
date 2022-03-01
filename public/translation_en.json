@@ -136,9 +136,9 @@
         "confirm-password": "Confirm Password",
         "username": "Username",
         "frequency": {
-            "weekly": "Une fois par semaine",
-            "bi-monthly": "Une fois chaque deux semaines",
-            "monthly": "Une fois par mois"
+            "weekly": "Once per week",
+            "bi-monthly": "Once per 2 weeks",
+            "monthly": "Once per month"
         },
         "chosen-character": "Chosen Character"
     },
