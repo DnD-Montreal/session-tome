@@ -38,7 +38,7 @@ const CampaignDetail = ({
     const [editEntryData, setEditEntryData] = useState<EntriesData>()
     const [editEntryId, setEditEntryId] = useState<number>(0)
     const {isEditDrawerOpen, setIsEditDrawerOpen} = useEditDrawer<CampaignData>()
-    console.log(campaign.adventure)
+
     return (
         <ThemeProvider theme={theme}>
             <Drawer

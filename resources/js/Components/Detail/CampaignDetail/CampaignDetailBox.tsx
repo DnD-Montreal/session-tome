@@ -64,12 +64,9 @@ const CampaignDetailBox = ({
                     </Grid>
                     <Grid item xs={12}>
                         <StyledTypography>CHARACTERS</StyledTypography>
-                        {campaign.characters.map((char: any, index: any) => (
-                            <Typography display='inline'>
-                                {char.name}
-                                {index < campaign.characters.length - 1 ? ', ' : ''}
-                            </Typography>
-                        ))}
+                        <Typography>
+                            {campaign.characters.map((c: any) => c.name).join(', ')}
+                        </Typography>
                     </Grid>
                     <Grid item>
                         <Stack spacing={3} direction='row'>
