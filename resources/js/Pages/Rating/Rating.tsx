@@ -1,7 +1,6 @@
 import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
 import {RatingTable} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 import {getFontTheme} from 'Utils'
@@ -21,5 +20,4 @@ const Rating = ({users, fromEvent}: RatingPropType) => {
 }
 
 Rating.displayName = 'Rating'
-Rating.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default Rating

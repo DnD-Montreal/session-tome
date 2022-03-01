@@ -2,7 +2,6 @@ import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import {CampaignCreateForm, CampaignTable, Drawer} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
@@ -56,5 +55,4 @@ const Campaign = ({campaigns, characters, adventures}: CampaignPropType) => {
     )
 }
 Campaign.displayName = 'Campaign'
-Campaign.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default Campaign

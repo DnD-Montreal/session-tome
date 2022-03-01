@@ -3,7 +3,6 @@ import {Box, Card, CardContent, Container, Grid, Typography} from '@mui/material
 import {ThemeProvider} from '@mui/material/styles'
 import {Select} from 'Components'
 import i18n from 'i18next'
-import {ApplicationLayout} from 'Layouts'
 import {eventData} from 'Mock/event-data'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
@@ -96,6 +95,5 @@ const Welcome = () => {
 }
 
 Welcome.displayName = 'Welcome'
-Welcome.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default Welcome
