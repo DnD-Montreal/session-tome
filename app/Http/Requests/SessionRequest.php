@@ -25,8 +25,8 @@ class SessionRequest extends FormRequest
         if ($this->user()->isLeagueAdminWithLeagueId()) {
             $eventIdRequest = request()->input('event_id');
             $leagueId = Auth::user()->roles()->pluck('league_id');
-            $event = Event::wherein('league_id', $leagueId)->pluck('id')->toarray();
-            if (!in_array($eventIdRequest, $event)) {
+            $eventId = Event::wherein('league_id', $leagueId)->pluck('id')->toarray();
+            if (!in_array($eventIdRequest, $eventId)) {
                 abort(403);
             }
             return true;

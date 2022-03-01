@@ -30,6 +30,7 @@ class BackPackControllerTest extends TestCase
     public String $adminEvent = "/admin/event";
     public String $adminDashboard = "/admin/dashboard";
     public String $adminSession = "/admin/session";
+
     public function createLeagueAdmin()
     {
         $this->user = User::factory()->create();
@@ -68,6 +69,7 @@ class BackPackControllerTest extends TestCase
     {
         $this->createSiteAdmin();
         $response = $this->get(($this->adminDashboard));
+
         $response->assertOk();
     }
 
@@ -78,6 +80,7 @@ class BackPackControllerTest extends TestCase
     {
         $this->createLeagueAdmin();
         $response = $this->get(($this->adminDashboard));
+
         $response->assertOk();
     }
 
@@ -88,6 +91,7 @@ class BackPackControllerTest extends TestCase
     {
         $this->createLeagueAdminWithNoLeagueId();
         $response = $this->get(($this->adminDashboard));
+
         $response->assertRedirect();
     }
 
@@ -99,6 +103,7 @@ class BackPackControllerTest extends TestCase
     {
         $this->createNonAdmin();
         $response = $this->get(($this->adminDashboard));
+
         $response->assertRedirect();
     }
 
@@ -220,7 +225,6 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertStatus(403);
-
         $this->assertDatabaseMissing('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
@@ -250,7 +254,6 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertStatus(403);
-
         $this->assertDatabasemissing('events', [
             'league_id' => $league->id,
             'title' => $title,
@@ -277,8 +280,8 @@ class BackPackControllerTest extends TestCase
             'description' => $description,
             'location' => $location,
         ]);
-        $response->assertRedirect();
 
+        $response->assertRedirect();
         $this->assertDatabaseHas('events', [
             'league_id' => $league->id,
             'title' => $title,
@@ -293,6 +296,7 @@ class BackPackControllerTest extends TestCase
     public function test_site_admin_authorized_to_create_session()
     {
         $this->createSiteAdmin();
+
         $event = Event::factory()->create();
         $adventure = Adventure::factory()->create();
         $dungeon_master = User::factory()->create();
@@ -308,7 +312,6 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
@@ -350,7 +353,6 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
@@ -366,6 +368,7 @@ class BackPackControllerTest extends TestCase
     public function test_league_admin_authorized_to_create_event()
     {
         $this->createLeagueAdmin();
+
         $title = $this->faker->sentence(4);
         $description = $this->faker->text;
         $location = $this->faker->word;
@@ -378,7 +381,6 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertRedirect();
-
         $this->assertDatabaseHas('events', [
             'league_id' => $this->user->roles()->pluck('league_id')->first(),
             'title' => $title,
