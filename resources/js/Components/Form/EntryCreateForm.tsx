@@ -392,10 +392,8 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Edit' ||
-                        type === 'CampaignEntryEdit' ||
-                        !data.dungeon_master ||
-                        !isGmInSystem
+                        // if it's edit state or no GM or GM not in the system, go back to step 1
+                        isEdit || !data.dungeon_master || !isGmInSystem
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
