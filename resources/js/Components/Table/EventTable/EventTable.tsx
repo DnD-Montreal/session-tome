@@ -1,5 +1,6 @@
 import {DataTable} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import {EventData} from 'Types/event-data'
 
 type EventTablePropType = {
@@ -7,27 +8,29 @@ type EventTablePropType = {
 }
 
 const EventTable = ({data}: EventTablePropType) => {
+    const {t} = useTranslation()
+
     const columns = [
         {
             property: 'created_at',
-            title: 'Date',
+            title: t('tableColumn.date'),
         },
         {
             property: 'title',
-            title: 'Event Title',
+            title: t('eventDetail.event-title'),
         },
         {
             property: 'league',
-            title: 'League',
+            title: t('eventDetail.league'),
             render: (value: any) => value.name,
         },
         {
             property: 'description',
-            title: 'Description',
+            title: t('eventDetail.description'),
         },
         {
             property: 'participation',
-            title: 'Participation',
+            title: t('tableColumn.participation'),
         },
     ]
     return (
@@ -35,7 +38,7 @@ const EventTable = ({data}: EventTablePropType) => {
             isSelectable={false}
             data={data}
             columns={columns}
-            tableName='Events'
+            tableName='event'
             filterProperties={['title', 'location']}
         />
     )

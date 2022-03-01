@@ -53,7 +53,8 @@
         "ratings": "Classements",
         "skip": "Passer",
         "search": "Recherche",
-        "or": "OU"
+        "or": "OU",
+        "events": "Évènements"
     },
     "component": {
         "no-data": "Aucune donnée...",
@@ -95,6 +96,21 @@
         "private": "Privée",
         "public": "Publique"
     },
+    "eventDetail": {
+        "event-title": "Titre de l'évènement",
+        "date": "Date",
+        "league": "Ligue",
+        "location": "Emplacement",
+        "total-spots": "Nombre total de places",
+        "registered-users": "Nombre d'utilisateurs inscrits",
+        "total-spots-left": "Nombre total de places restants",
+        "description": "Description",
+        "registered-sessions": "Sessions inscrits",
+        "registration-message": "Veuillez choisir un personnage pour cette session.",
+        "join": "S'inscrire",
+        "register": "S'inscrire",
+        "leave": "Quitter"
+    },
     "form": {
         "name": "Nom",
         "race": "Race",
@@ -123,7 +139,8 @@
             "weekly": "Une fois par semaine",
             "bi-monthly": "Une fois par deux semaines",
             "monthly": "Une fois par mois"
-        }
+        },
+        "chosen-character": "Personnage choisi"
     },
     "itemDetail": {
         "name": "Nom",
@@ -173,14 +190,22 @@
         "items": "Objets magiques",
         "description": "Description",
         "rarity": "Rareté",
-        "tier": "Tier"
+        "tier": "Tier",
+        "start-time": "Début",
+        "end-time": "Fin",
+        "session-id": "Identifiant de session",
+        "game-master": "Maître de jeu",
+        "seats-taken": "Places occupées",
+        "seats-left": "Places restantes",
+        "participation": "Participation"
     },
     "tableName": {
         "character": "Personnages",
         "dm-entry": "Sessions du MJ",
         "entry": "Sessions",
         "item": "Objets",
-        "rating": "Évaluations"
+        "rating": "Évaluations",
+        "event": "Évènements"
     },
     "welcome": {
         "welcome-text-1": "Bienvenue à ",
