@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {CampaignRegistrationForm} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 // import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
@@ -26,7 +25,4 @@ const CampaignRegistrationCreate = ({
 )
 
 CampaignRegistrationCreate.displayName = 'CampaignRegistrationCreate'
-CampaignRegistrationCreate.layout = (page: any) => (
-    <ApplicationLayout>{page}</ApplicationLayout>
-)
 export default CampaignRegistrationCreate
