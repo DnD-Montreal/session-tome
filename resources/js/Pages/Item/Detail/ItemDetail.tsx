@@ -1,7 +1,6 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Drawer, ItemDetailBox, ItemEditForm} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
@@ -44,6 +43,5 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
 }
 
 ItemDetail.displayName = 'ItemDetail'
-ItemDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default ItemDetail
