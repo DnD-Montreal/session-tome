@@ -34,10 +34,17 @@ const CampaignDetail = ({
     characters,
     adventures,
 }: CampaignDetailPropType) => {
-    const [isEditEntryDrawerOpen, setIsEditEntryDrawerOpen] = useState<boolean>(false)
-    const [editEntryData, setEditEntryData] = useState<EntriesData>()
-    const [editEntryId, setEditEntryId] = useState<number>(0)
-    const {isEditDrawerOpen, setIsEditDrawerOpen} = useEditDrawer<CampaignData>()
+    const {
+        isEditDrawerOpen,
+        setIsEditDrawerOpen,
+        editId,
+        setEditId,
+        editData,
+        setEditData,
+    } = useEditDrawer<EntriesData>()
+
+    const [isEditCampaignDrawerOpen, setIsEditCampaignDrawerOpen] =
+        useState<boolean>(false)
     const {t} = useTranslation()
     const {language} = useUser()
 
@@ -47,7 +54,7 @@ const CampaignDetail = ({
                 content={
                     <CampaignCreateForm
                         type='Edit'
-                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        onCloseDrawer={() => setIsEditCampaignDrawerOpen(false)}
                         editData={campaign}
                         editId={campaign.id}
                         adventures={adventures}
@@ -55,40 +62,40 @@ const CampaignDetail = ({
                     />
                 }
                 title={<Typography>{t('campaign.edit-campaign')}</Typography>}
-                isOpen={isEditDrawerOpen}
+                isOpen={isEditCampaignDrawerOpen}
                 onClose={() => {
-                    setIsEditDrawerOpen(false)
+                    setIsEditCampaignDrawerOpen(false)
                 }}
             />
             <Drawer
                 content={
                     <EntryCreateForm
                         type='Edit'
-                        onCloseDrawer={() => setIsEditEntryDrawerOpen(false)}
-                        editData={editEntryData}
-                        editId={editEntryId}
+                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                        editData={editData}
+                        editId={editId}
                         character={userCharacter}
                         adventures={userCharacter.entries.map((entry) => entry.adventure)}
                         gameMasters={gameMasters}
                         campaigns={userCharacter.entries.map((entry) => entry.campaign)}
                     />
                 }
-                title={<Typography>{t('edit-entry')}</Typography>}
-                isOpen={isEditEntryDrawerOpen}
+                title={<Typography>{t('character.edit-entry')}</Typography>}
+                isOpen={isEditDrawerOpen}
                 onClose={() => {
-                    setIsEditEntryDrawerOpen(false)
+                    setIsEditDrawerOpen(false)
                 }}
             />
             <CampaignDetailBox
                 campaign={campaign}
                 userCharacter={userCharacter}
-                setIsEditDrawerOpen={setIsEditDrawerOpen}
+                setIsEditDrawerOpen={setIsEditCampaignDrawerOpen}
             />
             <EntryTable
                 data={userCharacter.entries}
-                setEditEntryId={setEditEntryId}
-                setEditEntryData={setEditEntryData}
-                setIsEditDrawerOpen={setIsEditEntryDrawerOpen}
+                setEditEntryId={setEditId}
+                setEditEntryData={setEditData}
+                setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
         </ThemeProvider>
     )
