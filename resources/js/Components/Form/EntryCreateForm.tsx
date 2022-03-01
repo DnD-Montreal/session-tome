@@ -335,19 +335,15 @@ const EntryCreateForm = ({
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Button
-                        fullWidth
-                        onClick={() => {
-                            window.history.back()
-                        }}>
-                        {t('common.cancel')}
-                    </Button>
-                ) : (
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        {t('common.cancel')}
-                    </Button>
-                )}
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create'
+                            ? window.history.back()
+                            : onCloseDrawer && onCloseDrawer()
+                    }>
+                    {t('campaign.cancel')}
+                </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>

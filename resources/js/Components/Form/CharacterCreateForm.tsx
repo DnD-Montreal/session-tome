@@ -1,6 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
-import {ErrorText, Link, Select, StepperForm} from 'Components'
+import {ErrorText, Select, StepperForm} from 'Components'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -221,15 +221,15 @@ const CharacterCreateForm = ({
     const stepOneFooter = (
         <Grid container spacing={4}>
             <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Link href={route('character.index')}>
-                        <Button fullWidth>{t('common.cancel')}</Button>
-                    </Link>
-                ) : (
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        {t('common.cancel')}
-                    </Button>
-                )}
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create'
+                            ? window.history.back()
+                            : onCloseDrawer && onCloseDrawer()
+                    }>
+                    {t('campaign.cancel')}
+                </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>

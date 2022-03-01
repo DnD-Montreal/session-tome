@@ -116,21 +116,15 @@ const CampaignCreateForm = ({
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
-                    {type === 'Create' ? (
-                        <Button
-                            fullWidth
-                            onClick={() => {
-                                window.history.back()
-                            }}>
-                            {t('campaign.cancel')}
-                        </Button>
-                    ) : (
-                        <Button
-                            onClick={() => onCloseDrawer && onCloseDrawer()}
-                            fullWidth>
-                            {t('campaign.cancel')}
-                        </Button>
-                    )}
+                    <Button
+                        fullWidth
+                        onClick={() =>
+                            type === 'Create'
+                                ? window.history.back()
+                                : onCloseDrawer && onCloseDrawer()
+                        }>
+                        {t('campaign.cancel')}
+                    </Button>
                 </Grid>
                 <Grid item xs={4} />
                 <Grid item xs={4}>
