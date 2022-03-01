@@ -170,7 +170,7 @@ class CampaignControllerTest extends TestCase
             fn (Assert $page) => $page
                 ->component('Campaign/Detail/CampaignDetail')
                 ->has('campaign')
-                ->has('userCharacter', $campaign->characters->first())
+                ->has('userCharacter')
         );
     }
 
@@ -216,7 +216,7 @@ class CampaignControllerTest extends TestCase
 
         $campaign->refresh();
 
-        $response->assertRedirect(route('campaign.index'));
+        $response->assertRedirect();
         $response->assertSessionHas('campaign.id', $campaign->id);
 
         $this->assertEquals($adventure->id, $campaign->adventure_id);
