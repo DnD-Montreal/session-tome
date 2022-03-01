@@ -5,6 +5,7 @@ import useUser from '@Utils/use-user'
 import {
     CharacterCreateForm,
     CharacterDetailBox,
+    DmEntryCreateForm,
     Drawer,
     EntryCreateForm,
     EntryTable,
@@ -22,6 +23,7 @@ type CharacterDetailPropType = {
     factions: string[]
     adventures: adventureType[]
     gameMasters: any[]
+    characters: CharacterData[]
 }
 
 const CharacterDetail = ({
@@ -30,6 +32,7 @@ const CharacterDetail = ({
     factions,
     adventures,
     gameMasters,
+    characters,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
     const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
@@ -63,15 +66,26 @@ const CharacterDetail = ({
             />
             <Drawer
                 content={
-                    <EntryCreateForm
-                        type='Edit'
-                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                        editData={editData}
-                        editId={editId}
-                        character={character}
-                        adventures={adventures}
-                        gameMasters={gameMasters}
-                    />
+                    editData?.type === 'dm' ? (
+                        <DmEntryCreateForm
+                            type='Edit'
+                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                            editData={editData}
+                            editId={editId}
+                            adventures={adventures}
+                            characters={characters}
+                        />
+                    ) : (
+                        <EntryCreateForm
+                            type='Edit'
+                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                            editData={editData}
+                            editId={editId}
+                            character={character}
+                            adventures={adventures}
+                            gameMasters={gameMasters}
+                        />
+                    )
                 }
                 title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
