@@ -46,16 +46,18 @@ const CampaignCreateForm = ({
         adventure: undefined,
     }
 
-    const {user} = useUser()
+    const {getUserId} = useUser()
+
+    const userCharacters =
+        editData?.characters.filter((c) => c.user_id === getUserId()) || []
+    const defaultCharacterId = userCharacters.length > 0 ? userCharacters[0].id : null
 
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
         type === 'Create'
             ? CAMPAIGN_CREATE_FORM_INITIAL_VALUE
             : {
                   title: editData?.title,
-                  character_id:
-                      editData?.characters.filter((c) => c.user_id === user.id)[0].id ||
-                      null,
+                  character_id: defaultCharacterId,
                   adventure: editData?.adventure || undefined,
               }
 

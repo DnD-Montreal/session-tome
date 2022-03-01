@@ -156,17 +156,17 @@ const EntryCreateForm = ({
             ? route('entry.create').concat(`?character_id=${character.id}`)
             : route('character.show', [character.id])
 
+    const isPrefillFromCampaign = Boolean(campaign_id) || type === 'CampaignEntryEdit'
+    const isEdit = type === 'Edit' || type === 'CampaignEntryEdit'
+
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography>{t('entry.fill-out-fields-entry')}</Typography>
             </Grid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <Autocomplete
-                    disabled={Boolean(campaign_id) || type === 'CampaignEntryEdit'}
+                    disabled={isPrefillFromCampaign}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -179,10 +179,7 @@ const EntryCreateForm = ({
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <TextField
                     fullWidth
                     id='location'
@@ -193,10 +190,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='length'
                     valueType='integer'
@@ -209,10 +203,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='levels'
                     valueType='integer'
@@ -226,10 +217,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='gp'
                     valueType='float'
@@ -241,10 +229,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 2}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                         label={t('form.date')}
@@ -258,10 +243,7 @@ const EntryCreateForm = ({
                 {errors?.date_played && <ErrorText message={errors?.date_played} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 2}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 2}>
                 {isGmInSystem ? (
                     <Autocomplete
                         fieldKey='gameMasters'
@@ -284,10 +266,7 @@ const EntryCreateForm = ({
                 )}
                 {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 3}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 3}>
                 <FormControlLabel
                     style={{margin: 6}}
                     control={
@@ -303,12 +282,9 @@ const EntryCreateForm = ({
                     label={t('form.game-master-has-account')}
                 />
             </StyledGrid>
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <Autocomplete
-                    disabled={Boolean(campaign_id) || type === 'CampaignEntryEdit'}
+                    disabled={isPrefillFromCampaign}
                     id='campaigns'
                     fieldKey='campaigns'
                     onChange={(_, value) => setData('campaign', value)}
@@ -321,10 +297,7 @@ const EntryCreateForm = ({
                 {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid
-                item
-                xs={12}
-                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <StyledTextField
                     disabled
                     fullWidth
@@ -436,7 +409,7 @@ const EntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        if (type === 'Edit' || type === 'CampaignEntryEdit') {
+                        if (isEdit) {
                             put(route('entry.update', [editId]))
                         } else {
                             post(route('entry.store'))

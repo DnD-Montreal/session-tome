@@ -8,6 +8,7 @@ import Campaign from './Campaign'
 const props = {
     characters: characterData,
     campaigns: campaignData,
+    adventures: [],
 }
 
 describe('Campaign', () => {

@@ -47,7 +47,7 @@ const CampaignDetail = ({
         useState<boolean>(false)
     const {t} = useTranslation()
     const {language} = useUser()
-
+    const linkedAdventure = campaign.adventure
     return (
         <ThemeProvider theme={getFontTheme('Form', 14, language)}>
             <Drawer
@@ -72,10 +72,15 @@ const CampaignDetail = ({
                     <EntryCreateForm
                         type='CampaignEntryEdit'
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                        editData={editData}
+                        editData={
+                            editData && {
+                                campaign,
+                                ...editData,
+                            }
+                        }
                         editId={editId}
                         character={userCharacter}
-                        adventures={userCharacter.entries.map((entry) => entry.adventure)}
+                        adventures={[linkedAdventure]}
                         gameMasters={gameMasters}
                         campaigns={[campaign]}
                     />
