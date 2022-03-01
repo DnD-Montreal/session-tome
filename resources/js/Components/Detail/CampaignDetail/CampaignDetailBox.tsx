@@ -30,21 +30,12 @@ const CampaignDetailBox = ({
     const {t} = useTranslation()
     const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
 
-    const handleClick = () => {
-        navigator.clipboard.writeText(campaign.code)
-        setOpenInviteSnackbar(true)
-    }
-
-    const handleClose = () => {
-        setOpenInviteSnackbar(false)
-    }
-
     return (
         <>
             <Snackbar
                 open={openInviteSnackbar}
                 autoHideDuration={5000}
-                onClose={handleClose}
+                onClose={() => setOpenInviteSnackbar(false)}
                 message={t('campaignDetail.invite-copied')}
             />
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
@@ -81,16 +72,17 @@ const CampaignDetailBox = ({
                                 data-testid='invite-button'
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
-                                onClick={handleClick}>
+                                onClick={() => {
+                                    navigator.clipboard.writeText(campaign.code)
+                                    setOpenInviteSnackbar(true)
+                                }}>
                                 {t('common.invite')}
                             </Button>
                             <Button
                                 data-testid='update-button'
                                 variant='contained'
                                 startIcon={<CreateIcon fontSize='small' />}
-                                onClick={() => {
-                                    setIsEditDrawerOpen(true)
-                                }}>
+                                onClick={() => setIsEditDrawerOpen(true)}>
                                 {t('common.update')}
                             </Button>
                             <Link
