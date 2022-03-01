@@ -70,8 +70,7 @@ const CampaignDetail = ({
             <Drawer
                 content={
                     <EntryCreateForm
-                        campaignEntry
-                        type='Edit'
+                        type='CampaignEntryEdit'
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}
                         editId={editId}
@@ -81,7 +80,7 @@ const CampaignDetail = ({
                         campaigns={userCharacter.entries.map((entry) => entry.campaign)}
                     />
                 }
-                title={<Typography>{t('character.edit-entry')}</Typography>}
+                title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => {
                     setIsEditDrawerOpen(false)

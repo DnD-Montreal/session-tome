@@ -80,7 +80,7 @@ const CharacterDetail = ({
                         campaigns={campaigns}
                     />
                 }
-                title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
+                title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
             />

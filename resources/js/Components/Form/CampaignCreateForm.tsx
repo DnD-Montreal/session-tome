@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
-import {Autocomplete, ErrorText, Select} from 'Components'
+import {Autocomplete, ErrorText, Link, Select} from 'Components'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -116,15 +116,17 @@ const CampaignCreateForm = ({
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
-                    <Button
-                        fullWidth
-                        onClick={() =>
-                            type === 'Create'
-                                ? window.history.back()
-                                : onCloseDrawer && onCloseDrawer()
-                        }>
-                        {t('common.cancel')}
-                    </Button>
+                    {type === 'Create' ? (
+                        <Link href={route('campaign.index')}>
+                            <Button fullWidth>{t('common.cancel')}</Button>
+                        </Link>
+                    ) : (
+                        <Button
+                            onClick={() => onCloseDrawer && onCloseDrawer()}
+                            fullWidth>
+                            {t('common.cancel')}
+                        </Button>
+                    )}
                 </Grid>
                 <Grid item xs={4} />
                 <Grid item xs={4}>

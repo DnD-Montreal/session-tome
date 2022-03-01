@@ -29,7 +29,6 @@
         "status": "VISIBILITÉ",
         "delete-message": "Êtes-vous certain de vouloir supprimer ce/ces personnage(s)?",
         "edit-character": "Modifier le personnage",
-        "edit-entry": "Modifier la session",
         "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage.",
         "public-status": "Acceptez-vous que ce personnage soit rendu public?",
         "import-help-text": "Importez les saisies de vos personnages en téléchargeant les logs de ",
@@ -78,6 +77,7 @@
     "entry": {
         "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces session(s)?",
         "set-adventure": "Définir l'aventure",
+        "edit-entry": "Modifier la session",
         "edit-dm-entry": "Modifier la session de MJ",
         "details": "Détails",
         "magic-items": "Objets magiques",

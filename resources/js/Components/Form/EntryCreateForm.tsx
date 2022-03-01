@@ -26,7 +26,7 @@ type GameMasterData = {
 }
 
 type EntryCreateFormPropType = {
-    type: 'Edit' | 'Create'
+    type: 'Edit' | 'Create' | 'CampaignEntryEdit'
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
@@ -37,7 +37,6 @@ type EntryCreateFormPropType = {
         id: number
         title: string
     }[]
-    campaignEntry?: boolean
 }
 
 type EntryFormDataType = {
@@ -74,7 +73,6 @@ const EntryCreateForm = ({
     adventures,
     gameMasters,
     campaigns,
-    campaignEntry,
 }: EntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -167,9 +165,12 @@ const EntryCreateForm = ({
             <Grid item xs={12}>
                 <Typography>{t('entry.fill-out-fields-entry')}</Typography>
             </Grid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
                 <Autocomplete
-                    disabled={Boolean(campaign_id) || campaignEntry}
+                    disabled={Boolean(campaign_id) || type === 'CampaignEntryEdit'}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -182,7 +183,10 @@ const EntryCreateForm = ({
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
                 <TextField
                     fullWidth
                     id='location'
@@ -193,7 +197,10 @@ const EntryCreateForm = ({
                 />
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
                 <NumberInput
                     fieldKey='length'
                     valueType='integer'
@@ -206,7 +213,10 @@ const EntryCreateForm = ({
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
                 <NumberInput
                     fieldKey='levels'
                     valueType='integer'
@@ -220,7 +230,10 @@ const EntryCreateForm = ({
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 1}>
                 <NumberInput
                     fieldKey='gp'
                     valueType='float'
@@ -232,7 +245,10 @@ const EntryCreateForm = ({
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                         label={t('form.date')}
@@ -246,7 +262,10 @@ const EntryCreateForm = ({
                 {errors?.date_played && <ErrorText message={errors?.date_played} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 2}>
                 {isGmInSystem ? (
                     <Autocomplete
                         fieldKey='gameMasters'
@@ -269,7 +288,10 @@ const EntryCreateForm = ({
                 )}
                 {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 3}>
                 <FormControlLabel
                     style={{margin: 6}}
                     control={
@@ -285,9 +307,12 @@ const EntryCreateForm = ({
                     label={t('form.game-master-has-account')}
                 />
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
                 <Autocomplete
-                    disabled={Boolean(campaign_id) || campaignEntry}
+                    disabled={Boolean(campaign_id) || type === 'CampaignEntryEdit'}
                     id='campaigns'
                     fieldKey='campaigns'
                     onChange={(_, value) => setData('campaign', value)}
@@ -300,7 +325,10 @@ const EntryCreateForm = ({
                 {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid
+                item
+                xs={12}
+                md={type === 'Edit' || type === 'CampaignEntryEdit' ? 12 : 5}>
                 <StyledTextField
                     disabled
                     fullWidth
@@ -395,7 +423,10 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Edit' || !data.dungeon_master || !isGmInSystem
+                        type === 'Edit' ||
+                        type === 'CampaignEntryEdit' ||
+                        !data.dungeon_master ||
+                        !isGmInSystem
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
@@ -409,7 +440,7 @@ const EntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        if (type === 'Edit') {
+                        if (type === 'Edit' || type === 'CampaignEntryEdit') {
                             put(route('entry.update', [editId]))
                         } else {
                             post(route('entry.store'))
