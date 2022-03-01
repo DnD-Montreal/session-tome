@@ -9,7 +9,9 @@
     "campaign": {
         "edit-campaign": "Edit Campaign",
         "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
-        "enter-invite-code": "Please enter the invite code of the campaign."
+        "enter-invite-code": "Please enter the invite code of the campaign.",
+        "fill-out-fields": "Fill out the following fields with your campaign details.",
+        "cancel": "Cancel"
     },
     "campaignDetail":{
         "campaign-title": "CAMPAIGN TITLE",

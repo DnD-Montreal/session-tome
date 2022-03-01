@@ -3,6 +3,7 @@ import {Button, Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
 import {Autocomplete, ErrorText, Select} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
@@ -37,6 +38,8 @@ const CampaignCreateForm = ({
     adventures,
     characters,
 }: CampaignCreateFormPropType) => {
+    const {t} = useTranslation()
+
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
         character_id: null,
@@ -63,9 +66,7 @@ const CampaignCreateForm = ({
         <Grid>
             <Grid justifyContent='flex-start' container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography>
-                        Fill out the following fields with your campaign details.
-                    </Typography>
+                    <Typography>{t('campaign.fill-out-fields')}</Typography>
                 </Grid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <TextField
@@ -121,13 +122,13 @@ const CampaignCreateForm = ({
                             onClick={() => {
                                 window.history.back()
                             }}>
-                            Cancel
+                            {t('campaign.cancel')}
                         </Button>
                     ) : (
                         <Button
                             onClick={() => onCloseDrawer && onCloseDrawer()}
                             fullWidth>
-                            Cancel
+                            {t('campaign.cancel')}
                         </Button>
                     )}
                 </Grid>
