@@ -41,13 +41,14 @@ class Event extends Model
         'scheduled_dates',
         'total_seats',
         'seats_left',
-        'seats_taken'
+        'seats_taken',
+        'is_registered',
     ];
 
     protected $filterableFields = [
         'title',
         'description',
-        'location'
+        'location',
     ];
 
     public function entries()
