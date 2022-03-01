@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,7 @@ class Campaign extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +32,12 @@ class Campaign extends Model
         'adventure_id' => 'integer',
     ];
 
+    /**
+     * The attributes that should be fuzzy searched on when filtering
+     *
+     * @var string[]
+     */
+    protected $filterableFields = ['title'];
 
     public function characters()
     {
@@ -53,6 +61,6 @@ class Campaign extends Model
 
     public function generateCode()
     {
-        return dechex(microtime(true)*10000);
+        return dechex(microtime(true) * 10000);
     }
 }

@@ -8,9 +8,13 @@ import {getFontTheme} from 'Utils'
 type DmEntryCreateType = {
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const DmEntryCreate = ({adventures, characters}: DmEntryCreateType) => {
+const DmEntryCreate = ({adventures, characters, campaigns}: DmEntryCreateType) => {
     const theme = getFontTheme('Form', 16)
 
     return (
@@ -19,6 +23,7 @@ const DmEntryCreate = ({adventures, characters}: DmEntryCreateType) => {
                 type='Create'
                 adventures={adventures}
                 characters={characters}
+                campaigns={campaigns}
             />
         </ThemeProvider>
     )

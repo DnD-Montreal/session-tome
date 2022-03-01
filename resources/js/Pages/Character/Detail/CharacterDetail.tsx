@@ -23,7 +23,10 @@ type CharacterDetailPropType = {
     factions: string[]
     adventures: adventureType[]
     gameMasters: any[]
-    characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 const CharacterDetail = ({
@@ -33,6 +36,7 @@ const CharacterDetail = ({
     adventures,
     gameMasters,
     characters,
+    campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
     const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
@@ -74,6 +78,7 @@ const CharacterDetail = ({
                             editId={editId}
                             adventures={adventures}
                             characters={characters}
+                            campaigns={campaigns}
                         />
                     ) : (
                         <EntryCreateForm
@@ -84,6 +89,7 @@ const CharacterDetail = ({
                             character={character}
                             adventures={adventures}
                             gameMasters={gameMasters}
+                            campaigns={campaigns}
                         />
                     )
                 }

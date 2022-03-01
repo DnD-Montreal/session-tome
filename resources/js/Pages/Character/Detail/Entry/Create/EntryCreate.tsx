@@ -14,9 +14,18 @@ type EntryCreatePropType = {
     character: CharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const EntryCreate = ({character, adventures, gameMasters}: EntryCreatePropType) => {
+const EntryCreate = ({
+    character,
+    adventures,
+    gameMasters,
+    campaigns,
+}: EntryCreatePropType) => {
     const theme = getFontTheme('Form', 16)
 
     return (
@@ -26,6 +35,7 @@ const EntryCreate = ({character, adventures, gameMasters}: EntryCreatePropType) 
                 character={character}
                 adventures={adventures}
                 gameMasters={gameMasters}
+                campaigns={campaigns}
             />
         </ThemeProvider>
     )

@@ -27,4 +27,5 @@ export type EntriesData = {
     updated_at: string
     user_id: number
     rating_data: RatingCategoryType | null
+    campaign?: any
 }

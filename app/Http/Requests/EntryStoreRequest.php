@@ -60,4 +60,15 @@ class EntryStoreRequest extends FormRequest
             'rating_data' => ['nullable', 'array'],
         ];
     }
+
+    public function prepareForValidation()
+    {
+        // TODO: Refactor "adventure.id" and "dungeon_master.id" to use this method as well, involves changing controllers back to expecting "adventure_id", etc...
+        // If theres an object in place for "campaign" the whole model got passed up, so just grab the id
+        if ($campaign = $this->get('campaign')) {
+            $this->merge([
+                'campaign_id' => $campaign['id']
+            ]);
+        }
+    }
 }
