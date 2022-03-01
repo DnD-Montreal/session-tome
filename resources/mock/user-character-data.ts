@@ -6,7 +6,7 @@ export const userCharacterData = [
         created_at: '',
         downtime: 67,
         faction: 'The Harpers',
-        enties: [],
+        entries: [],
         id: 1,
         level: 14,
         name: 'Name 1',

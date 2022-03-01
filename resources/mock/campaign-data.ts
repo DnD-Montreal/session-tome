@@ -21,7 +21,7 @@ export const campaignData = [
         ],
         adventure: [
             {
-                code: '234234',
+                code: 'XYZ123',
                 created_at: '',
                 description: 'hi',
                 id: 1,

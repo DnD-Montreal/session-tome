@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import {campaignData} from 'Mock/campaign-data'
 import {userCharacterData} from 'Mock/user-character-data'
 import React from 'react'
@@ -12,14 +12,27 @@ const props = {
     userCharacter: userCharacterData[0],
 }
 
+Object.assign(navigator, {
+    clipboard: {
+        writeText: () => {},
+    },
+})
+
 describe('<CampaignDetailBox />', () => {
     it('Component should render', () => {
         const component = render(<CampaignDetailBox {...props} />)
         expect(component).toBeDefined()
     })
-    // it('Invite button should work', () => {
-    //     render(<CampaignDetailBox {...props} />)
-    //     const inviteButton = screen.getByLabelText('INVITE')
-    //     fireEvent.click(inviteButton)
-    // })
+    it('Invite button should work', () => {
+        jest.spyOn(navigator.clipboard, 'writeText')
+        render(<CampaignDetailBox {...props} />)
+        const inviteButton = screen.getByTestId('invite-button')
+        fireEvent.click(inviteButton)
+        expect(navigator.clipboard.writeText).toBeCalledTimes(1)
+    })
+    it('Update button should work', () => {
+        render(<CampaignDetailBox {...props} />)
+        const updateButton = screen.getByTestId('update-button')
+        fireEvent.click(updateButton)
+    })
 })

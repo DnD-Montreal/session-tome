@@ -35,10 +35,7 @@ const CampaignDetailBox = ({
         setOpenInviteSnackbar(true)
     }
 
-    const handleClose = (event: any, reason: any) => {
-        if (reason === 'clickaway') {
-            return
-        }
+    const handleClose = () => {
         setOpenInviteSnackbar(false)
     }
 
@@ -46,12 +43,12 @@ const CampaignDetailBox = ({
         <>
             <Snackbar
                 open={openInviteSnackbar}
-                autoHideDuration={6000}
+                autoHideDuration={5000}
                 onClose={handleClose}
                 message={t('campaignDetail.invite-copied')}
             />
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
-                <Grid container columnSpacing={1} rowSpacing={6} xs={6}>
+                <Grid container columnSpacing={1} rowSpacing={6}>
                     <Grid item xs={12}>
                         <StyledTypography>
                             {t('campaignDetail.campaign-title')}
@@ -81,12 +78,14 @@ const CampaignDetailBox = ({
                     <Grid item>
                         <Stack spacing={3} direction='row'>
                             <Button
+                                data-testid='invite-button'
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={handleClick}>
                                 {t('campaignDetail.invite')}
                             </Button>
                             <Button
+                                data-testid='update-button'
                                 variant='contained'
                                 startIcon={<CreateIcon fontSize='small' />}
                                 onClick={() => {
