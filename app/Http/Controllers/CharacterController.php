@@ -79,10 +79,12 @@ class CharacterController extends Controller
             ->get();
 
         $factions = array_values(Character::FACTIONS);
+        $characters = Character::where('user_id', Auth::user()->id)->get();
 
         // Not using compact to allow for partial reloads
         return Inertia::render('Character/Detail/CharacterDetail', [
             'character' => $character,
+            'characters' => $characters,
             'entries' => $entries,
             'factions' => $factions,
             'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),

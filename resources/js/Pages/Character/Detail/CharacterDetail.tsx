@@ -5,11 +5,11 @@ import useUser from '@Utils/use-user'
 import {
     CharacterCreateForm,
     CharacterDetailBox,
+    DmEntryCreateForm,
     Drawer,
     EntryCreateForm,
     EntryTable,
 } from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
@@ -20,6 +20,7 @@ import {getFontTheme} from 'Utils'
 
 type CharacterDetailPropType = {
     character: CharacterData
+    characters: CharacterData[]
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
@@ -36,6 +37,7 @@ const CharacterDetail = ({
     factions,
     adventures,
     gameMasters,
+    characters,
     campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
@@ -70,16 +72,28 @@ const CharacterDetail = ({
             />
             <Drawer
                 content={
-                    <EntryCreateForm
-                        type='Edit'
-                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                        editData={editData}
-                        editId={editId}
-                        character={character}
-                        adventures={adventures}
-                        gameMasters={gameMasters}
-                        campaigns={campaigns}
-                    />
+                    editData?.type === 'dm' ? (
+                        <DmEntryCreateForm
+                            type='Edit'
+                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                            editData={editData}
+                            editId={editId}
+                            adventures={adventures}
+                            characters={characters}
+                            campaigns={campaigns}
+                        />
+                    ) : (
+                        <EntryCreateForm
+                            type='Edit'
+                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                            editData={editData}
+                            editId={editId}
+                            character={character}
+                            adventures={adventures}
+                            gameMasters={gameMasters}
+                            campaigns={campaigns}
+                        />
+                    )
                 }
                 title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
@@ -100,6 +114,5 @@ const CharacterDetail = ({
 }
 
 CharacterDetail.displayName = 'CharacterDetail'
-CharacterDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default CharacterDetail

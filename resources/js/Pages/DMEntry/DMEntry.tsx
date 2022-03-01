@@ -3,7 +3,6 @@ import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import useUser from '@Utils/use-user'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
@@ -64,5 +63,4 @@ const DMEntry = ({entries, adventures, characters, campaigns}: DMEntryPropType) 
 }
 
 DMEntry.displayName = 'DMEntry'
-DMEntry.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default DMEntry

@@ -3,7 +3,6 @@ import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import useUser from '@Utils/use-user'
 import {CharacterCreateForm, CharacterTable, Drawer} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
@@ -55,5 +54,4 @@ const Character = ({characters, factions}: CharacterPropType) => {
 }
 
 Character.displayName = 'Character'
-Character.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default Character

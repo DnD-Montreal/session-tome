@@ -9,7 +9,6 @@ import {
     EntryCreateForm,
     EntryTable,
 } from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
@@ -102,6 +101,4 @@ const CampaignDetail = ({
     )
 }
 CampaignDetail.displayName = 'CampaignDetail'
-CampaignDetail.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
-
 export default CampaignDetail
