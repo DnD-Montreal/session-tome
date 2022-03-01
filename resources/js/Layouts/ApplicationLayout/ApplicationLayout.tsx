@@ -238,7 +238,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 }
                                 color='white'
                                 href={route('event.index')}>
-                                Events
+                                {t('common.events')}
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>

@@ -53,7 +53,11 @@
         "ratings": "Ratings",
         "skip": "Skip",
         "search": "Search",
-        "or": "OR"
+        "or": "OR",
+        "events": "Events",
+        "join": "Join",
+        "register": "Register",
+        "leave": "Leave"
     },
     "component": {
         "no-data": "No data...",
@@ -95,6 +99,18 @@
         "private": "Private",
         "public": "Public"
     },
+    "eventDetail": {
+        "event-title": "Event Title",
+        "date": "Date",
+        "league": "League",
+        "location": "Location",
+        "total-spots": "Total Spots",
+        "registered-users": "Registered Users",
+        "total-spots-left": "Total Spots Left",
+        "description": "Description",
+        "registered-sessions": "Registered Sessions",
+        "registration-message": "Please choose a character for this session."
+    },
     "form": {
         "name": "Name",
         "race": "Race",
@@ -123,7 +139,8 @@
             "weekly": "Une fois par semaine",
             "bi-monthly": "Une fois chaque deux semaines",
             "monthly": "Une fois par mois"
-        }
+        },
+        "chosen-character": "Chosen Character"
     },
     "itemDetail": {
         "name": "Name",
@@ -173,14 +190,22 @@
         "items": "Magic Items",
         "description": "Description",
         "rarity": "Rarity",
-        "tier": "Tier"
+        "tier": "Tier",
+        "start-time": "Start Time",
+        "end-time": "End Time",
+        "session-id": "Session ID",
+        "game-master": "Game Master",
+        "seats-taken": "Seats Taken",
+        "seats-left": "Seats Left",
+        "participation": "Participation"
     },
     "tableName": {
         "character": "Characters",
         "dm-entry": "DM Entries",
         "entry": "Entries",
         "item": "Items",
-        "rating": "Ratings"
+        "rating": "Ratings",
+        "event": "Events"
     },
     "welcome": {
         "welcome-text-1": "Welcome to ",
