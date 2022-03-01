@@ -22,7 +22,7 @@ class SessionRequest extends FormRequest
         }
 
         // if user is a league admin verify that they can create/update the session
-        if ($this->user()->isLeagueAdminRole()) {
+        if ($this->user()->isLeagueAdminWithLeagueId()) {
             $eventIdRequest = request()->input('event_id');
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $event = Event::wherein('league_id', $leagueId)->pluck('id')->toarray();

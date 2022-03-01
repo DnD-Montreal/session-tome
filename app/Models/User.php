@@ -119,9 +119,13 @@ class User extends Authenticatable implements AuthenticatableInterface
         return $this->hasRole(Role::SITE_ADMIN);
     }
 
-    public function isLeagueAdminRole(): bool
+    /**
+     * Check if the user has league admin role with a league ID that is not null
+     * @return bool Returns true if the user has league admin role with a league ID that is not null
+     */
+    public function isLeagueAdminWithLeagueId(): bool
     {
-        return $this->hasRole(Role::LEAGUE_ADMIN);
+        return $this->roles()->pluck('league_id')->whereNotNull()->count() > 0;
     }
 
     /**
