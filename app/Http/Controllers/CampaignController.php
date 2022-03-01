@@ -102,7 +102,8 @@ class CampaignController extends Controller
             'campaign' => $campaign,
             'userCharacter' => $userCharacter,
             'characters' => $characters,
-            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code'])
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
         ]);
     }
 
