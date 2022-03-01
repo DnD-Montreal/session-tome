@@ -78,7 +78,7 @@ const CampaignDetail = ({
                         character={userCharacter}
                         adventures={userCharacter.entries.map((entry) => entry.adventure)}
                         gameMasters={gameMasters}
-                        campaigns={userCharacter.entries.map((entry) => entry.campaign)}
+                        campaigns={[campaign]}
                     />
                 }
                 title={<Typography>{t('entry.edit-entry')}</Typography>}
