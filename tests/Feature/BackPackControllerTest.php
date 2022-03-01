@@ -29,7 +29,7 @@ class BackPackControllerTest extends TestCase
     public $user;
     public String $adminEvent = "/admin/event";
     public String $adminDashboard = "/admin/dashboard";
-
+    public String $adminSession = "/admin/session";
     public function createLeagueAdmin()
     {
         $this->user = User::factory()->create();
@@ -99,7 +99,7 @@ class BackPackControllerTest extends TestCase
     {
         $this->createNonAdmin();
         $response = $this->get(($this->adminDashboard));
-        $this->assertEquals(302, $response->status());
+        $response->assertRedirect();
     }
 
     /**
@@ -177,7 +177,7 @@ class BackPackControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_league_admin_accessible_has_access_to_create_and_session_Crud()
+    public function test_league_admin_has_access_to_crud_actions_for_event_and_sessions()
     {
         $this->createLeagueAdmin();
 
@@ -211,15 +211,23 @@ class BackPackControllerTest extends TestCase
         $table = $this->faker->word;
         $start_time = $this->faker->dateTime();
 
-        $response = $this->post('/admin/session', [
+        $response = $this->post($this->adminSession, [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeon_master_id' => $dungeon_master->id,
+            'dungeonMaster' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);
 
         $response->assertStatus(403);
+
+        $this->assertDatabaseMissing('sessions', [
+            'event_id' => $event->id,
+            'adventure_id' => $adventure->id,
+            'dungeon_master_id'=> $dungeon_master->id,
+            'table' => $table,
+            'start_time' => $start_time,
+        ]);
     }
 
     /**
@@ -242,6 +250,13 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertStatus(403);
+
+        $this->assertDatabasemissing('events', [
+            'league_id' => $league->id,
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+        ]);
     }
 
     /**
@@ -263,6 +278,86 @@ class BackPackControllerTest extends TestCase
             'location' => $location,
         ]);
         $response->assertRedirect();
+
+        $this->assertDatabaseHas('events', [
+            'league_id' => $league->id,
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_site_admin_authorized_to_create_session()
+    {
+        $this->createSiteAdmin();
+        $event = Event::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $dungeon_master = User::factory()->create();
+        $table = $this->faker->word;
+        $start_time = $this->faker->dateTime();
+
+        $response = $this->post($this->adminSession, [
+            'event_id' => $event->id,
+            'adventure_id' => $adventure->id,
+            'dungeonMaster'=> $dungeon_master->id,
+            'table' => $table,
+            'start_time' => $start_time,
+        ]);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('sessions', [
+            'event_id' => $event->id,
+            'adventure_id' => $adventure->id,
+            'dungeon_master_id'=> $dungeon_master->id,
+            'table' => $table,
+            'start_time' => $start_time,
+        ]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function test_league_admin_authorized_to_create_session()
+    {
+        $this->createLeagueAdmin();
+
+        $title = $this->faker->sentence(4);
+        $description = $this->faker->text;
+        $location = $this->faker->word;
+        $event = Event::create([
+            'league_id' => $this->user->roles()->pluck('league_id')->first(),
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+        ]);
+
+        $adventure = Adventure::factory()->create();
+        $dungeon_master = User::factory()->create();
+        $table = $this->faker->word;
+        $start_time = $this->faker->dateTime();
+
+        $response = $this->post($this->adminSession, [
+            'event_id' => $event->id,
+            'adventure_id' => $adventure->id,
+            'dungeonMaster'=> $dungeon_master->id,
+            'table' => $table,
+            'start_time' => $start_time,
+        ]);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('sessions', [
+            'event_id' => $event->id,
+            'adventure_id' => $adventure->id,
+            'dungeon_master_id'=> $dungeon_master->id,
+            'table' => $table,
+            'start_time' => $start_time,
+        ]);
     }
 
     /**
@@ -283,5 +378,12 @@ class BackPackControllerTest extends TestCase
         ]);
 
         $response->assertRedirect();
+
+        $this->assertDatabaseHas('events', [
+            'league_id' => $this->user->roles()->pluck('league_id')->first(),
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+        ]);
     }
 }
