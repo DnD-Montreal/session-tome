@@ -208,9 +208,13 @@ class CampaignControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
+        $newCharacter = Character::factory()->create([
+           'user_id' => $this->user->id
+        ]);
 
         $response = $this->put(route('campaign.update', $campaign), [
             'adventure_id' => $adventure->id,
+            'character_id' => $newCharacter->id,
             'title' => $title,
         ]);
 
@@ -221,6 +225,7 @@ class CampaignControllerTest extends TestCase
 
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
+        $this->assertContains($newCharacter->id, $campaign->characters->pluck('id'));
     }
 
     /**
