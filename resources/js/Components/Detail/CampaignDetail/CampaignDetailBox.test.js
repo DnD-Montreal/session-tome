@@ -14,7 +14,7 @@ const props = {
 
 Object.assign(navigator, {
     clipboard: {
-        writeText: () => {},
+        writeText: () => jest.fn(),
     },
 })
 
