@@ -82,7 +82,7 @@ const CampaignDetailBox = ({
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={handleClick}>
-                                {t('campaignDetail.invite')}
+                                {t('common.invite')}
                             </Button>
                             <Button
                                 data-testid='update-button'
@@ -91,7 +91,7 @@ const CampaignDetailBox = ({
                                 onClick={() => {
                                     setIsEditDrawerOpen(true)
                                 }}>
-                                {t('campaignDetail.update')}
+                                {t('common.update')}
                             </Button>
                             <Link
                                 href={route('entry.create').concat(
@@ -100,7 +100,7 @@ const CampaignDetailBox = ({
                                 <Button
                                     variant='contained'
                                     startIcon={<HistoryEduIcon fontSize='small' />}>
-                                    {t('campaignDetail.entry')}
+                                    {t('common.entry')}
                                 </Button>
                             </Link>
                             <Link
@@ -110,7 +110,7 @@ const CampaignDetailBox = ({
                                 <Button
                                     variant='contained'
                                     startIcon={<AutoStoriesIcon fontSize='small' />}>
-                                    {t('campaignDetail.dm-entry')}
+                                    {t('common.dm-entry')}
                                 </Button>
                             </Link>
                         </Stack>

@@ -17,11 +17,7 @@
         "adventure":"ADVENTURE",
         "sessions-played": "SESSIONS PLAYED",
         "characters": "CHARACTERS",
-        "invite": "INVITE",
-        "invite-copied": "Invite code copied to clipboard.",
-        "update": "UPDATE",
-        "entry": "ENTRY",
-        "dm-entry": "DM Entry"
+        "invite-copied": "Invite code copied to clipboard."
     },
     "characterDetail": {
         "name": "NAME",
@@ -53,6 +49,7 @@
         "delete": "Delete",
         "update": "Update",
         "import": "Import",
+        "invite": "Invite",
         "upload": "Upload",
         "save": "Save",
         "optional": "Optional",
