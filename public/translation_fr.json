@@ -19,6 +19,7 @@
         "sessions-played": "SESSIONS JOUÉES",
         "characters": "PERSONNAGES",
         "invite": "INVITER",
+        "invite-copied": "Code d'invitation copié dans le presse-papier.",
         "update": "Mettre à jour",
         "entry": "Session",
         "dm-entry": "Session de MJ"

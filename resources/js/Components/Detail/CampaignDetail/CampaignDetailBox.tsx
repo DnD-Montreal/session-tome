@@ -48,7 +48,7 @@ const CampaignDetailBox = ({
                 open={openInviteSnackbar}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                message='Invite code copied to clipboard.'
+                message={t('campaignDetail.invite-copied')}
             />
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6} xs={6}>

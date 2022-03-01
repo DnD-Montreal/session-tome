@@ -19,6 +19,7 @@
         "sessions-played": "SESSIONS PLAYED",
         "characters": "CHARACTERS",
         "invite": "INVITE",
+        "invite-copied": "Invite code copied to clipboard.",
         "update": "UPDATE",
         "entry": "ENTRY",
         "dm-entry": "DM Entry"
