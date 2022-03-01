@@ -15,6 +15,7 @@ import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 import {getFontTheme} from 'Utils'
 
 type CharacterDetailPropType = {
@@ -22,7 +23,7 @@ type CharacterDetailPropType = {
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
-    gameMasters: any[]
+    gameMasters: GameMasterData[]
     campaigns: {
         id: number
         title: string

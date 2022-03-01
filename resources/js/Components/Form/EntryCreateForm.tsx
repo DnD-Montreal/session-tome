@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 import {ItemData} from 'Types/item-data'
 import {RatingCategoryType} from 'Types/rating-data'
 import {UserCharacterData} from 'Types/user-character-data'
@@ -19,11 +20,6 @@ import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
 import RatingForm from './RatingForm'
-
-type GameMasterData = {
-    id: number
-    name: string
-}
 
 type EntryCreateFormPropType = {
     type: 'Edit' | 'Create' | 'CampaignEntryEdit'

@@ -16,13 +16,14 @@ import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 import {UserCharacterData} from 'Types/user-character-data'
 import {getFontTheme} from 'Utils'
 
 type CampaignDetailPropType = {
     campaign: CampaignData
     userCharacter: UserCharacterData
-    gameMasters: any[]
+    gameMasters: GameMasterData[]
     characters: CharacterData[]
     adventures: adventureType[]
 }
