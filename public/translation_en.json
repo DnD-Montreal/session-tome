@@ -54,7 +54,10 @@
         "skip": "Skip",
         "search": "Search",
         "or": "OR",
-        "events": "Events"
+        "events": "Events",
+        "join": "Join",
+        "register": "Register",
+        "leave": "Leave"
     },
     "component": {
         "no-data": "No data...",
@@ -106,10 +109,7 @@
         "total-spots-left": "Total Spots Left",
         "description": "Description",
         "registered-sessions": "Registered Sessions",
-        "registration-message": "Please choose a character for this session.",
-        "join": "Join",
-        "register": "Register",
-        "leave": "Leave"
+        "registration-message": "Please choose a character for this session."
     },
     "form": {
         "name": "Name",

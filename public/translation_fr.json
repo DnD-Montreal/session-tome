@@ -54,7 +54,10 @@
         "skip": "Passer",
         "search": "Recherche",
         "or": "OU",
-        "events": "Évènements"
+        "events": "Évènements",
+        "join": "S'inscrire",
+        "register": "S'inscrire",
+        "leave": "Quitter"
     },
     "component": {
         "no-data": "Aucune donnée...",
@@ -106,10 +109,7 @@
         "total-spots-left": "Nombre total de places restants",
         "description": "Description",
         "registered-sessions": "Sessions inscrits",
-        "registration-message": "Veuillez choisir un personnage pour cette session.",
-        "join": "S'inscrire",
-        "register": "S'inscrire",
-        "leave": "Quitter"
+        "registration-message": "Veuillez choisir un personnage pour cette session."
     },
     "form": {
         "name": "Nom",
