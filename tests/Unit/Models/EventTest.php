@@ -58,9 +58,7 @@ class EventTest extends TestCase
      */
     public function can_be_filtered_by_registered_user()
     {
-        $characterFactory = Character::factory()->has(User::factory());
-        $sessionFactory = Session::factory()->has($characterFactory);
-        $event = Event::factory()->has($sessionFactory)->create();
+        $event = $this->generateRegisteredEvent();
         // Create events that _shouldn't_ be returned
         Event::factory(3)->has(Session::factory(5))->create();
         $user = $event->sessions[0]->characters[0]->user;
@@ -78,9 +76,7 @@ class EventTest extends TestCase
      */
     public function is_registered_shows_when_authenticated_user_is_registered()
     {
-        $characterFactory = Character::factory()->has(User::factory());
-        $sessionFactory = Session::factory()->has($characterFactory);
-        $event = Event::factory()->has($sessionFactory)->create();
+        $event = $this->generateRegisteredEvent();
         // Create events that _shouldn't_ be returned
         $otherEvents = Event::factory(3)->has(Session::factory(5))->create();
         $user = $event->sessions[0]->characters[0]->user;
@@ -93,5 +89,17 @@ class EventTest extends TestCase
         foreach ($nonRegisteredEvents as $registeredBool) {
             $this->assertFalse($registeredBool);
         }
+    }
+
+    /**
+     * Utility function to extract
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    private function generateRegisteredEvent()
+    {
+        $characterFactory = Character::factory()->has(User::factory());
+        $sessionFactory = Session::factory()->has($characterFactory);
+        return Event::factory()->has($sessionFactory)->create();
     }
 }
