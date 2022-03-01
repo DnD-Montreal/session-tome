@@ -29,7 +29,6 @@ type CharacterDetailPropType = {
         id: number
         title: string
     }[]
-    characters: CharacterData[]
 }
 
 const CharacterDetail = ({
