@@ -60,7 +60,7 @@ const CampaignDetailBox = ({
                     </Grid>
                     <Grid item xs={12}>
                         <StyledTypography>SESSIONS PLAYED</StyledTypography>
-                        <Typography>25</Typography>
+                        <Typography>{userCharacter.entries.length}</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <StyledTypography>CHARACTERS</StyledTypography>
