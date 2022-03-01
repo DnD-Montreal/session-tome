@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,13 @@ class Event extends Model
     protected $casts = [
         'id' => 'integer',
         'league_id' => 'integer',
+    ];
+
+    protected $appends = [
+        'scheduled_dates',
+        'total_seats',
+        'seats_left',
+        'seats_taken'
     ];
 
     protected $filterableFields = [
@@ -74,5 +82,33 @@ class Event extends Model
             ->pluck('characters.*.user_id')
             ->flatten()
             ->contains(Auth::id());
+    }
+
+    public function getScheduledDatesAttribute()
+    {
+        $dates = $this->sessions()
+            ->orderBy('start_time')
+            ->pluck('start_time')
+            ->unique();
+
+        return [
+            $dates->first(),
+            $dates->last()
+        ];
+    }
+
+    public function getTotalSeatsAttribute()
+    {
+        return (int) $this->sessions()->sum('seats');
+    }
+
+    public function getSeatsLeftAttribute()
+    {
+        return (int) $this->sessions()->get()->pluck('open_seats')->sum();
+    }
+
+    public function getSeatsTakenAttribute()
+    {
+        return (int) $this->total_seats - $this->seats_left;
     }
 }
