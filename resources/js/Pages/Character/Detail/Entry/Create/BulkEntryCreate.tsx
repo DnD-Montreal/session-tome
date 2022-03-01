@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {BulkEntryCreateForm} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -22,6 +21,5 @@ const BulkEntryCreate = ({character, adventures}: BulkEntryCreatePropType) => {
 }
 
 BulkEntryCreate.displayName = 'BulkEntryCreate'
-BulkEntryCreate.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default BulkEntryCreate

@@ -2,7 +2,6 @@ import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
 import {Drawer, ItemEditForm, ItemTable} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {ItemEditData} from 'Types/item-data'
@@ -47,5 +46,4 @@ const Item = ({items}: ItemPropType) => {
 }
 
 Item.displayName = 'Item'
-Item.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default Item
