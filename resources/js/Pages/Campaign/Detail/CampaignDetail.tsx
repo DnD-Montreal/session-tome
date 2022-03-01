@@ -70,6 +70,7 @@ const CampaignDetail = ({
             <Drawer
                 content={
                     <EntryCreateForm
+                        campaignEntry
                         type='Edit'
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}

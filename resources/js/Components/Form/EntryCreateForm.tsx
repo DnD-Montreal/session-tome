@@ -37,6 +37,7 @@ type EntryCreateFormPropType = {
         id: number
         title: string
     }[]
+    campaignEntry?: boolean
 }
 
 type EntryFormDataType = {
@@ -73,6 +74,7 @@ const EntryCreateForm = ({
     adventures,
     gameMasters,
     campaigns,
+    campaignEntry,
 }: EntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -167,7 +169,7 @@ const EntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
-                    disabled={Boolean(campaign_id)}
+                    disabled={Boolean(campaign_id) || campaignEntry}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -285,6 +287,7 @@ const EntryCreateForm = ({
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    disabled={Boolean(campaign_id) || campaignEntry}
                     id='campaigns'
                     fieldKey='campaigns'
                     onChange={(_, value) => setData('campaign', value)}
@@ -293,7 +296,6 @@ const EntryCreateForm = ({
                     options={campaigns}
                     resetUrl={resetUrl}
                     label={t('entry.campaigns')}
-                    disabled={Boolean(campaign_id)}
                 />
                 {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
             </StyledGrid>
