@@ -52,9 +52,8 @@ class EventController extends Controller
      */
     public function show(Request $request, Event $event)
     {
-        $event = $event->load('sessions', 'league', 'sessions.dungeonMaster');
-        $characters = Character::where('user_id', Auth::user()->id)
-            ->orderBy('updated_at', 'desc')->get();
+        $event->load('sessions', 'league', 'sessions.dungeonMaster');
+        $characters = Auth::user()->characters()->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Event/Detail/EventDetail', compact('event', 'characters'));
     }
