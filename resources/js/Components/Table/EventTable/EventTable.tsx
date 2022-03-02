@@ -1,4 +1,6 @@
+import {Typography} from '@mui/material'
 import {DataTable} from 'Components'
+import dayjs from 'dayjs'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {EventData} from 'Types/event-data'
@@ -14,6 +16,9 @@ const EventTable = ({data}: EventTablePropType) => {
         {
             property: 'created_at',
             title: t('tableColumn.date'),
+            render: (value: string) => (
+                <Typography>{dayjs(value).format('LLL')}</Typography>
+            ),
         },
         {
             property: 'title',
