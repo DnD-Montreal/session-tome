@@ -205,7 +205,8 @@
         "entry": "Sessions",
         "item": "Objets",
         "rating": "Évaluations",
-        "event": "Évènements"
+        "event": "Évènements",
+        "session": "Sessions"
     },
     "welcome": {
         "welcome-text-1": "Bienvenue à ",

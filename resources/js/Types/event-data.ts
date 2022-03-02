@@ -1,4 +1,5 @@
 import {LeagueData} from './league-data'
+import {SessionData} from './session-data'
 
 export type EventData = {
     id: number
@@ -10,4 +11,5 @@ export type EventData = {
     updated_at: string
     created_at: string
     participation: string
+    sessions: SessionData[]
 }

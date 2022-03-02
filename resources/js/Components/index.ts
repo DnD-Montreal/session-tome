@@ -17,6 +17,7 @@ export {
     EventTable,
     ItemTable,
     RatingTable,
+    SessionTable,
 } from './Table'
 
 // Forms

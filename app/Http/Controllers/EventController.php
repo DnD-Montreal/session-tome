@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
+use App\Models\Character;
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -50,7 +52,11 @@ class EventController extends Controller
      */
     public function show(Request $request, Event $event)
     {
-        return view('event.show', compact('event'));
+        $event = $event->load('sessions', 'league', 'sessions.dungeonMaster');
+        $characters = Character::where('user_id', Auth::user()->id)
+            ->orderBy('updated_at', 'desc')->get();
+
+        return Inertia::render('Event/Detail/EventDetail', compact('event', 'characters'));
     }
 
     /**

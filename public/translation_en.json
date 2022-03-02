@@ -205,7 +205,8 @@
         "entry": "Entries",
         "item": "Items",
         "rating": "Ratings",
-        "event": "Events"
+        "event": "Events",
+        "session": "Sessions"
     },
     "welcome": {
         "welcome-text-1": "Welcome to ",
