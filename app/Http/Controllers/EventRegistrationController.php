@@ -7,6 +7,7 @@ use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -45,5 +46,26 @@ class EventRegistrationController extends Controller
         $character->save();
 
         return redirect('character.index');
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Event $event
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Session $session)
+    {
+        $data = $request->validate([
+            'character_id' => 'required|exists:characters,id|integer'
+        ]);
+        $character = Character::findOrFail($data['character_id']);
+
+        if ($character->user->id == Auth::user()->id && $character->sessions->contains($session)) {
+            $character->sessions()->detach($session);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Invalid deregistration. User must own character and be registered for session.']);
+        }
+
+        return redirect()->back();
     }
 }
