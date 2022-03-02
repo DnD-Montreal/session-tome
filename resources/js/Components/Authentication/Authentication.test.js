@@ -34,6 +34,6 @@ describe('<Authentication />', () => {
     })
     it('should have login state', () => {
         render(<Authentication {...loginProps} />)
-        expect(screen.getByText('Login')).toBeInTheDocument()
+        expect(screen.getByText('LOGIN')).toBeInTheDocument()
     })
 })

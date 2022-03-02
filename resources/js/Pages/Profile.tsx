@@ -2,7 +2,6 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Alert, Divider, Grid, Snackbar, TextField, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Button, DeleteModal, ErrorText, Select} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {getFontTheme, useUser} from 'Utils'
@@ -183,5 +182,4 @@ const Profile = () => {
 }
 
 Profile.displayName = 'Profile'
-Profile.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 export default Profile
