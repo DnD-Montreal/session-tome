@@ -99,7 +99,6 @@ class EventRegistrationControllerTest extends TestCase
         $session = Session::factory()->create();
 
         $character->sessions()->attach($session);
-        $session->characters()->attach($character);
 
         $invalid_user = User::factory()->create();
 
