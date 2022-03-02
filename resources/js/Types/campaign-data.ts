@@ -1,3 +1,5 @@
+import {CharacterData} from 'Types/character-data'
+
 export type CampaignData = {
     id: number
     adventure: any
@@ -7,5 +9,5 @@ export type CampaignData = {
     updated_at: string
     code: string
     character_id: number
-    characters: any
+    characters: CharacterData[]
 }

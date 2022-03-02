@@ -9,7 +9,15 @@
     "campaign": {
         "edit-campaign": "Modifier Campagne",
         "delete-message": "Êtes-vous certain de vouloir supprimer cette/ces campagne(s)?",
-        "enter-invite-code": "Veullez entrer le code de la campagne."
+        "enter-invite-code": "Veullez entrer le code de la campagne.",
+        "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre campagne."
+    },
+    "campaignDetail":{
+        "campaign-title": "TITRE DE LA CAMPAGNE",
+        "adventure":"AVENTURE",
+        "sessions-played": "SESSIONS JOUÉES",
+        "characters": "PERSONNAGES",
+        "invite-copied": "Code d'invitation copié dans le presse-papier."
     },
     "characterDetail": {
         "name": "NOM",
@@ -21,7 +29,6 @@
         "status": "VISIBILITÉ",
         "delete-message": "Êtes-vous certain de vouloir supprimer ce/ces personnage(s)?",
         "edit-character": "Modifier le personnage",
-        "edit-entry": "Modifier la session",
         "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre personnage.",
         "public-status": "Acceptez-vous que ce personnage soit rendu public?",
         "import-help-text": "Importez les saisies de vos personnages en téléchargeant les logs de ",
@@ -41,6 +48,7 @@
         "delete": "Supprimer",
         "update": "Mettre à jour",
         "import": "Importer",
+        "invite": "Inviter",
         "upload": "Téléverser",
         "save": "Sauvegarder",
         "optional": "Optionnel",
@@ -59,7 +67,8 @@
         "skip": "Passer",
         "search": "Recherche",
         "or": "OU",
-        "join": "Joindre"
+        "join": "Joindre",
+        "none": "Aucun"
     },
     "component": {
         "no-data": "Aucune donnée...",
@@ -68,6 +77,7 @@
     "entry": {
         "delete-message": "Êtes-vous certain de vouloir suppprimer cette-ces session(s)?",
         "set-adventure": "Définir l'aventure",
+        "edit-entry": "Modifier la session",
         "edit-dm-entry": "Modifier la session de MJ",
         "details": "Détails",
         "magic-items": "Objets magiques",

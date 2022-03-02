@@ -3,12 +3,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Grid, TextField, Typography} from '@mui/material'
+import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
 import {
     Autocomplete,
     Button,
     ErrorText,
-    Link,
     NumberInput,
     Select,
     StepperForm,
@@ -89,6 +89,9 @@ const DmEntryCreateForm = ({
 }: DmEntryCreateFormPropType) => {
     const {t} = useTranslation()
     const {getUserId} = useUser()
+    const parameters = useUrlParams()
+    const {campaign_id} = parameters
+
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         user_id: getUserId(),
         length: 0,
@@ -101,8 +104,8 @@ const DmEntryCreateForm = ({
         notes: '',
         items: [],
         type: 'dm',
-        adventure: undefined,
-        campaign: undefined,
+        adventure: campaign_id ? adventures[0] : undefined,
+        campaign: campaign_id ? campaigns[0] : undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
@@ -152,6 +155,7 @@ const DmEntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    disabled={Boolean(campaign_id)}
                     label={t('entry.adventures')}
                     id='adventures'
                     fieldKey='adventures'
@@ -252,6 +256,7 @@ const DmEntryCreateForm = ({
             </StyledGrid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    disabled={Boolean(campaign_id)}
                     id='campaigns'
                     fieldKey='campaigns'
                     onChange={(_, value) => setData('campaign', value)}
@@ -288,15 +293,15 @@ const DmEntryCreateForm = ({
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Link href={route('dm-entry.index')}>
-                        <Button fullWidth>{t('common.cancel')}</Button>
-                    </Link>
-                ) : (
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        {t('common.cancel')}
-                    </Button>
-                )}
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create'
+                            ? window.history.back()
+                            : onCloseDrawer && onCloseDrawer()
+                    }>
+                    {t('common.cancel')}
+                </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>

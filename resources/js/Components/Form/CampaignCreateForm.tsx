@@ -1,7 +1,9 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
-import {Autocomplete, ErrorText, Select} from 'Components'
+import {useUser} from '@Utils/index'
+import {Autocomplete, ErrorText, Link, Select} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
@@ -36,17 +38,26 @@ const CampaignCreateForm = ({
     adventures,
     characters,
 }: CampaignCreateFormPropType) => {
+    const {t} = useTranslation()
+
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
         title: undefined,
         character_id: null,
         adventure: undefined,
     }
+
+    const {getUserId} = useUser()
+
+    const userCharacters =
+        editData?.characters.filter((c) => c.user_id === getUserId()) || []
+    const defaultCharacterId = userCharacters.length > 0 ? userCharacters[0].id : null
+
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
         type === 'Create'
             ? CAMPAIGN_CREATE_FORM_INITIAL_VALUE
             : {
                   title: editData?.title,
-                  character_id: editData?.characters[0].id || null,
+                  character_id: defaultCharacterId,
                   adventure: editData?.adventure || undefined,
               }
 
@@ -57,9 +68,7 @@ const CampaignCreateForm = ({
         <Grid>
             <Grid justifyContent='flex-start' container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography>
-                        Fill out the following fields with your campaign details.
-                    </Typography>
+                    <Typography>{t('campaign.fill-out-fields')}</Typography>
                 </Grid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <TextField
@@ -75,6 +84,7 @@ const CampaignCreateForm = ({
                 {type === 'Create' && <StyledGrid item md={2} />}
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Select
+                        hasNoneOption
                         id='character_id'
                         label='Assigned Character'
                         name='Assigned Character'
@@ -108,9 +118,17 @@ const CampaignCreateForm = ({
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        Cancel
-                    </Button>
+                    {type === 'Create' ? (
+                        <Link href={route('campaign.index')}>
+                            <Button fullWidth>{t('common.cancel')}</Button>
+                        </Link>
+                    ) : (
+                        <Button
+                            onClick={() => onCloseDrawer && onCloseDrawer()}
+                            fullWidth>
+                            {t('common.cancel')}
+                        </Button>
+                    )}
                 </Grid>
                 <Grid item xs={4} />
                 <Grid item xs={4}>

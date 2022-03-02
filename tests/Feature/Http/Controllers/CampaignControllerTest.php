@@ -5,12 +5,14 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
+use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Tests\TestCase;
 
 /**
@@ -134,7 +136,22 @@ class CampaignControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $campaign = Campaign::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $entries = Entry::factory(3)->state([
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id
+        ]);
+        $character = Character::factory()
+            ->has($entries)
+            ->state([
+                'user_id' => $this->user->id
+            ]);
+        $campaign = Campaign::factory()->has($character)->create([
+            'adventure_id' => $adventure->id
+        ]);
+        $campaign->entries()->saveMany(Entry::all());
+
+
         $response = $this->get(route('campaign.show', $campaign));
 
         $response->assertOk();
@@ -142,6 +159,7 @@ class CampaignControllerTest extends TestCase
             fn (Assert $page) => $page
                 ->component('Campaign/Detail/CampaignDetail')
                 ->has('campaign')
+                ->has('userCharacter')
         );
     }
 
@@ -179,19 +197,24 @@ class CampaignControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
+        $newCharacter = Character::factory()->create([
+           'user_id' => $this->user->id
+        ]);
 
         $response = $this->put(route('campaign.update', $campaign), [
             'adventure_id' => $adventure->id,
+            'character_id' => $newCharacter->id,
             'title' => $title,
         ]);
 
         $campaign->refresh();
 
-        $response->assertRedirect(route('campaign.index'));
+        $response->assertRedirect();
         $response->assertSessionHas('campaign.id', $campaign->id);
 
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
+        $this->assertContains($newCharacter->id, $campaign->characters->pluck('id'));
     }
 
     /**

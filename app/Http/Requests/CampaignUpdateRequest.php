@@ -26,6 +26,16 @@ class CampaignUpdateRequest extends FormRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
+            'character_id' => ['sometimes', 'integer', 'exists:characters,id']
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($adventure = $this->get('adventure')) {
+            $this->merge([
+                'adventure_id' => $adventure['id']
+            ]);
+        }
     }
 }

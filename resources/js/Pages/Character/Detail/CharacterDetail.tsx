@@ -15,19 +15,20 @@ import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 import {getFontTheme} from 'Utils'
 
 type CharacterDetailPropType = {
     character: CharacterData
+    characters: CharacterData[]
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
-    gameMasters: any[]
+    gameMasters: GameMasterData[]
     campaigns: {
         id: number
         title: string
     }[]
-    characters: CharacterData[]
 }
 
 const CharacterDetail = ({
@@ -94,7 +95,7 @@ const CharacterDetail = ({
                         />
                     )
                 }
-                title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
+                title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
             />

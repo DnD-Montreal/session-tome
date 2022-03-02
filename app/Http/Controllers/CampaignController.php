@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CampaignStoreRequest;
 use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
+use App\Models\Entry;
 use App\Models\User;
 use App\Models\Character;
 use App\Models\Adventure;
@@ -25,16 +26,15 @@ class CampaignController extends Controller
         ]);
         $search = $data['search'] ?? '';
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        $campaigns = Auth::user()
-            ->campaigns()
-            ->get();
+        $campaigns = Auth::user()->campaigns()->get();
         $campaigns->load('characters')->where('user_id', Auth::user()->id);
         $campaigns->load('adventure');
-        $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
-        return Inertia::render(
-            'Campaign/Campaign',
-            compact('campaigns', 'characters', 'adventures')
-        );
+
+        return Inertia::render('Campaign/Campaign', [
+            'campaigns' => $campaigns,
+            'characters' => $characters,
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code'])
+        ]);
     }
 
     /**
@@ -49,10 +49,7 @@ class CampaignController extends Controller
         $search = $data['search'] ?? '';
         $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        return Inertia::render(
-            'Campaign/Create/CampaignCreate',
-            compact('characters', 'adventures')
-        );
+        return Inertia::render('Campaign/Create/CampaignCreate', compact('characters', 'adventures'));
     }
 
     /**
@@ -87,13 +84,27 @@ class CampaignController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Campaign $campaign)
     {
-        $campaign = $campaign->load('entries');
+        $campaign = $campaign->load('characters', 'adventure');
+        $userCharacter = $campaign->characters()
+            ->where('user_id', Auth::id())
+            ->with(['entries' => function ($q) use ($campaign) {
+                return $q->where('campaign_id', $campaign->id);
+            }, 'entries.adventure'])
+            ->first();
+        $characters = Auth::user()->characters;
+        $search = $request->get('search', "");
 
-        return Inertia::render('Campaign/Detail/CampaignDetail', compact('campaign'));
+        return Inertia::render('Campaign/Detail/CampaignDetail', [
+            'campaign' => $campaign,
+            'userCharacter' => $userCharacter,
+            'characters' => $characters,
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
+        ]);
     }
 
     /**
@@ -113,11 +124,20 @@ class CampaignController extends Controller
      */
     public function update(CampaignUpdateRequest $request, Campaign $campaign)
     {
-        $campaign->update($request->validated());
+        $data = $request->validated();
+
+        if (isset($data['character_id'])) {
+            $playerCharacters = $campaign->characters()
+                ->where('user_id', "!=", Auth::id())
+                ->pluck('id');
+            $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
+        }
+
+        $campaign->update($data);
 
         $request->session()->flash('campaign.id', $campaign->id);
 
-        return redirect()->route('campaign.index');
+        return redirect()->back();
     }
 
     /**

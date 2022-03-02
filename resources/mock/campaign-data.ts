@@ -19,6 +19,16 @@ export const campaignData = [
                 user_id: 1,
             },
         ],
+        adventure: [
+            {
+                code: 'XYZ123',
+                created_at: '',
+                description: 'hi',
+                id: 1,
+                title: 'adventure 1',
+                updated_at: '',
+            },
+        ],
     },
     {
         title: 'campaign2',
