@@ -87,4 +87,34 @@ class EventRegistrationControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseCount('character_session', 1);
     }
+
+    /**
+     * @test
+     */
+    public function destroy_detaches_session_from_character()
+    {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+        $session = Session::factory()->create();
+
+        $character->sessions()->attach($session);
+        $session->characters()->attach($character);
+
+        $invalid_user = User::factory()->create();
+
+        $response_invalid = $this->actingAs($invalid_user)->delete(route('event-registration.destroy', $session), [
+            'character_id' => $character->id
+        ]);
+
+        $response_invalid->assertRedirect();
+        $response_invalid->assertSessionHasErrors();
+
+        $response = $this->actingAs($this->user)->delete(route('event-registration.destroy', $session), [
+            'character_id' => $character->id
+        ]);
+
+        $response->assertRedirect();
+        $this->assertNotContains($session, $character->sessions);
+    }
 }
