@@ -28,13 +28,12 @@ class AdventuresLeagueImportController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('logs')) {
-            $character = AdventuresLeague::getCharacter($request->file('logs')->getRealPath());
-            if (is_null($character)) {
-                return back()->withException(new \Exception("Adventure's League Log File Error: Export File Format Changed", 400));
+            try {
+                $character = AdventuresLeague::getCharacter($request->file('logs')->getRealPath());
+            } catch (\Exception $e) {
+                return back()->withException($e);
             }
-
             $character->save();
-
             return redirect(route('character.show', ['character' => $character->refresh()->load('entries')]));
         } else {
             return back()->withException(new \Exception("Adventure's League Log File Error", 400));
