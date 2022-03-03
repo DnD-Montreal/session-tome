@@ -42,6 +42,8 @@ class Session extends Model
         'end_time' => 'datetime',
     ];
 
+    protected $appends = ['seats_left', 'seats_taken'];
+
     protected $with = ['event'];
 
     public function characters()
@@ -77,6 +79,16 @@ class Session extends Model
     public function getOpenSeatsAttribute()
     {
         return $this->seats - $this->characters()->count();
+    }
+
+    public function getSeatsLeftAttribute()
+    {
+        return $this->attributes['seats'] - $this->seats_taken;
+    }
+
+    public function getSeatsTakenAttribute()
+    {
+        return $this->characters()->count();
     }
 
     public function scopeHasOpenSeats(Builder $q, $eventId = null)
