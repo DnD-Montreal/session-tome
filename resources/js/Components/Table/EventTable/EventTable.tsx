@@ -16,10 +16,10 @@ const EventTable = ({data}: EventTablePropType) => {
 
     const columns = [
         {
-            property: 'created_at',
+            property: 'scheduled_dates',
             title: t('tableColumn.date'),
             render: (value: string) => (
-                <Typography>{dayjs(value).format('LLL')}</Typography>
+                <Typography>{dayjs(value[0]).format('LLL')}</Typography>
             ),
         },
         {
