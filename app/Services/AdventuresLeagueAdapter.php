@@ -38,7 +38,7 @@ class AdventuresLeagueAdapter
 
         // Check if export format is what we expect
         if ($data[0] != "name,race,class_and_levels,faction,background,lifestyle,portrait_url,publicly_visible") {
-            return null;
+            throw new \Exception("Adventure's League Log File Error: Export File Format Changed", 400);
         }
 
         // Separate lines into cells
