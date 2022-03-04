@@ -38,7 +38,7 @@ class Campaign extends Model
 
     public function users()
     {
-        return $this->belongsToMany(\App\Models\User::class)->withPivot('is_dm');
+        return $this->belongsToMany(\App\Models\User::class)->withPivot(['is_dm', 'is_owner']);
     }
 
     public function entries()

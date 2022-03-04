@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {DmEntryCreateForm} from 'Components'
-import {ApplicationLayout} from 'Layouts'
 import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
@@ -26,6 +25,5 @@ const DmEntryCreate = ({adventures, characters}: DmEntryCreateType) => {
 }
 
 DmEntryCreate.displayName = 'DmEntryCreate'
-DmEntryCreate.layout = (page: any) => <ApplicationLayout>{page}</ApplicationLayout>
 
 export default DmEntryCreate
