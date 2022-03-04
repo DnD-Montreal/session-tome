@@ -12,4 +12,8 @@ export type EventData = {
     created_at: string
     participation: string
     sessions: SessionData[]
+    scheduled_dates: string[]
+    total_seats: number
+    seats_left: number
+    seats_taken: number
 }

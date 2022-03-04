@@ -101,7 +101,8 @@
     },
     "eventDetail": {
         "event-title": "Titre de l'évènement",
-        "date": "Date",
+        "start-date": "Date de début",
+        "end-date": "Date de fin",
         "league": "Ligue",
         "location": "Emplacement",
         "total-spots": "Nombre total de places",

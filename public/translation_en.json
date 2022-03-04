@@ -101,7 +101,8 @@
     },
     "eventDetail": {
         "event-title": "Event Title",
-        "date": "Date",
+        "start-date": "Start Date",
+        "end-date": "End Date",
         "league": "League",
         "location": "Location",
         "total-spots": "Total Spots",

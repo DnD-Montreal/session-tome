@@ -1,6 +1,6 @@
 import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
-import {SessionTable} from 'Components'
+import {EventDetailBox, SessionTable} from 'Components'
 import React from 'react'
 // import {useTranslation} from 'react-i18next'
 // import {CharacterData} from 'Types/character-data'
@@ -21,6 +21,7 @@ const EventDetail = ({
 
     return (
         <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+            <EventDetailBox event={event} />
             <SessionTable data={event.sessions} />
         </ThemeProvider>
     )
