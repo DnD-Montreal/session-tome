@@ -9,8 +9,10 @@
     "campaign": {
         "edit-campaign": "Modifier Campagne",
         "delete-message": "Êtes-vous certain de vouloir supprimer cette/ces campagne(s)?",
-        "enter-invite-code": "Veullez entrer le code de la campagne.",
-        "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre campagne."
+        "enter-invite-code": "Veuillez entrer le code de la campagne.",
+        "fill-out-fields": "Veuillez remplier les champs suivants avec les détails de votre campagne.",
+        "select-character-kick": "Veuillez selectionner un personnage pour l'enlever de la campagne."
+
     },
     "campaignDetail":{
         "campaign-title": "TITRE DE LA CAMPAGNE",
@@ -68,7 +70,8 @@
         "search": "Recherche",
         "or": "OU",
         "join": "Joindre",
-        "none": "Aucun"
+        "none": "Aucun",
+        "kick": "Expulsion"
     },
     "component": {
         "no-data": "Aucune donnée...",
