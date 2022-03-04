@@ -53,4 +53,26 @@ class CampaignRegistrationController extends Controller
 
         return redirect('campaign.index');
     }
+
+    public function destroy(Request $request, Campaign $campaign)
+    {
+        $data = $request->validate([
+            'user_id' => 'sometimes|array'
+        ]);
+
+        $user = Auth::user();
+        $is_dm = $campaign->users()->where('user_id', $user->id)->first()->pivot->is_dm;
+
+        if ($request->has('user_id') && $is_dm) {
+            $campaignCharacters = $campaign->characters()->whereIn('user_id', $data['user_id'])->get();
+
+            $campaign->users()->detach($data['user_id']);
+            $campaign->characters()->detach($campaignCharacters);
+
+            $campaign->code = $campaign->generateCode();
+            $campaign->save();
+        }
+
+        return redirect('campaign.index');
+    }
 }
