@@ -3,7 +3,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CreateIcon from '@mui/icons-material/Create'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Alert, Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
-import {Link} from 'Components'
+import {CampaignKickModal, Link} from 'Components'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -28,6 +28,7 @@ const CampaignDetailBox = ({
     setIsEditDrawerOpen,
 }: CampaignDetailBoxPropType) => {
     const {t} = useTranslation()
+    const [isKickModalOpen, setIsKickModalOpen] = useState<boolean>(false)
     const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
 
     return (
@@ -38,6 +39,13 @@ const CampaignDetailBox = ({
                 onClose={() => setOpenInviteSnackbar(false)}>
                 <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
             </Snackbar>
+
+            <CampaignKickModal
+                open={isKickModalOpen}
+                onClose={() => setIsKickModalOpen(false)}
+                message={t('campaign.select-character-kick')}
+                campaign={campaign}
+            />
 
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6}>
@@ -106,6 +114,14 @@ const CampaignDetailBox = ({
                                     {t('common.dm-entry')}
                                 </Button>
                             </Link>
+                            <Button
+                                variant='contained'
+                                startIcon={<AutoStoriesIcon fontSize='small' />}
+                                onClick={() => {
+                                    setIsKickModalOpen(true)
+                                }}>
+                                {t('common.kick')}
+                            </Button>
                         </Stack>
                     </Grid>
                 </Grid>
