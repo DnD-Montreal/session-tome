@@ -10,10 +10,10 @@
         {
             "files": ["**/*.d.ts"],
             "parser": "@typescript-eslint/parser",
-            "plugins": ["@typescript-eslint"]
+            "plugins": ["@typescript-eslint", "plugin:@typescript-eslint/recommended"]
         }
     ],
-    "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -27,7 +27,7 @@
         "node": true,
         "jest": true
     },
-    "extends": ["airbnb", "prettier", "plugin:cypress/recommended"],
+    "extends": ["airbnb", "prettier", "plugin:cypress/recommended", "eslint:recommended"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -144,6 +144,9 @@
             }
         ],
         "semi-style": ["error", "last"],
-        "camelcase": "off"
+        "camelcase": "off",
+        // note you must disable the base rule as it can report incorrect errors
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"]
     }
 }
