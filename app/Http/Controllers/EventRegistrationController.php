@@ -63,4 +63,25 @@ class EventRegistrationController extends Controller
 
         return redirect('character.index');
     }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Event $event
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Session $session)
+    {
+        $data = $request->validate([
+            'character_id' => 'required|exists:characters,id|integer'
+        ]);
+        $character = Character::findOrFail($data['character_id']);
+
+        if ($character->user->id == Auth::user()->id && $character->sessions->contains($session)) {
+            $character->sessions()->detach($session);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Invalid deregistration. User must own character and be registered for session.']);
+        }
+
+        return redirect()->back();
+    }
 }

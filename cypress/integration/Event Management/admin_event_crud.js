@@ -18,15 +18,10 @@ describe('Admin Event CRUD Test Suite', () => {
         cy.wait('@last_url')
     })
 
-    afterEach(() => {
-        cy.url().then((urlString) => {
-            last_url = urlString
-        })
-    })
-
     it('Event Index', () => {
         cy.contains('Events').click()
         cy.get('table[id="crudTable"]')
+        last_url = `${Cypress.config('baseUrl')}/admin/event/`
     })
 
     it('Event Creation', () => {
