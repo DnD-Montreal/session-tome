@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ImportException;
 use App\Facades\AdventuresLeague;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,7 +31,7 @@ class AdventuresLeagueImportController extends Controller
         if ($request->hasFile('logs')) {
             try {
                 $character = AdventuresLeague::getCharacter($request->file('logs')->getRealPath());
-            } catch (\Exception $e) {
+            } catch (ImportException $e) {
                 return back()->withException($e);
             }
             $character->save();
