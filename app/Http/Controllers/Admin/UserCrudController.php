@@ -15,8 +15,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class UserCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use Accessible;
@@ -62,7 +62,24 @@ class UserCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('email');
-        CRUD::field('roles');
+//        CRUD::field('roles');
+        CRUD::field('roles_list')
+            ->type('repeatable')
+            ->label('Roles')
+            ->fields([
+                [
+                    'name' => 'role_id',
+                    'type' => 'select2',
+                    'model' => 'App\Models\Role',
+                    'attribute' => 'name'
+                ],
+                [
+                    'name' => 'league_id',
+                    'type' => 'select2',
+                    'model' => 'App\Models\League',
+                    'attribute' => 'name'
+                ]
+            ]);
         CRUD::field('leagues');
         CRUD::field('characters');
     }
@@ -76,5 +93,27 @@ class UserCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function store()
+    {
+        $roles = collect(json_decode(request('roles_list'), true));
+
+        $response = $this->traitStore();
+
+        $this->crud->entry->roles()->sync($roles);
+
+        return $response;
+    }
+
+    public function update()
+    {
+        $roles = collect(json_decode(request('roles_list'), true));
+
+        $response = $this->traitUpdate();
+
+        $this->crud->entry->roles()->sync($roles);
+
+        return $response;
     }
 }
