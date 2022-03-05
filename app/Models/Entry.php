@@ -135,8 +135,8 @@ class Entry extends Model
         return self::REWARD_CAMPAIGN;
     }
 
-    public function getDungeonMasterAttribute()
+    public function getDungeonMasterAttribute($dmAttribute)
     {
-        return $this->dungeonMaster()->first() ?? $this->attributes['dungeon_master'] ?? null;
+        return $this->dungeonMaster()->first() ?? $dmAttribute ?? null;
     }
 }
