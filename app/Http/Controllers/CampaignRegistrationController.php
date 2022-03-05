@@ -61,9 +61,9 @@ class CampaignRegistrationController extends Controller
         ]);
 
         $user = Auth::user();
-        $is_dm = $campaign->users()->where('user_id', $user->id)->first()->pivot->is_dm;
+        $isCampaignOwner = $campaign->users()->where('user_id', $user->id)->first()->pivot->is_owner;
 
-        if ($request->has('user_id') && $is_dm) {
+        if ($request->has('user_id') && $isCampaignOwner) {
             $campaignCharacters = $campaign->characters()->whereIn('user_id', $data['user_id'])->get();
 
             $campaign->users()->detach($data['user_id']);
