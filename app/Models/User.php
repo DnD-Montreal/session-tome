@@ -173,4 +173,11 @@ class User extends Authenticatable implements AuthenticatableInterface
         }
         return $total;
     }
+
+    public function getRolesListAttribute()
+    {
+        return json_encode($this->roles->map(function ($role) {
+            return ['role_id' => $role->id, 'league_id' => $role->pivot->league_id];
+        }));
+    }
 }
