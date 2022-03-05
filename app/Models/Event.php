@@ -79,10 +79,7 @@ class Event extends Model
      */
     public function getIsRegisteredAttribute()
     {
-        return $this->load('sessions.characters:user_id')->sessions
-            ->pluck('characters.*.user_id')
-            ->flatten()
-            ->contains(Auth::id());
+        return self::whereRegistered()->get()->contains($this->attributes['id']);
     }
 
     public function getScheduledDatesAttribute()
