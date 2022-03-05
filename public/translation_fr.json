@@ -19,6 +19,11 @@
         "characters": "PERSONNAGES",
         "invite-copied": "Code d'invitation copié dans le presse-papier."
     },
+    "campaignJoin":{
+        "fill-out-fields_1": "Vous rejoingnez la campagne ",
+        "fill-out-fields_2": ". Veuillez remplier les champs suivants pour rejoindre la campagne.",
+        "no-character-alert": "Si aucun personnage est selectionné, il est assumé que vous êtes le maître de jeu."
+    },
     "characterDetail": {
         "name": "NOM",
         "race": "RACE",
@@ -113,6 +118,7 @@
         "public": "Publique"
     },
     "form": {
+        "title": "Titre",
         "name": "Nom",
         "race": "Race",
         "class": "Classe",
@@ -140,7 +146,8 @@
             "weekly": "Une fois par semaine",
             "bi-monthly": "Une fois par deux semaines",
             "monthly": "Une fois par mois"
-        }
+        },
+        "adventure":"AVENTURE"
     },
     "itemDetail": {
         "name": "Nom",

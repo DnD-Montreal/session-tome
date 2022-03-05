@@ -9,11 +9,9 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {
-    ErrorText,
-    // Link
-} from 'Components'
+import {ErrorText} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import route from 'ziggy-js'
 
@@ -38,6 +36,7 @@ type CampaignJoinModalDataType = {
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
+    const {t} = useTranslation()
     const {data, setData, errors, clearErrors, get} = useForm<CampaignJoinModalDataType>({
         code: undefined,
     })
@@ -87,7 +86,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                             clearErrors()
                                         }
                                     }}>
-                                    JOIN
+                                    {t('common.join')}
                                 </Button>
                             </Grid>
                         </Grid>

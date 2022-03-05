@@ -71,7 +71,7 @@ const EntryTable = ({
         },
         {
             property: 'levels',
-            title: 'Level',
+            title: t('tableColumn.level'),
         },
         {
             property: 'gp',
@@ -79,7 +79,7 @@ const EntryTable = ({
         },
         {
             property: 'downtime',
-            title: 'Downtime',
+            title: t('tableColumn.downtime'),
         },
         {
             property: 'reward',

@@ -2,6 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Alert, Box, Button, Grid, Typography} from '@mui/material'
 import {ErrorText, Link, Select} from 'Components'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
@@ -29,6 +30,8 @@ const CampaignRegistrationForm = ({
     campaign,
     characters,
 }: CampaignRegistrationFormPropType) => {
+    const {t} = useTranslation()
+
     const {data, setData, errors, post} = useForm<CampaignRegistrationFormDataType>({
         character_id: null,
         code: campaign.code,
@@ -39,15 +42,16 @@ const CampaignRegistrationForm = ({
             <Grid container columnSpacing={5} rowSpacing={5}>
                 <Grid item xs={12} md={12}>
                     <Typography>
-                        You are joining the {campaign.title} campaign. Fill out the
-                        following fields to join the campaign.
+                        {t('campaignJoin.fill-out-fields_1')}
+                        {campaign.title}
+                        {t('campaignJoin.fill-out-fields_2')}
                     </Typography>
                 </Grid>
                 <Grid item container direction='row' columnSpacing={30}>
                     <Grid item xs={6} md={6}>
                         <Select
                             id='character_id'
-                            label='Assigned Character'
+                            label={t('form.assigned-character')}
                             name='Assigned Character'
                             value={data.character_id}
                             onChange={(e) =>
@@ -62,15 +66,14 @@ const CampaignRegistrationForm = ({
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <Alert severity='info'>
-                            If no character is selected, it is assumed that you are the
-                            Game Master.
+                            {t('campaignJoin.no-character-alert')}
                         </Alert>
                     </Grid>
                 </Grid>
                 <Grid item container spacing={4}>
                     <Grid item xs={4}>
                         <Link href={route('campaign.index')}>
-                            <Button fullWidth>Cancel</Button>
+                            <Button fullWidth>{t('common.cancel')}</Button>
                         </Link>
                     </Grid>
                     <Grid item xs={4} />
@@ -79,7 +82,7 @@ const CampaignRegistrationForm = ({
                             fullWidth
                             variant='contained'
                             onClick={() => post(route('campaign-registration.store'))}>
-                            Join
+                            {t('common.join')}
                         </Button>
                     </Grid>
                 </Grid>
