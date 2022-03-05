@@ -1,23 +1,20 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Alert, Box, Button, Grid, Typography} from '@mui/material'
-import {
-    ErrorText,
-    // Link,
-    Select,
-} from 'Components'
+import {ErrorText, Link, Select} from 'Components'
 import React from 'react'
-// mport route from 'ziggy-js'
 import styled from 'styled-components'
-// import {CampaignData} from 'Types/campaign-data'
+import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
+import route from 'ziggy-js'
 
 type CampaignRegistrationFormPropType = {
-    // campaign: CampaignData
+    campaign: CampaignData
     characters: CharacterData[]
 }
 
 type CampaignRegistrationFormDataType = {
     character_id: number | null
+    code: string
 }
 
 const FormBox = styled(Box)`
@@ -29,11 +26,12 @@ const FormBox = styled(Box)`
 `
 
 const CampaignRegistrationForm = ({
-    // campaign,
+    campaign,
     characters,
 }: CampaignRegistrationFormPropType) => {
-    const {data, setData, errors} = useForm<CampaignRegistrationFormDataType>({
+    const {data, setData, errors, post} = useForm<CampaignRegistrationFormDataType>({
         character_id: null,
+        code: campaign.code,
     })
 
     return (
@@ -41,9 +39,8 @@ const CampaignRegistrationForm = ({
             <Grid container columnSpacing={5} rowSpacing={5}>
                 <Grid item xs={12} md={12}>
                     <Typography>
-                        You are joining the
-                        {/* ${campaign.title}  */}
-                        campaign. Fill out the following fields to join the campaign
+                        You are joining the {campaign.title} campaign. Fill out the
+                        following fields to join the campaign.
                     </Typography>
                 </Grid>
                 <Grid item container direction='row' columnSpacing={30}>
@@ -72,17 +69,18 @@ const CampaignRegistrationForm = ({
                 </Grid>
                 <Grid item container spacing={4}>
                     <Grid item xs={4}>
-                        {/* <Link href={route('campaign.show')}> */}
-                        <Button fullWidth>Cancel</Button>
-                        {/* </Link> */}
+                        <Link href={route('campaign.index')}>
+                            <Button fullWidth>Cancel</Button>
+                        </Link>
                     </Grid>
                     <Grid item xs={4} />
                     <Grid item xs={4}>
-                        {/* <Link href={route('campaign-registration.store')}> */}
-                        <Button fullWidth variant='contained'>
+                        <Button
+                            fullWidth
+                            variant='contained'
+                            onClick={() => post(route('campaign-registration.store'))}>
                             Join
                         </Button>
-                        {/* </Link> */}
                     </Grid>
                 </Grid>
             </Grid>

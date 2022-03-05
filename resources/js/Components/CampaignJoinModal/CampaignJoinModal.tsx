@@ -38,11 +38,9 @@ type CampaignJoinModalDataType = {
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
-    const {data, setData, errors, clearErrors, post} = useForm<CampaignJoinModalDataType>(
-        {
-            code: undefined,
-        },
-    )
+    const {data, setData, errors, clearErrors, get} = useForm<CampaignJoinModalDataType>({
+        code: undefined,
+    })
     return (
         <Modal
             open={open}
@@ -77,14 +75,14 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                 {errors?.code && <ErrorText message={errors?.code} />}
                             </Grid>
                             <Grid item xs={12} md={3}>
-                                {/* For testing CampaignRegistrationForm */}
-                                {/* <Link href={route('campaign-registration.create')}>
-                                    <Button fullWidth>Test</Button>
-                                </Link> */}
                                 <Button
                                     variant='outlined'
                                     onClick={() => {
-                                        post(route('campaign-registration.store'))
+                                        get(
+                                            route('campaign-registration.create').concat(
+                                                `?code=${data.code}`,
+                                            ),
+                                        )
                                         if (!errors) {
                                             clearErrors()
                                         }
