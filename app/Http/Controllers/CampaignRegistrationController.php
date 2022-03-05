@@ -51,6 +51,6 @@ class CampaignRegistrationController extends Controller
             $user->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
         }
 
-        return redirect(route('campaign.index'));
+        return redirect()->route('campaign.index');
     }
 }
