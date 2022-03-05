@@ -17,7 +17,7 @@ import route from 'ziggy-js'
 
 const StyledBox = styled(Box)`
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 24px;
