@@ -87,6 +87,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         'attach-entry-to-character' => 'character'
         ])->only('update');
 
+    Route::delete('/registration/{session}', [App\Http\Controllers\EventRegistrationController::class, 'destroy'])
+        ->name("event-registration.destroy");
+
     Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
         ->only('store');
 
