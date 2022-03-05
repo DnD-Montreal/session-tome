@@ -112,11 +112,11 @@ class CampaignRegistrationControllerTest extends TestCase
      */
     public function delete_user_and_character_from_a_campaign_as_a_campaign_owner()
     {
-        $user = User::factory()->create();
+        $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
         $character = Character::factory()->create([
-            'user_id' => $user->id
+            'user_id' => $user1->id
         ]);
 
         $character2 = Character::factory()->create([
@@ -126,7 +126,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $this->user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => true]);
-        $user->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
+        $user1->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
         $user2->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => false]);
 
         $campaign->characters()->attach($character);
@@ -151,11 +151,11 @@ class CampaignRegistrationControllerTest extends TestCase
      */
     public function delete_user_and_character_from_a_campaign_without_being_a_campaign_owner()
     {
-        $user = User::factory()->create();
+        $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
         $character = Character::factory()->create([
-            'user_id' => $user->id
+            'user_id' => $user1->id
         ]);
 
         $character2 = Character::factory()->create([
@@ -165,7 +165,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $this->user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => false]);
-        $user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => true]);
+        $user1->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => true]);
         $user2->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
 
         $campaign->characters()->attach($character);
@@ -178,7 +178,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseCount('campaign_user', 3);
         $this->assertDatabaseCount('campaign_character', 2);
-        $this->assertDatabaseHas('campaign_user', ['user_id' => $user->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => true]);
+        $this->assertDatabaseHas('campaign_user', ['user_id' => $user1->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => true]);
         $this->assertDatabaseHas('campaign_user', ['user_id' => $user2->id, 'campaign_id' => $campaign->id, 'is_dm' => true, 'is_owner' => false]);
         $this->assertDatabaseHas('campaign_user', ['user_id' => $this->user->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => false]);
         $this->assertEquals($campaign->code, Campaign::first()->code);
