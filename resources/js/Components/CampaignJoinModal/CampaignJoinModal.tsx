@@ -66,7 +66,7 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                 <TextField
                                     fullWidth
                                     id='invite-code'
-                                    label='Invite Code'
+                                    label={t('campaignJoin.invite-code')}
                                     variant='outlined'
                                     value={data.code}
                                     onChange={(e) => setData('code', e.target.value)}

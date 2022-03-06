@@ -20,6 +20,7 @@
         "invite-copied": "Code d'invitation copié dans le presse-papier."
     },
     "campaignJoin":{
+        "invite-code": "Code d'invitation",
         "fill-out-fields_1": "Vous rejoingnez la campagne ",
         "fill-out-fields_2": ". Veuillez remplier les champs suivants pour rejoindre la campagne.",
         "no-character-alert": "Si aucun personnage est selectionné, il est assumé que vous êtes le maître de jeu."
@@ -147,7 +148,7 @@
             "bi-monthly": "Une fois par deux semaines",
             "monthly": "Une fois par mois"
         },
-        "adventure":"AVENTURE"
+        "adventure":"Aventure"
     },
     "itemDetail": {
         "name": "Nom",

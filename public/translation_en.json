@@ -20,6 +20,7 @@
         "invite-copied": "Invite code copied to clipboard."
     },
     "campaignJoin":{
+        "invite-code": "Invite Code",
         "fill-out-fields_1": "You are joining the ",
         "fill-out-fields_2": " campaign. Fill out the following fields to join the campaign.",
         "no-character-alert": "If no character is selected, it is assumed that you are the Game Master."
@@ -147,7 +148,7 @@
             "bi-monthly": "Once per 2 weeks",
             "monthly": "Once per month"
         },
-        "adventure":"ADVENTURE"
+        "adventure":"Adventure"
     },
     "itemDetail": {
         "name": "Name",
