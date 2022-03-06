@@ -1,5 +1,5 @@
 import {Typography} from '@mui/material'
-import {DataTable} from 'Components'
+import {Button, DataTable} from 'Components'
 import dayjs from 'dayjs'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
@@ -10,9 +10,11 @@ import {SessionData} from 'Types/session-data'
 
 type SessionPropType = {
     data: SessionData[]
+    setSessionID: any
+    setIsRegisterOpen: any
 }
 
-const SessionTable = ({data}: SessionPropType) => {
+const SessionTable = ({data, setSessionID, setIsRegisterOpen}: SessionPropType) => {
     const {t} = useTranslation()
 
     const columns = [
@@ -51,6 +53,32 @@ const SessionTable = ({data}: SessionPropType) => {
         {
             property: 'seats_left',
             title: t('tableColumn.seats-left'),
+        },
+        {
+            property: 'is_registered',
+            title: t('tableColumn.actions'),
+            render: (value: boolean, row: SessionData) =>
+                value ? (
+                    <Button
+                        color='error'
+                        onClick={() => {
+                            setSessionID('session_id', row.id)
+                            setIsRegisterOpen(true)
+                        }}
+                        variant='contained'>
+                        {t('common.leave')}
+                    </Button>
+                ) : (
+                    <Button
+                        color='primary'
+                        onClick={() => {
+                            setSessionID('session_id', row.id)
+                            setIsRegisterOpen(true)
+                        }}
+                        variant='contained'>
+                        {t('common.register')}
+                    </Button>
+                ),
         },
     ]
 

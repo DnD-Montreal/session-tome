@@ -10,4 +10,5 @@ export type SessionData = {
     seats_left: number
     seats_taken: number
     table: number
+    is_registered: boolean
 }

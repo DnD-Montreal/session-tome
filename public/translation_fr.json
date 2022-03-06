@@ -110,7 +110,8 @@
         "total-spots-left": "Nombre total de places restants",
         "description": "Description",
         "registered-sessions": "Sessions inscrits",
-        "registration-message": "Veuillez choisir un personnage pour cette session."
+        "registration-message": "Veuillez choisir un personnage pour cette session.",
+        "leave-message": "Êtes-vous sûr de vouloir quitter cette session?"
     },
     "form": {
         "name": "Nom",
