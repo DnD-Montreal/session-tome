@@ -42,7 +42,11 @@ class Session extends Model
         'end_time' => 'datetime',
     ];
 
-    protected $appends = ['seats_left', 'seats_taken'];
+    protected $appends = [
+        'seats_left',
+        'seats_taken',
+        'is_registered',
+    ];
 
     protected $with = ['event'];
 
