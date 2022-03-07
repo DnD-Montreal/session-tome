@@ -33,12 +33,14 @@ type CampaignJoinModalPropType = {
 
 type CampaignJoinModalDataType = {
     code: string | undefined
+    link: string | undefined
 }
 
 const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
     const {t} = useTranslation()
     const {data, setData, errors, clearErrors, get} = useForm<CampaignJoinModalDataType>({
         code: undefined,
+        link: undefined,
     })
     return (
         <Modal
@@ -68,8 +70,15 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
                                     id='invite-code'
                                     label={t('campaignJoin.invite-code')}
                                     variant='outlined'
-                                    value={data.code}
-                                    onChange={(e) => setData('code', e.target.value)}
+                                    value={data.link}
+                                    onChange={(e) =>
+                                        setData(
+                                            'code',
+                                            e.target.value.substring(
+                                                e.target.value.indexOf('=') + 1,
+                                            ),
+                                        )
+                                    }
                                 />
                                 {errors?.code && <ErrorText message={errors?.code} />}
                             </Grid>
