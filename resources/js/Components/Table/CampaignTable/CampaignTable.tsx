@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoom'
-import {Box, Button, IconButton} from '@mui/material'
+import {Alert, Box, Button, IconButton, Snackbar} from '@mui/material'
 import {objectArrayFormatter} from '@Utils/formatter'
 import {CampaignJoinModal, DataTable, DeleteModal, Link} from 'Components'
 import React, {useState} from 'react'
@@ -32,6 +32,7 @@ const CampaignTable = ({
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false)
+    const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
     const {
         data: formData,
         setData,
@@ -70,6 +71,17 @@ const CampaignTable = ({
         {
             property: 'code',
             title: t('tableColumn.code'),
+            render: (value: string) => (
+                <Button
+                    style={{textTransform: 'none'}}
+                    color='info'
+                    onClick={() => {
+                        navigator.clipboard.writeText(value)
+                        setOpenInviteSnackbar(true)
+                    }}>
+                    {value}
+                </Button>
+            ),
         },
         {
             property: null,
@@ -111,10 +123,16 @@ const CampaignTable = ({
                     }
                 }}
             />
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openInviteSnackbar}
+                autoHideDuration={3000}
+                onClose={() => setOpenInviteSnackbar(false)}>
+                <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
+            </Snackbar>
             <CampaignJoinModal
                 open={isJoinModalOpen}
                 onClose={() => setIsJoinModalOpen(false)}
-                message={t('campaign.enter-invite-code')}
             />
             <DataTable
                 leftActions={leftActions}

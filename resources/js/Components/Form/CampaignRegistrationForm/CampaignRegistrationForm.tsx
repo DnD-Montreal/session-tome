@@ -1,23 +1,21 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Alert, Box, Button, Grid, Typography} from '@mui/material'
-import {
-    ErrorText,
-    // Link,
-    Select,
-} from 'Components'
+import {ErrorText, Link, Select} from 'Components'
 import React from 'react'
-// mport route from 'ziggy-js'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-// import {CampaignData} from 'Types/campaign-data'
+import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
+import route from 'ziggy-js'
 
 type CampaignRegistrationFormPropType = {
-    // campaign: CampaignData
+    campaign: CampaignData
     characters: CharacterData[]
 }
 
 type CampaignRegistrationFormDataType = {
     character_id: number | null
+    code: string
 }
 
 const FormBox = styled(Box)`
@@ -28,12 +26,20 @@ const FormBox = styled(Box)`
     width: 65vw;
 `
 
+const StyledAlert = styled(Alert)`
+    background-color: inherit;
+    color: #ffffff;
+`
+
 const CampaignRegistrationForm = ({
-    // campaign,
+    campaign,
     characters,
 }: CampaignRegistrationFormPropType) => {
-    const {data, setData, errors} = useForm<CampaignRegistrationFormDataType>({
+    const {t} = useTranslation()
+
+    const {data, setData, errors, post} = useForm<CampaignRegistrationFormDataType>({
         character_id: null,
+        code: campaign.code,
     })
 
     return (
@@ -41,16 +47,18 @@ const CampaignRegistrationForm = ({
             <Grid container columnSpacing={5} rowSpacing={5}>
                 <Grid item xs={12} md={12}>
                     <Typography>
-                        You are joining the
-                        {/* ${campaign.title}  */}
-                        campaign. Fill out the following fields to join the campaign
+                        {t('campaignJoin.fill-out-fields_1')}
+                        {campaign.title}
+                        {t('campaignJoin.fill-out-fields_2')}
                     </Typography>
                 </Grid>
                 <Grid item container direction='row' columnSpacing={30}>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={12}>
                         <Select
+                            fullWidth={false}
+                            style={{width: '50%'}}
                             id='character_id'
-                            label='Assigned Character'
+                            label={t('form.assigned-character')}
                             name='Assigned Character'
                             value={data.character_id}
                             onChange={(e) =>
@@ -63,26 +71,26 @@ const CampaignRegistrationForm = ({
                             <ErrorText message={errors?.character_id} />
                         )}
                     </Grid>
-                    <Grid item xs={6} md={6}>
-                        <Alert severity='info'>
-                            If no character is selected, it is assumed that you are the
-                            Game Master.
-                        </Alert>
+                    <Grid item xs={12}>
+                        <StyledAlert severity='info'>
+                            {t('campaignJoin.no-character-alert')}
+                        </StyledAlert>
                     </Grid>
                 </Grid>
                 <Grid item container spacing={4}>
                     <Grid item xs={4}>
-                        {/* <Link href={route('campaign.show')}> */}
-                        <Button fullWidth>Cancel</Button>
-                        {/* </Link> */}
+                        <Link href={route('campaign.index')}>
+                            <Button fullWidth>{t('common.cancel')}</Button>
+                        </Link>
                     </Grid>
                     <Grid item xs={4} />
                     <Grid item xs={4}>
-                        {/* <Link href={route('campaign-registration.store')}> */}
-                        <Button fullWidth variant='contained'>
-                            Join
+                        <Button
+                            fullWidth
+                            variant='contained'
+                            onClick={() => post(route('campaign-registration.store'))}>
+                            {t('common.join')}
                         </Button>
-                        {/* </Link> */}
                     </Grid>
                 </Grid>
             </Grid>

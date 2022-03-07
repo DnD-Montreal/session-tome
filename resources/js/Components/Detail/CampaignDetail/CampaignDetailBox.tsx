@@ -33,12 +33,12 @@ const CampaignDetailBox = ({
     return (
         <>
             <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 open={openInviteSnackbar}
                 autoHideDuration={3000}
                 onClose={() => setOpenInviteSnackbar(false)}>
                 <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
             </Snackbar>
-
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6}>
                     <Grid item xs={12}>
@@ -74,7 +74,11 @@ const CampaignDetailBox = ({
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={() => {
-                                    navigator.clipboard.writeText(campaign.code)
+                                    navigator.clipboard.writeText(
+                                        route('campaign-registration.create', [
+                                            campaign.code,
+                                        ]),
+                                    )
                                     setOpenInviteSnackbar(true)
                                 }}>
                                 {t('common.invite')}

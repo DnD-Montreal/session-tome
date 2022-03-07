@@ -31,7 +31,7 @@ class CampaignRegistrationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -51,6 +51,6 @@ class CampaignRegistrationController extends Controller
             $user->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
         }
 
-        return redirect('campaign.index');
+        return redirect()->route('campaign.index');
     }
 }

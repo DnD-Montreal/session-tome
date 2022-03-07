@@ -19,6 +19,13 @@
         "characters": "CHARACTERS",
         "invite-copied": "Invite code copied to clipboard."
     },
+    "campaignJoin":{
+        "invite-code": "Invite Code",
+        "fill-out-fields_1": "You are joining the ",
+        "fill-out-fields_2": " campaign. Fill out the following fields to join the campaign.",
+        "no-character-alert": "If no character is selected, it is assumed that you are the Game Master.",
+        "code-alert-text": "Invite link should look like:\nef9d66e2291"
+    },
     "characterDetail": {
         "name": "NAME",
         "race": "RACE",
@@ -113,6 +120,7 @@
         "public": "Public"
     },
     "form": {
+        "title": "Title",
         "name": "Name",
         "race": "Race",
         "class": "Class",
@@ -140,7 +148,8 @@
             "weekly": "Once per week",
             "bi-monthly": "Once per 2 weeks",
             "monthly": "Once per month"
-        }
+        },
+        "adventure":"Adventure"
     },
     "itemDetail": {
         "name": "Name",
@@ -193,7 +202,8 @@
         "tier": "Tier",
         "title": "Title",
         "characters": "Characters",
-        "code": "Code"
+        "code": "Code",
+        "gp": "GP"
     },
     "tableName": {
         "character": "Characters",

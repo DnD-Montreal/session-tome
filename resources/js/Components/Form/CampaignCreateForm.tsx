@@ -74,7 +74,7 @@ const CampaignCreateForm = ({
                     <TextField
                         fullWidth
                         id='title'
-                        label='Title'
+                        label={t('form.title')}
                         name='Title'
                         value={data.title}
                         onChange={(e) => setData('title', e.target.value)}
@@ -86,7 +86,7 @@ const CampaignCreateForm = ({
                     <Select
                         hasNoneOption
                         id='character_id'
-                        label='Assigned Character'
+                        label={t('form.assigned-character')}
                         name='Assigned Character'
                         value={data.character_id}
                         onChange={(e) =>
@@ -98,7 +98,7 @@ const CampaignCreateForm = ({
                 </StyledGrid>
                 <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                     <Autocomplete
-                        label='Adventure'
+                        label={t('form.adventure')}
                         id='adventures'
                         fieldKey='adventures'
                         onChange={(_, value) => setData('adventure', value)}
@@ -146,7 +146,7 @@ const CampaignCreateForm = ({
                                 }
                             }
                         }}>
-                        {type === 'Create' ? 'Create' : 'Save'}
+                        {type === 'Create' ? t('common.create') : t('common.save')}
                     </Button>
                 </Grid>
                 {type === 'Create' && <StyledGrid item md={2} />}
