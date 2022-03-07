@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use App\Http\Controllers\TradeOfferController;
 
 require __DIR__ . '/auth.php';
 
@@ -54,6 +55,15 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('trade', App\Http\Controllers\TradeController::class);
 
+    Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
+        ->name("offer.destroy");
+
+    Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
+        ->name("offer.store");
+
+    Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
+        ->name("offer.create");
+
     Route::resource('event', App\Http\Controllers\EventController::class);
 
     Route::resource('session', App\Http\Controllers\SessionController::class);
@@ -76,6 +86,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('attach-entry-to-character', App\Http\Controllers\BulkAttachController::class)->parameters([
         'attach-entry-to-character' => 'character'
         ])->only('update');
+
+    Route::delete('/registration/{session}', [App\Http\Controllers\EventRegistrationController::class, 'destroy'])
+        ->name("event-registration.destroy");
 
     Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
         ->only('store');

@@ -128,6 +128,12 @@ const DmEntryCreateForm = ({
         }
     }, [wasSuccessful])
 
+    useEffect(() => {
+        if (errors) {
+            setActiveStep(0)
+        }
+    }, [errors])
+
     const stepTitles = [{label: t('entry.details')}, {label: t('entry.magic-items')}]
     const stepOneContent = (
         <Grid container spacing={2}>
