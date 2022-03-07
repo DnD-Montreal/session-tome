@@ -125,6 +125,15 @@ class User extends Authenticatable implements AuthenticatableInterface
     }
 
     /**
+     * Check if the user has league admin role with a league ID that is not null
+     * @return bool Returns true if the user has league admin role with a league ID that is not null
+     */
+    public function isLeagueAdminWithLeagueId(): bool
+    {
+        return $this->roles()->pluck('league_id')->whereNotNull()->count() > 0;
+    }
+
+    /**
      * Check if the user has league admin role on a particular league
      * @param  string $league_name name of league we want to check if user has admin role on
      * @return bool       Returns true if the user has a league admin role for the given league
@@ -168,5 +177,12 @@ class User extends Authenticatable implements AuthenticatableInterface
             }
         }
         return $total;
+    }
+
+    public function getRolesListAttribute()
+    {
+        return json_encode($this->roles->map(function ($role) {
+            return ['role_id' => $role->id, 'league_id' => $role->pivot->league_id];
+        }));
     }
 }
