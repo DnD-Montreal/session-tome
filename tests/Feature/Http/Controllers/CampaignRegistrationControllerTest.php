@@ -137,8 +137,6 @@ class CampaignRegistrationControllerTest extends TestCase
                 'user_id' => [$character->user_id, $character2->user_id]
         ]);
 
-
-
         $response->assertRedirect();
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 0);
