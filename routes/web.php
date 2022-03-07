@@ -98,10 +98,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->middleware('admin');
 
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
-        ->only(['create', 'store']);
-
-    Route::delete('/campaign-registration/{campaign}', [App\Http\Controllers\CampaignRegistrationController::class, 'destroy'])
-        ->name("campaign-registration.destroy");
+        ->only(['create', 'store', 'destroy']);
 
     Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
         ->name('trade-fulfillment.store');
