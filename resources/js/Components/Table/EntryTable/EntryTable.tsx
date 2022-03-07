@@ -75,7 +75,7 @@ const EntryTable = ({
         },
         {
             property: 'gp',
-            title: 'GP',
+            title: t('tableColumn.GP'),
         },
         {
             property: 'downtime',

@@ -146,7 +146,7 @@ const CampaignCreateForm = ({
                                 }
                             }
                         }}>
-                        {type === 'Create' ? 'Create' : 'Save'}
+                        {type === 'Create' ? t('common.create') : t('common.save')}
                     </Button>
                 </Grid>
                 {type === 'Create' && <StyledGrid item md={2} />}

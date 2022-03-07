@@ -202,7 +202,8 @@
         "tier": "Tier",
         "title": "Titre",
         "characters": "Personnages",
-        "code": "Code"
+        "code": "Code",
+        "gp": "PO"
     },
     "tableName": {
         "character": "Personnages",
