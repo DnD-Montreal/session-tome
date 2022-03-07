@@ -23,7 +23,8 @@
         "invite-code": "Invite Code",
         "fill-out-fields_1": "You are joining the ",
         "fill-out-fields_2": " campaign. Fill out the following fields to join the campaign.",
-        "no-character-alert": "If no character is selected, it is assumed that you are the Game Master."
+        "no-character-alert": "If no character is selected, it is assumed that you are the Game Master.",
+        "code-alert-text": "Invite link should look like:\nef9d66e2291"
     },
     "characterDetail": {
         "name": "NAME",

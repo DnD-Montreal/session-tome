@@ -26,6 +26,11 @@ const FormBox = styled(Box)`
     width: 65vw;
 `
 
+const StyledAlert = styled(Alert)`
+    background-color: inherit;
+    color: #ffffff;
+`
+
 const CampaignRegistrationForm = ({
     campaign,
     characters,
@@ -48,8 +53,10 @@ const CampaignRegistrationForm = ({
                     </Typography>
                 </Grid>
                 <Grid item container direction='row' columnSpacing={30}>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={12}>
                         <Select
+                            fullWidth={false}
+                            style={{width: '50%'}}
                             id='character_id'
                             label={t('form.assigned-character')}
                             name='Assigned Character'
@@ -64,10 +71,10 @@ const CampaignRegistrationForm = ({
                             <ErrorText message={errors?.character_id} />
                         )}
                     </Grid>
-                    <Grid item xs={6} md={6}>
-                        <Alert severity='info'>
+                    <Grid item xs={12}>
+                        <StyledAlert severity='info'>
                             {t('campaignJoin.no-character-alert')}
-                        </Alert>
+                        </StyledAlert>
                     </Grid>
                 </Grid>
                 <Grid item container spacing={4}>

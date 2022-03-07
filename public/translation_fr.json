@@ -23,7 +23,8 @@
         "invite-code": "Code d'invitation",
         "fill-out-fields_1": "Vous rejoingnez la campagne ",
         "fill-out-fields_2": ". Veuillez remplier les champs suivants pour rejoindre la campagne.",
-        "no-character-alert": "Si aucun personnage est selectionné, il est assumé que vous êtes le maître de jeu."
+        "no-character-alert": "Si aucun personnage est selectionné, il est assumé que vous êtes le maître de jeu.",
+        "code-alert-text": "Le lien doit ressembler à:\nef9d66e2291"
     },
     "characterDetail": {
         "name": "NOM",

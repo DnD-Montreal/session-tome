@@ -1,5 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {
+    Alert,
     Backdrop,
     Box,
     Button,
@@ -9,7 +10,6 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import {ErrorText} from 'Components'
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -22,25 +22,24 @@ const StyledBox = styled(Box)`
     transform: translate(-50%, -50%);
     padding: 24px;
     background-color: #383838;
-    width: 600px;
+    width: 30vw;
 `
 
 type CampaignJoinModalPropType = {
     open: boolean
     onClose: () => void
-    message: string
 }
 
-type CampaignJoinModalDataType = {
-    code: string | undefined
-    link: string | undefined
-}
+const StyledAlert = styled(Alert)`
+    background-color: inherit;
+    color: #ffffff;
+    white-space: pre-wrap;
+`
 
-const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) => {
+const CampaignJoinModal = ({open, onClose}: CampaignJoinModalPropType) => {
     const {t} = useTranslation()
-    const {data, setData, errors, clearErrors, get} = useForm<CampaignJoinModalDataType>({
+    const {data, setData, get} = useForm<{code: string | undefined}>({
         code: undefined,
-        link: undefined,
     })
     return (
         <Modal
@@ -54,50 +53,47 @@ const CampaignJoinModal = ({open, onClose, message}: CampaignJoinModalPropType) 
             aria-label='campaign-join-modal'>
             <Fade in={open}>
                 <StyledBox borderRadius={2}>
-                    <Grid container rowSpacing={2} alignItems='center'>
+                    <Grid container rowSpacing={2}>
                         <Grid item xs={12}>
-                            <Typography color='secondary'>{message}</Typography>
+                            <Typography color='secondary'>
+                                {t('campaign.enter-invite-code')}
+                            </Typography>
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            container
-                            columnSpacing={10}
-                            alignItems='center'>
-                            <Grid item xs={12} md={9}>
-                                <TextField
-                                    fullWidth
-                                    id='invite-code'
-                                    label={t('campaignJoin.invite-code')}
-                                    variant='outlined'
-                                    value={data.link}
-                                    onChange={(e) =>
-                                        setData(
-                                            'code',
-                                            e.target.value.substring(
-                                                e.target.value.indexOf('=') + 1,
-                                            ),
-                                        )
-                                    }
-                                />
-                                {errors?.code && <ErrorText message={errors?.code} />}
-                            </Grid>
-                            <Grid item xs={12} md={3}>
-                                <Button
-                                    variant='outlined'
-                                    onClick={() => {
-                                        get(
-                                            route('campaign-registration.create').concat(
-                                                `?code=${data.code}`,
-                                            ),
-                                        )
-                                        if (!errors) {
-                                            clearErrors()
-                                        }
-                                    }}>
-                                    {t('common.join')}
-                                </Button>
-                            </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id='invite-code'
+                                label={t('campaignJoin.invite-code')}
+                                variant='outlined'
+                                value={data.code}
+                                onChange={(e) => setData('code', e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <StyledAlert severity='info'>
+                                {t('campaignJoin.code-alert-text')}
+                            </StyledAlert>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button fullWidth onClick={onClose}>
+                                {t('common.cancel')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={4} />
+                        <Grid item xs={4}>
+                            <Button
+                                fullWidth
+                                variant='outlined'
+                                onClick={() => {
+                                    if (!data.code) return
+                                    get(
+                                        route('campaign-registration.create', [
+                                            data.code,
+                                        ]),
+                                    )
+                                }}>
+                                {t('common.join')}
+                            </Button>
                         </Grid>
                     </Grid>
                 </StyledBox>
