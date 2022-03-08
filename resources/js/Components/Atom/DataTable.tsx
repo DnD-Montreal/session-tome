@@ -133,11 +133,12 @@ const DataTable = ({
                         onChange={(e: any) => {
                             if (e.target.value === '' || !e.target.value) {
                                 setCurrentRows(data)
+                            } else {
+                                const filteredRows = data.filter((item: any) =>
+                                    onFilter(item, e.target.value),
+                                )
+                                setCurrentRows(filteredRows)
                             }
-                            const filteredRows = data.filter((item: any) =>
-                                onFilter(item, e.target.value),
-                            )
-                            setCurrentRows(filteredRows)
                         }}
                     />
                 </Grid>
