@@ -44,7 +44,7 @@ class EventControllerTest extends TestCase
         Event::factory(3)->has(Session::factory(5))->create();
         $user = $event->sessions[0]->characters[0]->user;
 
-        $response = $this->get(route('event.index', [
+        $response = $this->actingAs($user)->get(route('event.index', [
             'search' => $event->title,
             'registered_user' => $user->id,
         ]));
