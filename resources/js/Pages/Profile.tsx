@@ -4,6 +4,7 @@ import {ThemeProvider} from '@mui/material/styles'
 import {Button, DeleteModal, ErrorText, Select} from 'Components'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
+import styled from 'styled-components'
 import {getFontTheme, useUser} from 'Utils'
 import route from 'ziggy-js'
 
@@ -14,6 +15,10 @@ type UserEditDataType = {
     password_confirmation?: string
     language: string
 }
+
+const StyledTitle = styled(Typography)`
+    padding-bottom: 6px;
+`
 
 const Profile = () => {
     const {t} = useTranslation()
@@ -57,7 +62,7 @@ const Profile = () => {
                 warningMessage='Are you sure you want to delete this account permanently?'
                 onDelete={() => destroy(route('user.destroy', [user.id]))}
             />
-            <Grid container rowSpacing={2} style={{maxWidth: '50vw'}}>
+            <Grid container spacing={2} style={{maxWidth: '50vw'}}>
                 <Grid item xs={12} style={{paddingBottom: 6}}>
                     <Typography variant='h4'>{t('profile.account-settings')}</Typography>
                 </Grid>
@@ -65,7 +70,7 @@ const Profile = () => {
                     <Divider style={{width: '100%'}} />
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.email')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.email')}</StyledTitle>
                     <TextField
                         id='email'
                         fullWidth
@@ -78,7 +83,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.username')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.username')}</StyledTitle>
                     <TextField
                         id='username'
                         fullWidth
@@ -91,7 +96,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.change-password')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.change-password')}</StyledTitle>
                     <TextField
                         id='password'
                         fullWidth
@@ -124,7 +129,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.language')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.language')}</StyledTitle>
                     <Select
                         id='language'
                         size='small'
@@ -161,9 +166,9 @@ const Profile = () => {
                     <Divider style={{width: '100%'}} />
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant='h5' color='error'>
+                    <StyledTitle color='error'>
                         {t('profile.delete-user-account')}
-                    </Typography>
+                    </StyledTitle>
                     <Typography>{t('profile.delete-warning-message')}</Typography>
                 </Grid>
                 <Grid item xs={12}>
