@@ -63,6 +63,7 @@ const ContentContainer = styled.div`
     @media only screen and (min-width: 768px) {
         margin: 0px auto 0px auto;
     }
+    min-width: 65vw;
 `
 
 const Username = styled(Typography)`

@@ -75,9 +75,9 @@ const CampaignDetailBox = ({
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={() => {
                                     navigator.clipboard.writeText(
-                                        route('campaign-registration.create', [
-                                            campaign.code,
-                                        ]),
+                                        route('campaign-registration.create', {
+                                            code: campaign.code,
+                                        }),
                                     )
                                     setOpenInviteSnackbar(true)
                                 }}>
