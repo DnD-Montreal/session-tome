@@ -19,8 +19,8 @@ class EventController extends Controller
         $events = Event::whereRegistered()
             ->filtered($request->get('search'))
             ->get();
-
         $events->load('league');
+
         return Inertia::render('Event/Event', compact('events'));
     }
 
