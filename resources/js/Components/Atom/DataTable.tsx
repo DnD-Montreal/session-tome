@@ -131,7 +131,7 @@ const DataTable = ({
                         label={`${t('common.search')} ${t(`tableName.${tableName}`)}`}
                         id='search-filter'
                         onChange={(e: any) => {
-                            if (e.target.value === '' || !e.target.value) {
+                            if (!e.target.value) {
                                 setCurrentRows(data)
                             } else {
                                 const filteredRows = data.filter((item: any) =>
