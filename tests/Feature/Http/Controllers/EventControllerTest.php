@@ -114,16 +114,13 @@ class EventControllerTest extends TestCase
 
         $response = $this->get(route('event.show', $event));
 
+        $response->assertOk();
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component('Event/Detail/EventDetail')
                 ->has('event')
                 ->has('allUserCharacters')
         );
-
-        $response->assertOk();
-        $response->assertViewIs('event.show');
-        $response->assertViewHas('event');
     }
 
     /**
