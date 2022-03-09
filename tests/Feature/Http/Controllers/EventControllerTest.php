@@ -46,6 +46,7 @@ class EventControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('event.index', [
             'search' => $event->title,
+            'registered_only' => true,
             'registered_user' => $user->id,
         ]));
 
@@ -55,6 +56,7 @@ class EventControllerTest extends TestCase
                     ->component('Event/Event')
                     ->has(
                         'events',
+                        1,
                         fn (Assert $page) => $page
                         ->where('id', $event->id)
                         ->where('league_id', $event->league_id)
@@ -62,6 +64,7 @@ class EventControllerTest extends TestCase
                         ->where('description', $event->description)
                         ->where('location', $event->location)
                         ->etc()
+                        ->has('league')
                     )
         );
     }
