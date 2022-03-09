@@ -58,8 +58,6 @@ class EventController extends Controller
             $query->where('user_id', Auth::id())->first();
         }]);
 
-        dd($event);
-
         $allUserCharacters = Auth::user()->characters()->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Event/Detail/EventDetail', compact('event', 'allUserCharacters'));

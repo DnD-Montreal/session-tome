@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Character;
 use App\Models\Event;
 use App\Models\League;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -105,9 +107,19 @@ class EventControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $event = Event::factory()->create();
+        $otherUser = User::factory()->create();
+        $event = Event::factory()->has(Session::factory()
+            ->has(Character::factory(2)->state(['user_id'=>Auth::id()]))
+            ->has(Character::factory(2)->state(['user_id'=>$otherUser->id])))->create();
 
         $response = $this->get(route('event.show', $event));
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Event/Detail/EventDetail')
+                ->has('event')
+                ->has('allUserCharacters')
+        );
 
         $response->assertOk();
         $response->assertViewIs('event.show');
