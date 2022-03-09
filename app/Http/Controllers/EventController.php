@@ -16,9 +16,11 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::whereRegistered()
-            ->filtered($request->get('search'))
-            ->get();
+        $events = Event::filtered($request->get('search'));
+        if ($request->has('registered_user') || $request->has('registered_only')) {
+            $events = $events->whereRegistered($request->get('registered_user'));
+        }
+        $events = $events->get();
         $events->load('league');
 
         return Inertia::render('Event/Event', compact('events'));
