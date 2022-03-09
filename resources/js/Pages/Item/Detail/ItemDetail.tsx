@@ -1,7 +1,7 @@
 import {Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Drawer, ItemDetailBox, ItemEditForm} from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
 import {ItemEditData} from 'Types/item-data'

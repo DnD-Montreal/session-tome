@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterCreateForm} from 'Components'
-import React from 'react'
 import {getFontTheme} from 'Utils'
 
 type CharacterCreateType = {

@@ -14,7 +14,7 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import React, {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
+import {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'

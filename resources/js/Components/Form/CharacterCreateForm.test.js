@@ -1,5 +1,4 @@
 import {fireEvent, render, screen} from '@testing-library/react'
-import React from 'react'
 
 import CharacterCreateForm from './CharacterCreateForm'
 
@@ -9,7 +8,7 @@ const factions = [
     'The Harpers',
     'The Order of the Gauntlet',
     'The Emerald Enclave',
-    'The Lords\' Alliance',
+    'The Lords Alliance',
     'The Zhentarim',
 ]
 

@@ -8,7 +8,6 @@ import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined'
 import {Box, Button, Grid, Typography} from '@mui/material'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {RatingCategoryType} from 'Types/rating-data'
