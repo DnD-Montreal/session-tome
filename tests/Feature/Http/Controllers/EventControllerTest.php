@@ -72,6 +72,41 @@ class EventControllerTest extends TestCase
     /**
      * @test
      */
+    public function index_without_passing_registered_user()
+    {
+        $characterFactory = Character::factory()->has(User::factory());
+        $sessionFactory = Session::factory()->has($characterFactory);
+        $event = Event::factory()->has($sessionFactory)->create();
+        // Create events that _shouldn't_ be returned
+        Event::factory(3)->has(Session::factory(5))->create();
+        $user = $event->sessions[0]->characters[0]->user;
+
+        $response = $this->actingAs($user)->get(route('event.index', [
+            'registered_only' => true,
+        ]));
+
+        $response->assertOk();
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                    ->component('Event/Event')
+                    ->has(
+                        'events',
+                        1,
+                        fn (Assert $page) => $page
+                        ->where('id', $event->id)
+                        ->where('league_id', $event->league_id)
+                        ->where('title', $event->title)
+                        ->where('description', $event->description)
+                        ->where('location', $event->location)
+                        ->etc()
+                        ->has('league')
+                    )
+        );
+    }
+
+    /**
+     * @test
+     */
     public function create_displays_view()
     {
         $response = $this->get(route('event.create'));
