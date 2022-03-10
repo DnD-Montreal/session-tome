@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Log;
 
 class CampaignRegistrationController extends Controller
 {
@@ -58,8 +59,8 @@ class CampaignRegistrationController extends Controller
     {
         $data = $request->validate([
             'user_id' => 'sometimes|array'
-        ]);
-
+        ])['user_id'] ?? null;
+        Log::info('validated');
         $user = Auth::user();
         $isCampaignOwner = $campaignRegistration->users()->where('user_id', $user->id)->first()->pivot->is_owner;
 
