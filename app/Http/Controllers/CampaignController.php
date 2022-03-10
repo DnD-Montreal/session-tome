@@ -26,7 +26,7 @@ class CampaignController extends Controller
         ]);
         $search = $data['search'] ?? '';
         $characters = Character::where('user_id', Auth::user()->id)->get();
-        $campaigns = Auth::user()->campaigns()->get();
+        $campaigns = Auth::user()->campaigns()->distinct()->get();
         $campaigns->load('characters')->where('user_id', Auth::user()->id);
         $campaigns->load('adventure');
 

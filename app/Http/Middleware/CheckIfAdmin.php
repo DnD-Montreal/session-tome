@@ -29,7 +29,7 @@ class CheckIfAdmin
      */
     private function checkIfUserIsAdmin($user): bool
     {
-        return $user->isSiteAdmin();
+        return $user->isSiteAdmin()||$user->isLeagueAdminWithLeagueId();
     }
 
     /**

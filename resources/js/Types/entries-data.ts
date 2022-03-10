@@ -1,3 +1,4 @@
+import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import {ItemData} from 'Types/item-data'
 import {RatingCategoryType} from 'Types/rating-data'
@@ -27,5 +28,5 @@ export type EntriesData = {
     updated_at: string
     user_id: number
     rating_data: RatingCategoryType | null
-    campaign?: any
+    campaign?: CampaignData
 }

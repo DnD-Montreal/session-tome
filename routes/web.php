@@ -87,6 +87,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         'attach-entry-to-character' => 'character'
         ])->only('update');
 
+    Route::delete('/registration/{session}', [App\Http\Controllers\EventRegistrationController::class, 'destroy'])
+        ->name("event-registration.destroy");
+
     Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
         ->only('store');
 
@@ -95,7 +98,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->middleware('admin');
 
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
-        ->only(['create', 'store']);
+        ->only(['create', 'store', 'destroy']);
 
     Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
         ->name('trade-fulfillment.store');

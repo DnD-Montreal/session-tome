@@ -34,6 +34,7 @@ const CampaignDetailBox = ({
     return (
         <>
             <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 open={openInviteSnackbar}
                 autoHideDuration={3000}
                 onClose={() => setOpenInviteSnackbar(false)}>
@@ -82,7 +83,11 @@ const CampaignDetailBox = ({
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={() => {
-                                    navigator.clipboard.writeText(campaign.code)
+                                    navigator.clipboard.writeText(
+                                        route('campaign-registration.create', {
+                                            code: campaign.code,
+                                        }),
+                                    )
                                     setOpenInviteSnackbar(true)
                                 }}>
                                 {t('common.invite')}
