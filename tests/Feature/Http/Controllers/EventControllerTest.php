@@ -42,12 +42,12 @@ class EventControllerTest extends TestCase
         $event = Event::factory()->has($sessionFactory)->create();
         // Create events that _shouldn't_ be returned
         Event::factory(3)->has(Session::factory(5))->create();
-        $user = $event->sessions[0]->characters[0]->user;
+        $event_user = $event->sessions[0]->characters[0]->user;
 
-        $response = $this->actingAs($user)->get(route('event.index', [
+        $response = $this->actingAs($event_user)->get(route('event.index', [
             'search' => $event->title,
             'registered_only' => true,
-            'registered_user' => $user->id,
+            'registered_user' => $event_user->id,
         ]));
 
         $response->assertOk();
@@ -79,9 +79,9 @@ class EventControllerTest extends TestCase
         $event = Event::factory()->has($sessionFactory)->create();
         // Create events that _shouldn't_ be returned
         Event::factory(3)->has(Session::factory(5))->create();
-        $user = $event->sessions[0]->characters[0]->user;
+        $registered_user = $event->sessions[0]->characters[0]->user;
 
-        $response = $this->actingAs($user)->get(route('event.index', [
+        $response = $this->actingAs($registered_user)->get(route('event.index', [
             'registered_only' => true,
         ]));
 
