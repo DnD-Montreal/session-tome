@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use app\Models\Session;
-use app\Models\Entry;
+use App\Models\Session;
+use App\Models\Entry;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,7 +27,7 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
      */
     public function __construct()
     {
-        //dispatch job to queue here?
+        //
     }
 
     /**
@@ -39,6 +39,7 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
     {
         //Grab all existing live/past sessions in DB and load characters
         $sessions = Session::where('start_time', '<=', Carbon::now())
+            ->where('start_time', '>', Carbon::now()->subMinutes(15))
             ->with('characters')
             ->get();
 
@@ -60,10 +61,9 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
 
             //create DM's entry
             Entry::create([
-                'user_id' => $character->user_id,
+                'user_id' => $session->dungeon_master_id,
                 'adventure_id' => $session->adventure_id,
                 'event_id' => $session->event_id,
-                'dungeon_master_id' => $session->dungeon_master_id,
                 'date_played' => $session->start_time,
                 'location' => $session->event->location,
                 'type' => Entry::TYPE_DM,
