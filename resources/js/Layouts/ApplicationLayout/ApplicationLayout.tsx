@@ -1,7 +1,6 @@
 import './ApplicationLayout.css'
 
 import styled from '@emotion/styled'
-import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication, Link as InertiaLink} from 'Components'
@@ -9,14 +8,12 @@ import dayjs from 'dayjs'
 import i18n from 'i18next'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
+import {SnackbarProvider} from 'notistack'
 import React, {ReactNode, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import SVG from 'react-inlinesvg'
-import {UsePageType} from 'Types/global'
-import {getFontTheme} from 'Utils'
+import {getFontTheme, useUser} from 'Utils'
 import route from 'ziggy-js'
-
-const theme = getFontTheme('Normal')
 
 const MainGrid = styled.div`
     background-color: #23272a;
@@ -89,8 +86,7 @@ type LayoutProps = {
 
 const ApplicationLayout = ({children}: LayoutProps) => {
     const {t} = useTranslation()
-    const {auth} = usePage<UsePageType>().props
-    const {user} = auth
+    const {user, language} = useUser()
     const [anchorEl, setAnchorEl] = useState(null)
 
     useEffect(() => {
@@ -112,8 +108,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         }
         return t('authentication.login')
     }
+
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getFontTheme('Normal')}>
             <MainGrid>
                 <Grid container>
                     <PrimaryRow
@@ -227,9 +224,20 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>
-                    <ContentRow item container>
-                        <ContentContainer id='content'>{children}</ContentContainer>
-                    </ContentRow>
+                    <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+                        <SnackbarProvider
+                            maxSnack={3}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}>
+                            <ContentRow item container>
+                                <ContentContainer id='content'>
+                                    {children}
+                                </ContentContainer>
+                            </ContentRow>
+                        </SnackbarProvider>
+                    </ThemeProvider>
                 </Grid>
             </MainGrid>
         </ThemeProvider>
