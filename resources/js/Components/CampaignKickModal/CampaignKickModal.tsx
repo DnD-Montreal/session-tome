@@ -1,3 +1,4 @@
+import {useForm} from '@inertiajs/inertia-react'
 import {
     Backdrop,
     Box,
@@ -13,6 +14,7 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 import {CampaignData} from 'Types/campaign-data'
+import route from 'ziggy-js'
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -32,7 +34,7 @@ type CampaignKickModalPropType = {
 }
 
 type CampaignKickModalDataType = {
-    code: string | undefined
+    id: number | undefined
 }
 
 const CampaignKickModal = ({
@@ -40,49 +42,65 @@ const CampaignKickModal = ({
     onClose,
     message,
     campaign,
-}: CampaignKickModalPropType) => (
-    <Modal
-        open={open}
-        onClose={onClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-            timeout: 500,
-        }}
-        aria-label='campaign-kick-modal'>
-        <Fade in={open}>
-            <StyledBox borderRadius={2}>
-                <Grid container rowSpacing={2} alignItems='center'>
-                    <Grid item xs={12}>
-                        <Typography color='secondary'>{message}</Typography>
+}: CampaignKickModalPropType) => {
+    const {data, setData, get} = useForm<{id: number | undefined}>({
+        id: undefined,
+    })
+    return (
+        <Modal
+            open={open}
+            onClose={onClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
+            aria-label='campaign-kick-modal'>
+            <Fade in={open}>
+                <StyledBox borderRadius={2}>
+                    <Grid container rowSpacing={2} alignItems='center'>
+                        <Grid item xs={12}>
+                            <Typography color='secondary'>{message}</Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormGroup>
+                                {campaign.characters.map((character: any) => (
+                                    <Typography color='secondary'>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    onChange={() =>
+                                                        setData('id', character.user_id)
+                                                    }
+                                                />
+                                            }
+                                            label={character.name}
+                                        />
+                                    </Typography>
+                                ))}
+                                <Grid item xs={3}>
+                                    <Button
+                                        type='submit'
+                                        variant='outlined'
+                                        onClick={() => {
+                                            if (!data.id) return
+                                            get(
+                                                route('campaign-registration.destroy', [
+                                                    data.id,
+                                                ]),
+                                            )
+                                        }}>
+                                        Submit
+                                    </Button>
+                                </Grid>
+                            </FormGroup>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <FormGroup>
-                            {campaign.characters.map((character: any) => (
-                                <Typography color='secondary'>
-                                    <FormControlLabel
-                                        control={<Checkbox />}
-                                        label={character.name}
-                                    />
-                                </Typography>
-                            ))}
-                            <Grid item xs={3}>
-                                <Button
-                                    type='submit'
-                                    variant='outlined'
-                                    onClick={() => {
-                                        console.log('button clicked')
-                                    }}>
-                                    Submit
-                                </Button>
-                            </Grid>
-                        </FormGroup>
-                    </Grid>
-                </Grid>
-            </StyledBox>
-        </Fade>
-    </Modal>
-)
+                </StyledBox>
+            </Fade>
+        </Modal>
+    )
+}
 
 CampaignKickModal.displayName = 'CampaignKickModal'
 export default CampaignKickModal
