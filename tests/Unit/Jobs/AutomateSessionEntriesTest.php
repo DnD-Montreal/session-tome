@@ -48,13 +48,15 @@ class AutomateSessionEntriesTest extends TestCase
             ->where([
                 'dungeon_master_id' => $dungeon_master->id,
                 'date_played' => $session->start_time,
-                'type' => Entry::TYPE_GAME
+                'type' => Entry::TYPE_GAME,
+                'event_id' => $session->event_id
             ])->get();
 
         $dm_entry = Entry::where([
-            'dungeon_master_id' => $dungeon_master->id,
+            'user_id' => $dungeon_master->id,
             'date_played' => $session->start_time,
-            'type' => Entry::TYPE_DM
+            'type' => Entry::TYPE_DM,
+            'event_id' => $session->event_id
         ])->get();
 
         //assert Game Entries exist for all characters in $characters
