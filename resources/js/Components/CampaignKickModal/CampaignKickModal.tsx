@@ -34,7 +34,7 @@ type CampaignKickModalPropType = {
 }
 
 type CampaignKickModalDataType = {
-    id: number | undefined
+    user_id: number[] | undefined
 }
 
 const CampaignKickModal = ({
@@ -43,8 +43,12 @@ const CampaignKickModal = ({
     message,
     campaign,
 }: CampaignKickModalPropType) => {
-    const {data, setData, get} = useForm<{id: number | undefined}>({
-        id: undefined,
+    const {
+        data,
+        setData,
+        delete: destroy,
+    } = useForm<{user_id: number[] | undefined}>({
+        user_id: undefined,
     })
     return (
         <Modal
@@ -70,7 +74,9 @@ const CampaignKickModal = ({
                                             control={
                                                 <Checkbox
                                                     onChange={() =>
-                                                        setData('id', character.user_id)
+                                                        setData('user_id', [
+                                                            character.user_id,
+                                                        ])
                                                     }
                                                 />
                                             }
@@ -83,11 +89,12 @@ const CampaignKickModal = ({
                                         type='submit'
                                         variant='outlined'
                                         onClick={() => {
-                                            if (!data.id) return
-                                            get(
-                                                route('campaign-registration.destroy', [
-                                                    data.id,
-                                                ]),
+                                            if (!data.user_id) return
+                                            destroy(
+                                                route(
+                                                    'campaign-registration.destroy',
+                                                    data.user_id,
+                                                ),
                                             )
                                         }}>
                                         Submit
