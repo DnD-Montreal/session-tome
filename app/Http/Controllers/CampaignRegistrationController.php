@@ -53,4 +53,32 @@ class CampaignRegistrationController extends Controller
 
         return redirect()->route('campaign.index');
     }
+
+    public function destroy(Request $request, Campaign $campaignRegistration)
+    {
+        $data = $request->validate([
+            'user_id' => 'sometimes|array'
+        ]);
+
+        $user = Auth::user();
+        $isCampaignOwner = $campaignRegistration->users()->where('user_id', $user->id)->first()->pivot->is_owner;
+
+        if (!$request->has('user_id')) {
+            return redirect()->back()->withErrors(['error' => "You need to specify a user."]);
+        }
+
+        if (!$isCampaignOwner) {
+            return redirect()->back()->withErrors(['error' => "You don't have permission to do that."]);
+        }
+
+        $campaignCharacters = $campaignRegistration->characters()->whereIn('user_id', $data['user_id'])->get();
+
+        $campaignRegistration->users()->detach($data['user_id']);
+        $campaignRegistration->characters()->detach($campaignCharacters);
+
+        $campaignRegistration->code = $campaignRegistration->generateCode();
+        $campaignRegistration->save();
+
+        return redirect('campaign.index');
+    }
 }
