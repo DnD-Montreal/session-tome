@@ -5,6 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'Components'
+import {useSnackbar} from 'notistack'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -67,6 +68,7 @@ const EntryCreateForm = ({
     adventures,
     gameMasters,
 }: EntryCreateFormPropType) => {
+    const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
@@ -121,6 +123,14 @@ const EntryCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('entry.create-success-message')
+                    : t('entry.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 

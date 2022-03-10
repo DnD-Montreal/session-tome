@@ -26,7 +26,9 @@
         "import-note": "Note: Les personnages importés auront des champs vide pour les objets et sessions, merci de les saisir manuellement.",
         "enter-details": "Ajouter des détails",
         "privacy-details": "Confidentialité",
-        "import-help-text-3": "Entrer votre lien de la fiche sur D&D Beyond."
+        "import-help-text-3": "Entrer votre lien de la fiche sur D&D Beyond.",
+        "create-success-message": "Personnage crée",
+        "edit-success-message": "Personnage mise à jour"
     },
     "common": {
         "create": "Créer",
@@ -73,7 +75,9 @@
         "end-date-and-time": "Date et heure de la fin",
         "fill-out-fields-dm": "Saisissez les champs suivants avec la session du MJ.",
         "fill-out-fields-entry": "Saisissez les champs suivants de la session.",
-        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement."
+        "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement.",
+        "create-success-message": "Session crée",
+        "edit-success-message": "Session mise à jour"
     },
     "enums": {
         "common": "Commun",

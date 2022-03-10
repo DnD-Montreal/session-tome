@@ -13,6 +13,7 @@ import {
     Select,
     StepperForm,
 } from 'Components'
+import {useSnackbar} from 'notistack'
 import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -82,6 +83,7 @@ const DmEntryCreateForm = ({
     adventures,
     characters,
 }: DmEntryCreateFormPropType) => {
+    const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
@@ -125,6 +127,14 @@ const DmEntryCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('entry.create-success-message')
+                    : t('entry.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 
