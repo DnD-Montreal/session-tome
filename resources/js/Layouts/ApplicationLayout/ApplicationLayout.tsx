@@ -1,6 +1,7 @@
 import './ApplicationLayout.css'
 
 import styled from '@emotion/styled'
+import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication, Link as InertiaLink} from 'Components'
@@ -12,7 +13,8 @@ import {SnackbarProvider} from 'notistack'
 import React, {ReactNode, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import SVG from 'react-inlinesvg'
-import {getFontTheme, useUser} from 'Utils'
+import {UsePageType} from 'Types/global'
+import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 
 const MainGrid = styled.div`
@@ -86,12 +88,13 @@ type LayoutProps = {
 
 const ApplicationLayout = ({children}: LayoutProps) => {
     const {t} = useTranslation()
-    const {user, language} = useUser()
+    const {auth} = usePage<UsePageType>().props
+    const {user} = auth
     const [anchorEl, setAnchorEl] = useState(null)
 
     useEffect(() => {
         if (user) {
-            i18n.changeLanguage(user.language)
+            i18n.changeLanguage(user?.language)
             dayjs.locale(user?.language?.includes('en') ? 'en' : 'fr-ca')
         }
     }, [user])
@@ -224,7 +227,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>
-                    <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+                    <ThemeProvider theme={getFontTheme('Form', 14, user?.language)}>
                         <SnackbarProvider
                             maxSnack={3}
                             anchorOrigin={{
