@@ -49,12 +49,13 @@ class CampaignController extends Controller
         $search = $data['search'] ?? '';
         $adventures = Adventure::filtered($search)->get(['id', 'title', 'code']);
         $characters = Character::where('user_id', Auth::user()->id)->get();
+
         return Inertia::render('Campaign/Create/CampaignCreate', compact('characters', 'adventures'));
     }
 
     /**
      * @param \App\Http\Requests\CampaignStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CampaignStoreRequest $request)
     {
@@ -68,7 +69,7 @@ class CampaignController extends Controller
         //user joins campaign
         $user = Auth::user();
 
-        if ($request->has('character_id')) {
+        if (!empty($data['character_id'])) {
             $user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => true]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->attach($campaign);
@@ -92,7 +93,7 @@ class CampaignController extends Controller
         $userCharacter = $campaign->characters()
             ->where('user_id', Auth::id())
             ->with(['entries' => function ($q) use ($campaign) {
-                return $q->where('campaign_id', $campaign->id);
+                return $q->where('campaign_id', $campaign->id)->orderBy('date_played', 'desc');
             }, 'entries.adventure'])
             ->first();
         $characters = Auth::user()->characters;
@@ -102,7 +103,7 @@ class CampaignController extends Controller
             'campaign' => $campaign,
             'userCharacter' => $userCharacter,
             'characters' => $characters,
-            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
             'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
         ]);
     }
@@ -143,10 +144,14 @@ class CampaignController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Campaign $campaign)
     {
+        if (!$campaign->is_owner) {
+            return redirect()->back()->withErrors(['errors' => "You're not allowed to do that because you're not the campaign owner."]);
+        }
+
         $campaign->delete();
 
         return redirect()->route('campaign.index');
