@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Adapters;
 
+use App\Exceptions\ImportException;
 use App\Facades\AdventuresLeague;
 use App\Facades\Beyond;
 use App\Models\User;
@@ -48,8 +49,8 @@ class AdventuresLeagueTest extends TestCase
      */
     public function check_character_hydration_fails_if_bad_file()
     {
+        $this->expectException(ImportException::class);
         $character = AdventuresLeague::getCharacter(database_path('mocks/grod-bad.csv'));
-
         $this->assertNull($character);
     }
 }
