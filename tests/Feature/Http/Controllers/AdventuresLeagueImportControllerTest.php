@@ -105,7 +105,11 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $user = User::factory()->create();
         $csv = new UploadedFile(database_path('mocks/grod-bad.csv'), "grod-bad.csv");
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
-        $response->assertStatus(400);
+
+        $this->assertNotNull($response->exception);
+        $this->assertEquals("Adventure's League Log File Error: Export File Format Changed", $response->exception->getMessage());
+        $this->assertEquals(400, $response->exception->getCode());
+        $response->assertRedirect();
     }
 
     /**
@@ -115,6 +119,9 @@ class AdventuresLeagueImportControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/adventures-league-import');
-        $response->assertStatus(400);
+        $this->assertNotNull($response->exception);
+        $this->assertEquals("Adventure's League Log File Error", $response->exception->getMessage());
+        $this->assertEquals(400, $response->exception->getCode());
+        $response->assertRedirect();
     }
 }
