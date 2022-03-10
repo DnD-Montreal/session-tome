@@ -20,8 +20,7 @@ class EventController extends Controller
         if ($request->has('registered_user') || $request->has('registered_only')) {
             $events = $events->whereRegistered($request->get('registered_user'));
         }
-        $events = $events->get();
-        $events->load('league');
+        $events = $events->with('league')->get();
 
         return Inertia::render('Event/Event', compact('events'));
     }
