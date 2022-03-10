@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ImportException;
 use App\Facades\AdventuresLeague;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,22 +29,15 @@ class AdventuresLeagueImportController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('logs')) {
-            $character = AdventuresLeague::getCharacter($request->file('logs')->getRealPath());
-            if (is_null($character)) {
-                return response([
-                    'success' => false,
-                    'errors' => "Adventure's League Log File Error: Export File Format Changed",
-                ], 400);
+            try {
+                $character = AdventuresLeague::getCharacter($request->file('logs')->getRealPath());
+            } catch (ImportException $e) {
+                return back()->withException($e);
             }
-
             $character->save();
-
             return redirect(route('character.show', ['character' => $character->refresh()->load('entries')]));
         } else {
-            return response([
-                'success' => false,
-                'errors' => "Adventure's League Log File Error"
-            ], 400);
+            return back()->withException(new \Exception("Adventure's League Log File Error", 400));
         }
     }
 }
