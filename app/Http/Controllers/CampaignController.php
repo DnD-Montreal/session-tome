@@ -121,7 +121,7 @@ class CampaignController extends Controller
     /**
      * @param \App\Http\Requests\CampaignUpdateRequest $request
      * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CampaignUpdateRequest $request, Campaign $campaign)
     {
