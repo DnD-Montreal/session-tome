@@ -35,6 +35,7 @@ type CampaignKickModalPropType = {
 
 type CampaignKickModalDataType = {
     user_id: number[] | undefined
+    campaignRegistration: CampaignData
 }
 
 const CampaignKickModal = ({
@@ -47,8 +48,9 @@ const CampaignKickModal = ({
         data,
         setData,
         delete: destroy,
-    } = useForm<{user_id: number[] | undefined}>({
+    } = useForm<CampaignKickModalDataType>({
         user_id: undefined,
+        campaignRegistration: campaign,
     })
     return (
         <Modal
@@ -74,9 +76,10 @@ const CampaignKickModal = ({
                                             control={
                                                 <Checkbox
                                                     onChange={() =>
-                                                        setData('user_id', [
+                                                        setData(
+                                                            'user_id',
                                                             character.user_id,
-                                                        ])
+                                                        )
                                                     }
                                                 />
                                             }
