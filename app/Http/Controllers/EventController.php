@@ -63,7 +63,7 @@ class EventController extends Controller
 
         $sessions = $event->sessions;
 
-        if ($request->has('registered_session') && $data['registered_session']) {
+        if (!empty($data['registered_session'])) {
             $sessions = $event->sessions()->whereHas('characters', function (Builder $q) use ($userId) {
                 $q->where('user_id', $userId);
             })->orWhereHas('dungeonMaster', function ($q) use ($userId) {
