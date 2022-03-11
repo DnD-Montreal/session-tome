@@ -224,10 +224,24 @@ class CampaignControllerTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
+        $campaign->users()->attach($this->user, ['is_owner' => true]);
+
         $response = $this->delete(route('campaign.destroy', $campaign));
 
         $response->assertRedirect(route('campaign.index'));
-
         $this->assertDeleted($campaign);
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_prevents_unauthorized_deletes()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->delete(route('campaign.destroy', $campaign));
+
+        $response->assertSessionHasErrors('errors');
+        $this->assertDatabaseHas($campaign);
     }
 }
