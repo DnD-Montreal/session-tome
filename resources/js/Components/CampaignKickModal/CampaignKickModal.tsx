@@ -35,7 +35,6 @@ type CampaignKickModalPropType = {
 
 type CampaignKickModalDataType = {
     user_id: number[] | undefined
-    campaignRegistration: CampaignData
 }
 
 const CampaignKickModal = ({
@@ -50,7 +49,6 @@ const CampaignKickModal = ({
         delete: destroy,
     } = useForm<CampaignKickModalDataType>({
         user_id: undefined,
-        campaignRegistration: campaign,
     })
     return (
         <Modal
@@ -94,10 +92,10 @@ const CampaignKickModal = ({
                                         onClick={() => {
                                             if (!data.user_id) return
                                             destroy(
-                                                route(
-                                                    'campaign-registration.destroy',
-                                                    data.user_id,
-                                                ),
+                                                route('campaign-registration.destroy', {
+                                                    user_id: [data.user_id],
+                                                    campaign_registration: campaign.id,
+                                                }),
                                             )
                                         }}>
                                         Submit
