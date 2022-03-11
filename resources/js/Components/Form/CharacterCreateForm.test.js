@@ -8,7 +8,7 @@ const factions = [
     'The Harpers',
     'The Order of the Gauntlet',
     'The Emerald Enclave',
-    "The Lord's Alliance", // eslint-disable-line
+    'The Lord\'s Alliance',
     'The Zhentarim',
 ]
 
