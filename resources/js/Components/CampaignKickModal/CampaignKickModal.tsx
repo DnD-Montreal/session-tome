@@ -12,13 +12,14 @@ import {
     Typography,
 } from '@mui/material'
 import React from 'react'
+import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CampaignData} from 'Types/campaign-data'
 import route from 'ziggy-js'
 
 const StyledBox = styled(Box)`
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 24px;
@@ -29,27 +30,23 @@ const StyledBox = styled(Box)`
 type CampaignKickModalPropType = {
     open: boolean
     onClose: () => void
-    message: string
     campaign: CampaignData
 }
 
 type CampaignKickModalDataType = {
-    user_id: number[] | undefined
+    user_id: number[]
 }
 
-const CampaignKickModal = ({
-    open,
-    onClose,
-    message,
-    campaign,
-}: CampaignKickModalPropType) => {
+const CampaignKickModal = ({open, onClose, campaign}: CampaignKickModalPropType) => {
+    const {t} = useTranslation()
     const {
         data,
         setData,
         delete: destroy,
     } = useForm<CampaignKickModalDataType>({
-        user_id: undefined,
+        user_id: [],
     })
+
     return (
         <Modal
             open={open}
@@ -64,44 +61,46 @@ const CampaignKickModal = ({
                 <StyledBox borderRadius={2}>
                     <Grid container rowSpacing={2} alignItems='center'>
                         <Grid item xs={12}>
-                            <Typography color='secondary'>{message}</Typography>
+                            <Typography color='secondary'>
+                                {t('campaign.select-character-kick')}
+                            </Typography>
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormGroup>
-                                {campaign.characters.map((character: any) => (
-                                    <Typography color='secondary'>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    onChange={() =>
-                                                        setData(
-                                                            'user_id',
-                                                            character.user_id,
+                        <FormGroup>
+                            {campaign.characters.map((character: any) => (
+                                <Typography color='secondary'>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={data.user_id.includes(character.user_id)}
+                                                onChange={() => {
+                                                    if (data.user_id.includes(character.user_id)) {
+                                                        const newUserIds = data.user_id.filter(
+                                                            (id) => id !== character.user_id,
                                                         )
+                                                        setData('user_id', newUserIds)
+                                                    } else {
+                                                        const newUserIds = data.user_id
+                                                        newUserIds.push(character.user_id)
+                                                        setData('user_id', newUserIds)
                                                     }
-                                                />
-                                            }
-                                            label={character.name}
-                                        />
-                                    </Typography>
-                                ))}
-                                <Grid item xs={3}>
-                                    <Button
-                                        type='submit'
-                                        variant='outlined'
-                                        onClick={() => {
-                                            if (!data.user_id) return
-                                            destroy(
-                                                route('campaign-registration.destroy', {
-                                                    user_id: [data.user_id],
-                                                    campaign_registration: campaign.id,
-                                                }),
-                                            )
-                                        }}>
-                                        Submit
-                                    </Button>
-                                </Grid>
-                            </FormGroup>
+                                                }}
+                                            />
+                                        }
+                                        label={character.name}
+                                    />
+                                </Typography>
+                            ))}
+                        </FormGroup>
+                        <Grid item xs={12}>
+                            <Button
+                                type='submit'
+                                variant='outlined'
+                                onClick={() => {
+                                    if (!data.user_id) return
+                                    destroy(route('campaign-registration.destroy', [campaign.id]))
+                                }}>
+                                {t('common.submit')}
+                            </Button>
                         </Grid>
                     </Grid>
                 </StyledBox>
