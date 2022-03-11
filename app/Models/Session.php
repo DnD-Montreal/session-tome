@@ -42,8 +42,6 @@ class Session extends Model
         'end_time' => 'datetime',
     ];
 
-    protected $with = ['event'];
-
     public function characters()
     {
         return $this->belongsToMany(\App\Models\Character::class);
