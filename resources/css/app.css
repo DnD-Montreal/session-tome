@@ -3,3 +3,19 @@
 body {
     margin: 0;
 }
+
+.SnackbarItem-variantSuccess {
+    background-color: #8DA57C !important;
+};
+
+.SnackbarItem-variantError {
+    background-color: #CC5D56 !important;
+};
+
+.SnackbarItem-variantWarning {
+    background-color: #CAA93C !important;
+};
+
+.SnackbarItem-variantInfo {
+    background-color: #86B8F4 !important;
+};

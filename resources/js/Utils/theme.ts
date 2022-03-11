@@ -37,6 +37,10 @@ export const getFontTheme = (
                             main: '#CC5D56',
                             dark: '#CC5D56',
                         },
+                        success: {
+                            main: '#8DA57C',
+                            dark: '#8DA57C',
+                        },
                         mode: 'dark',
                     },
                     components: {
@@ -77,6 +81,10 @@ export const getFontTheme = (
                         error: {
                             main: '#CC5D56',
                             dark: '#CC5D56',
+                        },
+                        success: {
+                            main: '#8DA57C',
+                            dark: '#8DA57C',
                         },
                         mode: 'dark',
                     },
