@@ -224,7 +224,7 @@ class CampaignControllerTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $campaign->users()->attach($this->user, ['is_owner' => true]);
+        $campaign->users()->attach($this->user->id, ['is_owner' => true]);
 
         $response = $this->delete(route('campaign.destroy', $campaign));
 
@@ -241,7 +241,8 @@ class CampaignControllerTest extends TestCase
 
         $response = $this->delete(route('campaign.destroy', $campaign));
 
-        $response->assertSessionHasErrors('errors');
-        $this->assertDatabaseHas($campaign);
+        $response->assertRedirect();
+        $response->assertSessionHasErrors();
+        $this->assertModelExists($campaign);
     }
 }
