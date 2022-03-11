@@ -45,10 +45,10 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
             ->get();
 
         //entry creation input arrays for all characters & dm in $sessions
-        $input_arrays = collect([]);
+        $inputArrays = collect();
         foreach ($sessions as $session) {
             foreach ($session->characters as $character) {
-                $input_arrays->push(collect([
+                $inputArrays->push([
                     'user_id' => $character->user_id,
                     'adventure_id' => $session->adventure_id,
                     'character_id' => $character->id,
@@ -57,26 +57,26 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
                     'date_played' => $session->start_time,
                     'location' =>$session->event->location,
                     'type' => Entry::TYPE_GAME,
-                ]));
+                ]);
             }
 
-            //create DM's entry
-            $input_arrays->push(collect([
+            //fill DM entry's input array
+            $inputArrays->push([
                 'user_id' => $session->dungeon_master_id,
                 'adventure_id' => $session->adventure_id,
                 'event_id' => $session->event_id,
                 'date_played' => $session->start_time,
                 'location' => $session->event->location,
                 'type' => Entry::TYPE_DM,
-            ]));
+            ]);
         }
 
         //instantiate all entries with input arrays
-        $event_ids = $input_arrays->pluck('event_id'); //is it possible to use pluck on regular 2d arrays (not collection)
-        $events = Event::whereIn('id', $event_ids)->get();
+        $eventIds = $inputArrays->pluck('event_id');
+        $events = Event::whereIn('id', $eventIds)->get();
         foreach ($events as $event) {
-            $event_entries = $input_arrays->where('event_id', $event->id);
-            $event->entries()->createMany($event_entries->toArray());
+            $eventEntries = $inputArrays->where('event_id', $event->id);
+            $event->entries()->createMany($eventEntries->toArray());
         }
     }
 }
