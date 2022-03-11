@@ -1,4 +1,6 @@
 import {adventureType} from './adventure-data'
+import {CharacterData} from './character-data'
+import {EventData} from './event-data'
 import {UserType} from './global'
 
 export type SessionData = {
@@ -11,4 +13,6 @@ export type SessionData = {
     seats_taken: number
     table: number
     is_registered: boolean
+    characters: CharacterData[]
+    event: EventData
 }

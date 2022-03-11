@@ -10,11 +10,17 @@ import {SessionData} from 'Types/session-data'
 
 type SessionPropType = {
     data: SessionData[]
-    setSessionID: any
-    setIsRegisterOpen: any
+    setData: any
+    setIsRegistered: any
+    setIsRegisterFormOpen: any
 }
 
-const SessionTable = ({data, setSessionID, setIsRegisterOpen}: SessionPropType) => {
+const SessionTable = ({
+    data,
+    setData,
+    setIsRegistered,
+    setIsRegisterFormOpen,
+}: SessionPropType) => {
     const {t} = useTranslation()
 
     const columns = [
@@ -62,8 +68,13 @@ const SessionTable = ({data, setSessionID, setIsRegisterOpen}: SessionPropType) 
                     <Button
                         color='error'
                         onClick={() => {
-                            setSessionID('session_id', row.id)
-                            setIsRegisterOpen(true)
+                            setData({
+                                event_id: row.event.id,
+                                session_id: row.id,
+                                character_id: row.characters[0].id,
+                            })
+                            setIsRegistered(true)
+                            setIsRegisterFormOpen(true)
                         }}
                         variant='contained'>
                         {t('common.leave')}
@@ -72,8 +83,9 @@ const SessionTable = ({data, setSessionID, setIsRegisterOpen}: SessionPropType) 
                     <Button
                         color='primary'
                         onClick={() => {
-                            setSessionID('session_id', row.id)
-                            setIsRegisterOpen(true)
+                            setData('session_id', row.id)
+                            setIsRegistered(false)
+                            setIsRegisterFormOpen(true)
                         }}
                         variant='contained'>
                         {t('common.register')}
@@ -88,7 +100,7 @@ const SessionTable = ({data, setSessionID, setIsRegisterOpen}: SessionPropType) 
             isSelectable={false}
             columns={columns}
             tableName='session'
-            // filterProperties={['registered']}
+            filterProperties={['adventure_title', 'game_master']}
         />
     )
 }

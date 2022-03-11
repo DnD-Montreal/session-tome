@@ -320,11 +320,11 @@ const Ziggy = {
             methods: ['GET', 'HEAD'],
             bindings: {trade: 'id'},
         },
-        'user.index': {uri: 'user', methods: ['GET', 'HEAD']},
+        'user.index': {uri: 'admin/user', methods: ['GET', 'HEAD']},
         'user.search': {uri: 'admin/user/search', methods: ['POST']},
         'user.showDetailsRow': {uri: 'admin/user/{id}/details', methods: ['GET', 'HEAD']},
-        'user.create': {uri: 'user/create', methods: ['GET', 'HEAD']},
-        'user.store': {uri: 'user', methods: ['POST']},
+        'user.create': {uri: 'admin/user/create', methods: ['GET', 'HEAD']},
+        'user.store': {uri: 'admin/user', methods: ['POST']},
         'user.edit': {
             uri: 'user/{user}/edit',
             methods: ['GET', 'HEAD'],
@@ -336,11 +336,7 @@ const Ziggy = {
             bindings: {user: 'id'},
         },
         'user.destroy': {uri: 'user/{user}', methods: ['DELETE'], bindings: {user: 'id'}},
-        'user.show': {
-            uri: 'user/{user}',
-            methods: ['GET', 'HEAD'],
-            bindings: {user: 'id'},
-        },
+        'user.show': {uri: 'admin/user/{id}/show', methods: ['GET', 'HEAD']},
         'cypress.factory': {uri: '__cypress__/factory', methods: ['POST']},
         'cypress.login': {uri: '__cypress__/login', methods: ['POST']},
         'cypress.logout': {uri: '__cypress__/logout', methods: ['POST']},
@@ -365,6 +361,17 @@ const Ziggy = {
         homepage: {uri: '/', methods: ['GET', 'HEAD']},
         'entry-bulk.create': {uri: 'entry-bulk/create', methods: ['GET', 'HEAD']},
         'entry-bulk.store': {uri: 'entry-bulk', methods: ['POST']},
+        'offer.destroy': {
+            uri: 'offer/destroy/{offer}/{trade}',
+            methods: ['DELETE'],
+            bindings: {offer: 'id', trade: 'id'},
+        },
+        'offer.store': {uri: 'offer/store', methods: ['POST']},
+        'offer.create': {
+            uri: 'offer/create/{trade}',
+            methods: ['GET', 'HEAD'],
+            bindings: {trade: 'id'},
+        },
         'beyond-import.store': {uri: 'beyond-import', methods: ['POST']},
         'adventures-league-import.index': {
             uri: 'adventures-league-import',
@@ -381,8 +388,23 @@ const Ziggy = {
             methods: ['PUT', 'PATCH'],
             bindings: {character: 'id'},
         },
+        'event-registration.destroy': {
+            uri: 'registration/{session}',
+            methods: ['DELETE'],
+            bindings: {session: 'id'},
+        },
         'registration.store': {uri: 'registration', methods: ['POST']},
         'report.rating': {uri: 'report/rating', methods: ['GET', 'HEAD']},
+        'campaign-registration.create': {
+            uri: 'campaign-registration/create',
+            methods: ['GET', 'HEAD'],
+        },
+        'campaign-registration.store': {uri: 'campaign-registration', methods: ['POST']},
+        'trade-fulfillment.store': {
+            uri: 'trade-fulfilment/{trade}',
+            methods: ['POST'],
+            bindings: {trade: 'id'},
+        },
     },
 }
 

@@ -61,12 +61,12 @@ class EventRegistrationController extends Controller
         $character->sessions()->attach($session);
         $character->save();
 
-        return redirect('character.index');
+        return redirect()->route('event.show', $session->event_id);
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
+     * @param \App\Models\Session $session
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Session $session)
