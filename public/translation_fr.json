@@ -27,8 +27,8 @@
         "enter-details": "Ajouter des détails",
         "privacy-details": "Confidentialité",
         "import-help-text-3": "Entrer votre lien de la fiche sur D&D Beyond.",
-        "create-success-message": "Personnage crée",
-        "edit-success-message": "Personnage mise à jour"
+        "create-success-message": "Personnage créé",
+        "edit-success-message": "Personnage mis à jour"
     },
     "common": {
         "create": "Créer",
@@ -76,7 +76,7 @@
         "fill-out-fields-dm": "Saisissez les champs suivants avec la session du MJ.",
         "fill-out-fields-entry": "Saisissez les champs suivants de la session.",
         "no-adventure-warning": "Cette session importée n'a pas d'aventure associée, veuillez l'ajouter manuellement.",
-        "create-success-message": "Session crée",
+        "create-success-message": "Session créée",
         "edit-success-message": "Session mise à jour"
     },
     "enums": {
