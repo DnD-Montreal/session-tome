@@ -70,6 +70,7 @@ const CampaignKickModal = ({open, onClose, campaign}: CampaignKickModalPropType)
                                     <FormControlLabel
                                         control={
                                             <Checkbox
+                                                id={character.id}
                                                 checked={data.user_id.includes(character.user_id)}
                                                 onChange={() => {
                                                     if (data.user_id.includes(character.user_id)) {
