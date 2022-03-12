@@ -59,8 +59,8 @@ class CampaignRegistrationController extends Controller
     {
         $data = $request->validate([
             'user_id' => 'sometimes|array'
-        ])['user_id'] ?? null;
-        Log::info('validated');
+        ]);
+
         $user = Auth::user();
         $isCampaignOwner = $campaignRegistration->users()->where('user_id', $user->id)->first()->pivot->is_owner;
 
@@ -72,9 +72,9 @@ class CampaignRegistrationController extends Controller
             return redirect()->back()->withErrors(['error' => "You don't have permission to do that."]);
         }
 
-        $campaignCharacters = $campaignRegistration->characters()->whereIn('user_id', $data)->get();
+        $campaignCharacters = $campaignRegistration->characters()->whereIn('user_id', $data['user_id'])->get();
 
-        $campaignRegistration->users()->detach($data);
+        $campaignRegistration->users()->detach($data['user_id']);
         $campaignRegistration->characters()->detach($campaignCharacters);
 
         $campaignRegistration->code = $campaignRegistration->generateCode();
