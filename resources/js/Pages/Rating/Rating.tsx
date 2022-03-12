@@ -1,7 +1,6 @@
 import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
 import {RatingTable} from 'Components'
-import React from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 import {getFontTheme} from 'Utils'
 

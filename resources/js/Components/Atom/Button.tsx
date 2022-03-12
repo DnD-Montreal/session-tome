@@ -3,7 +3,7 @@ import {
     ButtonProps as MuiButtonProps,
     CircularProgress,
 } from '@mui/material'
-import React, {ReactNode} from 'react'
+import {ReactNode} from 'react'
 
 type ButtonProps = {
     loading?: boolean

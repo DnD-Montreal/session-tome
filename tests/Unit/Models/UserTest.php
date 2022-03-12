@@ -160,4 +160,25 @@ class UserTest extends TestCase
         $this->assertCount(1, $user->campaigns);
         $this->assertEquals(1, $user->campaigns[0]->pivot->is_dm);
     }
+
+    /**
+     * @test
+     */
+    public function user_has_roles_list()
+    {
+        $role = Role::factory()->create();
+        $leagues = League::factory(3)->create();
+        $user = User::factory()->create();
+        $user->roles()->attach($role, ['league_id'  => $leagues[0]->id]);
+        $user->roles()->attach($role, ['league_id'  => $leagues[1]->id]);
+        $user->roles()->attach($role, ['league_id'  => $leagues[2]->id]);
+
+        $user->fresh();
+        $list = json_decode($user->roles_list, true);
+
+        $this->assertCount(3, $list);
+        $this->assertEquals($leagues[0]->id, $list[0]['league_id']);
+        $this->assertEquals($leagues[1]->id, $list[1]['league_id']);
+        $this->assertEquals($leagues[2]->id, $list[2]['league_id']);
+    }
 }

@@ -1,15 +1,15 @@
 import {render} from '@testing-library/react'
 import {eventData} from 'Mock/event-data'
 
-import Event from './Event'
+import EventDetail from './EventDetail'
 
 const props = {
-    events: eventData,
+    event: eventData[0],
 }
 
-describe('Event', () => {
+describe('<EventDetail />', () => {
     it('Component should render', () => {
-        const component = render(<Event {...props} />)
+        const component = render(<EventDetail {...props} />)
         expect(component).toBeDefined()
     })
 })

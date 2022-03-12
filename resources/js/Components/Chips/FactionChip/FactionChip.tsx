@@ -1,5 +1,4 @@
 import Chip from '@mui/material/Chip'
-import React from 'react'
 
 type FactionChipPropType = {
     value: string | null

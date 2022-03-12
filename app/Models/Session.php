@@ -49,8 +49,6 @@ class Session extends Model
         'is_registered',
     ];
 
-    protected $with = ['event'];
-
     public function characters()
     {
         return $this->belongsToMany(\App\Models\Character::class);
@@ -109,6 +107,13 @@ class Session extends Model
 
         return $q->withCount('characters')
             ->having('characters_count', "<", DB::raw('seats'));
+    }
+
+    public function scopeWhereRegistered(Builder $q, $eventId, $userId = null)
+    {
+        return $q->where('event_id', $eventId)
+            ->whereRelation('characters', 'user_id', $userId ?? Auth::id())
+            ->orWhereRelation('dungeonMaster', 'id', $userId ?? Auth::id());
     }
 
     /**

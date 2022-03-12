@@ -1,5 +1,5 @@
 import {Divider, Drawer as MuiDrawer, Paper} from '@mui/material'
-import React, {ReactNode} from 'react'
+import {ReactNode} from 'react'
 import styled from 'styled-components'
 
 const StyledDrawerContent = styled(Paper)`

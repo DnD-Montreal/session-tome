@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {eventData} from 'Mock/event-data'
-import React from 'react'
 
 import EventTable from './EventTable'
 

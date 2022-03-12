@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {entriesData} from 'Mock/entries-data'
-import React from 'react'
 
 import EntryTable from './EntryTable'
 

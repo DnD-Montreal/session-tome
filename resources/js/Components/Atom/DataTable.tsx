@@ -14,7 +14,7 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import React, {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
+import {ReactNode, ReactNodeArray, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {DEFAULT_PAGE, DEFAULT_ROWS_PER_PAGE} from 'Utils'
@@ -35,7 +35,7 @@ type DataTablePropType = {
     // selectable table, if it's `true`, we should pass down selected, setSelected and bulkSelectActions from parent component
     isSelectable: boolean
     selected?: number[]
-    setSelected?: (payload: any) => void
+    setSelected?: () => void
     bulkSelectActions?: ReactNode
     // custom columns to be displayed and how it should be displayed
     columns: ColumnType[]
@@ -131,13 +131,14 @@ const DataTable = ({
                         label={`${t('common.search')} ${t(`tableName.${tableName}`)}`}
                         id='search-filter'
                         onChange={(e: any) => {
-                            if (e.target.value === '' || !e.target.value) {
+                            if (!e.target.value) {
                                 setCurrentRows(data)
+                            } else {
+                                const filteredRows = data.filter((item: any) =>
+                                    onFilter(item, e.target.value),
+                                )
+                                setCurrentRows(filteredRows)
                             }
-                            const filteredRows = data.filter((item: any) =>
-                                onFilter(item, e.target.value),
-                            )
-                            setCurrentRows(filteredRows)
                         }}
                     />
                 </Grid>

@@ -2,7 +2,6 @@ import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
 import {EventTable} from 'Components'
 import {ApplicationLayout} from 'Layouts'
-import React from 'react'
 import {EventData} from 'Types/event-data'
 import {getFontTheme} from 'Utils'
 

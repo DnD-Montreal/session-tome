@@ -2,7 +2,6 @@ import ClearIcon from '@mui/icons-material/Clear'
 import {Box, Button, Grid, TextField, Typography} from '@mui/material'
 import {Select} from 'Components'
 import {cloneDeep} from 'lodash'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {ItemData} from 'Types/item-data'
 

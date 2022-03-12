@@ -9,6 +9,7 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Session;
 
 class EventController extends Controller
 {
@@ -18,8 +19,11 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::all();
-        $events->load('league');
+        $events = Event::filtered($request->get('search'));
+        if ($request->has('registered_user') || $request->has('registered_only')) {
+            $events = $events->whereRegistered($request->get('registered_user'));
+        }
+        $events = $events->with('league')->get();
 
         return Inertia::render('Event/Event', compact('events'));
     }
@@ -49,18 +53,35 @@ class EventController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Event $event
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Request $request, Event $event)
     {
-        $event->load('sessions', 'league', 'sessions.adventure', 'sessions.dungeonMaster');
-        $event->load(['sessions.characters' => function ($query) {
-            $query->where('user_id', Auth::id())->first();
+        $data = $request->validate([
+            'registered_sessions' => "nullable|sometimes|boolean",
+        ]);
+
+        if (!empty($data['registered_sessions'])) {
+            $sessions = Session::whereRegistered($event->id)->get();
+        } else {
+            $sessions = $event->sessions;
+        }
+
+        $event->load([
+            'league',
+            'sessions.adventure',
+            'sessions.dungeonMaster',
+            'sessions.characters' => function ($query) {
+                $query->where('user_id', Auth::id())->first();
         }]);
 
         $allUserCharacters = Auth::user()->characters()->orderBy('updated_at', 'desc')->get();
 
-        return Inertia::render('Event/Detail/EventDetail', compact('event', 'allUserCharacters'));
+        return Inertia::render('Event/Detail/EventDetail', [
+            'event' => $event,
+            'sessions' => $sessions,
+            'allUserCharacters' => $allUserCharacters
+        ]);
     }
 
     /**
