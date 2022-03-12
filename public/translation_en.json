@@ -10,7 +10,8 @@
         "edit-campaign": "Edit Campaign",
         "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
         "enter-invite-code": "Please enter the invite code of the campaign.",
-        "fill-out-fields": "Fill out the following fields with your campaign details."
+        "fill-out-fields": "Fill out the following fields with your campaign details.",
+        "select-character-kick": "Please select a character to remove from the campaign."
     },
     "campaignDetail":{
         "campaign-title": "CAMPAIGN TITLE",
@@ -75,7 +76,9 @@
         "search": "Search",
         "or": "OR",
         "join": "Join",
-        "none": "None"
+        "none": "None",
+        "kick": "Kick",
+        "submit": "Submit"
     },
     "component": {
         "no-data": "No data...",

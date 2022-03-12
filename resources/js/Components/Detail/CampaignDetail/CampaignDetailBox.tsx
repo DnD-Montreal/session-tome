@@ -3,7 +3,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CreateIcon from '@mui/icons-material/Create'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Alert, Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
-import {Link} from 'Components'
+import {CampaignKickModal, Link} from 'Components'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -28,6 +28,7 @@ const CampaignDetailBox = ({
     setIsEditDrawerOpen,
 }: CampaignDetailBoxPropType) => {
     const {t} = useTranslation()
+    const [isKickModalOpen, setIsKickModalOpen] = useState<boolean>(false)
     const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
 
     return (
@@ -39,30 +40,27 @@ const CampaignDetailBox = ({
                 onClose={() => setOpenInviteSnackbar(false)}>
                 <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
             </Snackbar>
+            <CampaignKickModal
+                open={isKickModalOpen}
+                onClose={() => setIsKickModalOpen(false)}
+                campaign={campaign}
+            />
             <Box sx={{p: 5, backgroundColor: 'primary'}}>
                 <Grid container columnSpacing={1} rowSpacing={6}>
                     <Grid item xs={12}>
-                        <StyledTypography>
-                            {t('campaignDetail.campaign-title')}
-                        </StyledTypography>
+                        <StyledTypography>{t('campaignDetail.campaign-title')}</StyledTypography>
                         <Typography>{campaign.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>
-                            {t('campaignDetail.adventure')}
-                        </StyledTypography>
+                        <StyledTypography>{t('campaignDetail.adventure')}</StyledTypography>
                         <Typography>{campaign.adventure.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>
-                            {t('campaignDetail.sessions-played')}
-                        </StyledTypography>
+                        <StyledTypography>{t('campaignDetail.sessions-played')}</StyledTypography>
                         <Typography>{userCharacter.entries.length}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <StyledTypography>
-                            {t('campaignDetail.characters')}
-                        </StyledTypography>
+                        <StyledTypography>{t('campaignDetail.characters')}</StyledTypography>
                         <Typography>
                             {campaign.characters.map((c: any) => c.name).join(', ')}
                         </Typography>
@@ -110,6 +108,14 @@ const CampaignDetailBox = ({
                                     {t('common.dm-entry')}
                                 </Button>
                             </Link>
+                            <Button
+                                variant='contained'
+                                startIcon={<AutoStoriesIcon fontSize='small' />}
+                                onClick={() => {
+                                    setIsKickModalOpen(true)
+                                }}>
+                                {t('common.kick')}
+                            </Button>
                         </Stack>
                     </Grid>
                 </Grid>

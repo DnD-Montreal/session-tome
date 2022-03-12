@@ -79,6 +79,6 @@ class CampaignRegistrationController extends Controller
         $campaignRegistration->code = $campaignRegistration->generateCode();
         $campaignRegistration->save();
 
-        return redirect('campaign.index');
+        return redirect()->route('campaign.index');
     }
 }
