@@ -15,10 +15,9 @@
     ],
     "parser": "@babel/eslint-parser",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 8,
+        "ecmaVersion": 12,
+        "parser": "@babel/eslint-parser",
+        "requireConfigFile": false,
         "sourceType": "module"
     },
     "env": {
@@ -144,6 +143,8 @@
             }
         ],
         "semi-style": ["error", "last"],
-        "camelcase": "off"
+        "camelcase": "off",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
     }
 }

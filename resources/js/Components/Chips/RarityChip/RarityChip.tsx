@@ -1,5 +1,4 @@
 import Chip from '@mui/material/Chip'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 
 type RarityChipPropType = {

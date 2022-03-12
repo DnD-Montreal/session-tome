@@ -1,6 +1,5 @@
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 import {Avatar, Box, Button, Grid, Modal, Typography} from '@mui/material'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 
