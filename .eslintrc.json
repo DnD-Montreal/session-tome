@@ -15,10 +15,9 @@
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 8,
+        "ecmaVersion": 12,
+        "parser": "@babel/eslint-parser",
+        "requireConfigFile": false,
         "sourceType": "module"
     },
     "env": {
@@ -145,8 +144,9 @@
         ],
         "semi-style": ["error", "last"],
         "camelcase": "off",
-        // note you must disable the base rule as it can report incorrect errors
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"]
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
     }
 }

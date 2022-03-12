@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EntryRequest;
+use App\Http\Controllers\Traits\Accessible;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -18,7 +19,7 @@ class EntryCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-
+    use Accessible;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -26,6 +27,7 @@ class EntryCrudController extends CrudController
      */
     public function setup()
     {
+        $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Entry::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/entry');
         CRUD::setEntityNameStrings('entry', 'entries');
