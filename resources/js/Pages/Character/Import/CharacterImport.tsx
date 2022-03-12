@@ -1,6 +1,5 @@
 import {ThemeProvider} from '@mui/material/styles'
 import {CharacterImportForm} from 'Components'
-import React from 'react'
 import {getFontTheme} from 'Utils'
 
 const CharacterImport = () => (

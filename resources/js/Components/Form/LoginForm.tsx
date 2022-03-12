@@ -1,7 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, TextField} from '@mui/material'
 import {ErrorText} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import route from 'ziggy-js'
 

@@ -14,7 +14,7 @@
         "resolveJsonModule": true,
         "isolatedModules": false,
         "noEmit": false,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "baseUrl": "./",
         "paths": {
             "@": ["resources/js/*"],
