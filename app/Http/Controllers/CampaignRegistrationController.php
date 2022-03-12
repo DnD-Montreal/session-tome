@@ -7,7 +7,6 @@ use App\Models\Campaign;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Log;
 
 class CampaignRegistrationController extends Controller
 {
