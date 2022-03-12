@@ -77,7 +77,8 @@
         "or": "OR",
         "join": "Join",
         "none": "None",
-        "kick": "Kick"
+        "kick": "Kick",
+        "submit": "Submit"
     },
     "component": {
         "no-data": "No data...",

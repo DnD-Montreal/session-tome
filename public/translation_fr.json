@@ -78,7 +78,8 @@
         "or": "OU",
         "join": "Joindre",
         "none": "Aucun",
-        "kick": "Expulsion"
+        "kick": "Expulsion",
+        "submit": "Soumettre"
     },
     "component": {
         "no-data": "Aucune donnée...",
