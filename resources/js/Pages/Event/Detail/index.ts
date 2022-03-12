@@ -1,1 +1,1 @@
-export {default as CharacterDetail} from './EventDetail'
+export {default as EventDetail} from './EventDetail'
