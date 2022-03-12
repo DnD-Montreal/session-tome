@@ -7,7 +7,7 @@ use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Session;
 
 class EventController extends Controller
 {
@@ -56,19 +56,13 @@ class EventController extends Controller
     public function show(Request $request, Event $event)
     {
         $data = $request->validate([
-            'registered_session' => "nullable|sometimes|boolean",
+            'registered_sessions' => "nullable|sometimes|boolean",
         ]);
 
-        $userId = $request->user()->id;
-
-        $sessions = $event->sessions;
-
-        if (!empty($data['registered_session'])) {
-            $sessions = $event->sessions()->whereHas('characters', function (Builder $q) use ($userId) {
-                $q->where('user_id', $userId);
-            })->orWhereHas('dungeonMaster', function ($q) use ($userId) {
-                $q->where('id', $userId);
-            })->get();
+        if (!empty($data['registered_sessions'])) {
+            $sessions = Session::whereRegistered($event->id)->get();
+        } else {
+            $sessions = $event->sessions;
         }
 
         return Inertia::render('Event/Detail/EventDetail', [
