@@ -1,6 +1,5 @@
 import {render} from '@testing-library/react'
 import {eventData} from 'Mock/event-data'
-import React from 'react'
 
 import Event from './Event'
 

@@ -1,5 +1,4 @@
 import {DataTable} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {EventData} from 'Types/event-data'
 
