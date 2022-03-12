@@ -25,7 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //Do we have a different preference for how to schedule this job?
         $schedule->job(new AutomateSessionEntries())->everyFifteenMinutes()->runInBackground();
     }
 
