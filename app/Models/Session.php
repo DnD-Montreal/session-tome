@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Session extends Model
 {
@@ -85,6 +86,13 @@ class Session extends Model
 
         return $q->withCount('characters')
             ->having('characters_count', "<", DB::raw('seats'));
+    }
+
+    public function scopeWhereRegistered(Builder $q, $eventId, $userId = null)
+    {
+        return $q->where('event_id', $eventId)
+            ->whereRelation('characters', 'user_id', $userId ?? Auth::id())
+            ->orWhereRelation('dungeonMaster', 'id', $userId ?? Auth::id());
     }
 
     /**

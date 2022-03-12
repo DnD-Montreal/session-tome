@@ -4,11 +4,14 @@ namespace Tests\Unit\Models;
 
 use App\Models\Character;
 use App\Models\Session;
+use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class SessionTest extends TestCase
 {
@@ -37,6 +40,26 @@ class SessionTest extends TestCase
         $this->assertEquals(10, $sessionEmpty->open_seats);
         $this->assertEquals(5, $sessionHalf->open_seats);
         $this->assertEquals(0, $sessionFull->open_seats);
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_filtered_by_registered_user()
+    {
+        $characterFactory = Character::factory()->has(User::factory());
+        $sessionFactory = Session::factory()->has($characterFactory);
+        $event = Event::factory()->has($sessionFactory)->create();
+        // Create sessions that _shouldn't_ be returned
+        Event::factory(3)->has(Session::factory(5))->create();
+        $user = $event->sessions[0]->characters[0]->user;
+
+        $filtered = Session::whereRegistered($event->id, $user->id)->get();
+        Auth::login($user);
+        $filteredViaLogin = Session::whereRegistered($event->id)->get();
+
+        $this->assertEquals($event->sessions[0]->fresh(), $filtered[0]);
+        $this->assertEquals($filtered[0], $filteredViaLogin[0]);
     }
 
     /**

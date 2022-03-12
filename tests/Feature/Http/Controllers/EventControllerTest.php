@@ -162,13 +162,37 @@ class EventControllerTest extends TestCase
      */
     public function show_displays_view()
     {
-        $event = Event::factory()->create();
+        $characterFactory = Character::factory()->has(User::factory());
+        $sessionFactory = Session::factory()->has($characterFactory);
+        $nonRegisteredSession = Session::factory();
+        $event = Event::factory()
+                    ->has($sessionFactory)
+                    ->has($nonRegisteredSession)
+                    ->create();
 
-        $response = $this->get(route('event.show', $event));
+        $request_user = $event->sessions[0]->characters[0]->user;
 
+        $filterdResponse = $this->actingAs($request_user)->get(route('event.show', [
+            'event' => $event,
+            'registered_sessions' => true
+        ]));
+
+        $response = $this->actingAs($request_user)->get(route('event.show', $event));
+
+        $filterdResponse->assertOk();
+        $filterdResponse->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Event/Detail/EventDetail')
+                ->has('event')
+                ->has('sessions', 1)
+        );
         $response->assertOk();
-        $response->assertViewIs('event.show');
-        $response->assertViewHas('event');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Event/Detail/EventDetail')
+                ->has('event')
+                ->has('sessions', 2)
+        );
     }
 
     /**

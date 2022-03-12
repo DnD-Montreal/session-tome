@@ -7,6 +7,7 @@ use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Session;
 
 class EventController extends Controller
 {
@@ -54,7 +55,20 @@ class EventController extends Controller
      */
     public function show(Request $request, Event $event)
     {
-        return view('event.show', compact('event'));
+        $data = $request->validate([
+            'registered_sessions' => "nullable|sometimes|boolean",
+        ]);
+
+        if (!empty($data['registered_sessions'])) {
+            $sessions = Session::whereRegistered($event->id)->get();
+        } else {
+            $sessions = $event->sessions;
+        }
+
+        return Inertia::render('Event/Detail/EventDetail', [
+            'event' => $event,
+            'sessions' => $sessions,
+        ]);
     }
 
     /**
