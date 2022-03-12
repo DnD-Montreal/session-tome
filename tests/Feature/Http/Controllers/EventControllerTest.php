@@ -174,7 +174,7 @@ class EventControllerTest extends TestCase
 
         $filterdResponse = $this->actingAs($request_user)->get(route('event.show', [
             'event' => $event,
-            'registered_session' => true
+            'registered_sessions' => true
         ]));
 
         $response = $this->actingAs($request_user)->get(route('event.show', $event));
