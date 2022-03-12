@@ -1,7 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {campaignData} from 'Mock/campaign-data'
 import {userCharacterData} from 'Mock/user-character-data'
-import React from 'react'
 
 import CampaignDetailBox from './CampaignDetailBox'
 

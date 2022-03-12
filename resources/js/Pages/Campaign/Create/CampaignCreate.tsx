@@ -1,7 +1,6 @@
 import {ThemeProvider} from '@mui/material/styles'
 import useUser from '@Utils/use-user'
 import {CampaignCreateForm} from 'Components'
-import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {getFontTheme} from 'Utils'
@@ -16,11 +15,7 @@ const CampaignCreate = ({characters, adventures}: CampaignCreateType) => {
 
     return (
         <ThemeProvider theme={getFontTheme('Form', 14, language)}>
-            <CampaignCreateForm
-                type='Create'
-                characters={characters}
-                adventures={adventures}
-            />
+            <CampaignCreateForm type='Create' characters={characters} adventures={adventures} />
         </ThemeProvider>
     )
 }

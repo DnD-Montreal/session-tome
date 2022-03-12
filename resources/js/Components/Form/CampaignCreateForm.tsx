@@ -2,7 +2,6 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
 import {Autocomplete, ErrorText, Link, Select} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -48,8 +47,7 @@ const CampaignCreateForm = ({
 
     const {getUserId} = useUser()
 
-    const userCharacters =
-        editData?.characters.filter((c) => c.user_id === getUserId()) || []
+    const userCharacters = editData?.characters.filter((c) => c.user_id === getUserId()) || []
     const defaultCharacterId = userCharacters.length > 0 ? userCharacters[0].id : null
 
     const CAMPAIGN_INITIAL_VALUE: CampaignFormDataType =
@@ -61,8 +59,7 @@ const CampaignCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, put, post} =
-        useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
+    const {data, setData, errors, put, post} = useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
 
     return (
         <Grid>
@@ -89,9 +86,7 @@ const CampaignCreateForm = ({
                         label={t('form.assigned-character')}
                         name='Assigned Character'
                         value={data.character_id}
-                        onChange={(e) =>
-                            setData('character_id', parseInt(e.target.value))
-                        }
+                        onChange={(e) => setData('character_id', parseInt(e.target.value))}
                         options={characters}
                     />
                     {errors?.character_id && <ErrorText message={errors?.character_id} />}
@@ -106,14 +101,10 @@ const CampaignCreateForm = ({
                         getOptionLabel={(option) => `${option.code} - ${option.title}`}
                         options={adventures}
                         resetUrl={
-                            type === 'Create'
-                                ? route('campaign.create')
-                                : route('campaign.index')
+                            type === 'Create' ? route('campaign.create') : route('campaign.index')
                         }
                     />
-                    {errors['adventure.id'] && (
-                        <ErrorText message={errors['adventure.id']} />
-                    )}
+                    {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
                 </StyledGrid>
             </Grid>
             <Grid container spacing={4}>
@@ -123,9 +114,7 @@ const CampaignCreateForm = ({
                             <Button fullWidth>{t('common.cancel')}</Button>
                         </Link>
                     ) : (
-                        <Button
-                            onClick={() => onCloseDrawer && onCloseDrawer()}
-                            fullWidth>
+                        <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
                             {t('common.cancel')}
                         </Button>
                     )}

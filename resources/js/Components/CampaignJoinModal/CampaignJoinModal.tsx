@@ -1,16 +1,5 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {
-    Alert,
-    Backdrop,
-    Box,
-    Button,
-    Fade,
-    Grid,
-    Modal,
-    TextField,
-    Typography,
-} from '@mui/material'
-import React from 'react'
+import {Alert, Backdrop, Box, Button, Fade, Grid, Modal, TextField, Typography} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import route from 'ziggy-js'
@@ -86,11 +75,7 @@ const CampaignJoinModal = ({open, onClose}: CampaignJoinModalPropType) => {
                                 variant='outlined'
                                 onClick={() => {
                                     if (!data.code) return
-                                    get(
-                                        route('campaign-registration.create', [
-                                            data.code,
-                                        ]),
-                                    )
+                                    get(route('campaign-registration.create', [data.code]))
                                 }}>
                                 {t('common.join')}
                             </Button>

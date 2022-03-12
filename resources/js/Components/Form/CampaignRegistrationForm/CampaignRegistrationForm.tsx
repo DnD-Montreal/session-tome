@@ -1,7 +1,6 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Alert, Box, Button, Grid, Typography} from '@mui/material'
 import {ErrorText, Link, Select} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CampaignData} from 'Types/campaign-data'
@@ -31,10 +30,7 @@ const StyledAlert = styled(Alert)`
     color: #ffffff;
 `
 
-const CampaignRegistrationForm = ({
-    campaign,
-    characters,
-}: CampaignRegistrationFormPropType) => {
+const CampaignRegistrationForm = ({campaign, characters}: CampaignRegistrationFormPropType) => {
     const {t} = useTranslation()
 
     const {data, setData, errors, post} = useForm<CampaignRegistrationFormDataType>({
@@ -61,15 +57,11 @@ const CampaignRegistrationForm = ({
                             label={t('form.assigned-character')}
                             name='Assigned Character'
                             value={data.character_id}
-                            onChange={(e) =>
-                                setData('character_id', parseInt(e.target.value))
-                            }
+                            onChange={(e) => setData('character_id', parseInt(e.target.value))}
                             options={characters}
                             hasNoneOption
                         />
-                        {errors?.character_id && (
-                            <ErrorText message={errors?.character_id} />
-                        )}
+                        {errors?.character_id && <ErrorText message={errors?.character_id} />}
                     </Grid>
                     <Grid item xs={12}>
                         <StyledAlert severity='info'>

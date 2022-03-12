@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {campaignData} from 'Mock/campaign-data'
-import React from 'react'
 
 import CampaignTable from './CampaignTable'
 

@@ -6,7 +6,7 @@ import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoom'
 import {Alert, Box, Button, IconButton, Snackbar} from '@mui/material'
 import {objectArrayFormatter} from '@Utils/formatter'
 import {CampaignJoinModal, DataTable, DeleteModal, Link} from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {CampaignData} from 'Types/campaign-data'
 import route from 'ziggy-js'
@@ -130,10 +130,7 @@ const CampaignTable = ({
                 onClose={() => setOpenInviteSnackbar(false)}>
                 <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
             </Snackbar>
-            <CampaignJoinModal
-                open={isJoinModalOpen}
-                onClose={() => setIsJoinModalOpen(false)}
-            />
+            <CampaignJoinModal open={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
             <DataTable
                 leftActions={leftActions}
                 selected={selected}
