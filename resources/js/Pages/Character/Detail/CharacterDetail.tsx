@@ -8,7 +8,7 @@ import {
     EntryCreateForm,
     EntryTable,
 } from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'

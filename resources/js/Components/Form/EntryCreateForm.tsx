@@ -6,7 +6,7 @@ import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/mate
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'Components'
 import {useSnackbar} from 'notistack'
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'

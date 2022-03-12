@@ -1,5 +1,4 @@
 import {Typography} from '@mui/material'
-import React from 'react'
 
 const Campaign = () => <Typography>Under construction</Typography>
 

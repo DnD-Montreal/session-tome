@@ -1,6 +1,5 @@
 import {render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
-import React from 'react'
 
 import Character from './Character'
 

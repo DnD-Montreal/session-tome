@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 import {Drawer, ItemEditForm, ItemTable} from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {ItemEditData} from 'Types/item-data'
 

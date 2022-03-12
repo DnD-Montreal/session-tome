@@ -1,5 +1,4 @@
 import {CharacterImportForm} from 'Components'
-import React from 'react'
 
 const CharacterImport = () => <CharacterImportForm />
 

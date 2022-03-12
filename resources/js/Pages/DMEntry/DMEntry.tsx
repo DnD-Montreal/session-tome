@@ -1,7 +1,6 @@
 import {Typography} from '@mui/material'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import {DmEntryCreateForm, DMEntryTable, Drawer} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'

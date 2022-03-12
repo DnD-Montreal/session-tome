@@ -3,7 +3,6 @@ import {Box, Card, CardContent, Container, Grid, Typography} from '@mui/material
 import {Select} from 'Components'
 import i18n from 'i18next'
 import {eventData} from 'Mock/event-data'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 

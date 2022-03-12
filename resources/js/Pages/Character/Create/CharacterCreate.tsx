@@ -1,5 +1,4 @@
 import {CharacterCreateForm} from 'Components'
-import React from 'react'
 
 type CharacterCreateType = {
     factions: string[]

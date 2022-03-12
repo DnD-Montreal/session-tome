@@ -1,5 +1,4 @@
 import {EntryCreateForm} from 'Components'
-import React from 'react'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 

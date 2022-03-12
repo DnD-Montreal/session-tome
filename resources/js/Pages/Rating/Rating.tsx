@@ -1,5 +1,4 @@
 import {RatingTable} from 'Components'
-import React from 'react'
 import {ReportedRatingData} from 'Types/reported-rating-data'
 
 type RatingPropType = {

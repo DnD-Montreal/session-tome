@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {itemData} from 'Mock/item-data'
-import React from 'react'
 
 import ItemTable from './ItemTable'
 
