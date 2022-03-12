@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'

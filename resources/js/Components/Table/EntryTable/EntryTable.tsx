@@ -5,7 +5,7 @@ import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/ma
 import {objectArrayFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'

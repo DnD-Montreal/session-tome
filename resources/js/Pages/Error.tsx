@@ -1,6 +1,5 @@
 import {usePage} from '@inertiajs/inertia-react'
 import {Box} from '@mui/material'
-import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import {UsePageType} from 'Types/global'
 

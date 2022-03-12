@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Grid, TextField, Typography} from '@mui/material'
 import {Button, ErrorText, Select} from 'Components'
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {ItemEditData} from 'Types/item-data'

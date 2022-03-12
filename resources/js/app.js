@@ -9,7 +9,6 @@ import i18n from 'i18next'
 import {ApplicationLayout} from 'Layouts'
 import translation_en from 'public/translation_en'
 import translation_fr from 'public/translation_fr'
-import React from 'react'
 import {render} from 'react-dom'
 import {initReactI18next} from 'react-i18next'
 

@@ -9,7 +9,7 @@ import {
     EntryCreateForm,
     EntryTable,
 } from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
@@ -34,17 +34,10 @@ const CampaignDetail = ({
     characters,
     adventures,
 }: CampaignDetailPropType) => {
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<EntriesData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<EntriesData>()
 
-    const [isEditCampaignDrawerOpen, setIsEditCampaignDrawerOpen] =
-        useState<boolean>(false)
+    const [isEditCampaignDrawerOpen, setIsEditCampaignDrawerOpen] = useState<boolean>(false)
     const {t} = useTranslation()
     const {language} = useUser()
     const linkedAdventure = campaign.adventure

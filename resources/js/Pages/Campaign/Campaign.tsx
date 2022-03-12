@@ -3,7 +3,6 @@ import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import useUser from '@Utils/use-user'
 import {CampaignCreateForm, CampaignTable, Drawer} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CampaignData} from 'Types/campaign-data'
@@ -17,14 +16,8 @@ type CampaignPropType = {
 }
 
 const Campaign = ({campaigns, characters, adventures}: CampaignPropType) => {
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<CampaignData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<CampaignData>()
     const {t} = useTranslation()
     const {language} = useUser()
 

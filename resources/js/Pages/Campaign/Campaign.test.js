@@ -1,7 +1,6 @@
 import {render} from '@testing-library/react'
 import {campaignData} from 'Mock/campaign-data'
 import {characterData} from 'Mock/character-data'
-import React from 'react'
 
 import Campaign from './Campaign'
 

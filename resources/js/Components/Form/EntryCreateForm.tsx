@@ -6,7 +6,7 @@ import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/mate
 import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, NumberInput, StepperForm} from 'Components'
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -109,9 +109,7 @@ const EntryCreateForm = ({
                   dungeon_master: editData?.dungeon_master || undefined,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
-                  rating_data:
-                      editData?.rating_data ||
-                      ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
+                  rating_data: editData?.rating_data || ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
                   type: 'game',
                   character_id: character.id,
                   user_id: getUserId(),
@@ -337,9 +335,7 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Create'
-                            ? window.history.back()
-                            : onCloseDrawer && onCloseDrawer()
+                        type === 'Create' ? window.history.back() : onCloseDrawer && onCloseDrawer()
                     }>
                     {t('common.cancel')}
                 </Button>

@@ -10,7 +10,6 @@ import {
     Typography,
 } from '@mui/material'
 import {Button, Link as InertiaLink} from 'Components'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import route from 'ziggy-js'
