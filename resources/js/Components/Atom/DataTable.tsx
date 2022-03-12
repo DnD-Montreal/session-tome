@@ -35,7 +35,7 @@ type DataTablePropType = {
     // selectable table, if it's `true`, we should pass down selected, setSelected and bulkSelectActions from parent component
     isSelectable: boolean
     selected?: number[]
-    setSelected?: () => void
+    setSelected?: (payload: any) => void
     bulkSelectActions?: ReactNode
     // custom columns to be displayed and how it should be displayed
     columns: ColumnType[]
