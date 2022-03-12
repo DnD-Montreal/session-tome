@@ -72,14 +72,14 @@ class CampaignRegistrationController extends Controller
             return redirect()->back()->withErrors(['error' => "You don't have permission to do that."]);
         }
 
-        $campaignCharacters = $campaignRegistration->characters()->whereIn('user_id', $data['user_id'])->get();
+        $campaignCharacters = $campaignRegistration->characters()->whereIn('user_id', $data)->get();
 
-        $campaignRegistration->users()->detach($data['user_id']);
+        $campaignRegistration->users()->detach($data);
         $campaignRegistration->characters()->detach($campaignCharacters);
 
         $campaignRegistration->code = $campaignRegistration->generateCode();
         $campaignRegistration->save();
 
-        return redirect('campaign.index');
+        return redirect()->route('campaign.index');
     }
 }
