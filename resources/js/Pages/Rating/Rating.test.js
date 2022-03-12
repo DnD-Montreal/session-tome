@@ -1,6 +1,5 @@
 import {render} from '@testing-library/react'
 import {ratingData} from 'Mock/rating-data'
-import React from 'react'
 
 import Rating from './Rating'
 

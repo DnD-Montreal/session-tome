@@ -9,7 +9,6 @@ import i18n from 'i18next'
 import {ApplicationLayout} from 'Layouts'
 import translation_en from 'public/translation_en'
 import translation_fr from 'public/translation_fr'
-import React from 'react'
 import {render} from 'react-dom'
 import {initReactI18next} from 'react-i18next'
 
@@ -30,7 +29,7 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
 dayjs.extend(localizedFormat)
 dayjs.locale(i18n.language.includes('en') ? 'en' : 'fr-ca')
 
-InertiaProgress.init({ color: '#8DA57C' })
+InertiaProgress.init({color: '#8DA57C'})
 createInertiaApp({
     resolve: (name) => {
         const page = require(`./Pages/${name}`).default // eslint-disable-line global-require, import/no-dynamic-require

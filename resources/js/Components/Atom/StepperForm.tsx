@@ -1,5 +1,5 @@
 import {Box, Step, StepLabel, Stepper} from '@mui/material'
-import React, {ReactNode} from 'react'
+import {ReactNode} from 'react'
 import styled from 'styled-components'
 
 type StepTitleType = {
