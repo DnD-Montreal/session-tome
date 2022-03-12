@@ -26,7 +26,7 @@ class CampaignStoreRequest extends FormRequest
         return [
             'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
-            'character_id' => ['sometimes', 'exists:characters,id'],
+            'character_id' => ['nullable', 'exists:characters,id'],
         ];
     }
 }

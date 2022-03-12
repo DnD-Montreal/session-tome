@@ -26,7 +26,7 @@ class CampaignUpdateRequest extends FormRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
-            'character_id' => ['sometimes', 'integer', 'exists:characters,id']
+            'character_id' => ['nullable', 'integer', 'exists:characters,id']
         ];
     }
 
