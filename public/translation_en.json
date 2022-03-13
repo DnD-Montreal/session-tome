@@ -46,7 +46,9 @@
         "import-note": "Note: Imported characters will have missing fields for items and entries, please update them manually.",
         "enter-details": "Enter details",
         "privacy-details": "Privacy details",
-        "import-help-text-3": "Enter your character's link on D&D Beyond."
+        "import-help-text-3": "Enter your character's link on D&D Beyond.",
+        "create-success-message": "Character created",
+        "edit-success-message": "Character updated"
     },
     "common": {
         "create": "Create",
@@ -100,7 +102,9 @@
         "fill-out-fields-dm": "Fill out the following fields with your DM Entry details.",
         "fill-out-fields-entry": "Fill out the following fields with your Entry details.",
         "no-adventure-warning": "This imported entry does not have an adventure, please update it manually.",
-        "campaigns": "Campaign"
+        "campaigns": "Campaign",
+        "create-success-message": "Entry created",
+        "edit-success-message": "Entry updated"
     },
     "enums": {
         "common": "Common",

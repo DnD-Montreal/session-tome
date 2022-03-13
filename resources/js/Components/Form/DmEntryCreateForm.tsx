@@ -5,14 +5,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Grid, TextField, Typography} from '@mui/material'
 import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
-import {
-    Autocomplete,
-    Button,
-    ErrorText,
-    NumberInput,
-    Select,
-    StepperForm,
-} from 'Components'
+import {Autocomplete, Button, ErrorText, NumberInput, Select, StepperForm} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -87,6 +81,7 @@ const DmEntryCreateForm = ({
     characters,
     campaigns,
 }: DmEntryCreateFormPropType) => {
+    const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
     const parameters = useUrlParams()
@@ -135,11 +130,18 @@ const DmEntryCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('entry.create-success-message')
+                    : t('entry.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 
-    const resetUrl =
-        type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
+    const resetUrl = type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
 
     useEffect(() => {
         if (errors) {
@@ -296,9 +298,7 @@ const DmEntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Create'
-                            ? window.history.back()
-                            : onCloseDrawer && onCloseDrawer()
+                        type === 'Create' ? window.history.back() : onCloseDrawer && onCloseDrawer()
                     }>
                     {t('common.cancel')}
                 </Button>

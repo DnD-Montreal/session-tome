@@ -6,6 +6,7 @@ import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/mate
 import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
 import {Autocomplete, Button, ErrorText, NumberInput, StepperForm} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -70,6 +71,7 @@ const EntryCreateForm = ({
     gameMasters,
     campaigns,
 }: EntryCreateFormPropType) => {
+    const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
     const parameters = useUrlParams()
@@ -127,6 +129,14 @@ const EntryCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('entry.create-success-message')
+                    : t('entry.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 

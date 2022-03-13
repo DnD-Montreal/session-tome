@@ -1,7 +1,5 @@
 import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
-import useUser from '@Utils/use-user'
 import {
     CampaignCreateForm,
     CampaignDetailBox,
@@ -17,7 +15,6 @@ import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {GameMasterData} from 'Types/gamemaster-data'
 import {UserCharacterData} from 'Types/user-character-data'
-import {getFontTheme} from 'Utils'
 
 type CampaignDetailPropType = {
     campaign: CampaignData
@@ -39,10 +36,9 @@ const CampaignDetail = ({
 
     const [isEditCampaignDrawerOpen, setIsEditCampaignDrawerOpen] = useState<boolean>(false)
     const {t} = useTranslation()
-    const {language} = useUser()
     const linkedAdventure = campaign.adventure
     return (
-        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+        <>
             <Drawer
                 content={
                     <CampaignCreateForm
@@ -95,7 +91,7 @@ const CampaignDetail = ({
                 setEditEntryData={setEditData}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-        </ThemeProvider>
+        </>
     )
 }
 CampaignDetail.displayName = 'CampaignDetail'

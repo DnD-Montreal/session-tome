@@ -1,7 +1,5 @@
 import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
-import useUser from '@Utils/use-user'
 import {
     CharacterCreateForm,
     CharacterDetailBox,
@@ -16,7 +14,6 @@ import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import {GameMasterData} from 'Types/gamemaster-data'
-import {getFontTheme} from 'Utils'
 
 type CharacterDetailPropType = {
     character: CharacterData
@@ -41,21 +38,13 @@ const CharacterDetail = ({
     campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
-    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
-        useState<boolean>(false)
-    const {language} = useUser()
+    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] = useState<boolean>(false)
 
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<EntriesData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<EntriesData>()
 
     return (
-        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+        <>
             <Drawer
                 content={
                     <CharacterCreateForm
@@ -109,7 +98,7 @@ const CharacterDetail = ({
                 setEditEntryData={setEditData}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-        </ThemeProvider>
+        </>
     )
 }
 
