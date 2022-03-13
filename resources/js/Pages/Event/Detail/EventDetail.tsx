@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import {EventData} from 'Types/event-data'
+import {SessionData} from 'Types/session-data'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
 
@@ -29,6 +30,8 @@ const StyledTypography = styled(Typography)`
 type EventDetailPropType = {
     allUserCharacters: CharacterData[]
     event: EventData
+    registered_sessions: boolean | null
+    sessions: SessionData[]
 }
 
 type FormDataType = {
@@ -39,7 +42,12 @@ type FormDataType = {
     seats?: any
 }
 
-const EventDetail = ({allUserCharacters, event}: EventDetailPropType) => {
+const EventDetail = ({
+    allUserCharacters,
+    event,
+    registered_sessions,
+    sessions,
+}: EventDetailPropType) => {
     const [isRegisterOpen, setIsRegisterFormOpen] = useState<boolean>(false)
     const [isRegistered, setIsRegistered] = useState<boolean>(false)
     const SESSION_REGISTRATION_FORM_INITIAL_VALUE = {
@@ -173,10 +181,12 @@ const EventDetail = ({allUserCharacters, event}: EventDetailPropType) => {
             </Modal>
             <EventDetailBox event={event} />
             <SessionTable
-                data={event.sessions}
+                data={sessions}
                 setData={setData}
                 setIsRegistered={setIsRegistered}
                 setIsRegisterFormOpen={setIsRegisterFormOpen}
+                eventID={event.id}
+                registered_sessions={registered_sessions}
             />
         </ThemeProvider>
     )

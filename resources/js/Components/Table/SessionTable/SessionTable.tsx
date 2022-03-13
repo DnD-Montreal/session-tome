@@ -1,27 +1,53 @@
-import {Typography} from '@mui/material'
+import {Inertia} from '@inertiajs/inertia'
+import DoneIcon from '@mui/icons-material/Done'
+import {Chip, Typography} from '@mui/material'
 import {Button, DataTable} from 'Components'
 import dayjs from 'dayjs'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
+import {CharacterData} from 'Types/character-data'
 import {UserType} from 'Types/global'
 import {SessionData} from 'Types/session-data'
-// import route from 'ziggy-js'
+import route from 'ziggy-js'
 
 type SessionPropType = {
     data: SessionData[]
+    eventID: number
     setData: any
     setIsRegistered: any
     setIsRegisterFormOpen: any
+    registered_sessions: boolean | null
 }
 
 const SessionTable = ({
     data,
+    eventID,
     setData,
     setIsRegistered,
     setIsRegisterFormOpen,
+    registered_sessions,
 }: SessionPropType) => {
     const {t} = useTranslation()
+
+    const leftActions = [
+        <Chip
+            onClick={() =>
+                Inertia.visit(
+                    route('event.show', {
+                        event: eventID,
+                        registered_sessions: !registered_sessions ?? true,
+                    }),
+                    {
+                        preserveScroll: true,
+                    },
+                )
+            }
+            label={t('eventDetail.registered-sessions')}
+            avatar={registered_sessions ? <DoneIcon /> : undefined}
+            variant={registered_sessions ? undefined : 'outlined'}
+            color={registered_sessions ? 'primary' : undefined}
+        />,
+    ]
 
     const columns = [
         {
@@ -61,6 +87,11 @@ const SessionTable = ({
             title: t('tableColumn.seats-left'),
         },
         {
+            property: 'characters',
+            title: t('form.chosen-character'),
+            render: (value: CharacterData[]) => <Typography>{value[0]?.name}</Typography>,
+        },
+        {
             property: 'is_registered',
             title: t('tableColumn.actions'),
             render: (value: boolean, row: SessionData) =>
@@ -69,9 +100,9 @@ const SessionTable = ({
                         color='error'
                         onClick={() => {
                             setData({
-                                event_id: row.event.id,
                                 session_id: row.id,
                                 character_id: row.characters[0].id,
+                                event_id: row.event.id,
                             })
                             setIsRegistered(true)
                             setIsRegisterFormOpen(true)
@@ -97,6 +128,7 @@ const SessionTable = ({
     return (
         <DataTable
             data={data}
+            leftActions={leftActions}
             isSelectable={false}
             columns={columns}
             tableName='session'

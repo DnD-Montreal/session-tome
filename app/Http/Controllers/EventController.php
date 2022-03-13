@@ -20,12 +20,12 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $events = Event::filtered($request->get('search'));
-        if ($request->has('registered_user') || $request->has('registered_only')) {
+        if ($request->has('registered_user') || $registered_only = (bool) !empty($request['registered_only'])) {
             $events = $events->whereRegistered($request->get('registered_user'));
         }
         $events = $events->with('league')->get();
 
-        return Inertia::render('Event/Event', compact('events'));
+        return Inertia::render('Event/Event', compact('events', 'registered_only'));
     }
 
     /**
@@ -61,26 +61,29 @@ class EventController extends Controller
             'registered_sessions' => "nullable|sometimes|boolean",
         ]);
 
-        if (!empty($data['registered_sessions'])) {
+        if ($registered_sessions = (bool) !empty($data['registered_sessions'])) {
             $sessions = Session::whereRegistered($event->id)->get();
         } else {
             $sessions = $event->sessions;
         }
 
-        $event->load([
-            'league',
-            'sessions.adventure',
-            'sessions.dungeonMaster',
-            'sessions.characters' => function ($query) {
+        $event->load('league');
+
+        $sessions->load([
+            'adventure',
+            'dungeonMaster',
+            'characters' => function ($query) {
                 $query->where('user_id', Auth::id())->first();
-        }]);
+            }
+        ]);
 
         $allUserCharacters = Auth::user()->characters()->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Event/Detail/EventDetail', [
             'event' => $event,
             'sessions' => $sessions,
-            'allUserCharacters' => $allUserCharacters
+            'allUserCharacters' => $allUserCharacters,
+            'registered_sessions' => $registered_sessions
         ]);
     }
 

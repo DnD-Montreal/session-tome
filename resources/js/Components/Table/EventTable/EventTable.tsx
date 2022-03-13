@@ -1,5 +1,7 @@
+import {Inertia} from '@inertiajs/inertia'
+import DoneIcon from '@mui/icons-material/Done'
 import Logout from '@mui/icons-material/Logout'
-import {IconButton, Typography} from '@mui/material'
+import {Chip, IconButton, Typography} from '@mui/material'
 import {DataTable, Link} from 'Components'
 import dayjs from 'dayjs'
 import {useTranslation} from 'react-i18next'
@@ -8,10 +10,27 @@ import route from 'ziggy-js'
 
 type EventTablePropType = {
     data: EventData[]
+    registered_only: boolean | null
 }
 
-const EventTable = ({data}: EventTablePropType) => {
+const EventTable = ({data, registered_only}: EventTablePropType) => {
     const {t} = useTranslation()
+    const leftActions = [
+        <Chip
+            onClick={() =>
+                Inertia.visit(
+                    route('event.index', {registered_only: !registered_only ?? true}),
+                    {
+                        preserveScroll: true,
+                    },
+                )
+            }
+            label={t('eventDetail.registered-events')}
+            avatar={registered_only ? <DoneIcon /> : undefined}
+            variant={registered_only ? undefined : 'outlined'}
+            color={registered_only ? 'primary' : undefined}
+        />,
+    ]
 
     const columns = [
         {
@@ -35,8 +54,18 @@ const EventTable = ({data}: EventTablePropType) => {
             title: t('eventDetail.description'),
         },
         {
-            property: 'participation',
+            property: 'is_registered',
             title: t('tableColumn.participation'),
+            render: (value: boolean) =>
+                value ? (
+                    <Chip
+                        label={t('eventDetail.registered')}
+                        color='primary'
+                        variant='filled'
+                    />
+                ) : (
+                    <></>
+                ),
         },
         {
             property: null,
@@ -53,6 +82,7 @@ const EventTable = ({data}: EventTablePropType) => {
     return (
         <DataTable
             isSelectable={false}
+            leftActions={leftActions}
             data={data}
             columns={columns}
             tableName='event'

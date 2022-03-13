@@ -109,6 +109,8 @@
         "registered-users": "Registered Users",
         "total-spots-left": "Total Spots Left",
         "description": "Description",
+        "registered": "Registered",
+        "registered-events": "Registered Events",
         "registered-sessions": "Registered Sessions",
         "registration-message": "Please choose a character for this session.",
         "leave-message": "Are you sure you want to leave this session?"
