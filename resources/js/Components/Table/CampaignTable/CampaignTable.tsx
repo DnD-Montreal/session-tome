@@ -3,9 +3,10 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoom'
-import {Alert, Box, Button, IconButton, Snackbar} from '@mui/material'
+import {Box, Button, IconButton} from '@mui/material'
 import {objectArrayFormatter} from '@Utils/formatter'
 import {CampaignJoinModal, DataTable, DeleteModal, Link} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {CampaignData} from 'Types/campaign-data'
@@ -32,7 +33,7 @@ const CampaignTable = ({
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false)
-    const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
+    const {enqueueSnackbar} = useSnackbar()
     const {
         data: formData,
         setData,
@@ -77,7 +78,9 @@ const CampaignTable = ({
                     color='info'
                     onClick={() => {
                         navigator.clipboard.writeText(value)
-                        setOpenInviteSnackbar(true)
+                        enqueueSnackbar(t('campaignDetail.invite-copied'), {
+                            variant: 'success',
+                        })
                     }}>
                     {value}
                 </Button>
@@ -123,13 +126,6 @@ const CampaignTable = ({
                     }
                 }}
             />
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={openInviteSnackbar}
-                autoHideDuration={3000}
-                onClose={() => setOpenInviteSnackbar(false)}>
-                <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
-            </Snackbar>
             <CampaignJoinModal open={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
             <DataTable
                 leftActions={leftActions}

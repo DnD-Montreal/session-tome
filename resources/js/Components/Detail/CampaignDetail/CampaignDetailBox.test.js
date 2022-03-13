@@ -35,7 +35,6 @@ describe('<CampaignDetailBox />', () => {
         fireEvent.click(updateButton)
     })
     it('Snackbar should render', () => {
-        jest.useFakeTimers()
         const component = render(<CampaignDetailBox {...props} />)
         const inviteButton = screen.getByTestId('invite-button')
         fireEvent.click(inviteButton)
