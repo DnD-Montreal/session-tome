@@ -105,15 +105,19 @@
     },
     "eventDetail": {
         "event-title": "Titre de l'évènement",
-        "date": "Date",
+        "start-date": "Date de début",
+        "end-date": "Date de fin",
         "league": "Ligue",
         "location": "Emplacement",
         "total-spots": "Nombre total de places",
         "registered-users": "Nombre d'utilisateurs inscrits",
         "total-spots-left": "Nombre total de places restants",
         "description": "Description",
+        "registered": "Inscrits",
+        "registered-events": "Évènements inscrits",
         "registered-sessions": "Sessions inscrits",
-        "registration-message": "Veuillez choisir un personnage pour cette session."
+        "registration-message": "Veuillez choisir un personnage pour cette session.",
+        "leave-message": "Êtes-vous sûr de vouloir quitter cette session?"
     },
     "form": {
         "name": "Nom",
@@ -209,7 +213,8 @@
         "entry": "Sessions",
         "item": "Objets",
         "rating": "Évaluations",
-        "event": "Évènements"
+        "event": "Évènements",
+        "session": "Sessions"
     },
     "welcome": {
         "welcome-text-1": "Bienvenue à ",

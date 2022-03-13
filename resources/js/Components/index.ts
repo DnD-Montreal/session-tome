@@ -7,7 +7,10 @@ export {default as ErrorText} from './ErrorText'
 export {FactionChip, RarityChip} from './Chips'
 
 // Details
-export {CharacterDetailBox, ItemDetailBox} from './Detail'
+export {CharacterDetailBox, EventDetailBox, ItemDetailBox} from './Detail'
+
+// Modals
+export {EventRegistrationModal} from './Modal'
 
 // Tables
 export {
@@ -17,6 +20,7 @@ export {
     EventTable,
     ItemTable,
     RatingTable,
+    SessionTable,
 } from './Table'
 
 // Forms

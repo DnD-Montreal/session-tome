@@ -1,20 +1,48 @@
-import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
-import useUser from '@Utils/use-user'
+import {EventDetailBox, EventRegistrationModal, SessionTable} from 'Components'
+import {useState} from 'react'
+import {CharacterData} from 'Types/character-data'
 import {EventData} from 'Types/event-data'
-import {getFontTheme} from 'Utils'
+import {SessionData} from 'Types/session-data'
 
 type EventDetailPropType = {
+    allUserCharacters: CharacterData[]
     event: EventData
+    registered_sessions: boolean | null
+    sessions: SessionData[]
 }
 
-const EventDetail = ({event}: EventDetailPropType) => {
-    const {language} = useUser()
+const EventDetail = ({
+    allUserCharacters,
+    event,
+    registered_sessions,
+    sessions,
+}: EventDetailPropType) => {
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false)
+    const [registrationData, setRegistrationData] = useState<SessionData | null>()
 
     return (
-        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
-            <Typography>Event {event.id} is under construction</Typography>
-        </ThemeProvider>
+        <>
+            {registrationData && (
+                <EventRegistrationModal
+                    allUserCharacters={allUserCharacters}
+                    event={event}
+                    isRegisterModalOpen={isRegisterModalOpen}
+                    onClose={() => {
+                        setRegistrationData(null)
+                        setIsRegisterModalOpen(false)
+                    }}
+                    registrationData={registrationData}
+                />
+            )}
+            <EventDetailBox event={event} />
+            <SessionTable
+                data={sessions}
+                setRegistrationData={setRegistrationData}
+                setIsRegisterModalOpen={setIsRegisterModalOpen}
+                eventID={event.id}
+                registered_sessions={registered_sessions}
+            />
+        </>
     )
 }
 

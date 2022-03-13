@@ -91,6 +91,14 @@ const DataTable = ({
                     if (isFilter) return
                     isFilter = value.toLowerCase().includes(target.toLowerCase())
                 }
+                if (value?.title) {
+                    if (isFilter) return
+                    isFilter = value.title.toLowerCase().includes(target.toLowerCase())
+                }
+                if (value?.name) {
+                    if (isFilter) return
+                    isFilter = value.name.toLowerCase().includes(target.toLowerCase())
+                }
             }
         })
         return isFilter

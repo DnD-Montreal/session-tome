@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Event;
 use App\Models\Character;
+use App\Models\Event;
 use App\Models\Session;
 use App\Models\League;
 use App\Models\User;
@@ -160,15 +160,15 @@ class EventControllerTest extends TestCase
     /**
      * @test
      */
-    public function show_displays_view()
+    public function show_filters_sessions()
     {
         $characterFactory = Character::factory()->has(User::factory());
         $sessionFactory = Session::factory()->has($characterFactory);
         $nonRegisteredSession = Session::factory();
         $event = Event::factory()
-                    ->has($sessionFactory)
-                    ->has($nonRegisteredSession)
-                    ->create();
+            ->has($sessionFactory)
+            ->has($nonRegisteredSession)
+            ->create();
 
         $request_user = $event->sessions[0]->characters[0]->user;
 
@@ -177,21 +177,34 @@ class EventControllerTest extends TestCase
             'registered_sessions' => true
         ]));
 
-        $response = $this->actingAs($request_user)->get(route('event.show', $event));
-
         $filterdResponse->assertOk();
         $filterdResponse->assertInertia(
             fn (Assert $page) => $page
                 ->component('Event/Detail/EventDetail')
                 ->has('event')
                 ->has('sessions', 1)
+
         );
+    }
+
+    /**
+     * @test
+     */
+    public function show_displays_view()
+    {
+        $otherUser = User::factory()->create();
+        $event = Event::factory()->has(Session::factory()
+            ->has(Character::factory(2)->state(['user_id'=>Auth::id()]))
+            ->has(Character::factory(2)->state(['user_id'=>$otherUser->id])))->create();
+
+        $response = $this->get(route('event.show', $event));
+
         $response->assertOk();
         $response->assertInertia(
             fn (Assert $page) => $page
                 ->component('Event/Detail/EventDetail')
                 ->has('event')
-                ->has('sessions', 2)
+                ->has('allUserCharacters')
         );
     }
 

@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Session extends Model
 {
@@ -43,6 +43,12 @@ class Session extends Model
         'end_time' => 'datetime',
     ];
 
+    protected $appends = [
+        'seats_left',
+        'seats_taken',
+        'is_registered',
+    ];
+
     public function characters()
     {
         return $this->belongsToMany(\App\Models\Character::class);
@@ -76,6 +82,21 @@ class Session extends Model
     public function getOpenSeatsAttribute()
     {
         return $this->seats - $this->characters()->count();
+    }
+
+    public function getSeatsLeftAttribute()
+    {
+        return $this->attributes['seats'] - $this->seats_taken;
+    }
+
+    public function getSeatsTakenAttribute()
+    {
+        return $this->characters()->count();
+    }
+
+    public function getIsRegisteredAttribute()
+    {
+        return $this->characters->pluck('user_id')->contains(Auth::id());
     }
 
     public function scopeHasOpenSeats(Builder $q, $eventId = null)
