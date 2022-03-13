@@ -1,14 +1,6 @@
 import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
-import {getFontTheme} from 'Utils'
 
-const theme = getFontTheme('Form', 16)
-
-const Trade = () => (
-    <ThemeProvider theme={theme}>
-        <Typography>Under construction</Typography>
-    </ThemeProvider>
-)
+const Trade = () => <Typography>Under construction</Typography>
 
 Trade.displayName = 'Trade'
 export default Trade

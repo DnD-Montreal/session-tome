@@ -1,11 +1,11 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Alert, Divider, Grid, Snackbar, TextField, Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
+import {Divider, Grid, TextField, Typography} from '@mui/material'
 import {Button, DeleteModal, ErrorText, Select} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-import {getFontTheme, useUser} from 'Utils'
+import {useUser} from 'Utils'
 import route from 'ziggy-js'
 
 type UserEditDataType = {
@@ -22,7 +22,6 @@ const StyledTitle = styled(Typography)`
 
 const Profile = () => {
     const {t} = useTranslation()
-    const theme = getFontTheme('Form', 12)
     const {user} = useUser()
     const USER_EDIT_INITIAL_VALUE = {
         name: user.name,
@@ -42,20 +41,16 @@ const Profile = () => {
         delete: destroy,
     } = useForm<UserEditDataType>(USER_EDIT_INITIAL_VALUE)
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState<boolean>(false)
-    const [isSuccess, setIsSuccess] = useState<boolean>(wasSuccessful)
+    const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
-        setIsSuccess(wasSuccessful)
+        if (wasSuccessful) {
+            enqueueSnackbar(t('profile.account-updated'), {variant: 'success'})
+        }
     }, [wasSuccessful])
+
     return (
-        <ThemeProvider theme={theme}>
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={isSuccess}
-                autoHideDuration={3000}
-                onClose={() => setIsSuccess(false)}>
-                <Alert severity='success'>{t('profile.account-updated')}</Alert>
-            </Snackbar>
+        <>
             <DeleteModal
                 open={isDeleteModalVisible}
                 onClose={() => setIsDeleteModalVisible(false)}
@@ -182,7 +177,7 @@ const Profile = () => {
                     </Button>
                 </Grid>
             </Grid>
-        </ThemeProvider>
+        </>
     )
 }
 
