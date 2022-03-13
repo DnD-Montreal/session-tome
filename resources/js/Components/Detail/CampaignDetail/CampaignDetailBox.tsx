@@ -62,7 +62,7 @@ const CampaignDetailBox = ({
                     <Grid item>
                         <Stack spacing={3} direction='row'>
                             <Button
-                                data-testid='invite-button'
+                                data-cy='invite-button'
                                 variant='contained'
                                 startIcon={<ContentCopyIcon fontSize='small' />}
                                 onClick={() => {
@@ -78,7 +78,7 @@ const CampaignDetailBox = ({
                                 {t('common.invite')}
                             </Button>
                             <Button
-                                data-testid='update-button'
+                                data-cy='update-button'
                                 variant='contained'
                                 startIcon={<CreateIcon fontSize='small' />}
                                 onClick={() => setIsEditDrawerOpen(true)}>
@@ -105,6 +105,7 @@ const CampaignDetailBox = ({
                                 </Button>
                             </Link>
                             <Button
+                                data-cy='kick-button'
                                 variant='contained'
                                 startIcon={<AutoStoriesIcon fontSize='small' />}
                                 onClick={() => {
