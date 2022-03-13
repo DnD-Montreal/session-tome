@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {fireEvent, render} from '@testing-library/react'
 import {campaignData} from 'Mock/campaign-data'
 import {userCharacterData} from 'Mock/user-character-data'
 
@@ -25,18 +25,18 @@ describe('<CampaignDetailBox />', () => {
     it('Invite button should work', () => {
         jest.spyOn(navigator.clipboard, 'writeText')
         render(<CampaignDetailBox {...props} />)
-        const inviteButton = screen.getByTestId('invite-button')
+        const inviteButton = document.querySelector('[data-cy="invite-button"]')
         fireEvent.click(inviteButton)
         expect(navigator.clipboard.writeText).toBeCalledTimes(1)
     })
     it('Update button should work', () => {
         render(<CampaignDetailBox {...props} />)
-        const updateButton = screen.getByTestId('update-button')
+        const updateButton = document.querySelector('[data-cy="update-button"]')
         fireEvent.click(updateButton)
     })
     it('Kick button should work', () => {
         render(<CampaignDetailBox {...props} />)
-        const kickButton = screen.getByTestId('kick-button')
+        const kickButton = document.querySelector('[data-cy="kick-button"]')
         fireEvent.click(kickButton)
     })
 })
