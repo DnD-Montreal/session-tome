@@ -19,7 +19,7 @@ const StyledTypography = styled(Typography)({
 
 type CampaignDetailBoxPropType = {
     campaign: CampaignData
-    userCharacter: UserCharacterData
+    userCharacter?: UserCharacterData
     setIsEditDrawerOpen: (payload: boolean) => void
 }
 
@@ -49,10 +49,14 @@ const CampaignDetailBox = ({
                         <StyledTypography>{t('campaignDetail.adventure')}</StyledTypography>
                         <Typography>{campaign.adventure.title}</Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        <StyledTypography>{t('campaignDetail.sessions-played')}</StyledTypography>
-                        <Typography>{userCharacter.entries.length}</Typography>
-                    </Grid>
+                    {userCharacter && (
+                        <Grid item xs={12}>
+                            <StyledTypography>
+                                {t('campaignDetail.sessions-played')}
+                            </StyledTypography>
+                            <Typography>{userCharacter.entries.length}</Typography>
+                        </Grid>
+                    )}
                     <Grid item xs={12}>
                         <StyledTypography>{t('campaignDetail.characters')}</StyledTypography>
                         <Typography>
@@ -84,16 +88,18 @@ const CampaignDetailBox = ({
                                 onClick={() => setIsEditDrawerOpen(true)}>
                                 {t('common.update')}
                             </Button>
-                            <Link
-                                href={route('entry.create').concat(
-                                    `?character_id=${userCharacter.id}&campaign_id=${campaign.id}`,
-                                )}>
-                                <Button
-                                    variant='contained'
-                                    startIcon={<HistoryEduIcon fontSize='small' />}>
-                                    {t('common.entry')}
-                                </Button>
-                            </Link>
+                            {userCharacter && (
+                                <Link
+                                    href={route('entry.create').concat(
+                                        `?character_id=${userCharacter.id}&campaign_id=${campaign.id}`,
+                                    )}>
+                                    <Button
+                                        variant='contained'
+                                        startIcon={<HistoryEduIcon fontSize='small' />}>
+                                        {t('common.entry')}
+                                    </Button>
+                                </Link>
+                            )}
                             <Link
                                 href={route('dm-entry.create').concat(
                                     `?campaign_id=${campaign.id}`,
