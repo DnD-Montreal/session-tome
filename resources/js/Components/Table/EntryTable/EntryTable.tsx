@@ -42,9 +42,7 @@ const EntryTable = ({
         {
             property: 'date_played',
             title: t('tableColumn.date'),
-            render: (value: string) => (
-                <Typography>{dayjs(value).format('LLL')}</Typography>
-            ),
+            render: (value: string) => <Typography>{dayjs(value).format('LLL')}</Typography>,
         },
         {
             property: 'adventure',
@@ -75,7 +73,7 @@ const EntryTable = ({
         },
         {
             property: 'gp',
-            title: t('tableColumn.GP'),
+            title: t('tableColumn.gp'),
         },
         {
             property: 'downtime',
