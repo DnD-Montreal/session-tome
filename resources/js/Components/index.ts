@@ -45,6 +45,7 @@ export {
     DataTable,
     Drawer,
     Link,
+    Modal,
     NumberInput,
     Select,
     StepperForm,
