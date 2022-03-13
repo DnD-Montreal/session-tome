@@ -9,9 +9,6 @@ export type EventData = {
     title: string
     description: string
     location: string
-    updated_at: string
-    created_at: string
-    participation: string
     sessions: SessionData[]
     scheduled_dates: string[]
     total_seats: number
