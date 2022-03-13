@@ -97,13 +97,13 @@ const CampaignTable = ({
                         aria-label='edit'>
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label='delete'>
-                        <DeleteIcon
-                            onClick={() => {
-                                setData('campaign', row.id)
-                                setIsDeleteModalOpen(true)
-                            }}
-                        />
+                    <IconButton
+                        aria-label='delete'
+                        onClick={() => {
+                            setData('campaign', row.id)
+                            setIsDeleteModalOpen(true)
+                        }}>
+                        <DeleteIcon />
                     </IconButton>
                 </>
             ),

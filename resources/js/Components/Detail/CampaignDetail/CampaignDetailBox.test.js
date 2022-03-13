@@ -34,4 +34,18 @@ describe('<CampaignDetailBox />', () => {
         const updateButton = screen.getByTestId('update-button')
         fireEvent.click(updateButton)
     })
+    it('Snackbar should render', () => {
+        jest.useFakeTimers()
+        const component = render(<CampaignDetailBox {...props} />)
+        const inviteButton = screen.getByTestId('invite-button')
+        fireEvent.click(inviteButton)
+        component.debug()
+        const Snackbar = component.getByTestId('success-snackbar')
+        expect(Snackbar).toBeDefined()
+    })
+    it('Kick button should work', () => {
+        render(<CampaignDetailBox {...props} />)
+        const kickButton = screen.getByTestId('kick-button')
+        fireEvent.click(kickButton)
+    })
 })

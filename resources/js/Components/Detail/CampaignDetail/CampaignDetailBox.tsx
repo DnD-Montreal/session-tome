@@ -34,6 +34,7 @@ const CampaignDetailBox = ({
     return (
         <>
             <Snackbar
+                data-testid='success-snackbar'
                 anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 open={openInviteSnackbar}
                 autoHideDuration={3000}
@@ -109,6 +110,7 @@ const CampaignDetailBox = ({
                                 </Button>
                             </Link>
                             <Button
+                                data-testid='kick-button'
                                 variant='contained'
                                 startIcon={<AutoStoriesIcon fontSize='small' />}
                                 onClick={() => {

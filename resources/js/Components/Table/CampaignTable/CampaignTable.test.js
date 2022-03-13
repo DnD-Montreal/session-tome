@@ -31,4 +31,13 @@ describe('CampaignTable', () => {
         fireEvent.click(editIcon)
         expect(mockFunction).toBeCalled()
     })
+    it('Delete button in row should work', () => {
+        render(<CampaignTable {...props} />)
+        fireEvent.click(screen.getAllByLabelText('delete')[1])
+        fireEvent.click(screen.getByText('Delete'))
+    })
+    it('Test join button', () => {
+        render(<CampaignTable {...props} />)
+        fireEvent.click(screen.getByText('Join'))
+    })
 })
