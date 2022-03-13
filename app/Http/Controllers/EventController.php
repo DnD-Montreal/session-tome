@@ -20,7 +20,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $events = Event::filtered($request->get('search'));
-        if ($request->has('registered_user') || $registered_only = (bool) !empty($request['registered_only'])) {
+        if ($registered_only = (bool) !empty($request['registered_only'])) {
             $events = $events->whereRegistered($request->get('registered_user'));
         }
         $events = $events->with('league')->get();
