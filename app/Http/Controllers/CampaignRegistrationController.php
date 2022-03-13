@@ -44,16 +44,23 @@ class CampaignRegistrationController extends Controller
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
         if ($request->has('character_id')) {
-            $user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => false]);
+            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => false, 'is_owner' => false]]);
             $character = Character::findOrFail($data['character_id']);
-            $character->campaigns()->attach($campaign);
+            $character->campaigns()->syncWithoutDetaching($campaign);
         } else {
-            $user->campaigns()->attach($campaign, ['is_dm' => true, 'is_owner' => false]);
+            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => true, 'is_owner' => false]]);
         }
 
         return redirect()->route('campaign.index');
     }
 
+    /**
+     * De-register a user and their characters from a campaign
+     *
+     * @param Request $request
+     * @param Campaign $campaignRegistration
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function destroy(Request $request, Campaign $campaignRegistration)
     {
         $data = $request->validate([
