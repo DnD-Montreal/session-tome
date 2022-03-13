@@ -13,18 +13,16 @@ import route from 'ziggy-js'
 type SessionPropType = {
     data: SessionData[]
     eventID: number
-    setData: any
-    setIsRegistered: any
-    setIsRegisterFormOpen: any
+    setRegistrationData: (payload: SessionData) => void
+    setIsRegisterModalOpen: (payload: boolean) => void
     registered_sessions: boolean | null
 }
 
 const SessionTable = ({
     data,
     eventID,
-    setData,
-    setIsRegistered,
-    setIsRegisterFormOpen,
+    setRegistrationData,
+    setIsRegisterModalOpen,
     registered_sessions,
 }: SessionPropType) => {
     const {t} = useTranslation()
@@ -99,13 +97,8 @@ const SessionTable = ({
                     <Button
                         color='error'
                         onClick={() => {
-                            setData({
-                                session_id: row.id,
-                                character_id: row.characters[0].id,
-                                event_id: row.event.id,
-                            })
-                            setIsRegistered(true)
-                            setIsRegisterFormOpen(true)
+                            setRegistrationData(row)
+                            setIsRegisterModalOpen(true)
                         }}
                         variant='contained'>
                         {t('common.leave')}
@@ -114,9 +107,8 @@ const SessionTable = ({
                     <Button
                         color='primary'
                         onClick={() => {
-                            setData('session_id', row.id)
-                            setIsRegistered(false)
-                            setIsRegisterFormOpen(true)
+                            setRegistrationData(row)
+                            setIsRegisterModalOpen(true)
                         }}
                         variant='contained'>
                         {t('common.register')}

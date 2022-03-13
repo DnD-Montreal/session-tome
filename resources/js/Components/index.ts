@@ -9,6 +9,9 @@ export {FactionChip, RarityChip} from './Chips'
 // Details
 export {CharacterDetailBox, EventDetailBox, ItemDetailBox} from './Detail'
 
+// Modals
+export {EventRegistrationModal} from './Modal'
+
 // Tables
 export {
     CharacterTable,
