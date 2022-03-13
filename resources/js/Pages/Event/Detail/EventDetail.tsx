@@ -1,11 +1,8 @@
-import {ThemeProvider} from '@mui/material/styles'
-import useUser from '@Utils/use-user'
 import {EventDetailBox, EventRegistrationModal, SessionTable} from 'Components'
 import {useState} from 'react'
 import {CharacterData} from 'Types/character-data'
 import {EventData} from 'Types/event-data'
 import {SessionData} from 'Types/session-data'
-import {getFontTheme} from 'Utils'
 
 type EventDetailPropType = {
     allUserCharacters: CharacterData[]
@@ -23,10 +20,8 @@ const EventDetail = ({
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false)
     const [registrationData, setRegistrationData] = useState<SessionData | null>()
 
-    const {language} = useUser()
-
     return (
-        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+        <>
             {registrationData && (
                 <EventRegistrationModal
                     allUserCharacters={allUserCharacters}
@@ -47,7 +42,7 @@ const EventDetail = ({
                 eventID={event.id}
                 registered_sessions={registered_sessions}
             />
-        </ThemeProvider>
+        </>
     )
 }
 
