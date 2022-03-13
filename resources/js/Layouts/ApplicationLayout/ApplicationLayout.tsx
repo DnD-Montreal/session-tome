@@ -1,5 +1,3 @@
-import './ApplicationLayout.css'
-
 import styled from '@emotion/styled'
 import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
@@ -24,6 +22,10 @@ const MainGrid = styled.div`
     font-size: 0.8em;
     overflow-y: auto;
     min-height: 100vh;
+    .active {
+        text-decoration-line: underline;
+        text-underline-offset: 2px;
+    }
 `
 
 const PrimaryRow = styled(Grid)`
