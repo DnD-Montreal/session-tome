@@ -2,8 +2,9 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CreateIcon from '@mui/icons-material/Create'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import {Alert, Box, Button, Grid, Snackbar, Stack, Typography} from '@mui/material'
+import {Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {CampaignKickModal, Link} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -29,17 +30,10 @@ const CampaignDetailBox = ({
 }: CampaignDetailBoxPropType) => {
     const {t} = useTranslation()
     const [isKickModalOpen, setIsKickModalOpen] = useState<boolean>(false)
-    const [openInviteSnackbar, setOpenInviteSnackbar] = useState(false)
+    const {enqueueSnackbar} = useSnackbar()
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={openInviteSnackbar}
-                autoHideDuration={3000}
-                onClose={() => setOpenInviteSnackbar(false)}>
-                <Alert severity='success'>{t('campaignDetail.invite-copied')}</Alert>
-            </Snackbar>
             <CampaignKickModal
                 open={isKickModalOpen}
                 onClose={() => setIsKickModalOpen(false)}
@@ -77,7 +71,9 @@ const CampaignDetailBox = ({
                                             code: campaign.code,
                                         }),
                                     )
-                                    setOpenInviteSnackbar(true)
+                                    enqueueSnackbar(t('campaignDetail.invite-copied'), {
+                                        variant: 'success',
+                                    })
                                 }}>
                                 {t('common.invite')}
                             </Button>
