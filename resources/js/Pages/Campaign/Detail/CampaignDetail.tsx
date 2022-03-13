@@ -18,7 +18,7 @@ import {UserCharacterData} from 'Types/user-character-data'
 
 type CampaignDetailPropType = {
     campaign: CampaignData
-    userCharacter: UserCharacterData
+    userCharacter?: UserCharacterData
     gameMasters: GameMasterData[]
     characters: CharacterData[]
     adventures: adventureType[]
@@ -56,41 +56,45 @@ const CampaignDetail = ({
                     setIsEditCampaignDrawerOpen(false)
                 }}
             />
-            <Drawer
-                content={
-                    <EntryCreateForm
-                        type='CampaignEntryEdit'
-                        onCloseDrawer={() => setIsEditDrawerOpen(false)}
-                        editData={
-                            editData && {
-                                campaign,
-                                ...editData,
+            {userCharacter && (
+                <Drawer
+                    content={
+                        <EntryCreateForm
+                            type='CampaignEntryEdit'
+                            onCloseDrawer={() => setIsEditDrawerOpen(false)}
+                            editData={
+                                editData && {
+                                    campaign,
+                                    ...editData,
+                                }
                             }
-                        }
-                        editId={editId}
-                        character={userCharacter}
-                        adventures={[linkedAdventure]}
-                        gameMasters={gameMasters}
-                        campaigns={[campaign]}
-                    />
-                }
-                title={<Typography>{t('entry.edit-entry')}</Typography>}
-                isOpen={isEditDrawerOpen}
-                onClose={() => {
-                    setIsEditDrawerOpen(false)
-                }}
-            />
+                            editId={editId}
+                            character={userCharacter}
+                            adventures={[linkedAdventure]}
+                            gameMasters={gameMasters}
+                            campaigns={[campaign]}
+                        />
+                    }
+                    title={<Typography>{t('entry.edit-entry')}</Typography>}
+                    isOpen={isEditDrawerOpen}
+                    onClose={() => {
+                        setIsEditDrawerOpen(false)
+                    }}
+                />
+            )}
             <CampaignDetailBox
                 campaign={campaign}
                 userCharacter={userCharacter}
                 setIsEditDrawerOpen={setIsEditCampaignDrawerOpen}
             />
-            <EntryTable
-                data={userCharacter.entries}
-                setEditEntryId={setEditId}
-                setEditEntryData={setEditData}
-                setIsEditDrawerOpen={setIsEditDrawerOpen}
-            />
+            {userCharacter && (
+                <EntryTable
+                    data={userCharacter.entries}
+                    setEditEntryId={setEditId}
+                    setEditEntryData={setEditData}
+                    setIsEditDrawerOpen={setIsEditDrawerOpen}
+                />
+            )}
         </>
     )
 }
