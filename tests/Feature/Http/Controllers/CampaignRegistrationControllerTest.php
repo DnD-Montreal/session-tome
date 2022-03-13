@@ -49,6 +49,21 @@ class CampaignRegistrationControllerTest extends TestCase
     /**
      * @test
      */
+    public function create_redirects_with_incorrect_code()
+    {
+        $inputData = [
+            'code' => 'invalid code'
+        ];
+
+        $response = $this->get(route('campaign-registration.create', $inputData));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('error');
+    }
+
+    /**
+     * @test
+     */
     public function store_registers_a_character_and_user_for_a_campaign()
     {
         $character = Character::factory()->create([

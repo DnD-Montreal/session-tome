@@ -12,7 +12,7 @@ class CampaignRegistrationController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Inertia\Response
+     * @return \Illuminate\Http\RedirectResponse|\Inertia\Response
      */
     public function create(Request $request)
     {
@@ -23,6 +23,10 @@ class CampaignRegistrationController extends Controller
         ])['code'] ?? null;
 
         $campaign = Campaign::with('characters', 'users')->where('code', $code)->first();
+
+        if (!$campaign) {
+            return redirect()->back()->withErrors(['error' => "The provided campaign code is incorrect."]);
+        }
 
         return Inertia::render('Campaign/Registration/Create/CampaignRegistrationCreate', compact('characters', 'campaign', 'code'));
     }
@@ -43,7 +47,7 @@ class CampaignRegistrationController extends Controller
         $user = Auth::user();
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
-        if ($request->has('character_id')) {
+        if (!empty($data['character_id'])) {
             $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => false, 'is_owner' => false]]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->syncWithoutDetaching($campaign);
