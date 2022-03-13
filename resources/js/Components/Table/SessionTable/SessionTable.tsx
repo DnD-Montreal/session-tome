@@ -92,28 +92,17 @@ const SessionTable = ({
         {
             property: 'is_registered',
             title: t('tableColumn.actions'),
-            render: (value: boolean, row: SessionData) =>
-                value ? (
-                    <Button
-                        color='error'
-                        onClick={() => {
-                            setRegistrationData(row)
-                            setIsRegisterModalOpen(true)
-                        }}
-                        variant='contained'>
-                        {t('common.leave')}
-                    </Button>
-                ) : (
-                    <Button
-                        color='primary'
-                        onClick={() => {
-                            setRegistrationData(row)
-                            setIsRegisterModalOpen(true)
-                        }}
-                        variant='contained'>
-                        {t('common.register')}
-                    </Button>
-                ),
+            render: (value: boolean, row: SessionData) => (
+                <Button
+                    color={value ? 'error' : 'primary'}
+                    onClick={() => {
+                        setRegistrationData(row)
+                        setIsRegisterModalOpen(true)
+                    }}
+                    variant='contained'>
+                    {value ? t('common.leave') : t('common.register')}
+                </Button>
+            ),
         },
     ]
 

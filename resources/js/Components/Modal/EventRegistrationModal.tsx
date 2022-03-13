@@ -34,7 +34,7 @@ type EventRegistrationModalPropType = {
 
 type FormDataType = {
     event_id: number
-    session_id: number | undefined
+    session_id: number
     character_id: number | undefined
     overlap?: any
     seats?: any
@@ -119,34 +119,26 @@ const EventRegistrationModal = ({
                             </Grid>
                         )}
                         <Grid item md={6}>
-                            {registrationData.is_registered ? (
-                                <Button
-                                    loading={processing}
-                                    variant='contained'
-                                    fullWidth
-                                    onClick={() => {
-                                        if (data.session_id) {
-                                            destroy(
-                                                route('event-registration.destroy', [
-                                                    data.session_id,
-                                                ]),
-                                            )
-                                        }
-                                    }}>
-                                    {t('common.leave')}
-                                </Button>
-                            ) : (
-                                <Button
-                                    disabled={!data.character_id}
-                                    loading={processing}
-                                    variant='contained'
-                                    fullWidth
-                                    onClick={() => {
+                            <Button
+                                disabled={!data.character_id}
+                                loading={processing}
+                                variant='contained'
+                                fullWidth
+                                onClick={() => {
+                                    if (registrationData.is_registered) {
+                                        destroy(
+                                            route('event-registration.destroy', [
+                                                data.session_id,
+                                            ]),
+                                        )
+                                    } else {
                                         post(route('registration.store'))
-                                    }}>
-                                    {t('common.join')}
-                                </Button>
-                            )}
+                                    }
+                                }}>
+                                {registrationData.is_registered
+                                    ? t('common.leave')
+                                    : t('common.join')}
+                            </Button>
                         </Grid>
                         <Grid item md={6}>
                             <Button variant='contained' fullWidth onClick={onClose}>

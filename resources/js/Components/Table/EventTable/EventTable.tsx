@@ -13,7 +13,7 @@ type EventTablePropType = {
     registered_only: boolean | null
 }
 
-const EventTable = ({data, registered_only}: EventTablePropType) => {
+const EventTable = ({data, registered_only = false}: EventTablePropType) => {
     const {t} = useTranslation()
     const leftActions = [
         <Chip
@@ -57,14 +57,12 @@ const EventTable = ({data, registered_only}: EventTablePropType) => {
             property: 'is_registered',
             title: t('tableColumn.participation'),
             render: (value: boolean) =>
-                value ? (
+                value && (
                     <Chip
                         label={t('eventDetail.registered')}
                         color='primary'
                         variant='filled'
                     />
-                ) : (
-                    <></>
                 ),
         },
         {

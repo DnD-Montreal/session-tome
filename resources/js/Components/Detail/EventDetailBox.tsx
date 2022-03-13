@@ -4,7 +4,6 @@ import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {EventData} from 'Types/event-data'
-// import route from 'ziggy-js'
 
 const StyledTypography = styled(Typography)({
     color: '#a0a2a3',
