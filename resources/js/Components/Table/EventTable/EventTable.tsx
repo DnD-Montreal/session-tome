@@ -86,7 +86,7 @@ const EventTable = ({data, registered_only}: EventTablePropType) => {
             data={data}
             columns={columns}
             tableName='event'
-            filterProperties={['title', 'location']}
+            filterProperties={['title', 'description']}
         />
     )
 }

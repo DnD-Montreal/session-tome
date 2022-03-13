@@ -28,7 +28,7 @@ type EventRegistrationModalPropType = {
     allUserCharacters: CharacterData[]
     event: EventData
     isRegisterModalOpen: boolean
-    setIsRegisterModalOpen: (payload: boolean) => void
+    onClose: () => void
     registrationData: SessionData
 }
 
@@ -44,13 +44,15 @@ const EventRegistrationModal = ({
     allUserCharacters,
     event,
     isRegisterModalOpen,
-    setIsRegisterModalOpen,
+    onClose,
     registrationData,
 }: EventRegistrationModalPropType) => {
     const SESSION_REGISTRATION_FORM_INITIAL_VALUE = {
         event_id: event.id,
-        session_id: undefined,
-        character_id: undefined,
+        session_id: registrationData.id,
+        character_id: registrationData.is_registered
+            ? registrationData.characters[0].id
+            : undefined,
     }
 
     const {
@@ -67,30 +69,16 @@ const EventRegistrationModal = ({
     useEffect(() => {
         if (wasSuccessful) {
             clearErrors()
-            setIsRegisterModalOpen(false)
+            onClose()
         }
     }, [wasSuccessful])
-
-    useEffect(() => {
-        if (isRegisterModalOpen) {
-            setData('session_id', registrationData.id)
-            setData(
-                'character_id',
-                registrationData.is_registered
-                    ? registrationData.characters[0].id
-                    : undefined,
-            )
-        }
-    }, [isRegisterModalOpen])
 
     const {t} = useTranslation()
 
     return (
         <Modal
             open={isRegisterModalOpen}
-            onClose={() => {
-                setIsRegisterModalOpen(false)
-            }}
+            onClose={onClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
@@ -161,13 +149,7 @@ const EventRegistrationModal = ({
                             )}
                         </Grid>
                         <Grid item md={6}>
-                            <Button
-                                variant='contained'
-                                fullWidth
-                                onClick={() => {
-                                    setIsRegisterModalOpen(false)
-                                    setData(SESSION_REGISTRATION_FORM_INITIAL_VALUE)
-                                }}>
+                            <Button variant='contained' fullWidth onClick={onClose}>
                                 {t('common.cancel')}
                             </Button>
                         </Grid>

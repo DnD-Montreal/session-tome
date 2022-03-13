@@ -124,7 +124,7 @@ const SessionTable = ({
             isSelectable={false}
             columns={columns}
             tableName='session'
-            filterProperties={['adventure_title', 'game_master']}
+            filterProperties={['adventure', 'dungeon_master']}
         />
     )
 }

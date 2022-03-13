@@ -21,7 +21,7 @@ const EventDetail = ({
     sessions,
 }: EventDetailPropType) => {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false)
-    const [registrationData, setRegistrationData] = useState<SessionData>()
+    const [registrationData, setRegistrationData] = useState<SessionData | null>()
 
     const {language} = useUser()
 
@@ -32,7 +32,10 @@ const EventDetail = ({
                     allUserCharacters={allUserCharacters}
                     event={event}
                     isRegisterModalOpen={isRegisterModalOpen}
-                    setIsRegisterModalOpen={setIsRegisterModalOpen}
+                    onClose={() => {
+                        setRegistrationData(null)
+                        setIsRegisterModalOpen(false)
+                    }}
                     registrationData={registrationData}
                 />
             )}
