@@ -29,6 +29,7 @@ const SessionTable = ({
 
     const leftActions = [
         <Chip
+            data-cy='registered-sessions'
             onClick={() =>
                 Inertia.visit(
                     route('event.show', {

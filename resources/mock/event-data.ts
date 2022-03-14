@@ -36,7 +36,7 @@ export const eventData = [
         location: 'Madrid',
         scheduled_dates: ['2021-01-01', '2021-01-02'],
         total_seats: 3,
-        seats_left: 2,
+        seats_left: 0,
         seats_taken: 1,
         characters: characterData,
     },
