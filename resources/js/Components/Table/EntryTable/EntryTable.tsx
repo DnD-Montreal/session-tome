@@ -2,7 +2,7 @@ import {useForm} from '@inertiajs/inertia-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
-import {itemFormatter} from '@Utils/formatter'
+import {objectArrayFormatter} from '@Utils/formatter'
 import {DataTable, DeleteModal} from 'Components'
 import dayjs from 'dayjs'
 import {useState} from 'react'
@@ -42,9 +42,7 @@ const EntryTable = ({
         {
             property: 'date_played',
             title: t('tableColumn.date'),
-            render: (value: string) => (
-                <Typography>{dayjs(value).format('LLL')}</Typography>
-            ),
+            render: (value: string) => <Typography>{dayjs(value).format('LLL')}</Typography>,
         },
         {
             property: 'adventure',
@@ -70,6 +68,18 @@ const EntryTable = ({
             title: t('tableColumn.session'),
         },
         {
+            property: 'levels',
+            title: t('tableColumn.level'),
+        },
+        {
+            property: 'gp',
+            title: t('tableColumn.gp'),
+        },
+        {
+            property: 'downtime',
+            title: t('tableColumn.downtime'),
+        },
+        {
             property: 'reward',
             title: t('tableColumn.reward'),
             render: (value: any) => <Typography>{t(`enums.${value}`)}</Typography>,
@@ -77,7 +87,7 @@ const EntryTable = ({
         {
             property: 'items',
             title: t('tableColumn.items'),
-            render: (value: any) => itemFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: null,

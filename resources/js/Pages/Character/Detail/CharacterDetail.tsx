@@ -13,14 +13,19 @@ import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 
 type CharacterDetailPropType = {
     character: CharacterData
+    characters: CharacterData[]
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
-    gameMasters: any[]
-    characters: CharacterData[]
+    gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 const CharacterDetail = ({
@@ -30,19 +35,13 @@ const CharacterDetail = ({
     adventures,
     gameMasters,
     characters,
+    campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
-    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
-        useState<boolean>(false)
+    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] = useState<boolean>(false)
 
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<EntriesData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<EntriesData>()
 
     return (
         <>
@@ -70,6 +69,7 @@ const CharacterDetail = ({
                             editId={editId}
                             adventures={adventures}
                             characters={characters}
+                            campaigns={campaigns}
                         />
                     ) : (
                         <EntryCreateForm
@@ -80,10 +80,11 @@ const CharacterDetail = ({
                             character={character}
                             adventures={adventures}
                             gameMasters={gameMasters}
+                            campaigns={campaigns}
                         />
                     )
                 }
-                title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
+                title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
             />

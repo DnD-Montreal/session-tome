@@ -10,14 +10,8 @@ type CharacterPropType = {
 }
 
 const Character = ({characters, factions}: CharacterPropType) => {
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<CharacterData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<CharacterData>()
     const {t} = useTranslation()
 
     return (

@@ -3,16 +3,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Grid, TextField, Typography} from '@mui/material'
+import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
-import {
-    Autocomplete,
-    Button,
-    ErrorText,
-    Link,
-    NumberInput,
-    Select,
-    StepperForm,
-} from 'Components'
+import {Autocomplete, Button, ErrorText, NumberInput, Select, StepperForm} from 'Components'
 import {useSnackbar} from 'notistack'
 import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -31,6 +24,10 @@ type DmEntryCreateFormPropType = {
     editId?: number
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type DmEntryFormDataType = {
@@ -82,10 +79,14 @@ const DmEntryCreateForm = ({
     editId = 0,
     adventures,
     characters,
+    campaigns,
 }: DmEntryCreateFormPropType) => {
     const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
+    const parameters = useUrlParams()
+    const {campaign_id} = parameters
+
     const DM_ENTRY_CREATE_FORM_INITIAL_VALUE: DmEntryFormDataType = {
         user_id: getUserId(),
         length: 0,
@@ -98,7 +99,8 @@ const DmEntryCreateForm = ({
         notes: '',
         items: [],
         type: 'dm',
-        adventure: undefined,
+        adventure: campaign_id ? adventures[0] : undefined,
+        campaign: campaign_id ? campaigns[0] : undefined,
     }
     const DM_ENTRY_FORM_INITIAL_VALUE: DmEntryFormDataType =
         type === 'Create'
@@ -116,6 +118,7 @@ const DmEntryCreateForm = ({
                   type: 'dm',
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
+                  campaign: editData?.campaign || undefined,
               }
     const [activeStep, setActiveStep] = useState<number>(0)
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
@@ -138,6 +141,8 @@ const DmEntryCreateForm = ({
         }
     }, [wasSuccessful])
 
+    const resetUrl = type === 'Create' ? route('dm-entry.create') : route('dm-entry.index')
+
     useEffect(() => {
         if (errors) {
             setActiveStep(0)
@@ -152,6 +157,7 @@ const DmEntryCreateForm = ({
             </Grid>
             <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
                 <Autocomplete
+                    disabled={Boolean(campaign_id)}
                     label={t('entry.adventures')}
                     id='adventures'
                     fieldKey='adventures'
@@ -159,11 +165,7 @@ const DmEntryCreateForm = ({
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={
-                        type === 'Create'
-                            ? route('dm-entry.create')
-                            : route('dm-entry.index')
-                    }
+                    resetUrl={resetUrl}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -254,6 +256,21 @@ const DmEntryCreateForm = ({
                 />
                 {errors?.character_id && <ErrorText message={errors?.character_id} />}
             </StyledGrid>
+            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+                <Autocomplete
+                    disabled={Boolean(campaign_id)}
+                    id='campaigns'
+                    fieldKey='campaigns'
+                    onChange={(_, value) => setData('campaign', value)}
+                    defaultValue={data.campaign}
+                    getOptionLabel={(option) => option.title}
+                    options={campaigns}
+                    resetUrl={resetUrl}
+                    label={t('entry.campaigns')}
+                />
+                {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={7} />}
             <StyledGrid item xs={12}>
                 <TextField
                     multiline
@@ -278,15 +295,13 @@ const DmEntryCreateForm = ({
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Link href={route('dm-entry.index')}>
-                        <Button fullWidth>{t('common.cancel')}</Button>
-                    </Link>
-                ) : (
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        {t('common.cancel')}
-                    </Button>
-                )}
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create' ? window.history.back() : onCloseDrawer && onCloseDrawer()
+                    }>
+                    {t('common.cancel')}
+                </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>

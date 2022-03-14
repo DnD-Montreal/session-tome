@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Campaign extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +33,26 @@ class Campaign extends Model
         'adventure_id' => 'integer',
     ];
 
+    /**
+     * The relations that should be eager loaded
+     *
+     * @var string[]
+     */
+    protected $with = ['users'];
+
+    /**
+     * The accessors and mutators that should be passed / loaded at all times.
+     *
+     * @var string[]
+     */
+    protected $appends = ['is_owner'];
+
+    /**
+     * The attributes that should be fuzzy searched on when filtering
+     *
+     * @var string[]
+     */
+    protected $filterableFields = ['title'];
 
     public function characters()
     {
@@ -53,6 +76,15 @@ class Campaign extends Model
 
     public function generateCode()
     {
-        return dechex(microtime(true)*10000);
+        return dechex(microtime(true) * 10000);
+    }
+
+    public function getIsOwnerAttribute()
+    {
+        if ($userId = Auth::id()) {
+            return $this->users->pluck('pivot.is_owner', 'id')->contains(fn ($v, $k) => $k == $userId && $v == 1);
+        }
+
+        return  false;
     }
 }

@@ -161,9 +161,7 @@ const Profile = () => {
                     <Divider style={{width: '100%'}} />
                 </Grid>
                 <Grid item xs={12}>
-                    <StyledTitle color='error'>
-                        {t('profile.delete-user-account')}
-                    </StyledTitle>
+                    <StyledTitle color='error'>{t('profile.delete-user-account')}</StyledTitle>
                     <Typography>{t('profile.delete-warning-message')}</Typography>
                 </Grid>
                 <Grid item xs={12}>

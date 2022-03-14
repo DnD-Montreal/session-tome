@@ -62,6 +62,7 @@ const ContentContainer = styled.div`
     @media only screen and (min-width: 768px) {
         margin: 0px auto 0px auto;
     }
+    min-width: 65vw;
 `
 
 const Username = styled(Typography)`
@@ -116,11 +117,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         <ThemeProvider theme={getFontTheme('Normal')}>
             <MainGrid>
                 <Grid container>
-                    <PrimaryRow
-                        item
-                        container
-                        justifyContent='space-between'
-                        alignItems='center'>
+                    <PrimaryRow item container justifyContent='space-between' alignItems='center'>
                         <PaddingGrid
                             item
                             container
@@ -173,9 +170,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='center'>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    window.location.pathname === '/' ? 'active' : ''
-                                }
+                                className={window.location.pathname === '/' ? 'active' : ''}
                                 color='white'
                                 href='/#'>
                                 {t('common.home')}
@@ -196,9 +191,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    route().current()?.includes('trade') ? 'active' : ''
-                                }
+                                className={route().current()?.includes('trade') ? 'active' : ''}
                                 color='white'
                                 href='/#'>
                                 {t('common.item-shop')}
@@ -206,21 +199,15 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    route().current()?.includes('campgaign')
-                                        ? 'active'
-                                        : ''
-                                }
+                                className={route().current()?.includes('campaign') ? 'active' : ''}
                                 color='white'
-                                href='/#'>
+                                href={route('campaign.index')}>
                                 {t('common.campaigns')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    route().current()?.includes('rating') ? 'active' : ''
-                                }
+                                className={route().current()?.includes('rating') ? 'active' : ''}
                                 color='white'
                                 href={route('rating.index')}>
                                 {t('common.ratings')}
@@ -235,9 +222,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 horizontal: 'center',
                             }}>
                             <ContentRow item container>
-                                <ContentContainer id='content'>
-                                    {children}
-                                </ContentContainer>
+                                <ContentContainer id='content'>{children}</ContentContainer>
                             </ContentRow>
                         </SnackbarProvider>
                     </ThemeProvider>

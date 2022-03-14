@@ -10,17 +10,15 @@ type DMEntryPropType = {
     entries: EntriesData[]
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<EntriesData>()
+const DMEntry = ({entries, adventures, characters, campaigns}: DMEntryPropType) => {
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<EntriesData>()
     const {t} = useTranslation()
 
     return (
@@ -34,6 +32,7 @@ const DMEntry = ({entries, adventures, characters}: DMEntryPropType) => {
                         editId={editId}
                         adventures={adventures}
                         characters={characters}
+                        campaigns={campaigns}
                     />
                 }
                 title={<Typography>{t('entry.edit-dm-entry')}</Typography>}
