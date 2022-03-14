@@ -6,6 +6,27 @@
         "register": "Register",
         "sign-in": "Sign In"
     },
+    "campaign": {
+        "edit-campaign": "Edit Campaign",
+        "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
+        "enter-invite-code": "Please enter the invite code of the campaign.",
+        "fill-out-fields": "Fill out the following fields with your campaign details.",
+        "select-character-kick": "Please select a character to remove from the campaign."
+    },
+    "campaignDetail":{
+        "campaign-title": "CAMPAIGN TITLE",
+        "adventure":"ADVENTURE",
+        "sessions-played": "SESSIONS PLAYED",
+        "characters": "CHARACTERS",
+        "invite-copied": "Invite code copied to clipboard."
+    },
+    "campaignJoin":{
+        "invite-code": "Invite Code",
+        "fill-out-fields_1": "You are joining the ",
+        "fill-out-fields_2": " campaign. Fill out the following fields to join the campaign.",
+        "no-character-alert": "If no character is selected, it is assumed that you are the Game Master.",
+        "code-alert-text": "Invite link should look like:\nef9d66e2291"
+    },
     "characterDetail": {
         "name": "NAME",
         "race": "RACE",
@@ -16,7 +37,6 @@
         "status": "STATUS",
         "delete-message": "Are you sure you want to delete this/these character(s)?",
         "edit-character": "Edit Character",
-        "edit-entry": "Edit Entry",
         "fill-out-fields": "Fill out the following fields with your character's details.",
         "public-status": "Do you want this character to be public?",
         "import-help-text": "Import character log by uploading your ",
@@ -38,6 +58,7 @@
         "delete": "Delete",
         "update": "Update",
         "import": "Import",
+        "invite": "Invite",
         "upload": "Upload",
         "save": "Save",
         "optional": "Optional",
@@ -57,9 +78,12 @@
         "search": "Search",
         "or": "OR",
         "events": "Events",
-        "join": "Join",
         "register": "Register",
-        "leave": "Leave"
+        "leave": "Leave",
+        "join": "Join",
+        "none": "None",
+        "kick": "Kick",
+        "submit": "Submit"
     },
     "component": {
         "no-data": "No data...",
@@ -68,6 +92,7 @@
     "entry": {
         "delete-message": "Are you sure you want to delete this/these entry(ies)?",
         "set-adventure": "Set adventure",
+        "edit-entry": "Edit Entry",
         "edit-dm-entry": "Edit DM Entry",
         "details": "Details",
         "magic-items": "Magic Items",
@@ -80,6 +105,7 @@
         "fill-out-fields-dm": "Fill out the following fields with your DM Entry details.",
         "fill-out-fields-entry": "Fill out the following fields with your Entry details.",
         "no-adventure-warning": "This imported entry does not have an adventure, please update it manually.",
+        "campaigns": "Campaign",
         "create-success-message": "Entry created",
         "edit-success-message": "Entry updated"
     },
@@ -120,6 +146,7 @@
         "leave-message": "Are you sure you want to leave this session?"
     },
     "form": {
+        "title": "Title",
         "name": "Name",
         "race": "Race",
         "class": "Class",
@@ -148,7 +175,8 @@
             "bi-monthly": "Once per 2 weeks",
             "monthly": "Once per month"
         },
-        "chosen-character": "Chosen Character"
+        "chosen-character": "Chosen Character",
+        "adventure":"Adventure"
     },
     "itemDetail": {
         "name": "Name",
@@ -205,7 +233,11 @@
         "game-master": "Game Master",
         "seats-taken": "Seats Taken",
         "seats-left": "Seats Left",
-        "participation": "Participation"
+        "participation": "Participation",
+        "title": "Title",
+        "characters": "Characters",
+        "code": "Code",
+        "gp": "GP"
     },
     "tableName": {
         "character": "Characters",
@@ -214,7 +246,8 @@
         "item": "Items",
         "rating": "Ratings",
         "event": "Events",
-        "session": "Sessions"
+        "session": "Sessions",
+        "campaigns": "Campaigns"
     },
     "welcome": {
         "welcome-text-1": "Welcome to ",

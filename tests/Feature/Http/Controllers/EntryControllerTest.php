@@ -136,6 +136,32 @@ class EntryControllerTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function create_displays_view_with_campaign_info()
+    {
+        $character = Character::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+        $campaign = Campaign::factory()->has(Adventure::factory())->create();
+
+        $response = $this->get(route('entry.create', [
+            'character_id' => $character->id,
+            'campaign_id' => $campaign->id,
+            ]));
+
+        $response->assertOk();
+
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Character/Detail/Entry/Create/EntryCreate')
+                ->has('character')
+                ->has('campaigns')
+        );
+    }
+
+
 
     /**
      * @test
@@ -169,7 +195,7 @@ class EntryControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('entry.store'), [
             'user_id' => $user->id,
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -186,7 +212,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -497,7 +523,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
@@ -516,7 +542,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],
             'date_played' => $date_played,
@@ -530,7 +556,7 @@ class EntryControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->put(route('entry.update', $entry), [
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
+            'campaign' => ['id' => $campaign->id],
             'character_id' => $character->id,
             'event_id' => $event->id,
             'dungeon_master' => ['id' => $dungeon_master_user->id],

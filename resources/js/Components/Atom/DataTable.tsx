@@ -186,9 +186,7 @@ const DataTable = ({
                             {isSelectable && <StyledTableCell />}
                             {columns.map((column: any, index: number) => (
                                 <StyledTableCell
-                                    padding={
-                                        !isSelectable && index === 0 ? 'none' : undefined
-                                    }
+                                    padding={!isSelectable && index === 0 ? 'none' : undefined}
                                     align='center'>
                                     {column.title}
                                 </StyledTableCell>
@@ -199,8 +197,7 @@ const DataTable = ({
                         {currentRows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: any) => {
-                                const isRowSelected =
-                                    selected && selected.includes(row.id)
+                                const isRowSelected = selected && selected.includes(row.id)
                                 return (
                                     <TableRow
                                         key={row.id}
@@ -227,10 +224,7 @@ const DataTable = ({
                                                                 ),
                                                             )
                                                         } else {
-                                                            setSelected([
-                                                                ...selected,
-                                                                row.id,
-                                                            ])
+                                                            setSelected([...selected, row.id])
                                                         }
                                                     }}
                                                     color='primary'
@@ -261,9 +255,7 @@ const DataTable = ({
                                             if (!Object.keys(row).includes(item.property))
                                                 return <StyledTableCell />
                                             return (
-                                                <StyledTableCell
-                                                    key={item.property}
-                                                    align='center'>
+                                                <StyledTableCell key={item.property} align='center'>
                                                     {item.render(row[item.property], row)}
                                                 </StyledTableCell>
                                             )

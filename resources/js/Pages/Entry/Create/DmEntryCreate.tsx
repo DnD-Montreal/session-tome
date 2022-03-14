@@ -5,10 +5,19 @@ import {CharacterData} from 'Types/character-data'
 type DmEntryCreateType = {
     adventures: adventureType[]
     characters: CharacterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const DmEntryCreate = ({adventures, characters}: DmEntryCreateType) => (
-    <DmEntryCreateForm type='Create' adventures={adventures} characters={characters} />
+const DmEntryCreate = ({adventures, characters, campaigns}: DmEntryCreateType) => (
+    <DmEntryCreateForm
+        type='Create'
+        adventures={adventures}
+        characters={characters}
+        campaigns={campaigns}
+    />
 )
 
 DmEntryCreate.displayName = 'DmEntryCreate'

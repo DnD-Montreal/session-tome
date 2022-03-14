@@ -47,9 +47,7 @@ const Welcome = () => {
                 <Grid item xs={12}>
                     <Typography sx={{textAlign: 'center'}} component='div'>
                         {t('welcome.welcome-text-1')}
-                        <StyledBox display='inline'>
-                            {t('welcome.session-tome')}
-                        </StyledBox>
+                        <StyledBox display='inline'>{t('welcome.session-tome')}</StyledBox>
                         {t('welcome.welcome-text-2')}
                     </Typography>
                 </Grid>
@@ -77,9 +75,7 @@ const Welcome = () => {
                     <Select
                         options={['English', 'Français']}
                         onChange={(e) => {
-                            i18n.changeLanguage(
-                                e.target.value === 'English' ? 'en' : 'fr',
-                            )
+                            i18n.changeLanguage(e.target.value === 'English' ? 'en' : 'fr')
                         }}
                         defaultValue='English'
                     />

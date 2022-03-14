@@ -11,14 +11,19 @@ type EntryCreatePropType = {
     character: CharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
-const EntryCreate = ({character, adventures, gameMasters}: EntryCreatePropType) => (
+const EntryCreate = ({character, adventures, gameMasters, campaigns}: EntryCreatePropType) => (
     <EntryCreateForm
         type='Create'
         character={character}
         adventures={adventures}
         gameMasters={gameMasters}
+        campaigns={campaigns}
     />
 )
 

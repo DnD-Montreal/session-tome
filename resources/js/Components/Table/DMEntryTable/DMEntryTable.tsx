@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
-import {itemFormatter} from 'Utils'
+import {objectArrayFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
@@ -22,12 +22,7 @@ type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({
-    data,
-    setEditId,
-    setEditData,
-    setIsEditDrawerOpen,
-}: DMEntryPropType) => {
+const DMEntryTable = ({data, setEditId, setEditData, setIsEditDrawerOpen}: DMEntryPropType) => {
     const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -43,9 +38,7 @@ const DMEntryTable = ({
         {
             property: 'date_played',
             title: t('tableColumn.date'),
-            render: (value: string) => (
-                <Typography>{dayjs(value).format('LLL')}</Typography>
-            ),
+            render: (value: string) => <Typography>{dayjs(value).format('LLL')}</Typography>,
         },
         {
             property: 'adventure',
@@ -71,7 +64,7 @@ const DMEntryTable = ({
         {
             property: 'items',
             title: t('tableColumn.items'),
-            render: (value: any) => itemFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: null,
