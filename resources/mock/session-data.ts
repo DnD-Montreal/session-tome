@@ -17,4 +17,17 @@ export const sessionData = [
         characters: characterData,
         event: eventData[0],
     },
+    {
+        start_time: '2021-01-01 12:00:00',
+        end_time: '2021-01-01 14:00:00',
+        id: 1,
+        adventure: adventureData,
+        dungeon_master: userData,
+        seats_left: 0,
+        seats_taken: 1,
+        table: 1,
+        is_registered: false,
+        characters: characterData,
+        event: eventData[0],
+    },
 ]
