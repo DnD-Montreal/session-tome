@@ -88,7 +88,7 @@ const CampaignDetailBox = ({
                                 onClick={() => setIsEditDrawerOpen(true)}>
                                 {t('common.update')}
                             </Button>
-                            {userCharacter && (
+                            {userCharacter ? (
                                 <Link
                                     href={route('entry.create').concat(
                                         `?character_id=${userCharacter.id}&campaign_id=${campaign.id}`,
@@ -99,8 +99,7 @@ const CampaignDetailBox = ({
                                         {t('common.entry')}
                                     </Button>
                                 </Link>
-                            )}
-                            {!userCharacter && (
+                            ) : (
                                 <Link
                                     href={route('dm-entry.create').concat(
                                         `?campaign_id=${campaign.id}`,
