@@ -127,11 +127,16 @@ class CampaignController extends Controller
     {
         $data = $request->validated();
 
-        if (isset($data['character_id'])) {
-            $playerCharacters = $campaign->characters()
-                ->where('user_id', "!=", Auth::id())
-                ->pluck('id');
+        $playerCharacters = $campaign->characters()
+            ->where('user_id', "!=", Auth::id())
+            ->pluck('id');
+
+        if (!empty($data['character_id'])) {
             $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
+        } else {
+            // if we dont have a character_id then the user is becoming the DM,,,
+            $campaign->characters()->sync($playerCharacters);
+            $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => 1]);
         }
 
         $campaign->update($data);
