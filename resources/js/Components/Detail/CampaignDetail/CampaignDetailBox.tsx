@@ -100,16 +100,18 @@ const CampaignDetailBox = ({
                                     </Button>
                                 </Link>
                             )}
-                            <Link
-                                href={route('dm-entry.create').concat(
-                                    `?campaign_id=${campaign.id}`,
-                                )}>
-                                <Button
-                                    variant='contained'
-                                    startIcon={<AutoStoriesIcon fontSize='small' />}>
-                                    {t('common.dm-entry')}
-                                </Button>
-                            </Link>
+                            {!userCharacter && (
+                                <Link
+                                    href={route('dm-entry.create').concat(
+                                        `?campaign_id=${campaign.id}`,
+                                    )}>
+                                    <Button
+                                        variant='contained'
+                                        startIcon={<AutoStoriesIcon fontSize='small' />}>
+                                        {t('common.dm-entry')}
+                                    </Button>
+                                </Link>
+                            )}
                             <Button
                                 data-cy='kick-button'
                                 variant='contained'
