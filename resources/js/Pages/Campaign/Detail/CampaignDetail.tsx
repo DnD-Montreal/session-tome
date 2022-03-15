@@ -36,7 +36,8 @@ const CampaignDetail = ({
 
     const [isEditCampaignDrawerOpen, setIsEditCampaignDrawerOpen] = useState<boolean>(false)
     const {t} = useTranslation()
-    const linkedAdventure = campaign.adventure
+    const {adventure: linkedAdventure} = campaign
+
     return (
         <>
             <Drawer

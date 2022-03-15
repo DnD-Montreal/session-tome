@@ -10,4 +10,5 @@ export type CampaignData = {
     code: string
     character_id: number
     characters: CharacterData[]
+    is_owner: boolean
 }
