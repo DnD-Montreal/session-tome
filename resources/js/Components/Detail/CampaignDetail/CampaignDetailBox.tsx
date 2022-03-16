@@ -88,7 +88,7 @@ const CampaignDetailBox = ({
                                 onClick={() => setIsEditDrawerOpen(true)}>
                                 {t('common.update')}
                             </Button>
-                            {userCharacter && (
+                            {userCharacter ? (
                                 <Link
                                     href={route('entry.create').concat(
                                         `?character_id=${userCharacter.id}&campaign_id=${campaign.id}`,
@@ -99,17 +99,18 @@ const CampaignDetailBox = ({
                                         {t('common.entry')}
                                     </Button>
                                 </Link>
+                            ) : (
+                                <Link
+                                    href={route('dm-entry.create').concat(
+                                        `?campaign_id=${campaign.id}`,
+                                    )}>
+                                    <Button
+                                        variant='contained'
+                                        startIcon={<AutoStoriesIcon fontSize='small' />}>
+                                        {t('common.dm-entry')}
+                                    </Button>
+                                </Link>
                             )}
-                            <Link
-                                href={route('dm-entry.create').concat(
-                                    `?campaign_id=${campaign.id}`,
-                                )}>
-                                <Button
-                                    variant='contained'
-                                    startIcon={<AutoStoriesIcon fontSize='small' />}>
-                                    {t('common.dm-entry')}
-                                </Button>
-                            </Link>
                             <Button
                                 data-cy='kick-button'
                                 variant='contained'
