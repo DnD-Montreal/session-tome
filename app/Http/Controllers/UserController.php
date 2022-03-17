@@ -20,7 +20,7 @@ class UserController extends Controller
     public function edit(Request $request, User $user)
     {
         if ($user->id == Auth::id() || Auth::user()->isSiteAdmin()) {
-            return Inertia::render('Profile', compact('user'));
+            return Inertia::render('Profile/Profile', compact('user'));
         }
 
         abort(403);
