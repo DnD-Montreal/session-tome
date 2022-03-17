@@ -14,7 +14,7 @@ class AddEndTimeToSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->timestamp('end_time')->nullable();
+            $table->timestamp('end_time')->after('start_time')->nullable();
         });
     }
 
