@@ -37,7 +37,7 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "plugins": ["prettier", "cypress", "simple-import-sort"],
+    "plugins": ["prettier", "cypress", "simple-import-sort", "storybook"],
     "rules": {
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
