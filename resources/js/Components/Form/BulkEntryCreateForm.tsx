@@ -12,7 +12,7 @@ import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
-type BulkEntryCreateFormPropType = {
+type BulkEntryFormPropType = {
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
@@ -38,7 +38,7 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
-const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
+const BulkEntryForm = ({character, adventures}: BulkEntryFormPropType) => {
     const {t} = useTranslation()
 
     const frequencies = [
@@ -63,9 +63,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
         character_id: character.id,
     }
 
-    const {data, setData, errors, clearErrors, post} = useForm(
-        ENTRY_CREATE_FORM_INITIAL_VALUE,
-    )
+    const {data, setData, errors, clearErrors, post} = useForm(ENTRY_CREATE_FORM_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
 
     const stepTitles = [{label: t('entry.details')}]
@@ -84,9 +82,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={route('entry-bulk.create').concat(
-                        `?character_id=${character.id}`,
-                    )}
+                    resetUrl={route('entry-bulk.create').concat(`?character_id=${character.id}`)}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -139,9 +135,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                         onChange={(e) => {
                             setData('end_date', e)
                         }}
-                        renderInput={(params) => (
-                            <TextField {...params} fullWidth id='end_date' />
-                        )}
+                        renderInput={(params) => <TextField {...params} fullWidth id='end_date' />}
                     />
                 </LocalizationProvider>
                 {errors?.end_date && <ErrorText message={errors?.end_date} />}
@@ -190,5 +184,5 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
     )
 }
 
-BulkEntryCreateForm.displayName = 'BulkEntryCreateForm'
-export default BulkEntryCreateForm
+BulkEntryForm.displayName = 'BulkEntryForm'
+export default BulkEntryForm

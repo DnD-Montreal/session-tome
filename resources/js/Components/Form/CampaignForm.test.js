@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
 
-import CampaignCreateForm from './CampaignCreateForm'
+import CampaignForm from './CampaignForm'
 
 const mockFunction = jest.fn()
 
@@ -33,18 +33,18 @@ const createProps = {
     ],
 }
 
-describe('<CampaignCreateForm />', () => {
+describe('<CampaignForm />', () => {
     it('edit component should render and close', () => {
-        const component = render(<CampaignCreateForm {...editProps} />)
+        const component = render(<CampaignForm {...editProps} />)
         expect(component).toBeDefined()
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('create component should render', () => {
-        const component = render(<CampaignCreateForm {...createProps} />)
+        const component = render(<CampaignForm {...createProps} />)
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(<CampaignCreateForm {...createProps} />)
+        render(<CampaignForm {...createProps} />)
         const adventureInputField = document.querySelector('#adventures')
         const titleField = document.querySelector('#title')
         const characterField = document.querySelector('input[name="Assigned Character"]')
@@ -56,7 +56,7 @@ describe('<CampaignCreateForm />', () => {
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
-        render(<CampaignCreateForm {...editProps} />)
+        render(<CampaignForm {...editProps} />)
         const adventureInputField = document.querySelector('#adventures')
         const titleField = document.querySelector('#title')
         const characterField = document.querySelector('input[name="Assigned Character"]')

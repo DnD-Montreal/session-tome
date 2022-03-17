@@ -24,7 +24,7 @@ const StyledTextField = styled(TextField)`
 const Select = ({options, type, hasNoneOption, fullWidth = true, ...props}: SelectPropType) => {
     const {t} = useTranslation()
     const getOptions = () => {
-        if (options.length === 0) {
+        if (options.length === 0 && !hasNoneOption) {
             return <Typography style={{marginLeft: 12}}>{t('component.no-data')}</Typography>
         }
         if (typeof options[0] === 'string' || typeof options[0] === 'number') {

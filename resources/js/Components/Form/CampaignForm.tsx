@@ -9,7 +9,7 @@ import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
-type CampaignCreateFormPropType = {
+type CampaignFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
     editData?: CampaignData
@@ -29,14 +29,14 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const CampaignCreateForm = ({
+const CampaignForm = ({
     type,
     onCloseDrawer,
     editData,
     editId = 0,
     adventures,
     characters,
-}: CampaignCreateFormPropType) => {
+}: CampaignFormPropType) => {
     const {t} = useTranslation()
 
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
@@ -144,5 +144,5 @@ const CampaignCreateForm = ({
     )
 }
 
-CampaignCreateForm.displayName = 'CampaignCreateForm'
-export default CampaignCreateForm
+CampaignForm.displayName = 'CampaignForm'
+export default CampaignForm
