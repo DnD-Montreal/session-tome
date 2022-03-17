@@ -198,14 +198,6 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={route().current()?.includes('trade') ? 'active' : ''}
-                                color='white'
-                                href='/#'>
-                                {t('common.item-shop')}
-                            </InertiaLink>
-                        </PaddingGrid>
-                        <PaddingGrid item xs={12} md={2}>
-                            <InertiaLink
                                 className={route().current()?.includes('campaign') ? 'active' : ''}
                                 color='white'
                                 href={route('campaign.index')}>
