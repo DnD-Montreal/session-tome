@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 import useEditDrawer from '@Utils/use-edit-drawer'
-import {CharacterCreateForm, CharacterTable, Drawer} from 'Components'
+import {CharacterForm, CharacterTable, Drawer} from 'Components'
 import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
 
@@ -18,7 +18,7 @@ const Character = ({characters, factions}: CharacterPropType) => {
         <>
             <Drawer
                 content={
-                    <CharacterCreateForm
+                    <CharacterForm
                         type='Edit'
                         onCloseDrawer={() => setIsEditDrawerOpen(false)}
                         editData={editData}

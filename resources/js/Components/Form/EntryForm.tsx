@@ -22,7 +22,7 @@ import route from 'ziggy-js'
 import ItemForm from './ItemForm'
 import RatingForm from './RatingForm'
 
-type EntryCreateFormPropType = {
+type EntryFormPropType = {
     type: 'Edit' | 'Create' | 'CampaignEntryEdit'
     onCloseDrawer?: () => void
     editData?: EntriesData
@@ -61,7 +61,7 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
-const EntryCreateForm = ({
+const EntryForm = ({
     type,
     onCloseDrawer,
     editData,
@@ -70,7 +70,7 @@ const EntryCreateForm = ({
     adventures,
     gameMasters,
     campaigns,
-}: EntryCreateFormPropType) => {
+}: EntryFormPropType) => {
     const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -439,5 +439,5 @@ const EntryCreateForm = ({
     )
 }
 
-EntryCreateForm.displayName = 'EntryCreateForm'
-export default EntryCreateForm
+EntryForm.displayName = 'EntryForm'
+export default EntryForm

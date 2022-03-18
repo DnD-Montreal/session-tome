@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
 
-import EntryCreateForm from './EntryCreateForm'
+import EntryForm from './EntryForm'
 import ItemForm from './ItemForm'
 import RatingForm from './RatingForm'
 
@@ -99,18 +99,18 @@ const tomorrowYear = tomorrowDate.getFullYear()
 const tomorrowMDY = `${tomorrowMonth} ${tomorrowDay}, ${tomorrowYear}`
 const tomorrow = `${tomorrowMDY}`
 
-describe('<EntryCreateForm />', () => {
+describe('<EntryForm />', () => {
     it('edit component should render and close', () => {
-        const component = render(<EntryCreateForm {...editProps} />)
+        const component = render(<EntryForm {...editProps} />)
         expect(component).toBeDefined()
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('create component should render', () => {
-        const component = render(<EntryCreateForm {...createProps} />)
+        const component = render(<EntryForm {...createProps} />)
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(<EntryCreateForm {...createProps} />)
+        render(<EntryForm {...createProps} />)
         const adventureInputField = document.querySelector('#adventures')
         const locationField = document.querySelector('#location')
         const lengthField = document.querySelector('input[name="Length"]')
@@ -158,7 +158,7 @@ describe('<EntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
-        render(<EntryCreateForm {...editProps} />)
+        render(<EntryForm {...editProps} />)
         const lengthField = document.querySelector('input[name="Length"]')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
