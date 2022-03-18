@@ -31,13 +31,14 @@
         "prettier",
         "plugin:cypress/recommended",
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:storybook/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "plugins": ["prettier", "cypress", "simple-import-sort", "storybook"],
+    "plugins": ["prettier", "cypress", "simple-import-sort"],
     "rules": {
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
