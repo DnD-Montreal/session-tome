@@ -12,7 +12,7 @@ import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
 import route from 'ziggy-js'
 
-type BulkEntryFormPropType = {
+type BulkEntryCreateFormPropType = {
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
@@ -20,7 +20,7 @@ type BulkEntryFormPropType = {
     adventures: adventureType[]
 }
 
-type BulkEntryFormDataType = {
+type BulkEntryCreateFormDataType = {
     start_date: Date | null
     end_date: Date | null
     frequency: number
@@ -38,7 +38,7 @@ const StyledTextField = styled(TextField)({
     background: '#5A7249',
 })
 
-const BulkEntryForm = ({character, adventures}: BulkEntryFormPropType) => {
+const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropType) => {
     const {t} = useTranslation()
 
     const frequencies = [
@@ -55,7 +55,7 @@ const BulkEntryForm = ({character, adventures}: BulkEntryFormPropType) => {
             value: 0.25,
         },
     ]
-    const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
+    const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryCreateFormDataType = {
         start_date: new Date(),
         end_date: new Date(),
         frequency: 1,
@@ -184,5 +184,5 @@ const BulkEntryForm = ({character, adventures}: BulkEntryFormPropType) => {
     )
 }
 
-BulkEntryForm.displayName = 'BulkEntryForm'
-export default BulkEntryForm
+BulkEntryCreateForm.displayName = 'BulkEntryCreateForm'
+export default BulkEntryCreateForm
