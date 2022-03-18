@@ -9,5 +9,5 @@ const Template = (args) => <ErrorText {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {
-    message: 'test message',
+    message: 'test error',
 }
