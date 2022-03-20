@@ -140,7 +140,7 @@ class CampaignController extends Controller
             $campaign->characters()->sync($playerCharacters);
         }
 
-        // If the user doesnt have a character, then they're a DM, otherwise, they're not
+        // If the user doesnt have a character, then they're a DM, otherwise, they're not.
         $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => !$hasCharacter]);
 
         $campaign->update($data);
