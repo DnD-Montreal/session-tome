@@ -31,7 +31,8 @@
         "prettier",
         "plugin:cypress/recommended",
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:storybook/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
