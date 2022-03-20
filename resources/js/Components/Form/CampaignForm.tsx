@@ -1,7 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
-import {Autocomplete, ErrorText, Link, Select} from 'Components'
+import {Autocomplete, Button, ErrorText, Link, Select} from 'Components'
 import {useSnackbar} from 'notistack'
 import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -61,7 +61,7 @@ const CampaignForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, clearErrors, put, post, wasSuccessful} =
+    const {data, setData, errors, clearErrors, put, post, processing, wasSuccessful} =
         useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
     const {enqueueSnackbar} = useSnackbar()
 
@@ -143,6 +143,7 @@ const CampaignForm = ({
                 <Grid item xs={4} />
                 <Grid item xs={4}>
                     <Button
+                        loading={processing}
                         variant='contained'
                         fullWidth
                         onClick={() => {
