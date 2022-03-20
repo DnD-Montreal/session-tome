@@ -127,14 +127,16 @@ class CampaignController extends Controller
     {
         $data = $request->validated();
 
+        // Fetch the character ids in the campaign that don't belong to the current user.
         $playerCharacters = $campaign->characters()
             ->where('user_id', "!=", Auth::id())
             ->pluck('id');
 
         if (!empty($data['character_id'])) {
+            // Add the new character ID to be attached, along with the rest of the characters.
             $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
         } else {
-            // if we dont have a character_id then the user is becoming the DM,,,
+            // If we dont have a character_id then the user is becoming the DM...
             $campaign->characters()->sync($playerCharacters);
             $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => 1]);
         }
