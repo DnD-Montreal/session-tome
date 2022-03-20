@@ -63,9 +63,7 @@ const EventRegistrationModal = ({
     useEffect(() => {
         if (wasSuccessful) {
             clearErrors()
-            if (onClose) {
-                onClose()
-            }
+            onClose()
             enqueueSnackbar(
                 registrationData.is_registered
                     ? t('entry.leave-success-message')
