@@ -1,6 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Grid, Typography} from '@mui/material'
 import {Button, ErrorText, Modal, Select} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -37,6 +38,8 @@ const EventRegistrationModal = ({
     onClose,
     registrationData,
 }: EventRegistrationModalPropType) => {
+    const {t} = useTranslation()
+
     const SESSION_REGISTRATION_FORM_INITIAL_VALUE = {
         event_id: event.id,
         session_id: registrationData.id,
@@ -55,15 +58,22 @@ const EventRegistrationModal = ({
         wasSuccessful,
         processing,
     } = useForm<FormDataType>(SESSION_REGISTRATION_FORM_INITIAL_VALUE)
+    const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
         if (wasSuccessful) {
             clearErrors()
             onClose()
+            enqueueSnackbar(
+                registrationData.is_registered
+                    ? t('entry.leave-success-message')
+                    : t('entry.register-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
-
-    const {t} = useTranslation()
 
     return (
         <Modal open={open} onClose={onClose}>
