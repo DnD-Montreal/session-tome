@@ -11,7 +11,9 @@
         "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
         "enter-invite-code": "Please enter the invite code of the campaign.",
         "fill-out-fields": "Fill out the following fields with your campaign details.",
-        "select-character-kick": "Please select a character to remove from the campaign."
+        "select-character-kick": "Please select a character to remove from the campaign.",
+        "create-success-message": "Campaign created",
+        "edit-success-message": "Campaign updated"
     },
     "campaignDetail":{
         "campaign-title": "CAMPAIGN TITLE",
@@ -107,7 +109,9 @@
         "no-adventure-warning": "This imported entry does not have an adventure, please update it manually.",
         "campaigns": "Campaign",
         "create-success-message": "Entry created",
-        "edit-success-message": "Entry updated"
+        "edit-success-message": "Entry updated",
+        "register-success-message": "Registered to session",
+        "leave-success-message": "Session left"
     },
     "enums": {
         "common": "Common",

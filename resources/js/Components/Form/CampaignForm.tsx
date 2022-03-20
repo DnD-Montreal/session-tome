@@ -2,6 +2,8 @@ import {useForm} from '@inertiajs/inertia-react'
 import {Button, Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
 import {Autocomplete, ErrorText, Link, Select} from 'Components'
+import {useSnackbar} from 'notistack'
+import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -59,7 +61,26 @@ const CampaignForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, put, post} = useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
+    const {data, setData, errors, clearErrors, put, post, wasSuccessful} =
+        useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
+    const {enqueueSnackbar} = useSnackbar()
+
+    useEffect(() => {
+        if (wasSuccessful) {
+            clearErrors()
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('campaign.create-success-message')
+                    : t('campaign.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
+        }
+    }, [wasSuccessful])
 
     return (
         <Grid>

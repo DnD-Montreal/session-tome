@@ -1,6 +1,7 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Backdrop, Box, Fade, Grid, Modal, Typography} from '@mui/material'
 import {Button, ErrorText, Select} from 'Components'
+import {useSnackbar} from 'notistack'
 import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
@@ -47,6 +48,8 @@ const EventRegistrationModal = ({
     onClose,
     registrationData,
 }: EventRegistrationModalPropType) => {
+    const {t} = useTranslation()
+
     const SESSION_REGISTRATION_FORM_INITIAL_VALUE = {
         event_id: event.id,
         session_id: registrationData.id,
@@ -65,15 +68,24 @@ const EventRegistrationModal = ({
         wasSuccessful,
         processing,
     } = useForm<FormDataType>(SESSION_REGISTRATION_FORM_INITIAL_VALUE)
+    const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
         if (wasSuccessful) {
             clearErrors()
-            onClose()
+            if (onClose) {
+                onClose()
+            }
+            enqueueSnackbar(
+                registrationData.is_registered
+                    ? t('entry.leave-success-message')
+                    : t('entry.register-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
-
-    const {t} = useTranslation()
 
     return (
         <Modal
@@ -110,9 +122,7 @@ const EventRegistrationModal = ({
                                 {errors && (
                                     <ErrorText
                                         message={
-                                            errors?.character_id ||
-                                            errors?.overlap ||
-                                            errors?.seats
+                                            errors?.character_id || errors?.overlap || errors?.seats
                                         }
                                     />
                                 )}
@@ -127,9 +137,7 @@ const EventRegistrationModal = ({
                                 onClick={() => {
                                     if (registrationData.is_registered) {
                                         destroy(
-                                            route('event-registration.destroy', [
-                                                data.session_id,
-                                            ]),
+                                            route('event-registration.destroy', [data.session_id]),
                                         )
                                     } else {
                                         post(route('registration.store'))
