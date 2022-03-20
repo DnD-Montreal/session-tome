@@ -135,6 +135,7 @@ class CampaignController extends Controller
         if (!empty($data['character_id'])) {
             // Add the new character ID to be attached, along with the rest of the characters.
             $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
+            $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => 0]);
         } else {
             // If we dont have a character_id then the user is becoming the DM...
             $campaign->characters()->sync($playerCharacters);
