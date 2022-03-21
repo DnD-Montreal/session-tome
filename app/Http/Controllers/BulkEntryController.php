@@ -50,7 +50,7 @@ class BulkEntryController extends Controller
         $character = Character::findOrFail($data['character_id']);
 
 
-        $character->stubEntries(0, $entriesCount, $data['adventure']['id']);
+        $character->stubEntries(0, $entriesCount, $data['adventure_id']);
         $character->entries()
             ->where('created_at', ">=", now())
             ->get()
