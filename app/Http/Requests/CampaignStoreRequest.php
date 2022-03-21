@@ -24,9 +24,18 @@ class CampaignStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
-            'character_id' => ['nullable', 'exists:characters,id'],
+            'character_id' => ['nullable', 'integer', 'exists:characters,id'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($adventure = $this->get('adventure')) {
+            $this->merge([
+                'adventure_id' => $adventure['id']
+            ]);
+        }
     }
 }
