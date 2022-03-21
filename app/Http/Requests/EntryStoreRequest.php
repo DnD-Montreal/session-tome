@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -38,11 +39,11 @@ class EntryStoreRequest extends FormRequest
 
         return [
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
-            'dungeon_master.id' => ['sometimes', 'integer', 'exists:users,id'],
+            'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes'],
             'date_played' => ['required', 'date'],
             'location' => ['nullable', 'string'],
@@ -63,11 +64,24 @@ class EntryStoreRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        // TODO: Refactor "adventure.id" and "dungeon_master.id" to use this method as well, involves changing controllers back to expecting "adventure_id", etc...
-        // If theres an object in place for "campaign" the whole model got passed up, so just grab the id
+        // If theres an object in place for "campaign", "adventure", etc, the whole model got passed up, so just grab the id.
         if ($campaign = $this->get('campaign')) {
             $this->merge([
                 'campaign_id' => $campaign['id']
+            ]);
+        }
+
+        if ($adventure = $this->get('adventure')) {
+            $this->merge([
+                'adventure_id' => $adventure['id']
+            ]);
+        }
+
+        $dungeonMaster = $this->get('dungeon_master');
+        if ($dungeonMaster && is_array($dungeonMaster)) {
+            $this->merge([
+                'dungeon_master_id' => $dungeonMaster['id'],
+                'dungeon_master' => null,
             ]);
         }
     }

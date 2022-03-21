@@ -93,18 +93,9 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
-        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
-            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
-            $entryData->forget('dungeon_master');
-        } else {
-            $entryData['dungeon_master_id'] = null;
-        }
-
-        $entryData["adventure_id"] = $entryData['adventure']['id'];
-        $entryData->forget('adventure');
 
         $entry = Entry::create($entryData->toArray());
-        // attach any associated items to the entry in question.
+        // Attach any associated items to the entry in question.
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
@@ -165,21 +156,11 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData, $entry);
 
-        if (!empty($entryData['dungeon_master']['id']) && $entryData['type'] !== Entry::TYPE_DM) {
-            $entryData['dungeon_master_id'] = $entryData['dungeon_master']['id'];
-            $entryData->forget('dungeon_master');
-        } else {
-            $entryData['dungeon_master_id'] = null;
-        }
-
-        $entryData["adventure_id"] = $entryData['adventure']['id'];
-        $entryData->forget('adventure');
-
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        // need to find alternative to empty, this is true even if no rating_data found
+        // Need to find alternative to empty, this is true even if no rating_data found.
         if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
