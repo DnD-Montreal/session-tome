@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignUpdateRequest extends FilterableRequest
 {
@@ -15,7 +16,7 @@ class CampaignUpdateRequest extends FilterableRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->campaign->users->pluck('id')->contains(Auth::id());
     }
 
     /**

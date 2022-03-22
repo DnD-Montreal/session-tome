@@ -62,7 +62,7 @@ class CampaignController extends Controller
         $data = $request->validated();
         $campaign = Campaign::create($data);
 
-        //user joins campaign
+        // User joins campaign
         $user = Auth::user();
 
         if (!empty($data['character_id'])) {
@@ -123,12 +123,21 @@ class CampaignController extends Controller
     {
         $data = $request->validated();
 
-        if (isset($data['character_id'])) {
-            $playerCharacters = $campaign->characters()
-                ->where('user_id', "!=", Auth::id())
-                ->pluck('id');
+        // Fetch the character ids in the campaign that don't belong to the current user.
+        $playerCharacters = $campaign->characters()
+            ->where('user_id', "!=", Auth::id())
+            ->pluck('id');
+
+        if ($hasCharacter = !empty($data['character_id'])) {
+            // Add the new character ID to be attached, along with the rest of the characters.
             $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
+        } else {
+            // If we dont have a character_id then the user is becoming the DM...
+            $campaign->characters()->sync($playerCharacters);
         }
+
+        // If the user doesnt have a character, then they're a DM, otherwise, they're not.
+        $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => !$hasCharacter]);
 
         $campaign->update($data);
 
