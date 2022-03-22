@@ -194,7 +194,7 @@ class CampaignControllerTest extends TestCase
      */
     public function update_redirects()
     {
-        $campaign = Campaign::factory()->create();
+        $campaign = Campaign::factory()->hasAttached($this->user, ['is_dm' => false])->create();
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
         $newCharacter = Character::factory()->create([
@@ -215,6 +215,30 @@ class CampaignControllerTest extends TestCase
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
         $this->assertContains($newCharacter->id, $campaign->characters->pluck('id'));
+    }
+
+    /**
+     * @test
+     */
+    public function update_changes_a_user_into_a_dm()
+    {
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+        $character = Character::factory()->state(['user_id' => $this->user->id]);
+        $campaign = Campaign::factory()
+            ->has($character)
+            ->hasAttached($this->user, ['is_dm' => false])
+            ->create();
+
+        $this->put(route('campaign.update', $campaign), [
+            'adventure_id' => $adventure->id,
+            'character_id' => null,
+            'title' => $title,
+        ]);
+
+        $campaign->refresh();
+
+        $this->assertTrue((bool) $campaign->users[0]->pivot->is_dm);
     }
 
     /**
