@@ -5,8 +5,10 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkEntryStoreRequest extends FormRequest
+class BulkEntryStoreRequest extends FilterableRequest
 {
+    protected $filterableModels = ['adventure'];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,14 +36,5 @@ class BulkEntryStoreRequest extends FormRequest
             // (1 -> once per week, 2 -> twice per week, 0.5 -> once every 2 weeks)
             'frequency' => "required|numeric",
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($adventure = $this->get('adventure')) {
-            $this->merge([
-                'adventure_id' => $adventure['id']
-            ]);
-        }
     }
 }

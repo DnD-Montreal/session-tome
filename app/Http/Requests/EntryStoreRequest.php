@@ -10,8 +10,14 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class EntryStoreRequest extends FormRequest
+class EntryStoreRequest extends FilterableRequest
 {
+    protected $filterableModels = [
+        'campaign',
+        'adventure',
+        'dungeon_master',
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -60,29 +66,5 @@ class EntryStoreRequest extends FormRequest
             'choice' => ['sometimes', 'nullable', 'string'],
             'rating_data' => ['nullable', 'array'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        // If theres an object in place for "campaign", "adventure", etc, the whole model got passed up, so just grab the id.
-        if ($campaign = $this->get('campaign')) {
-            $this->merge([
-                'campaign_id' => $campaign['id']
-            ]);
-        }
-
-        if ($adventure = $this->get('adventure')) {
-            $this->merge([
-                'adventure_id' => $adventure['id']
-            ]);
-        }
-
-        $dungeonMaster = $this->get('dungeon_master');
-        if ($dungeonMaster && is_array($dungeonMaster)) {
-            $this->merge([
-                'dungeon_master_id' => $dungeonMaster['id'],
-                'dungeon_master' => null,
-            ]);
-        }
     }
 }

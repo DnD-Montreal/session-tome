@@ -8,8 +8,14 @@ use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class EntryUpdateRequest extends FormRequest
+class EntryUpdateRequest extends FilterableRequest
 {
+    protected $filterableModels = [
+        'campaign',
+        'adventure',
+        'dungeon_master',
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -58,29 +64,5 @@ class EntryUpdateRequest extends FormRequest
             'choice' => ['sometimes', "nullable", 'string'],
             'rating_data' => ['nullable', 'sometimes', 'array']
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        // involves changing controllers back to expecting "adventure_id", etc...
-        if ($campaign = $this->get('campaign')) {
-            $this->merge([
-                'campaign_id' => $campaign['id']
-            ]);
-        }
-
-        if ($adventure = $this->get('adventure')) {
-            $this->merge([
-                'adventure_id' => $adventure['id']
-            ]);
-        }
-
-        $dungeonMaster = $this->get('dungeon_master');
-        if ($dungeonMaster && is_array($dungeonMaster)) {
-            $this->merge([
-                'dungeon_master_id' => $dungeonMaster['id'],
-                'dungeon_master' => null,
-            ]);
-        }
     }
 }
