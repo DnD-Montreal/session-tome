@@ -29,7 +29,7 @@ describe('Admin Session CRUD Test Suite', () => {
         cy.get('input[name=table]').type('1')
         cy.get('input[name=start_time]').type('2021-01-01T12:00')
         cy.get('button[type="submit"]').click()
-        cy.contains('The item has been created successfully.')
+        cy.contains('The item has been added successfully.')
     })
 
     it('Session Edit', () => {
