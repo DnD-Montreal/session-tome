@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
+use App\Exceptions\GMEntryException;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
 use App\Models\Campaign;
@@ -93,6 +94,14 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
+        if ($entryData['type'] === Entry::TYPE_DM && !empty($entryData['campaign_id'])) {
+            $campaign = Campaign::find($entryData['campaign_id']);
+            $campaignGmIds = $campaign->users()->wherePivot('is_dm', true)->pluck('id');
+            if (!$campaignGmIds->contains(Auth::id())) {
+                $exception = new GMEntryException("GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.");
+                return redirect()->back()->withException($exception);
+            }
+        }
 
         $entry = Entry::create($entryData->toArray());
         // Attach any associated items to the entry in question.

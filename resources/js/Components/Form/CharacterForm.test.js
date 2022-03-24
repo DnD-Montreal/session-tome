@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 
-import CharacterCreateForm from './CharacterCreateForm'
+import CharacterForm from './CharacterForm'
 
 const mockFunction = jest.fn()
 
@@ -33,17 +33,17 @@ const createProps = {
     factions,
 }
 
-describe('<CharacterCreateForm />', () => {
+describe('<CharacterForm />', () => {
     it('edit component should render', () => {
-        const component = render(<CharacterCreateForm {...editProps} />)
+        const component = render(<CharacterForm {...editProps} />)
         expect(component).toBeDefined()
     })
     it('create component should render', () => {
-        const component = render(<CharacterCreateForm {...createProps} />)
+        const component = render(<CharacterForm {...createProps} />)
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(<CharacterCreateForm {...createProps} />)
+        render(<CharacterForm {...createProps} />)
         const nameField = document.querySelector('#name')
         const raceField = document.querySelector('#race')
         const classField = document.querySelector('#class')
@@ -64,7 +64,7 @@ describe('<CharacterCreateForm />', () => {
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
-        render(<CharacterCreateForm {...editProps} />)
+        render(<CharacterForm {...editProps} />)
         const nameField = document.querySelector('#name')
         const raceField = document.querySelector('#race')
         const classField = document.querySelector('#class')

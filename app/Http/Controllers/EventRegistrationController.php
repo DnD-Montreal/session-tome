@@ -27,6 +27,14 @@ class EventRegistrationController extends Controller
 
         $character = Character::find($data['character_id']);
 
+        $userId = Auth::id();
+
+        $userSessions = Session::whereHas('characters', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->orWhereHas('dungeonMaster', function ($q) use ($userId) {
+            $q->where('id', $userId);
+        })->get();
+
         if (!isset($data['session_id'])) {
             // if they're not choosing a specific session, just register them to an open table with seats
             $session = Session::hasOpenSeats($data['event_id'])
@@ -42,15 +50,23 @@ class EventRegistrationController extends Controller
             ]);
         }
 
+        foreach ($userSessions as $userSession) {
+            if ($session->overlapsWith($userSession)) {
+                return back()->withErrors([
+                    'overlap' => "The session you have attempted to register for overlaps with one you are currently registered in."
+                ]);
+            }
+        }
+
         $character->sessions()->attach($session);
         $character->save();
 
-        return redirect('character.index');
+        return redirect()->route('event.show', $session->event_id);
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
+     * @param \App\Models\Session $session
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Session $session)

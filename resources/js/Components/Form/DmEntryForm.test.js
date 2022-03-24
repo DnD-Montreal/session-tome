@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 
-import DmEntryCreateForm from './DmEntryCreateForm'
+import DmEntryForm from './DmEntryForm'
 import ItemForm from './ItemForm'
 
 const mockFunction = jest.fn()
@@ -69,18 +69,18 @@ const tomorrow = `${`${
     monthNames[tomorrowDate.getMonth()]
 } ${tomorrowDate.getDate()}, ${tomorrowDate.getFullYear()}`}`
 
-describe('<DmEntryCreateForm />', () => {
+describe('<DmEntryForm />', () => {
     it('edit component should render and close', () => {
-        const component = render(<DmEntryCreateForm {...editProps} />)
+        const component = render(<DmEntryForm {...editProps} />)
         expect(component).toBeDefined()
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('create component should render', () => {
-        const component = render(<DmEntryCreateForm {...createProps} />)
+        const component = render(<DmEntryForm {...createProps} />)
         expect(component).toBeDefined()
     })
     it('create component fields test', () => {
-        render(<DmEntryCreateForm {...createProps} />)
+        render(<DmEntryForm {...createProps} />)
         const adventureInputField = document.querySelector('#adventures')
         const lengthField = document.querySelector('input[name="Length"]')
         const levelsField = document.querySelector('input[name="Levels"]')
@@ -129,7 +129,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Create'))
     })
     it('edit component fields test', () => {
-        render(<DmEntryCreateForm {...editProps} />)
+        render(<DmEntryForm {...editProps} />)
         const lengthField = document.querySelector('input[name="Length"]')
         const locationField = document.querySelector('#location')
         const notesField = document.querySelector('#notes')
@@ -140,7 +140,7 @@ describe('<DmEntryCreateForm />', () => {
         fireEvent.click(screen.getByText('Save'))
     })
     it('edit cancel test', () => {
-        render(<DmEntryCreateForm {...editProps} />)
+        render(<DmEntryForm {...editProps} />)
         fireEvent.click(screen.getByText('Cancel'))
     })
     it('Item test', () => {

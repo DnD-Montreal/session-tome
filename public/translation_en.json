@@ -11,7 +11,9 @@
         "delete-message": "Are you sure you want to delete this/these Campaign(s)?",
         "enter-invite-code": "Please enter the invite code of the campaign.",
         "fill-out-fields": "Fill out the following fields with your campaign details.",
-        "select-character-kick": "Please select a character to remove from the campaign."
+        "select-character-kick": "Please select a character to remove from the campaign.",
+        "create-success-message": "Campaign created",
+        "edit-success-message": "Campaign updated"
     },
     "campaignDetail":{
         "campaign-title": "CAMPAIGN TITLE",
@@ -77,6 +79,9 @@
         "skip": "Skip",
         "search": "Search",
         "or": "OR",
+        "events": "Events",
+        "register": "Register",
+        "leave": "Leave",
         "join": "Join",
         "none": "None",
         "kick": "Kick",
@@ -104,7 +109,9 @@
         "no-adventure-warning": "This imported entry does not have an adventure, please update it manually.",
         "campaigns": "Campaign",
         "create-success-message": "Entry created",
-        "edit-success-message": "Entry updated"
+        "edit-success-message": "Entry updated",
+        "register-success-message": "Registered to session",
+        "leave-success-message": "Session left"
     },
     "enums": {
         "common": "Common",
@@ -125,6 +132,22 @@
         "-": "-",
         "private": "Private",
         "public": "Public"
+    },
+    "eventDetail": {
+        "event-title": "Event Title",
+        "start-date": "Start Date",
+        "end-date": "End Date",
+        "league": "League",
+        "location": "Location",
+        "total-spots": "Total Spots",
+        "registered-users": "Registered Users",
+        "total-spots-left": "Total Spots Left",
+        "description": "Description",
+        "registered": "Registered",
+        "registered-events": "Registered Events",
+        "registered-sessions": "Registered Sessions",
+        "registration-message": "Please choose a character for this session.",
+        "leave-message": "Are you sure you want to leave this session?"
     },
     "form": {
         "title": "Title",
@@ -156,6 +179,7 @@
             "bi-monthly": "Once per 2 weeks",
             "monthly": "Once per month"
         },
+        "chosen-character": "Chosen Character",
         "adventure":"Adventure"
     },
     "itemDetail": {
@@ -207,6 +231,13 @@
         "description": "Description",
         "rarity": "Rarity",
         "tier": "Tier",
+        "start-time": "Start Time",
+        "end-time": "End Time",
+        "session-id": "Session ID",
+        "game-master": "Game Master",
+        "seats-taken": "Seats Taken",
+        "seats-left": "Seats Left",
+        "participation": "Participation",
         "title": "Title",
         "characters": "Characters",
         "code": "Code",
@@ -218,6 +249,8 @@
         "entry": "Entries",
         "item": "Items",
         "rating": "Ratings",
+        "event": "Events",
+        "session": "Sessions",
         "campaigns": "Campaigns"
     },
     "welcome": {

@@ -22,12 +22,7 @@ type FormDataType = {
     entries: number[]
 }
 
-const DMEntryTable = ({
-    data,
-    setEditId,
-    setEditData,
-    setIsEditDrawerOpen,
-}: DMEntryPropType) => {
+const DMEntryTable = ({data, setEditId, setEditData, setIsEditDrawerOpen}: DMEntryPropType) => {
     const {t} = useTranslation()
     const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -43,9 +38,7 @@ const DMEntryTable = ({
         {
             property: 'date_played',
             title: t('tableColumn.date'),
-            render: (value: string) => (
-                <Typography>{dayjs(value).format('LLL')}</Typography>
-            ),
+            render: (value: string) => <Typography>{dayjs(value).format('LLL')}</Typography>,
         },
         {
             property: 'adventure',

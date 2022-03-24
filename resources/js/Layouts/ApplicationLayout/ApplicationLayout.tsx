@@ -1,5 +1,3 @@
-import './ApplicationLayout.css'
-
 import styled from '@emotion/styled'
 import {usePage} from '@inertiajs/inertia-react'
 import {Avatar, Grid, Link, Typography} from '@mui/material'
@@ -24,6 +22,10 @@ const MainGrid = styled.div`
     font-size: 0.8em;
     overflow-y: auto;
     min-height: 100vh;
+    .active {
+        text-decoration-line: underline;
+        text-underline-offset: 2px;
+    }
 `
 
 const PrimaryRow = styled(Grid)`
@@ -39,6 +41,8 @@ const PrimaryRow = styled(Grid)`
 
 const SecondaryRow = styled(Grid)`
     text-align: center;
+    width: 80vw;
+    margin: auto;
     @media only screen and (min-width: 900px) {
         height: 96px;
     }
@@ -150,10 +154,13 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                             user={user}
                         />
                         <UserAvatarColumn item container xs={12} md={3}>
+                            {window.innerWidth > 768 && <Grid item xs={2} />}
                             <Grid
                                 data-cy='user-column'
                                 item
                                 container
+                                xs
+                                md={4}
                                 justifyContent='center'
                                 style={{cursor: 'pointer', margin: '0 auto'}}
                                 onClick={handleClick}>
@@ -203,6 +210,14 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                                 color='white'
                                 href={route('rating.index')}>
                                 {t('common.ratings')}
+                            </InertiaLink>
+                        </PaddingGrid>
+                        <PaddingGrid item xs={12} md={2}>
+                            <InertiaLink
+                                className={route().current()?.includes('event') ? 'active' : ''}
+                                color='white'
+                                href={route('event.index')}>
+                                {t('common.events')}
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>

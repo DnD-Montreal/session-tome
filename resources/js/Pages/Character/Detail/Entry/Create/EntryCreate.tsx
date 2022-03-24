@@ -1,4 +1,4 @@
-import {EntryCreateForm} from 'Components'
+import {EntryForm} from 'Components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 
@@ -18,7 +18,7 @@ type EntryCreatePropType = {
 }
 
 const EntryCreate = ({character, adventures, gameMasters, campaigns}: EntryCreatePropType) => (
-    <EntryCreateForm
+    <EntryForm
         type='Create'
         character={character}
         adventures={adventures}

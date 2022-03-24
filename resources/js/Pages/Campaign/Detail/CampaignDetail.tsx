@@ -1,12 +1,6 @@
 import {Typography} from '@mui/material'
 import useEditDrawer from '@Utils/use-edit-drawer'
-import {
-    CampaignCreateForm,
-    CampaignDetailBox,
-    Drawer,
-    EntryCreateForm,
-    EntryTable,
-} from 'Components'
+import {CampaignForm, CampaignDetailBox, Drawer, EntryForm, EntryTable} from 'Components'
 import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
@@ -42,7 +36,7 @@ const CampaignDetail = ({
         <>
             <Drawer
                 content={
-                    <CampaignCreateForm
+                    <CampaignForm
                         type='Edit'
                         onCloseDrawer={() => setIsEditCampaignDrawerOpen(false)}
                         editData={campaign}
@@ -60,7 +54,7 @@ const CampaignDetail = ({
             {userCharacter && (
                 <Drawer
                     content={
-                        <EntryCreateForm
+                        <EntryForm
                             type='CampaignEntryEdit'
                             onCloseDrawer={() => setIsEditDrawerOpen(false)}
                             editData={

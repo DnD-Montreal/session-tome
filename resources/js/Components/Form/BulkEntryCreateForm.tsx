@@ -20,7 +20,7 @@ type BulkEntryCreateFormPropType = {
     adventures: adventureType[]
 }
 
-type BulkEntryFormDataType = {
+type BulkEntryCreateFormDataType = {
     start_date: Date | null
     end_date: Date | null
     frequency: number
@@ -55,7 +55,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
             value: 0.25,
         },
     ]
-    const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryFormDataType = {
+    const ENTRY_CREATE_FORM_INITIAL_VALUE: BulkEntryCreateFormDataType = {
         start_date: new Date(),
         end_date: new Date(),
         frequency: 1,
@@ -63,9 +63,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
         character_id: character.id,
     }
 
-    const {data, setData, errors, clearErrors, post} = useForm(
-        ENTRY_CREATE_FORM_INITIAL_VALUE,
-    )
+    const {data, setData, errors, clearErrors, post} = useForm(ENTRY_CREATE_FORM_INITIAL_VALUE)
     const [activeStep, setActiveStep] = useState<number>(0)
 
     const stepTitles = [{label: t('entry.details')}]
@@ -84,9 +82,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                     defaultValue={data.adventure}
                     getOptionLabel={(option) => `${option.code} - ${option.title}`}
                     options={adventures}
-                    resetUrl={route('entry-bulk.create').concat(
-                        `?character_id=${character.id}`,
-                    )}
+                    resetUrl={route('entry-bulk.create').concat(`?character_id=${character.id}`)}
                 />
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
@@ -139,9 +135,7 @@ const BulkEntryCreateForm = ({character, adventures}: BulkEntryCreateFormPropTyp
                         onChange={(e) => {
                             setData('end_date', e)
                         }}
-                        renderInput={(params) => (
-                            <TextField {...params} fullWidth id='end_date' />
-                        )}
+                        renderInput={(params) => <TextField {...params} fullWidth id='end_date' />}
                     />
                 </LocalizationProvider>
                 {errors?.end_date && <ErrorText message={errors?.end_date} />}
