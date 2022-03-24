@@ -11,6 +11,7 @@ type NumberInputPropType = {
 
 // This styled textfield disables the arrow buttons of a number type textfield
 // Source: https://stackoverflow.com/questions/56101519/remove-the-arrow-and-cross-that-appears-for-textfield-type-time-material-ui-re
+
 const StyledTextField = styled(TextField)({
     '& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
         {
@@ -18,14 +19,7 @@ const StyledTextField = styled(TextField)({
         },
 })
 
-const NumberInput = ({
-    setData,
-    min,
-    max,
-    fieldKey,
-    valueType,
-    ...props
-}: NumberInputPropType) => (
+const NumberInput = ({setData, min, max, fieldKey, valueType, ...props}: NumberInputPropType) => (
     <StyledTextField
         fullWidth
         type={valueType === 'float' ? 'number' : undefined}
@@ -44,9 +38,7 @@ const NumberInput = ({
         }}
         onChange={(e) => {
             const value =
-                valueType === 'float'
-                    ? parseFloat(e.target.value)
-                    : parseInt(e.target.value)
+                valueType === 'float' ? parseFloat(e.target.value) : parseInt(e.target.value)
             if (isNaN(value)) {
                 setData(fieldKey, min ?? 0)
             } else if (min && value < min) {

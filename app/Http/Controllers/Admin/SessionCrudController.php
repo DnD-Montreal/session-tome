@@ -62,6 +62,7 @@ class SessionCrudController extends CrudController
         CRUD::column('dungeonMaster');
         CRUD::column('table');
         CRUD::column('start_time');
+        CRUD::column('end_time');
     }
 
     /**
@@ -109,6 +110,7 @@ class SessionCrudController extends CrudController
         CRUD::field('dungeonMaster');
         CRUD::field('table');
         CRUD::field('start_time');
+        CRUD::field('end_time');
     }
 
     /**

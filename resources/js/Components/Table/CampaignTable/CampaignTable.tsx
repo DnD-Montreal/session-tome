@@ -30,7 +30,6 @@ const CampaignTable = ({
     setEditData,
 }: CampaignTablePropType) => {
     const {t} = useTranslation()
-    const [selected, setSelected] = useState<number[]>([])
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false)
     const {enqueueSnackbar} = useSnackbar()
@@ -121,17 +120,12 @@ const CampaignTable = ({
                 onClose={() => setIsDeleteModalOpen(false)}
                 onDelete={() => {
                     destroy(route('campaign.destroy', [formData.campaign]))
-                    if (selected) {
-                        setSelected([])
-                    }
                 }}
             />
             <CampaignJoinModal open={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
             <DataTable
                 leftActions={leftActions}
-                selected={selected}
-                setSelected={setSelected}
-                isSelectable
+                isSelectable={false}
                 data={data}
                 columns={columns}
                 tableName='campaigns'

@@ -1,11 +1,11 @@
 import {Typography} from '@mui/material'
 import useEditDrawer from '@Utils/use-edit-drawer'
 import {
-    CharacterCreateForm,
+    CharacterForm,
     CharacterDetailBox,
-    DmEntryCreateForm,
+    DmEntryForm,
     Drawer,
-    EntryCreateForm,
+    EntryForm,
     EntryTable,
 } from 'Components'
 import {useState} from 'react'
@@ -47,7 +47,7 @@ const CharacterDetail = ({
         <>
             <Drawer
                 content={
-                    <CharacterCreateForm
+                    <CharacterForm
                         type='Edit'
                         onCloseDrawer={() => setIsCharacterEditDrawerOpen(false)}
                         editData={character}
@@ -62,7 +62,7 @@ const CharacterDetail = ({
             <Drawer
                 content={
                     editData?.type === 'dm' ? (
-                        <DmEntryCreateForm
+                        <DmEntryForm
                             type='Edit'
                             onCloseDrawer={() => setIsEditDrawerOpen(false)}
                             editData={editData}
@@ -72,7 +72,7 @@ const CharacterDetail = ({
                             campaigns={campaigns}
                         />
                     ) : (
-                        <EntryCreateForm
+                        <EntryForm
                             type='Edit'
                             onCloseDrawer={() => setIsEditDrawerOpen(false)}
                             editData={editData}
