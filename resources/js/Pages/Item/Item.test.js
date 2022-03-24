@@ -1,6 +1,5 @@
 import {render} from '@testing-library/react'
 import {itemData} from 'Mock/item-data'
-import React from 'react'
 
 import Item from './Item'
 

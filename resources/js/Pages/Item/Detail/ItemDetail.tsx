@@ -1,13 +1,9 @@
 import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
 import {Drawer, ItemDetailBox, ItemEditForm} from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {CharacterData} from 'Types/character-data'
 import {ItemEditData} from 'Types/item-data'
-import {getFontTheme} from 'Utils'
-
-const theme = getFontTheme('Form', 14)
 
 type ItemDetailPropType = {
     item: ItemEditData
@@ -19,7 +15,7 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
     const {t} = useTranslation()
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Drawer
                 content={
                     <ItemEditForm
@@ -38,7 +34,7 @@ const ItemDetail = ({item, character}: ItemDetailPropType) => {
                 character={character}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-        </ThemeProvider>
+        </>
     )
 }
 

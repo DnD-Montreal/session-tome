@@ -1,5 +1,4 @@
 import {MenuItem, TextField, TextFieldProps, Typography} from '@mui/material'
-import React from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 
@@ -13,6 +12,8 @@ type OptionsType = {
 type SelectPropType = {
     options: any
     type?: string
+    hasNoneOption?: boolean
+    fullWidth?: boolean
 } & TextFieldProps
 
 const StyledTextField = styled(TextField)`
@@ -20,7 +21,13 @@ const StyledTextField = styled(TextField)`
     border-radius: ${(props) => props.type === 'filled' && '4px'};
 `
 
-const Select = ({options, type, ...props}: SelectPropType) => {
+const Select = ({
+    options,
+    type,
+    hasNoneOption,
+    fullWidth = true,
+    ...props
+}: SelectPropType) => {
     const {t} = useTranslation()
     const getOptions = () => {
         if (options.length === 0) {
@@ -44,7 +51,8 @@ const Select = ({options, type, ...props}: SelectPropType) => {
         }
     }
     return (
-        <StyledTextField fullWidth select type={type} {...props} style={{width: '100%'}}>
+        <StyledTextField fullWidth={fullWidth} select type={type} {...props}>
+            {hasNoneOption && <MenuItem key='none'>{t('common.none')}</MenuItem>}
             {getOptions()}
         </StyledTextField>
     )

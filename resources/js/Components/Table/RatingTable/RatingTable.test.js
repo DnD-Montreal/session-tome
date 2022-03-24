@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {ratingData} from 'Mock/rating-data'
-import React from 'react'
 
 import RatingTable from './RatingTable'
 

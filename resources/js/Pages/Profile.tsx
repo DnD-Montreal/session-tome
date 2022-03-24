@@ -1,10 +1,11 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Alert, Divider, Grid, Snackbar, TextField, Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
+import {Divider, Grid, TextField, Typography} from '@mui/material'
 import {Button, DeleteModal, ErrorText, Select} from 'Components'
-import React, {useEffect, useState} from 'react'
+import {useSnackbar} from 'notistack'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
-import {getFontTheme, useUser} from 'Utils'
+import styled from 'styled-components'
+import {useUser} from 'Utils'
 import route from 'ziggy-js'
 
 type UserEditDataType = {
@@ -15,9 +16,12 @@ type UserEditDataType = {
     language: string
 }
 
+const StyledTitle = styled(Typography)`
+    padding-bottom: 6px;
+`
+
 const Profile = () => {
     const {t} = useTranslation()
-    const theme = getFontTheme('Form', 12)
     const {user} = useUser()
     const USER_EDIT_INITIAL_VALUE = {
         name: user.name,
@@ -37,27 +41,23 @@ const Profile = () => {
         delete: destroy,
     } = useForm<UserEditDataType>(USER_EDIT_INITIAL_VALUE)
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState<boolean>(false)
-    const [isSuccess, setIsSuccess] = useState<boolean>(wasSuccessful)
+    const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
-        setIsSuccess(wasSuccessful)
+        if (wasSuccessful) {
+            enqueueSnackbar(t('profile.account-updated'), {variant: 'success'})
+        }
     }, [wasSuccessful])
+
     return (
-        <ThemeProvider theme={theme}>
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={isSuccess}
-                autoHideDuration={3000}
-                onClose={() => setIsSuccess(false)}>
-                <Alert severity='success'>{t('profile.account-updated')}</Alert>
-            </Snackbar>
+        <>
             <DeleteModal
                 open={isDeleteModalVisible}
                 onClose={() => setIsDeleteModalVisible(false)}
                 warningMessage='Are you sure you want to delete this account permanently?'
                 onDelete={() => destroy(route('user.destroy', [user.id]))}
             />
-            <Grid container rowSpacing={2} style={{maxWidth: '50vw'}}>
+            <Grid container spacing={2} style={{maxWidth: '50vw'}}>
                 <Grid item xs={12} style={{paddingBottom: 6}}>
                     <Typography variant='h4'>{t('profile.account-settings')}</Typography>
                 </Grid>
@@ -65,7 +65,7 @@ const Profile = () => {
                     <Divider style={{width: '100%'}} />
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.email')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.email')}</StyledTitle>
                     <TextField
                         id='email'
                         fullWidth
@@ -78,7 +78,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.username')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.username')}</StyledTitle>
                     <TextField
                         id='username'
                         fullWidth
@@ -91,7 +91,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.change-password')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.change-password')}</StyledTitle>
                     <TextField
                         id='password'
                         fullWidth
@@ -124,7 +124,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}>
-                    <Typography variant='h5'>{t('profile.language')}</Typography>
+                    <StyledTitle variant='h5'>{t('profile.language')}</StyledTitle>
                     <Select
                         id='language'
                         size='small'
@@ -161,9 +161,7 @@ const Profile = () => {
                     <Divider style={{width: '100%'}} />
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant='h5' color='error'>
-                        {t('profile.delete-user-account')}
-                    </Typography>
+                    <StyledTitle color='error'>{t('profile.delete-user-account')}</StyledTitle>
                     <Typography>{t('profile.delete-warning-message')}</Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -177,7 +175,7 @@ const Profile = () => {
                     </Button>
                 </Grid>
             </Grid>
-        </ThemeProvider>
+        </>
     )
 }
 

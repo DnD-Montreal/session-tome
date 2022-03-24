@@ -1,7 +1,6 @@
 import {render} from '@testing-library/react'
 import {characterData} from 'Mock/character-data'
 import {itemData} from 'Mock/item-data'
-import React from 'react'
 
 import ItemDetail from './ItemDetail'
 

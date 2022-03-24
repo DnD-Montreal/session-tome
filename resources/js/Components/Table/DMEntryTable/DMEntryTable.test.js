@@ -1,6 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react'
 import {DMEntryData} from 'Mock/dmentry-data'
-import React from 'react'
 
 import DMEntryTable from './DMEntryTable'
 

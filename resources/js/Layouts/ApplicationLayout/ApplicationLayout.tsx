@@ -9,14 +9,13 @@ import dayjs from 'dayjs'
 import i18n from 'i18next'
 import associationLogo from 'Icons/DNDMtlLogo.svg'
 import applicationLogo from 'Icons/SessionTomeOfficialLogo.svg'
-import React, {ReactNode, useEffect, useState} from 'react'
+import {SnackbarProvider} from 'notistack'
+import {ReactNode, useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import SVG from 'react-inlinesvg'
 import {UsePageType} from 'Types/global'
 import {getFontTheme} from 'Utils'
 import route from 'ziggy-js'
-
-const theme = getFontTheme('Normal')
 
 const MainGrid = styled.div`
     background-color: #23272a;
@@ -63,6 +62,7 @@ const ContentContainer = styled.div`
     @media only screen and (min-width: 768px) {
         margin: 0px auto 0px auto;
     }
+    min-width: 65vw;
 `
 
 const Username = styled(Typography)`
@@ -95,7 +95,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
 
     useEffect(() => {
         if (user) {
-            i18n.changeLanguage(user.language)
+            i18n.changeLanguage(user?.language)
             dayjs.locale(user?.language?.includes('en') ? 'en' : 'fr-ca')
         }
     }, [user])
@@ -112,15 +112,12 @@ const ApplicationLayout = ({children}: LayoutProps) => {
         }
         return t('authentication.login')
     }
+
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={getFontTheme('Normal')}>
             <MainGrid>
                 <Grid container>
-                    <PrimaryRow
-                        item
-                        container
-                        justifyContent='space-between'
-                        alignItems='center'>
+                    <PrimaryRow item container justifyContent='space-between' alignItems='center'>
                         <PaddingGrid
                             item
                             container
@@ -173,9 +170,7 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         justifyContent='center'>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    window.location.pathname === '/' ? 'active' : ''
-                                }
+                                className={window.location.pathname === '/' ? 'active' : ''}
                                 color='white'
                                 href='/#'>
                                 {t('common.home')}
@@ -196,40 +191,33 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    route().current()?.includes('trade') ? 'active' : ''
-                                }
+                                className={route().current()?.includes('campaign') ? 'active' : ''}
                                 color='white'
-                                href='/#'>
-                                {t('common.item-shop')}
-                            </InertiaLink>
-                        </PaddingGrid>
-                        <PaddingGrid item xs={12} md={2}>
-                            <InertiaLink
-                                className={
-                                    route().current()?.includes('campgaign')
-                                        ? 'active'
-                                        : ''
-                                }
-                                color='white'
-                                href='/#'>
+                                href={route('campaign.index')}>
                                 {t('common.campaigns')}
                             </InertiaLink>
                         </PaddingGrid>
                         <PaddingGrid item xs={12} md={2}>
                             <InertiaLink
-                                className={
-                                    route().current()?.includes('rating') ? 'active' : ''
-                                }
+                                className={route().current()?.includes('rating') ? 'active' : ''}
                                 color='white'
                                 href={route('rating.index')}>
                                 {t('common.ratings')}
                             </InertiaLink>
                         </PaddingGrid>
                     </SecondaryRow>
-                    <ContentRow item container>
-                        <ContentContainer id='content'>{children}</ContentContainer>
-                    </ContentRow>
+                    <ThemeProvider theme={getFontTheme('Form', 14, user?.language)}>
+                        <SnackbarProvider
+                            maxSnack={3}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}>
+                            <ContentRow item container>
+                                <ContentContainer id='content'>{children}</ContentContainer>
+                            </ContentRow>
+                        </SnackbarProvider>
+                    </ThemeProvider>
                 </Grid>
             </MainGrid>
         </ThemeProvider>

@@ -1,7 +1,8 @@
 import {useForm} from '@inertiajs/inertia-react'
 import {Box, Button, Grid, Switch, TextField, Typography} from '@mui/material'
 import {ErrorText, Link, Select, StepperForm} from 'Components'
-import React, {useEffect, useState} from 'react'
+import {useSnackbar} from 'notistack'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
@@ -63,6 +64,7 @@ const CharacterCreateForm = ({
         CHARACTER_FORM_INITIAL_VALUE,
     )
     const [activeStep, setActiveStep] = useState<number>(0)
+    const {enqueueSnackbar} = useSnackbar()
 
     useEffect(() => {
         if (wasSuccessful) {
@@ -70,6 +72,14 @@ const CharacterCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('characterDetail.create-success-message')
+                    : t('characterDetail.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 

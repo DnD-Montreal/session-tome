@@ -1,7 +1,5 @@
 import {Typography} from '@mui/material'
-import {ThemeProvider} from '@mui/material/styles'
 import useEditDrawer from '@Utils/use-edit-drawer'
-import useUser from '@Utils/use-user'
 import {
     CharacterCreateForm,
     CharacterDetailBox,
@@ -10,20 +8,24 @@ import {
     EntryCreateForm,
     EntryTable,
 } from 'Components'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
-import {getFontTheme} from 'Utils'
+import {GameMasterData} from 'Types/gamemaster-data'
 
 type CharacterDetailPropType = {
     character: CharacterData
+    characters: CharacterData[]
     entries: EntriesData[]
     factions: string[]
     adventures: adventureType[]
-    gameMasters: any[]
-    characters: CharacterData[]
+    gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 const CharacterDetail = ({
@@ -33,23 +35,16 @@ const CharacterDetail = ({
     adventures,
     gameMasters,
     characters,
+    campaigns,
 }: CharacterDetailPropType) => {
     const {t} = useTranslation()
-    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] =
-        useState<boolean>(false)
-    const {language} = useUser()
+    const [isCharacterEditDrawerOpen, setIsCharacterEditDrawerOpen] = useState<boolean>(false)
 
-    const {
-        isEditDrawerOpen,
-        setIsEditDrawerOpen,
-        editId,
-        setEditId,
-        editData,
-        setEditData,
-    } = useEditDrawer<EntriesData>()
+    const {isEditDrawerOpen, setIsEditDrawerOpen, editId, setEditId, editData, setEditData} =
+        useEditDrawer<EntriesData>()
 
     return (
-        <ThemeProvider theme={getFontTheme('Form', 14, language)}>
+        <>
             <Drawer
                 content={
                     <CharacterCreateForm
@@ -74,6 +69,7 @@ const CharacterDetail = ({
                             editId={editId}
                             adventures={adventures}
                             characters={characters}
+                            campaigns={campaigns}
                         />
                     ) : (
                         <EntryCreateForm
@@ -84,10 +80,11 @@ const CharacterDetail = ({
                             character={character}
                             adventures={adventures}
                             gameMasters={gameMasters}
+                            campaigns={campaigns}
                         />
                     )
                 }
-                title={<Typography>{t('characterDetail.edit-entry')}</Typography>}
+                title={<Typography>{t('entry.edit-entry')}</Typography>}
                 isOpen={isEditDrawerOpen}
                 onClose={() => setIsEditDrawerOpen(false)}
             />
@@ -101,7 +98,7 @@ const CharacterDetail = ({
                 setEditEntryData={setEditData}
                 setIsEditDrawerOpen={setIsEditDrawerOpen}
             />
-        </ThemeProvider>
+        </>
     )
 }
 

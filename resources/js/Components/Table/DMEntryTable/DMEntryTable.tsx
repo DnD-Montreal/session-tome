@@ -5,10 +5,10 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import {Box, Button, Chip, IconButton, Stack, Tooltip, Typography} from '@mui/material'
 import {DataTable, DeleteModal, Link} from 'Components'
 import dayjs from 'dayjs'
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {EntriesData} from 'Types/entries-data'
-import {itemFormatter} from 'Utils'
+import {objectArrayFormatter} from 'Utils'
 import route from 'ziggy-js'
 
 type DMEntryPropType = {
@@ -71,7 +71,7 @@ const DMEntryTable = ({
         {
             property: 'items',
             title: t('tableColumn.items'),
-            render: (value: any) => itemFormatter(value),
+            render: (value: any) => objectArrayFormatter(value),
         },
         {
             property: null,

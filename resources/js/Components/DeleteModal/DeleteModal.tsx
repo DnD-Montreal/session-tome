@@ -1,18 +1,8 @@
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
-import {Avatar, Box, Button, Grid, Modal, Typography} from '@mui/material'
-import React from 'react'
+import {Avatar, Button, Grid, Typography} from '@mui/material'
+import {Modal} from 'Components'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-
-const StyledBox = styled(Box)`
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-30%, -50%);
-    padding: 24px;
-    background-color: #121212;
-    width: 300px;
-`
 
 const StyledTypography = styled(Typography)`
     color: white;
@@ -34,7 +24,7 @@ const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropT
     const {t} = useTranslation()
     return (
         <Modal open={open} onClose={onClose}>
-            <StyledBox>
+            <>
                 <Grid container>
                     <Grid item md={12}>
                         <Avatar
@@ -43,10 +33,7 @@ const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropT
                                 marginLeft: 'auto',
                                 marginRight: 'auto',
                             }}>
-                            <DeleteForeverRoundedIcon
-                                style={{height: '300%'}}
-                                color='error'
-                            />
+                            <DeleteForeverRoundedIcon style={{height: '300%'}} color='error' />
                         </Avatar>
                     </Grid>
                     <ModalTextContainer item md={12}>
@@ -55,10 +42,7 @@ const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropT
                 </Grid>
                 <Grid container style={{marginTop: 6}}>
                     <Grid item md={5}>
-                        <Button
-                            data-testid='modal-cancel'
-                            fullWidth
-                            onClick={() => onClose()}>
+                        <Button data-testid='modal-cancel' fullWidth onClick={() => onClose()}>
                             {t('common.cancel')}
                         </Button>
                     </Grid>
@@ -76,7 +60,7 @@ const DeleteModal = ({open, onClose, onDelete, warningMessage}: DeleteModalPropT
                         </Button>
                     </Grid>
                 </Grid>
-            </StyledBox>
+            </>
         </Modal>
     )
 }

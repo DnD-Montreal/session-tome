@@ -3,11 +3,7 @@ import {createTheme} from '@mui/material/styles'
 
 type ThemeType = 'Form' | 'Normal'
 
-export const getFontTheme = (
-    type: ThemeType,
-    fontSize?: number,
-    language: string = 'en',
-) => {
+export const getFontTheme = (type: ThemeType, fontSize?: number, language: string = 'en') => {
     switch (type) {
         case 'Form':
             return createTheme(
@@ -37,6 +33,10 @@ export const getFontTheme = (
                             main: '#CC5D56',
                             dark: '#CC5D56',
                         },
+                        success: {
+                            main: '#8DA57C',
+                            dark: '#8DA57C',
+                        },
                         mode: 'dark',
                     },
                     components: {
@@ -65,6 +65,22 @@ export const getFontTheme = (
                         secondary: {
                             main: '#D3D7C6',
                             dark: '#D3D7C6',
+                        },
+                        info: {
+                            main: '#86B8F4',
+                            dark: '#86B8F4',
+                        },
+                        warning: {
+                            main: '#CAA93C',
+                            dark: '#CAA93C',
+                        },
+                        error: {
+                            main: '#CC5D56',
+                            dark: '#CC5D56',
+                        },
+                        success: {
+                            main: '#8DA57C',
+                            dark: '#8DA57C',
                         },
                         mode: 'dark',
                     },

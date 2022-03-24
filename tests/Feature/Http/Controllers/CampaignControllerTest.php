@@ -5,11 +5,14 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
+use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Tests\TestCase;
 
 /**
@@ -35,15 +38,17 @@ class CampaignControllerTest extends TestCase
      */
     public function index_displays_view()
     {
-        $campaigns = Campaign::factory()->count(3)->create();
+        $campaigns = Campaign::factory()
+            ->count(3)
+            ->create();
 
         $response = $this->get(route('campaign.index'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.index');
-        $response->assertViewHas('campaigns');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Campaign')->has('campaigns')
+        );
     }
-
 
     /**
      * @test
@@ -53,9 +58,10 @@ class CampaignControllerTest extends TestCase
         $response = $this->get(route('campaign.create'));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.create');
+        $response->assertInertia(
+            fn (Assert $page) => $page->component('Campaign/Create/CampaignCreate')
+        );
     }
-
 
     /**
      * @test
@@ -78,8 +84,8 @@ class CampaignControllerTest extends TestCase
         $title = $this->faker->sentence(4);
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
-            'title' => $title
+            'adventure' => ['id' => $adventure->id],
+            'title' => $title,
         ]);
 
         $campaigns = Campaign::query()
@@ -105,9 +111,9 @@ class CampaignControllerTest extends TestCase
         $character = Character::factory()->create();
 
         $response = $this->post(route('campaign.store'), [
-            'adventure_id' => $adventure->id,
+            'adventure' => ['id' => $adventure->id],
             'title' => $title,
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
 
         $campaigns = Campaign::query()
@@ -125,21 +131,37 @@ class CampaignControllerTest extends TestCase
         $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' =>$campaign->id]);
     }
 
-
     /**
      * @test
      */
     public function show_displays_view()
     {
-        $campaign = Campaign::factory()->create();
+        $adventure = Adventure::factory()->create();
+        $entries = Entry::factory(3)->state([
+            'user_id' => $this->user->id,
+            'adventure_id' => $adventure->id
+        ]);
+        $character = Character::factory()
+            ->has($entries)
+            ->state([
+                'user_id' => $this->user->id
+            ]);
+        $campaign = Campaign::factory()->has($character)->create([
+            'adventure_id' => $adventure->id
+        ]);
+        $campaign->entries()->saveMany(Entry::all());
+
 
         $response = $this->get(route('campaign.show', $campaign));
 
         $response->assertOk();
-        $response->assertViewIs('campaign.show');
-        $response->assertViewHas('campaign');
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Campaign/Detail/CampaignDetail')
+                ->has('campaign')
+                ->has('userCharacter')
+        );
     }
-
 
     /**
      * @test
@@ -154,7 +176,6 @@ class CampaignControllerTest extends TestCase
         $response->assertViewIs('campaign.edit');
         $response->assertViewHas('campaign');
     }
-
 
     /**
      * @test
@@ -173,24 +194,52 @@ class CampaignControllerTest extends TestCase
      */
     public function update_redirects()
     {
-        $campaign = Campaign::factory()->create();
+        $campaign = Campaign::factory()->hasAttached($this->user, ['is_dm' => false])->create();
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
+        $newCharacter = Character::factory()->create([
+           'user_id' => $this->user->id
+        ]);
 
         $response = $this->put(route('campaign.update', $campaign), [
             'adventure_id' => $adventure->id,
+            'character_id' => $newCharacter->id,
             'title' => $title,
         ]);
 
         $campaign->refresh();
 
-        $response->assertRedirect(route('campaign.index'));
+        $response->assertRedirect();
         $response->assertSessionHas('campaign.id', $campaign->id);
 
         $this->assertEquals($adventure->id, $campaign->adventure_id);
         $this->assertEquals($title, $campaign->title);
+        $this->assertContains($newCharacter->id, $campaign->characters->pluck('id'));
     }
 
+    /**
+     * @test
+     */
+    public function update_changes_a_user_into_a_dm()
+    {
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+        $character = Character::factory()->state(['user_id' => $this->user->id]);
+        $campaign = Campaign::factory()
+            ->has($character)
+            ->hasAttached($this->user, ['is_dm' => false])
+            ->create();
+
+        $this->put(route('campaign.update', $campaign), [
+            'adventure_id' => $adventure->id,
+            'character_id' => null,
+            'title' => $title,
+        ]);
+
+        $campaign->refresh();
+
+        $this->assertTrue((bool) $campaign->users[0]->pivot->is_dm);
+    }
 
     /**
      * @test
@@ -199,10 +248,25 @@ class CampaignControllerTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
+        $campaign->users()->attach($this->user->id, ['is_owner' => true]);
+
         $response = $this->delete(route('campaign.destroy', $campaign));
 
         $response->assertRedirect(route('campaign.index'));
-
         $this->assertDeleted($campaign);
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_prevents_unauthorized_deletes()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $response = $this->delete(route('campaign.destroy', $campaign));
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors();
+        $this->assertModelExists($campaign);
     }
 }

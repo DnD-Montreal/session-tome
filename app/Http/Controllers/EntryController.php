@@ -6,6 +6,7 @@ use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Adventure;
 use App\Models\Entry;
@@ -39,7 +40,6 @@ class EntryController extends Controller
      */
     public function create(Request $request)
     {
-        $campaigns = Auth::user()->campaigns;
         $data = $request->validate([
             'character_id' => "required|exists:characters,id|integer",
             'search' => "sometimes|string"
@@ -50,10 +50,18 @@ class EntryController extends Controller
 
         $search = $data['search'] ?? "";
 
+        if ($campaignId = $request->get("campaign_id")) {
+            $campaign = Campaign::where('id', $campaignId);
+            $adventure = Campaign::where('id', $campaignId)->first()->adventure();
+        } else {
+            $adventure = Adventure::filtered($search);
+            $campaign = Campaign::filtered($search)->whereRelation('users', 'id', Auth::id());
+        }
+
         return Inertia::render('Character/Detail/Entry/Create/EntryCreate', [
-            'campaigns' => $campaigns,
             'character' => $character,
-            'adventures' => fn () => Adventure::filtered($search)->get(['id', 'title', 'code']),
+            'campaigns' => fn () => $campaign->get(['id', 'title']),
+            'adventures' => fn () => $adventure->get(['id', 'title', 'code']),
             'gameMasters' => fn () => User::filtered($search)->get(['id', 'name']),
         ]);
     }

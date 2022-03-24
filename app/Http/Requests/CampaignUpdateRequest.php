@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignUpdateRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class CampaignUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->campaign->users->pluck('id')->contains(Auth::id());
     }
 
     /**
@@ -26,6 +27,16 @@ class CampaignUpdateRequest extends FormRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
+            'character_id' => ['nullable', 'integer', 'exists:characters,id']
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($adventure = $this->get('adventure')) {
+            $this->merge([
+                'adventure_id' => $adventure['id']
+            ]);
+        }
     }
 }

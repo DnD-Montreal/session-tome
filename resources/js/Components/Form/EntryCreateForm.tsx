@@ -3,34 +3,37 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DateTimePicker from '@mui/lab/DateTimePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import {Checkbox, FormControlLabel, Grid, TextField, Typography} from '@mui/material'
+import useUrlParams from '@Utils/use-url-params'
 import useUser from '@Utils/use-user'
-import {Autocomplete, Button, ErrorText, Link, NumberInput, StepperForm} from 'Components'
-import React, {useEffect, useState} from 'react'
+import {Autocomplete, Button, ErrorText, NumberInput, StepperForm} from 'Components'
+import {useSnackbar} from 'notistack'
+import {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 import {EntriesData} from 'Types/entries-data'
+import {GameMasterData} from 'Types/gamemaster-data'
 import {ItemData} from 'Types/item-data'
 import {RatingCategoryType} from 'Types/rating-data'
+import {UserCharacterData} from 'Types/user-character-data'
 import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
 import RatingForm from './RatingForm'
 
-type GameMasterData = {
-    id: number
-    name: string
-}
-
 type EntryCreateFormPropType = {
-    type: 'Edit' | 'Create'
+    type: 'Edit' | 'Create' | 'CampaignEntryEdit'
     onCloseDrawer?: () => void
     editData?: EntriesData
     editId?: number
-    character: CharacterData
+    character: CharacterData | UserCharacterData
     adventures: adventureType[]
     gameMasters: GameMasterData[]
+    campaigns: {
+        id: number
+        title: string
+    }[]
 }
 
 type EntryFormDataType = {
@@ -66,9 +69,14 @@ const EntryCreateForm = ({
     character,
     adventures,
     gameMasters,
+    campaigns,
 }: EntryCreateFormPropType) => {
+    const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
+    const parameters = useUrlParams()
+    const {campaign_id} = parameters
+
     const ENTRY_CREATE_FORM_INITIAL_VALUE: EntryFormDataType = {
         location: '',
         length: 0,
@@ -88,7 +96,8 @@ const EntryCreateForm = ({
         type: 'game',
         character_id: character.id,
         user_id: getUserId(),
-        adventure: undefined,
+        adventure: campaign_id ? adventures[0] : undefined,
+        campaign: campaign_id ? campaigns[0] : undefined,
     }
     const ENTRY_INITIAL_VALUE: EntryFormDataType =
         type === 'Create'
@@ -102,13 +111,12 @@ const EntryCreateForm = ({
                   dungeon_master: editData?.dungeon_master || undefined,
                   notes: editData?.notes || '',
                   items: editData?.items || [],
-                  rating_data:
-                      editData?.rating_data ||
-                      ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
+                  rating_data: editData?.rating_data || ENTRY_CREATE_FORM_INITIAL_VALUE.rating_data,
                   type: 'game',
                   character_id: character.id,
                   user_id: getUserId(),
                   adventure: editData?.adventure || undefined,
+                  campaign: editData?.campaign || undefined,
               }
 
     const {data, setData, errors, clearErrors, post, processing, put, wasSuccessful} =
@@ -121,6 +129,14 @@ const EntryCreateForm = ({
             if (onCloseDrawer) {
                 onCloseDrawer()
             }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('entry.create-success-message')
+                    : t('entry.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
         }
     }, [wasSuccessful])
 
@@ -148,13 +164,17 @@ const EntryCreateForm = ({
             ? route('entry.create').concat(`?character_id=${character.id}`)
             : route('character.show', [character.id])
 
+    const isPrefillFromCampaign = Boolean(campaign_id) || type === 'CampaignEntryEdit'
+    const isEdit = type === 'Edit' || type === 'CampaignEntryEdit'
+
     const stepOneContent = (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography>{t('entry.fill-out-fields-entry')}</Typography>
             </Grid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <Autocomplete
+                    disabled={isPrefillFromCampaign}
                     id='adventures'
                     fieldKey='adventures'
                     onChange={(_, value) => setData('adventure', value)}
@@ -167,7 +187,7 @@ const EntryCreateForm = ({
                 {errors['adventure.id'] && <ErrorText message={errors['adventure.id']} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <TextField
                     fullWidth
                     id='location'
@@ -178,7 +198,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.location && <ErrorText message={errors?.location} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='length'
                     valueType='integer'
@@ -191,7 +211,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.length && <ErrorText message={errors?.length} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='levels'
                     valueType='integer'
@@ -205,7 +225,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.levels && <ErrorText message={errors?.levels} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 1}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 1}>
                 <NumberInput
                     fieldKey='gp'
                     valueType='float'
@@ -217,7 +237,7 @@ const EntryCreateForm = ({
                 />
                 {errors?.gp && <ErrorText message={errors?.gp} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                         label={t('form.date')}
@@ -231,7 +251,7 @@ const EntryCreateForm = ({
                 {errors?.date_played && <ErrorText message={errors?.date_played} />}
             </StyledGrid>
             {type === 'Create' && <StyledGrid item md={2} />}
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 2}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 2}>
                 {isGmInSystem ? (
                     <Autocomplete
                         fieldKey='gameMasters'
@@ -254,7 +274,7 @@ const EntryCreateForm = ({
                 )}
                 {errors?.dungeon_master && <ErrorText message={errors?.dungeon_master} />}
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 3}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 3}>
                 <FormControlLabel
                     style={{margin: 6}}
                     control={
@@ -270,8 +290,22 @@ const EntryCreateForm = ({
                     label={t('form.game-master-has-account')}
                 />
             </StyledGrid>
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 7} />
-            <StyledGrid item xs={12} md={type === 'Edit' ? 12 : 5}>
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
+                <Autocomplete
+                    disabled={isPrefillFromCampaign}
+                    id='campaigns'
+                    fieldKey='campaigns'
+                    onChange={(_, value) => setData('campaign', value)}
+                    defaultValue={data.campaign}
+                    getOptionLabel={(option) => option.title}
+                    options={campaigns}
+                    resetUrl={resetUrl}
+                    label={t('entry.campaigns')}
+                />
+                {errors['campaign.id'] && <ErrorText message={errors['campaign.id']} />}
+            </StyledGrid>
+            {type === 'Create' && <StyledGrid item md={2} />}
+            <StyledGrid item xs={12} md={isEdit ? 12 : 5}>
                 <StyledTextField
                     disabled
                     fullWidth
@@ -308,15 +342,13 @@ const EntryCreateForm = ({
     const stepOneFooter = (
         <StyledGrid container spacing={4}>
             <Grid item xs={4}>
-                {type === 'Create' ? (
-                    <Link href={route('character.show', [character.id])}>
-                        <Button fullWidth>{t('common.cancel')}</Button>
-                    </Link>
-                ) : (
-                    <Button onClick={() => onCloseDrawer && onCloseDrawer()} fullWidth>
-                        {t('common.cancel')}
-                    </Button>
-                )}
+                <Button
+                    fullWidth
+                    onClick={() =>
+                        type === 'Create' ? window.history.back() : onCloseDrawer && onCloseDrawer()
+                    }>
+                    {t('common.cancel')}
+                </Button>
             </Grid>
             <Grid item xs={4} />
             <Grid item xs={4}>
@@ -366,7 +398,8 @@ const EntryCreateForm = ({
                 <Button
                     fullWidth
                     onClick={() =>
-                        type === 'Edit' || !data.dungeon_master || !isGmInSystem
+                        // if it's edit state or no GM or GM not in the system, go back to step 1
+                        isEdit || !data.dungeon_master || !isGmInSystem
                             ? setActiveStep(0)
                             : setActiveStep(1)
                     }>
@@ -380,7 +413,7 @@ const EntryCreateForm = ({
                     variant='contained'
                     fullWidth
                     onClick={() => {
-                        if (type === 'Edit') {
+                        if (isEdit) {
                             put(route('entry.update', [editId]))
                         } else {
                             post(route('entry.store'))

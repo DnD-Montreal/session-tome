@@ -104,6 +104,11 @@ class User extends Authenticatable implements AuthenticatableInterface
         return $this->hasMany(\App\Models\Session::class, "dungeon_master_id");
     }
 
+    public function entries()
+    {
+        return $this->hasMany(\App\Models\Entry::class);
+    }
+
     /**
      * Check if the user has one of a given list of roles
      * @param  string|array  $role one or more role types to check for
