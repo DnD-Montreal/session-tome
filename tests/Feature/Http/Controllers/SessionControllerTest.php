@@ -79,6 +79,7 @@ class SessionControllerTest extends TestCase
         $dungeon_master = User::factory()->create();
         $table = $this->faker->word;
         $start_time = $this->faker->dateTime();
+        $end_time = $this->faker->dateTime();
 
         $response = $this->post(route('session.store'), [
             'event_id' => $event->id,
@@ -86,6 +87,7 @@ class SessionControllerTest extends TestCase
             'dungeon_master_id' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
+            'end_time' => $end_time,
         ]);
 
         $sessions = Session::query()
@@ -94,6 +96,7 @@ class SessionControllerTest extends TestCase
             ->where('dungeon_master_id', $dungeon_master->id)
             ->where('table', $table)
             ->where('start_time', $start_time)
+            ->where('end_time', $end_time)
             ->get();
         $this->assertCount(1, $sessions);
         $session = $sessions->first();
@@ -156,6 +159,7 @@ class SessionControllerTest extends TestCase
         $dungeon_master = User::factory()->create();
         $table = $this->faker->word;
         $start_time = $this->faker->dateTime();
+        $end_time = $this->faker->dateTime();
 
         $response = $this->put(route('session.update', $session), [
             'event_id' => $event->id,
@@ -163,6 +167,7 @@ class SessionControllerTest extends TestCase
             'dungeon_master_id' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
+            'end_time' => $end_time,
         ]);
 
         $session->refresh();
@@ -175,6 +180,7 @@ class SessionControllerTest extends TestCase
         $this->assertEquals($dungeon_master->id, $session->dungeon_master_id);
         $this->assertEquals($table, $session->table);
         $this->assertEquals($start_time, $session->start_time);
+        $this->assertEquals($end_time, $session->end_time);
     }
 
 

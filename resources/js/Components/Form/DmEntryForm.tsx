@@ -17,7 +17,7 @@ import route from 'ziggy-js'
 
 import ItemForm from './ItemForm'
 
-type DmEntryCreateFormPropType = {
+type DmEntryFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
     editData?: EntriesData
@@ -72,7 +72,7 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const DmEntryCreateForm = ({
+const DmEntryForm = ({
     type,
     onCloseDrawer,
     editData,
@@ -80,7 +80,7 @@ const DmEntryCreateForm = ({
     adventures,
     characters,
     campaigns,
-}: DmEntryCreateFormPropType) => {
+}: DmEntryFormPropType) => {
     const {enqueueSnackbar} = useSnackbar()
     const {t} = useTranslation()
     const {getUserId} = useUser()
@@ -351,5 +351,5 @@ const DmEntryCreateForm = ({
     )
 }
 
-DmEntryCreateForm.displayName = 'DmEntryCreateForm'
-export default DmEntryCreateForm
+DmEntryForm.displayName = 'DmEntryForm'
+export default DmEntryForm

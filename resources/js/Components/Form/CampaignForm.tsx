@@ -1,7 +1,9 @@
 import {useForm} from '@inertiajs/inertia-react'
-import {Button, Grid, TextField, Typography} from '@mui/material'
+import {Grid, TextField, Typography} from '@mui/material'
 import {useUser} from '@Utils/index'
-import {Autocomplete, ErrorText, Link, Select} from 'Components'
+import {Autocomplete, Button, ErrorText, Link, Select} from 'Components'
+import {useSnackbar} from 'notistack'
+import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
 import {adventureType} from 'Types/adventure-data'
@@ -9,7 +11,7 @@ import {CampaignData} from 'Types/campaign-data'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
-type CampaignCreateFormPropType = {
+type CampaignFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
     editData?: CampaignData
@@ -29,14 +31,14 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const CampaignCreateForm = ({
+const CampaignForm = ({
     type,
     onCloseDrawer,
     editData,
     editId = 0,
     adventures,
     characters,
-}: CampaignCreateFormPropType) => {
+}: CampaignFormPropType) => {
     const {t} = useTranslation()
 
     const CAMPAIGN_CREATE_FORM_INITIAL_VALUE: CampaignFormDataType = {
@@ -59,7 +61,26 @@ const CampaignCreateForm = ({
                   adventure: editData?.adventure || undefined,
               }
 
-    const {data, setData, errors, put, post} = useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
+    const {data, setData, errors, clearErrors, put, post, processing, wasSuccessful} =
+        useForm<CampaignFormDataType>(CAMPAIGN_INITIAL_VALUE)
+    const {enqueueSnackbar} = useSnackbar()
+
+    useEffect(() => {
+        if (wasSuccessful) {
+            clearErrors()
+            if (onCloseDrawer) {
+                onCloseDrawer()
+            }
+            enqueueSnackbar(
+                type === 'Create'
+                    ? t('campaign.create-success-message')
+                    : t('campaign.edit-success-message'),
+                {
+                    variant: 'success',
+                },
+            )
+        }
+    }, [wasSuccessful])
 
     return (
         <Grid>
@@ -122,6 +143,7 @@ const CampaignCreateForm = ({
                 <Grid item xs={4} />
                 <Grid item xs={4}>
                     <Button
+                        loading={processing}
                         variant='contained'
                         fullWidth
                         onClick={() => {
@@ -144,5 +166,5 @@ const CampaignCreateForm = ({
     )
 }
 
-CampaignCreateForm.displayName = 'CampaignCreateForm'
-export default CampaignCreateForm
+CampaignForm.displayName = 'CampaignForm'
+export default CampaignForm
