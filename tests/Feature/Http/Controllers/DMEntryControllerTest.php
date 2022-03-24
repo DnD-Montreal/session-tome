@@ -90,6 +90,7 @@ class DMEntryControllerTest extends TestCase
     {
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
+        $campaign->users()->attach($this->user, ['is_dm' => true]);
         $event = Event::factory()->create();
         $date_played = $this->faker->dateTime();
         $location = $this->faker->word;
