@@ -14,7 +14,7 @@ class AddCodeToCampaignsTable extends Migration
     public function up()
     {
         Schema::table('campaigns', function (Blueprint $table) {
-            $table->string('code')->nullable();
+            $table->string('code')->nullable()->after('title');
         });
     }
 

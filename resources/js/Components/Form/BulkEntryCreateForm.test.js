@@ -15,7 +15,7 @@ const today = date.toDateString()
 date.setMonth(date.getMonth() + 1)
 const monthFromToday = date.toDateString()
 
-describe('BulkEntryCreateForm', () => {
+describe('BulkEntryForm', () => {
     it('create component should render', () => {
         const component = render(<BulkEntryCreateForm {...testProps} />)
         expect(component).toBeDefined()

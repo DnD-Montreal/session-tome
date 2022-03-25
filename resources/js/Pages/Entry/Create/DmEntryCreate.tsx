@@ -1,4 +1,4 @@
-import {DmEntryCreateForm} from 'Components'
+import {DmEntryForm} from 'Components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 
@@ -12,7 +12,7 @@ type DmEntryCreateType = {
 }
 
 const DmEntryCreate = ({adventures, characters, campaigns}: DmEntryCreateType) => (
-    <DmEntryCreateForm
+    <DmEntryForm
         type='Create'
         adventures={adventures}
         characters={characters}

@@ -1,11 +1,11 @@
-import {CharacterCreateForm} from 'Components'
+import {CharacterForm} from 'Components'
 
 type CharacterCreateType = {
     factions: string[]
 }
 
 const CharacterCreate = ({factions}: CharacterCreateType) => (
-    <CharacterCreateForm type='Create' factions={factions} />
+    <CharacterForm type='Create' factions={factions} />
 )
 
 CharacterCreate.displayName = 'CharacterCreate'

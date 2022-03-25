@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import {CharacterData} from 'Types/character-data'
 import route from 'ziggy-js'
 
-type CharacterCreateFormPropType = {
+type CharacterFormPropType = {
     type: 'Edit' | 'Create'
     onCloseDrawer?: () => void
     editData?: CharacterData
@@ -30,13 +30,13 @@ const StyledGrid = styled(Grid)`
     margin-bottom: 16px;
 `
 
-const CharacterCreateForm = ({
+const CharacterForm = ({
     type,
     onCloseDrawer,
     editData,
     editId = 0,
     factions,
-}: CharacterCreateFormPropType) => {
+}: CharacterFormPropType) => {
     const {t} = useTranslation()
     const CHARACTER_CREATE_FORM_INITIAL_VALUE: CharacterFormDataType = {
         name: '',
@@ -289,5 +289,5 @@ const CharacterCreateForm = ({
     )
 }
 
-CharacterCreateForm.displayName = 'CharacterCreateForm'
-export default CharacterCreateForm
+CharacterForm.displayName = 'CharacterForm'
+export default CharacterForm

@@ -1,4 +1,4 @@
-import {CampaignCreateForm} from 'Components'
+import {CampaignForm} from 'Components'
 import {adventureType} from 'Types/adventure-data'
 import {CharacterData} from 'Types/character-data'
 
@@ -8,7 +8,7 @@ type CampaignCreateType = {
 }
 
 const CampaignCreate = ({characters, adventures}: CampaignCreateType) => (
-    <CampaignCreateForm type='Create' characters={characters} adventures={adventures} />
+    <CampaignForm type='Create' characters={characters} adventures={adventures} />
 )
 
 CampaignCreate.displayName = 'CampaignCreate'
