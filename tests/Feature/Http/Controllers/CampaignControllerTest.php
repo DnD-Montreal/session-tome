@@ -253,7 +253,7 @@ class CampaignControllerTest extends TestCase
         $response = $this->delete(route('campaign.destroy', $campaign));
 
         $response->assertRedirect(route('campaign.index'));
-        $this->assertDeleted($campaign);
+        $this->assertSoftDeleted($campaign);
     }
 
     /**
