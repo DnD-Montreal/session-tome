@@ -26,7 +26,7 @@ const EventDetail = ({
                 <EventRegistrationModal
                     allUserCharacters={allUserCharacters}
                     event={event}
-                    isRegisterModalOpen={isRegisterModalOpen}
+                    open={isRegisterModalOpen}
                     onClose={() => {
                         setRegistrationData(null)
                         setIsRegisterModalOpen(false)

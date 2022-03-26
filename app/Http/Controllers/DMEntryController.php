@@ -49,7 +49,12 @@ class DMEntryController extends Controller
             $adventure = Campaign::where('id', $campaignId)->first()->adventure();
         } else {
             $adventure = Adventure::filtered($search);
-            $campaign = Campaign::filtered($search)->whereRelation('users', 'id', Auth::id());
+            $campaign = Campaign::filtered($search)
+                ->whereHas('users', function ($query) {
+                    return $query
+                        ->where('id', Auth::id())
+                        ->where('is_dm', true);
+                });
         }
 
         // not using compact to allow for partial reloads
