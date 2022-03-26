@@ -156,7 +156,7 @@ class FastSeeder extends Seeder
         foreach ($events as $event) {
             $seats = rand(3, 8);
             $sessions = Session::factory(3)
-                ->has(Character::factory($seats - rand(0, 2)))
+                ->has(Character::factory($seats - rand(1, 3)))
                 ->create([
                     'event_id' => $event->id,
                     'dungeon_master_id' => $dm->random()->id,
