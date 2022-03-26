@@ -116,12 +116,13 @@ describe('Player Event Registration Test Suite', () => {
         cy.visit(Cypress.Laravel.route('event.show').replace('{event}', event_id))
         cy.wait('@event_detail')
 
-        cy.intercept('POST', Cypress.Laravel.route('registration.store')).as('register')
+        cy.intercept('DELETE', '**registration*').as('register')
 
         registered_event_count -= 1
         cy.contains('button', 'Leave').eq(0).click()
-        cy.contains('button', 'Leave').eq(1).click()
-        cy.wait('@register').its('response.statusCode').should('eq', 302)
+        cy.get('[data-cy=default-registration-modal-option]').click()
+        cy.wait('@register').its('response.statusCode').should('eq', 200)
+        cy.wait('@event_detail')
         cy.contains('button', 'Leave').its('length').should('eq', registered_event_count)
     })
 })

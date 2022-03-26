@@ -110,9 +110,7 @@ const EventRegistrationModal = ({
                                 {errors && (
                                     <ErrorText
                                         message={
-                                            errors?.character_id ||
-                                            errors?.overlap ||
-                                            errors?.seats
+                                            errors?.character_id || errors?.overlap || errors?.seats
                                         }
                                     />
                                 )}
@@ -124,12 +122,11 @@ const EventRegistrationModal = ({
                                 loading={processing}
                                 variant='contained'
                                 fullWidth
+                                data-cy='default-registration-modal-option'
                                 onClick={() => {
                                     if (registrationData.is_registered) {
                                         destroy(
-                                            route('event-registration.destroy', [
-                                                data.session_id,
-                                            ]),
+                                            route('event-registration.destroy', [data.session_id]),
                                         )
                                     } else {
                                         post(route('registration.store'))
