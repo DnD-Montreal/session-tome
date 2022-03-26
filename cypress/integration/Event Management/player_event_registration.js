@@ -87,6 +87,7 @@ describe('Player Event Registration Test Suite', () => {
         cy.get('li[role=option]').eq(0).click()
         cy.contains('button', 'Join').click()
         cy.wait('@register').its('response.statusCode').should('eq', 302)
+        cy.wait('@event_detail')
     })
 
     it('Session Filter', () => {
