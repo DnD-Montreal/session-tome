@@ -1,7 +1,6 @@
 describe('Player Event Registration Test Suite', () => {
     let last_url = ''
     let event_id = 0
-    let registered_event_count = 0
 
     before(() => {
         cy.refreshDatabase()
@@ -83,13 +82,11 @@ describe('Player Event Registration Test Suite', () => {
 
         cy.intercept('POST', Cypress.Laravel.route('registration.store')).as('register')
 
-        registered_event_count = cy.get('body').find('button>span').length ?? 0 + 1
         cy.contains('button', 'Register').eq(0).click()
         cy.get('#character_id').click()
         cy.get('li[role=option]').eq(0).click()
         cy.contains('button', 'Join').click()
         cy.wait('@register').its('response.statusCode').should('eq', 302)
-        cy.contains('button', 'Leave').its('length').should('eq', registered_event_count)
     })
 
     it('Session Filter', () => {
