@@ -8,8 +8,14 @@ use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class EntryUpdateRequest extends FormRequest
+class EntryUpdateRequest extends FilterableRequest
 {
+    protected $filterableModels = [
+        'campaign',
+        'adventure',
+        'dungeon_master',
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,11 +42,11 @@ class EntryUpdateRequest extends FormRequest
         $requiredChoice = Rule::requiredIf($this->get('choice') == "magic_item" && empty($this->get('items')));
 
         return [
-            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['nullable', 'integer', 'exists:characters,id', 'required_with:choice'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
-            'dungeon_master.id' => ['sometimes', 'integer', 'exists:users,id'],
+            'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes'],
             'date_played' => ['required', 'date'],
             'location' => ['sometimes', 'nullable', 'string'],
@@ -58,16 +64,5 @@ class EntryUpdateRequest extends FormRequest
             'choice' => ['sometimes', "nullable", 'string'],
             'rating_data' => ['nullable', 'sometimes', 'array']
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        // TODO: Refactor "adventure.id" and "dungeon_master.id" to use this method as well
-        // involves changing controllers back to expecting "adventure_id", etc...
-        if ($campaign = $this->get('campaign')) {
-            $this->merge([
-                'campaign_id' => $campaign['id']
-            ]);
-        }
     }
 }
