@@ -35,7 +35,15 @@ class DatabaseSeeder extends Seeder
         $dndmtl = League::factory()->create([
             'name' => "DnD MTL"
         ]);
-        $users = User::factory(10)->create()->prepend($defaultUser);
+
+        $leagueAdminUser = User::factory()
+            ->hasAttached(Role::where('name', Role::LEAGUE_ADMIN)->first(), ['league_id' => $dndmtl->id])
+            ->create([
+                'email' => 'league_default@test.com',
+                'name' => "League Admin Test account"
+            ]);
+
+        $users = User::factory(10)->create()->prepend($defaultUser)->prepend($leagueAdminUser);
         $dm = User::factory(5)->create();
         $events = Event::factory(5)->create([
             'league_id' => $dndmtl->id
