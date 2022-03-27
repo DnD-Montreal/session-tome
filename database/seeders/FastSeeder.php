@@ -33,7 +33,15 @@ class FastSeeder extends Seeder
         $dndmtl = League::factory()->create([
             'name' => "DnD MTL"
         ]);
-        $users = User::factory(3)->create()->prepend($defaultUser);
+
+        $leagueAdminUser = User::factory()
+            ->hasAttached(Role::where('name', Role::LEAGUE_ADMIN)->first(), ['league_id' => $dndmtl->id])
+            ->create([
+                'email' => 'league_default@test.com',
+                'name' => "League Admin Test account"
+            ]);
+
+        $users = User::factory(3)->create()->prepend($defaultUser)->prepend($leagueAdminUser);
         $dm = User::factory(2)->create();
         $events = Event::factory(2)->create([
             'league_id' => $dndmtl->id
