@@ -109,6 +109,7 @@ const EventRegistrationModal = ({
                         loading={processing}
                         variant='contained'
                         fullWidth
+                        data-cy='default-registration-modal-option'
                         onClick={() => {
                             if (registrationData.is_registered) {
                                 destroy(route('event-registration.destroy', [data.session_id]))
