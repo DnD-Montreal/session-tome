@@ -237,7 +237,6 @@ class EntryControllerTest extends TestCase
             ->where('gp', $gp)
             ->get();
 
-
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
@@ -586,7 +585,9 @@ class EntryControllerTest extends TestCase
      */
     public function update_allows_non_system_dms()
     {
-        $entry = Entry::factory()->create();
+        $entry = Entry::factory()->create([
+            'dungeon_master_id' => null
+        ]);
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
         $character = Character::factory()->create();
