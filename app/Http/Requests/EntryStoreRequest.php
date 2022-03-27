@@ -5,12 +5,19 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class EntryStoreRequest extends FormRequest
+class EntryStoreRequest extends FilterableRequest
 {
+    protected $filterableModels = [
+        'campaign',
+        'adventure',
+        'dungeon_master',
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -38,11 +45,11 @@ class EntryStoreRequest extends FormRequest
 
         return [
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'adventure.id' => ['required', 'integer', 'exists:adventures,id'],
+            'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'campaign_id' => ['sometimes', 'integer', 'exists:campaigns,id'],
             'character_id' => ['sometimes', 'nullable', 'integer', 'exists:characters,id'],
             'event_id' => ['sometimes', 'integer', 'exists:events,id'],
-            'dungeon_master.id' => ['sometimes', 'integer', 'exists:users,id'],
+            'dungeon_master_id' => ['sometimes', 'integer', 'exists:users,id'],
             'dungeon_master' => ['sometimes'],
             'date_played' => ['required', 'date'],
             'location' => ['nullable', 'string'],
@@ -59,16 +66,5 @@ class EntryStoreRequest extends FormRequest
             'choice' => ['sometimes', 'nullable', 'string'],
             'rating_data' => ['nullable', 'array'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        // TODO: Refactor "adventure.id" and "dungeon_master.id" to use this method as well, involves changing controllers back to expecting "adventure_id", etc...
-        // If theres an object in place for "campaign" the whole model got passed up, so just grab the id
-        if ($campaign = $this->get('campaign')) {
-            $this->merge([
-                'campaign_id' => $campaign['id']
-            ]);
-        }
     }
 }

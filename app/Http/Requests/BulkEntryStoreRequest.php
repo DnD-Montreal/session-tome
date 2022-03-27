@@ -5,8 +5,10 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkEntryStoreRequest extends FormRequest
+class BulkEntryStoreRequest extends FilterableRequest
 {
+    protected $filterableModels = ['adventure'];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,7 +29,7 @@ class BulkEntryStoreRequest extends FormRequest
     {
         return [
             'character_id' => "required|exists:characters,id",
-            'adventure.id' => "required|exists:adventures,id",
+            'adventure_id' => "required|exists:adventures,id",
             'start_date' => "required|date",
             'end_date' => "nullable|date|after:start_date",
             // How often a session was ran, measured in times/week
