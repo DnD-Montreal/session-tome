@@ -60,10 +60,6 @@ class CampaignController extends Controller
     public function store(CampaignStoreRequest $request)
     {
         $data = $request->validated();
-        // TODO: Look into using prepareForValidation in Request Validator
-        $data['adventure_id'] = $data['adventure']['id'];
-        unset($data['adventure']['id']);
-
         $campaign = Campaign::create($data);
 
         // User joins campaign
