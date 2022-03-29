@@ -66,8 +66,6 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('session', App\Http\Controllers\SessionController::class);
 
-    Route::resource('league', App\Http\Controllers\LeagueController::class);
-
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
     Route::resource('campaign', App\Http\Controllers\CampaignController::class)->except('edit');
