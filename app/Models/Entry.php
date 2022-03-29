@@ -118,12 +118,8 @@ class Entry extends Model
 
     public function getRewardAttribute()
     {
-        if ($this->type != self::TYPE_DM) {
+        if ($this->type != self::TYPE_DM || is_null($this->character_id)) {
             return null;
-        }
-
-        if (is_null($this->character_id)) {
-            return "-";
         }
 
         if ($this->levels >= 1) {
