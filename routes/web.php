@@ -34,7 +34,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('user', App\Http\Controllers\UserController::class)->only(['edit', 'update', 'destroy']);
 
-    Route::resource('rating', App\Http\Controllers\RatingController::class);
+    Route::resource('rating', App\Http\Controllers\RatingController::class)->only('index');
 
     Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
         ->name("entry.destroy");
