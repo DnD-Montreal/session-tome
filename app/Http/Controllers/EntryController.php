@@ -22,21 +22,6 @@ class EntryController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        if ($userId = $request->get('user_id')) {
-            $entries = Entry::where('user_id', $userId)->get();
-        } else {
-            $entries = Entry::where('user_id', Auth::user()->id)->get();
-        }
-
-        return view('entry.index', compact('entries'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
