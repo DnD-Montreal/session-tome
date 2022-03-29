@@ -51,7 +51,9 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('item', App\Http\Controllers\ItemController::class)->except('store', 'edit', 'create');
 
-    Route::resource('trade', App\Http\Controllers\TradeController::class);
+    if (config('app.env') == "testing") {
+        Route::resource('trade', App\Http\Controllers\TradeController::class);
+    }
 
     Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
         ->name("offer.destroy");
