@@ -120,27 +120,6 @@ class EntryController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Entry $entry)
-    {
-        return view('entry.show', compact('entry'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Entry $entry)
-    {
-        $campaigns = Auth::user()->campaigns;
-        return view('entry.edit', compact('entry', 'campaigns'));
-    }
-
-    /**
      * @param \App\Http\Requests\EntryUpdateRequest $request
      * @param \App\Models\Entry $entry
      * @return \Illuminate\Http\RedirectResponse

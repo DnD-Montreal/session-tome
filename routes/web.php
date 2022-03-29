@@ -39,7 +39,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
         ->name("entry.destroy");
 
-    Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy', 'edit');
+    Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy', 'edit', 'show');
 
     Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
         ->only(['create', 'store']);
@@ -70,7 +70,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
-    Route::resource('campaign', App\Http\Controllers\CampaignController::class);
+    Route::resource('campaign', App\Http\Controllers\CampaignController::class)->except('edit');
 
     Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
         ->only('store');

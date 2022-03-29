@@ -456,38 +456,6 @@ class EntryControllerTest extends TestCase
         $this->assertCount(0, $campaign_reward_entry->items);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view()
-    {
-        $entry = Entry::factory()->create();
-
-        $response = $this->get(route('entry.show', $entry));
-
-        $response->assertOk();
-        $response->assertViewIs('entry.show');
-        $response->assertViewHas('entry');
-    }
-
-
-    /**
-     * @test
-     */
-    public function edit_displays_view()
-    {
-        $entry = Entry::factory()->create();
-
-        $response = $this->get(route('entry.edit', $entry));
-
-        $response->assertOk();
-        $response->assertViewIs('entry.edit');
-        $response->assertViewHas('entry');
-        $response->assertViewHas('campaigns');
-    }
-
-
     /**
      * @test
      */
