@@ -49,7 +49,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy', 'edit');
 
-    Route::resource('item', App\Http\Controllers\ItemController::class);
+    Route::resource('item', App\Http\Controllers\ItemController::class)->except('store', 'edit', 'create');
 
     Route::resource('trade', App\Http\Controllers\TradeController::class);
 

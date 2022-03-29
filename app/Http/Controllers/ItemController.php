@@ -37,28 +37,6 @@ class ItemController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        return view('item.create');
-    }
-
-    /**
-     * @param \App\Http\Requests\ItemStoreRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(ItemStoreRequest $request)
-    {
-        $item = Item::create($request->validated());
-
-        $request->session()->flash('item.id', $item->id);
-
-        return redirect()->route('item.index');
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Item $item
      * @return \Inertia\Response
      */
@@ -66,16 +44,6 @@ class ItemController extends Controller
     {
         $character = $item->character;
         return Inertia::render('Item/Detail/ItemDetail', compact('item', 'character'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Item $item
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Item $item)
-    {
-        return view('item.edit', compact('item'));
     }
 
     /**
