@@ -64,8 +64,6 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('event', App\Http\Controllers\EventController::class)->only('show', 'index');
 
-    Route::resource('session', App\Http\Controllers\SessionController::class);
-
     Route::resource('campaign', App\Http\Controllers\CampaignController::class)->except('edit');
 
     Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
