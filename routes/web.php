@@ -36,8 +36,6 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('rating', App\Http\Controllers\RatingController::class);
 
-    Route::resource('adventure', App\Http\Controllers\AdventureController::class);
-
     Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
         ->name("entry.destroy");
 
