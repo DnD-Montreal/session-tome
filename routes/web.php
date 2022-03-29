@@ -62,7 +62,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
         ->name("offer.create");
 
-    Route::resource('event', App\Http\Controllers\EventController::class);
+    Route::resource('event', App\Http\Controllers\EventController::class)->only('show', 'index');
 
     Route::resource('session', App\Http\Controllers\SessionController::class);
 
