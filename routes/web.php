@@ -51,19 +51,6 @@ Route::middleware(['auth', 'throttle'])->group(function () {
 
     Route::resource('item', App\Http\Controllers\ItemController::class)->except('store', 'edit', 'create');
 
-    if (config('app.env') == "testing") {
-        Route::resource('trade', App\Http\Controllers\TradeController::class);
-    }
-
-    Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
-        ->name("offer.destroy");
-
-    Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
-        ->name("offer.store");
-
-    Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
-        ->name("offer.create");
-
     Route::resource('event', App\Http\Controllers\EventController::class)->only('show', 'index');
 
     Route::resource('campaign', App\Http\Controllers\CampaignController::class)->except('edit');
@@ -94,8 +81,22 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
         ->only(['create', 'store', 'destroy']);
 
-    Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
-        ->name('trade-fulfillment.store');
+    // Disable unfinished features, for now.
+    if (config('app.env') == "testing") {
+        Route::resource('trade', App\Http\Controllers\TradeController::class);
+
+        Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
+            ->name("offer.destroy");
+
+        Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
+            ->name("offer.store");
+
+        Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
+            ->name("offer.create");
+
+        Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
+            ->name('trade-fulfillment.store');
+    }
 });
 
 
