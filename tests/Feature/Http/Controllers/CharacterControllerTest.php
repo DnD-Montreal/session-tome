@@ -139,22 +139,6 @@ class CharacterControllerTest extends TestCase
         );
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view()
-    {
-        $character = Character::factory()->create();
-
-        $response = $this->get(route('character.edit', $character));
-
-        $response->assertOk();
-        $response->assertViewIs('character.edit');
-        $response->assertViewHas('character');
-    }
-
-
     /**
      * @test
      */

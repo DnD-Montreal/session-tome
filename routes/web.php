@@ -47,7 +47,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
         ->name("character.destroy");
 
-    Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy');
+    Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy', 'edit');
 
     Route::resource('item', App\Http\Controllers\ItemController::class);
 
