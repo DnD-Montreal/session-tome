@@ -51,4 +51,30 @@ class LocustAuthControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseCount('characters', 4);
     }
+
+    /**
+     * @test
+     */
+    public function test_cleanUp()
+    {
+        $token = config('app.key');
+        app()->detectEnvironment(function () {
+            return 'load';
+        });
+
+        //Initial request to make the locust user from the Authenticate method in the Authenticate middleware
+        $this->withHeaders(['Authorization' => 'Bearer '.$token])->get(route('character.index'));
+
+        $user = User::first();
+        Character::factory(5)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->withHeaders(['Authorization' => 'Bearer '.$token])->get('api/locust');
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])->delete('api/clean');
+
+        $response->assertStatus(200);
+        $this->assertDatabaseCount('characters', 0);
+        $this->assertDatabaseCount('personal_access_tokens', 0);
+    }
 }
