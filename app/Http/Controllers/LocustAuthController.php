@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Character;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\App;
-
-
 use Laravel\Sanctum\HasApiTokens;
 
 class LocustAuthController extends Controller
@@ -27,14 +24,28 @@ class LocustAuthController extends Controller
         }
     }
 
-    public function deleteCharacters()
+    public function deleteCharacter()
     {
         if (App::environment('load')) {
-            $user = User::where('password', 'DOESNTMATTER')->get();
+            $user = User::where('password', 'DOESNTMATTER')->get()->first();
 
-            if ($user->first()->email == 'load@test.com') {
-                $characters = Character::where('user_id', $user->first()->id);
+            if ($user->email == 'load@test.com') {
+                $characters = Character::where('user_id', $user->id);
+                $characters->first()->delete();
+            }
+        }
+    }
+
+    public function cleanUp()
+    {
+        if (App::environment('load')) {
+            $user = User::where('password', 'DOESNTMATTER')->get()->first();
+
+            if ($user->email == 'load@test.com') {
+                $characters = Character::where('user_id', $user->id);
                 $characters->delete();
+
+                $user->Tokens()->delete();
             }
         }
     }
