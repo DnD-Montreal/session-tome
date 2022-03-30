@@ -17,8 +17,18 @@ use App\Http\Controllers\LocustAuthController;
 Route::get('/locust', [App\Http\Controllers\LocustAuthController::class, 'getToken']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::delete('/locust', [App\Http\Controllers\LocustAuthController::class, 'deleteCharacters']);
+    Route::delete('/character', [App\Http\Controllers\LocustAuthController::class, 'deleteCharacter']);
 
     Route::post('/character', [App\Http\Controllers\CharacterController::class, 'store'])
         ->name("character.store");
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->middleware('auth')
+        ->name('logout');
+
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware('guest')
+        ->name('login');
+
+    Route::delete('/clean', [App\Http\Controllers\LocustAuthController::class, 'cleanUp']);
 });
