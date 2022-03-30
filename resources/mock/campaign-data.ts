@@ -2,6 +2,7 @@ export const campaignData = [
     {
         title: 'campaign1',
         code: 'XYZ123',
+        is_owner: true,
         characters: [
             {
                 background: null,
@@ -33,6 +34,7 @@ export const campaignData = [
     {
         title: 'campaign2',
         code: 'XYZ124',
+        is_owner: true,
         characters: [
             {
                 background: null,
@@ -54,6 +56,7 @@ export const campaignData = [
     {
         title: 'campaign3',
         code: 'XYZ125',
+        is_owner: true,
         characters: [
             {
                 background: null,
@@ -75,6 +78,7 @@ export const campaignData = [
     {
         title: 'campaign4',
         code: 'XYZ126',
+        is_owner: true,
         characters: [
             {
                 background: null,
@@ -96,6 +100,7 @@ export const campaignData = [
     {
         title: 'campaign5',
         code: 'XYZ126',
+        is_owner: true,
         characters: [
             {
                 background: null,
@@ -117,6 +122,7 @@ export const campaignData = [
     {
         title: 'campaign6',
         code: 'XYZ127',
+        is_owner: true,
         characters: [
             {
                 background: null,

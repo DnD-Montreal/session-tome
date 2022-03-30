@@ -237,7 +237,6 @@ class EntryControllerTest extends TestCase
             ->where('gp', $gp)
             ->get();
 
-
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
@@ -385,7 +384,6 @@ class EntryControllerTest extends TestCase
         $response_advancement = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
             'character_id' => $character_adv->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -402,7 +400,6 @@ class EntryControllerTest extends TestCase
         $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
             'character_id' => $character_MI->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -420,7 +417,6 @@ class EntryControllerTest extends TestCase
         $response_CR = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
-            'campaign_id' => $campaign->id,
             'character_id' => $character_CR->id,
             'event_id' => $event->id,
             'dungeon_master_id' => $dungeon_master_user->id,
@@ -589,7 +585,9 @@ class EntryControllerTest extends TestCase
      */
     public function update_allows_non_system_dms()
     {
-        $entry = Entry::factory()->create();
+        $entry = Entry::factory()->create([
+            'dungeon_master_id' => null
+        ]);
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
         $character = Character::factory()->create();
@@ -651,6 +649,7 @@ class EntryControllerTest extends TestCase
 
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
+        $campaign->users()->attach($this->user, ['is_dm' => true]);
         $event = Event::factory()->create();
         $dungeon_master_user = User::factory()->create();
         $dungeon_master = $this->faker->word;
@@ -945,5 +944,40 @@ class EntryControllerTest extends TestCase
         $this->assertCount(2, $entry->items);
         $this->assertDatabaseHas('items', $itemData[0]);
         $this->assertDatabaseHas('items', $itemData[1]);
+    }
+
+    /**
+     * @test
+     */
+    public function store_gm_entry_on_campaign_as_player_throws_exception()
+    {
+        $adventure = Adventure::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $date_played = $this->faker->dateTime();
+        $type = Entry::TYPE_DM;
+
+        $campaign->users()->attach($this->user, ['is_dm' => false]);
+
+        $response = $this->actingAs($this->user)->post(route('entry.store'), [
+            'user_id' => $this->user->id,
+            'adventure' => ['id' => $adventure->id],
+            'campaign_id' => $campaign->id,
+            'date_played' => $date_played,
+            'type' => $type,
+            'choice' => 'advancement',
+        ]);
+
+        $createdEntries = Entry::where([
+            'user_id' => $this->user->id,
+            'campaign_id' => $campaign->id,
+            'date_played' => $date_played,
+            'type' => $type,
+        ])->get();
+
+        $this->assertEmpty($createdEntries);
+        $this->assertNotNull($response->exception);
+        $this->assertEquals("GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.", $response->exception->getMessage());
+        $this->assertEquals(400, $response->exception->getCode());
+        $response->assertRedirect();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Campaign extends Model
@@ -12,6 +13,7 @@ class Campaign extends Model
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     use Filterable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

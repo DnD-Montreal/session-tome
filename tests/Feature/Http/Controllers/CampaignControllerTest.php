@@ -194,7 +194,7 @@ class CampaignControllerTest extends TestCase
      */
     public function update_redirects()
     {
-        $campaign = Campaign::factory()->create();
+        $campaign = Campaign::factory()->hasAttached($this->user, ['is_dm' => false])->create();
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
         $newCharacter = Character::factory()->create([
@@ -220,6 +220,30 @@ class CampaignControllerTest extends TestCase
     /**
      * @test
      */
+    public function update_changes_a_user_into_a_dm()
+    {
+        $adventure = Adventure::factory()->create();
+        $title = $this->faker->sentence(4);
+        $character = Character::factory()->state(['user_id' => $this->user->id]);
+        $campaign = Campaign::factory()
+            ->has($character)
+            ->hasAttached($this->user, ['is_dm' => false])
+            ->create();
+
+        $this->put(route('campaign.update', $campaign), [
+            'adventure_id' => $adventure->id,
+            'character_id' => null,
+            'title' => $title,
+        ]);
+
+        $campaign->refresh();
+
+        $this->assertTrue((bool) $campaign->users[0]->pivot->is_dm);
+    }
+
+    /**
+     * @test
+     */
     public function destroy_deletes_and_redirects()
     {
         $campaign = Campaign::factory()->create();
@@ -229,7 +253,7 @@ class CampaignControllerTest extends TestCase
         $response = $this->delete(route('campaign.destroy', $campaign));
 
         $response->assertRedirect(route('campaign.index'));
-        $this->assertDeleted($campaign);
+        $this->assertSoftDeleted($campaign);
     }
 
     /**

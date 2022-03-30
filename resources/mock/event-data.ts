@@ -1,4 +1,6 @@
-export const eventData = [
+import {characterData} from './character-data'
+
+export const welcomeEventData = [
     {
         ename: 'Event 1',
         date: 'December 16, 2022',
@@ -10,5 +12,80 @@ export const eventData = [
     {
         ename: 'Event 3',
         date: 'June 22, 2023',
+    },
+]
+
+export const eventData = [
+    {
+        id: 1,
+        league: [{name: 'DnD Mtl'}],
+        title: 'Event 1',
+        description: 'Description of Event 1',
+        location: 'Montreal',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 2,
+        seats_taken: 1,
+        characters: characterData,
+    },
+    {
+        id: 2,
+        league: [{name: 'DnD Mad'}],
+        title: 'Event 2',
+        description: 'Description of Event 2',
+        location: 'Madrid',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 0,
+        seats_taken: 1,
+        characters: characterData,
+    },
+    {
+        id: 3,
+        league: [{name: 'DnD Lon'}],
+        title: 'Event 3',
+        description: 'Description of Event 3',
+        location: 'London',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 2,
+        seats_taken: 1,
+        characters: characterData,
+    },
+    {
+        id: 4,
+        league: [{name: 'DnD Lis'}],
+        title: 'Event 4',
+        description: 'Description of Event 4',
+        location: 'Lisbon',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 2,
+        seats_taken: 1,
+        characters: characterData,
+    },
+    {
+        id: 5,
+        league: [{name: 'DnD Rom'}],
+        title: 'Event 5',
+        description: 'Description of Event 5',
+        location: 'Rome',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 2,
+        seats_taken: 1,
+        characters: characterData,
+    },
+    {
+        id: 6,
+        league: [{name: 'DnD NYC'}],
+        title: 'Event 6',
+        description: 'Description of Event 6',
+        location: 'New York',
+        scheduled_dates: ['2021-01-01', '2021-01-02'],
+        total_seats: 3,
+        seats_left: 2,
+        seats_taken: 1,
+        characters: characterData,
     },
 ]

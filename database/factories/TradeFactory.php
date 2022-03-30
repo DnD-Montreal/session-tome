@@ -56,7 +56,7 @@ class TradeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => 'open',
+                'status' => 'closed',
             ];
         });
     }

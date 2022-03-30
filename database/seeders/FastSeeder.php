@@ -33,7 +33,15 @@ class FastSeeder extends Seeder
         $dndmtl = League::factory()->create([
             'name' => "DnD MTL"
         ]);
-        $users = User::factory(3)->create()->prepend($defaultUser);
+
+        $leagueAdminUser = User::factory()
+            ->hasAttached(Role::where('name', Role::LEAGUE_ADMIN)->first(), ['league_id' => $dndmtl->id])
+            ->create([
+                'email' => 'league_default@test.com',
+                'name' => "League Admin Test account"
+            ]);
+
+        $users = User::factory(3)->create()->prepend($defaultUser)->prepend($leagueAdminUser);
         $dm = User::factory(2)->create();
         $events = Event::factory(2)->create([
             'league_id' => $dndmtl->id
@@ -154,9 +162,9 @@ class FastSeeder extends Seeder
 
         // Each event will have 3 sessions being run at them
         foreach ($events as $event) {
-            $seats = rand(2, 4);
+            $seats = rand(3, 8);
             $sessions = Session::factory(3)
-                ->has(Character::factory($seats - rand(0, 2)))
+                ->has(Character::factory($seats - rand(1, 3)))
                 ->create([
                     'event_id' => $event->id,
                     'dungeon_master_id' => $dm->random()->id,
