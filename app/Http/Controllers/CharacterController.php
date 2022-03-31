@@ -94,16 +94,6 @@ class CharacterController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Character $character
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Character $character)
-    {
-        return view('character.edit', compact('character'));
-    }
-
-    /**
      * @param \App\Http\Requests\CharacterUpdateRequest $request
      * @param \App\Models\Character $character
      * @return \Illuminate\Http\RedirectResponse

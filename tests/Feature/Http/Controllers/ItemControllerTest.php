@@ -74,72 +74,6 @@ class ItemControllerTest extends TestCase
 //        });
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view()
-    {
-        $response = $this->get(route('item.create'));
-
-        $response->assertOk();
-        $response->assertViewIs('item.create');
-    }
-
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation()
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ItemController::class,
-            'store',
-            \App\Http\Requests\ItemStoreRequest::class
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects()
-    {
-        $entry = Entry::factory()->create();
-        $character = Character::factory()->create();
-        $name = $this->faker->name;
-        $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
-        $tier = $this->faker->numberBetween(1, 4);
-        $description = $this->faker->text;
-        $author = User::factory()->create();
-
-        $response = $this->actingAs($character->user)->post(route('item.store'), [
-            'entry_id' => $entry->id,
-            'character_id' => $character->id,
-            'name' => $name,
-            'rarity' => $rarity,
-            'tier' => $tier,
-            'description' => $description,
-            'author_id' => $author->id
-        ]);
-
-        $items = Item::query()
-            ->where('entry_id', $entry->id)
-            ->where('character_id', $character->id)
-            ->where('name', $name)
-            ->where('rarity', $rarity)
-            ->where('tier', $tier)
-            ->where('description', $description)
-            ->where('author_id', $author->id)
-            ->get();
-
-        $this->assertCount(1, $items);
-        $item = $items->first();
-
-        $response->assertRedirect(route('item.index'));
-        $response->assertSessionHas('item.id', $item->id);
-    }
-
-
     /**
      * @test
      */
@@ -155,34 +89,6 @@ class ItemControllerTest extends TestCase
             ->component("Item/Detail/ItemDetail")
             ->has('item')
             ->has('character')
-        );
-    }
-
-
-    /**
-     * @test
-     */
-    public function edit_displays_view()
-    {
-        $item = Item::factory()->create();
-
-        $response = $this->get(route('item.edit', $item));
-
-        $response->assertOk();
-        $response->assertViewIs('item.edit');
-        $response->assertViewHas('item');
-    }
-
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation()
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ItemController::class,
-            'update',
-            \App\Http\Requests\ItemUpdateRequest::class
         );
     }
 

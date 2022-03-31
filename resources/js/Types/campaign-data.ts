@@ -1,4 +1,5 @@
 import {CharacterData} from 'Types/character-data'
+import {EntriesData} from 'Types/entries-data'
 
 export type CampaignData = {
     id: number
@@ -10,5 +11,6 @@ export type CampaignData = {
     code: string
     character_id: number
     characters: CharacterData[]
+    entries: EntriesData[]
     is_owner: boolean
 }
