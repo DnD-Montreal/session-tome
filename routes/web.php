@@ -34,14 +34,12 @@ Route::get('/', function () {
 Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('user', App\Http\Controllers\UserController::class)->only(['edit', 'update', 'destroy']);
 
-    Route::resource('rating', App\Http\Controllers\RatingController::class);
-
-    Route::resource('adventure', App\Http\Controllers\AdventureController::class);
+    Route::resource('rating', App\Http\Controllers\RatingController::class)->only('index');
 
     Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
         ->name("entry.destroy");
 
-    Route::resource('entry', App\Http\Controllers\EntryController::class)->except('destroy');
+    Route::resource('entry', App\Http\Controllers\EntryController::class)->only('create', 'store', 'update');
 
     Route::resource('entry-bulk', App\Http\Controllers\BulkEntryController::class)
         ->only(['create', 'store']);
@@ -49,30 +47,13 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
         ->name("character.destroy");
 
-    Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy');
+    Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy', 'edit');
 
-    Route::resource('item', App\Http\Controllers\ItemController::class);
+    Route::resource('item', App\Http\Controllers\ItemController::class)->except('store', 'edit', 'create');
 
-    Route::resource('trade', App\Http\Controllers\TradeController::class);
+    Route::resource('event', App\Http\Controllers\EventController::class)->only('show', 'index');
 
-    Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
-        ->name("offer.destroy");
-
-    Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
-        ->name("offer.store");
-
-    Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
-        ->name("offer.create");
-
-    Route::resource('event', App\Http\Controllers\EventController::class);
-
-    Route::resource('session', App\Http\Controllers\SessionController::class);
-
-    Route::resource('league', App\Http\Controllers\LeagueController::class);
-
-    Route::resource('role', App\Http\Controllers\RoleController::class);
-
-    Route::resource('campaign', App\Http\Controllers\CampaignController::class);
+    Route::resource('campaign', App\Http\Controllers\CampaignController::class)->except('edit');
 
     Route::resource('beyond-import', App\Http\Controllers\BeyondImportController::class)
         ->only('store');
@@ -100,8 +81,22 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('campaign-registration', App\Http\Controllers\CampaignRegistrationController::class)
         ->only(['create', 'store', 'destroy']);
 
-    Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
-        ->name('trade-fulfillment.store');
+    // Disable unfinished features, for now.
+    if (config('app.env') == "testing") {
+        Route::resource('trade', App\Http\Controllers\TradeController::class);
+
+        Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
+            ->name("offer.destroy");
+
+        Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
+            ->name("offer.store");
+
+        Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
+            ->name("offer.create");
+
+        Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
+            ->name('trade-fulfillment.store');
+    }
 });
 
 

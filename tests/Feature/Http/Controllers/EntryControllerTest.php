@@ -39,49 +39,6 @@ class EntryControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_displays_view()
-    {
-        $entries = Entry::factory()->count(3)->create();
-
-        $response = $this->get(route('entry.index'));
-
-        $response->assertOk();
-        $response->assertViewIs('entry.index');
-        $response->assertViewHas('entries');
-    }
-
-    /**
-     * @test
-     */
-    public function index_scopes_to_user()
-    {
-        $entries = Entry::factory()->count(2)->create();
-        $entry3 = Entry::factory()->create(); //for user2, should not appear in index for user1
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create();
-
-        $entries[0]->user()->associate($user1)->save();
-        $entries[1]->user()->associate($user1)->save();
-        $entry3->user()->associate($user2)->save();
-
-        $response = $this->get(route('entry.index') . "?user_id={$user1->id}");
-
-        $response->assertOk();
-        $response->assertViewIs('entry.index');
-        $response->assertViewHas('entries');
-
-        $response->assertViewHas('entries', function ($entries) use ($user1) {
-            $result = true;
-            foreach ($entries->pluck('user_id') as $uid) {
-                $result = $result && $uid = $user1->id;
-            }
-            return $result;
-        });
-    }
-
-    /**
-     * @test
-     */
     public function update_redirects_to_dm_entry_index()
     {
         $dm_entry = Entry::factory()->create([
@@ -455,38 +412,6 @@ class EntryControllerTest extends TestCase
         $this->assertEquals(0, $campaign_reward_entry->levels);
         $this->assertCount(0, $campaign_reward_entry->items);
     }
-
-
-    /**
-     * @test
-     */
-    public function show_displays_view()
-    {
-        $entry = Entry::factory()->create();
-
-        $response = $this->get(route('entry.show', $entry));
-
-        $response->assertOk();
-        $response->assertViewIs('entry.show');
-        $response->assertViewHas('entry');
-    }
-
-
-    /**
-     * @test
-     */
-    public function edit_displays_view()
-    {
-        $entry = Entry::factory()->create();
-
-        $response = $this->get(route('entry.edit', $entry));
-
-        $response->assertOk();
-        $response->assertViewIs('entry.edit');
-        $response->assertViewHas('entry');
-        $response->assertViewHas('campaigns');
-    }
-
 
     /**
      * @test

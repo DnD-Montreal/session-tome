@@ -111,16 +111,6 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Campaign $campaign)
-    {
-        return view('campaign.edit', compact('campaign'));
-    }
-
-    /**
      * @param \App\Http\Requests\CampaignUpdateRequest $request
      * @param \App\Models\Campaign $campaign
      * @return \Illuminate\Http\RedirectResponse
