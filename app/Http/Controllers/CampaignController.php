@@ -9,6 +9,8 @@ use App\Models\Entry;
 use App\Models\User;
 use App\Models\Character;
 use App\Models\Adventure;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -85,14 +87,18 @@ class CampaignController extends Controller
      */
     public function show(Request $request, Campaign $campaign)
     {
-        $campaign = $campaign->load('characters', 'adventure');
+        $user = Auth::user();
+        $campaign = $campaign->load([
+            'characters',
+            'adventure',
+            'entries' => function (HasMany $q) use ($user) {
+                return $q->whereRelation("user", "user_id", $user->id);
+            },
+            'entries.adventure']);
         $userCharacter = $campaign->characters()
             ->where('user_id', Auth::id())
-            ->with(['entries' => function ($q) use ($campaign) {
-                return $q->where('campaign_id', $campaign->id)->orderBy('date_played', 'desc');
-            }, 'entries.adventure'])
             ->first();
-        $characters = Auth::user()->characters;
+        $characters = $user->characters;
         $search = $request->get('search', "");
 
         return Inertia::render('Campaign/Detail/CampaignDetail', [
