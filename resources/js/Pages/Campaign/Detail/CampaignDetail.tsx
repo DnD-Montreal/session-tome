@@ -82,9 +82,9 @@ const CampaignDetail = ({
                 userCharacter={userCharacter}
                 setIsEditDrawerOpen={setIsEditCampaignDrawerOpen}
             />
-            {userCharacter && (
+            {campaign.entries && (
                 <EntryTable
-                    data={userCharacter.entries}
+                    data={campaign.entries}
                     setEditEntryId={setEditId}
                     setEditEntryData={setEditData}
                     setIsEditDrawerOpen={setIsEditDrawerOpen}
