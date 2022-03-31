@@ -10,7 +10,7 @@ describe('Campaign Management Test Suite', () => {
         cy.visit('/campaign')
     })
 
-    it('Create camapgin', () => {
+    it('Create campaign', () => {
         cy.get('button').contains('Create').click()
         cy.get('#title').type('Campaign test')
         cy.get('#adventures').click().type('{downArrow}{enter}')
