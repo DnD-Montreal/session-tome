@@ -75,6 +75,7 @@ const CampaignTable = ({
                 <Button
                     style={{textTransform: 'none'}}
                     color='info'
+                    data-cy='campaign_invite_code'
                     onClick={() => {
                         navigator.clipboard.writeText(value)
                         enqueueSnackbar(t('campaignDetail.invite-copied'), {
