@@ -22,13 +22,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/character', [App\Http\Controllers\CharacterController::class, 'store'])
         ->name("character.store");
 
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->middleware('auth')
-        ->name('logout');
-
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-        ->middleware('guest')
-        ->name('login');
-
     Route::delete('/clean', [App\Http\Controllers\LocustAuthController::class, 'cleanUp']);
 });
