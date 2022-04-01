@@ -50,12 +50,12 @@ const CampaignDetailBox = ({
                         <StyledTypography>{t('campaignDetail.adventure')}</StyledTypography>
                         <Typography>{campaign.adventure.title}</Typography>
                     </Grid>
-                    {userCharacter && (
+                    {campaign.entries && (
                         <Grid item xs={12}>
                             <StyledTypography>
                                 {t('campaignDetail.sessions-played')}
                             </StyledTypography>
-                            <Typography>{userCharacter.entries.length}</Typography>
+                            <Typography>{campaign.entries.length}</Typography>
                         </Grid>
                     )}
                     <Grid item xs={12}>

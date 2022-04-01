@@ -22,21 +22,6 @@ class EntryController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        if ($userId = $request->get('user_id')) {
-            $entries = Entry::where('user_id', $userId)->get();
-        } else {
-            $entries = Entry::where('user_id', Auth::user()->id)->get();
-        }
-
-        return view('entry.index', compact('entries'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
@@ -117,27 +102,6 @@ class EntryController extends Controller
         }
 
         return redirect()->route('character.show', $entry->character_id);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Entry $entry)
-    {
-        return view('entry.show', compact('entry'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Entry $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Entry $entry)
-    {
-        $campaigns = Auth::user()->campaigns;
-        return view('entry.edit', compact('entry', 'campaigns'));
     }
 
     /**

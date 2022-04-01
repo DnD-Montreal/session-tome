@@ -166,20 +166,6 @@ class CampaignControllerTest extends TestCase
     /**
      * @test
      */
-    public function edit_displays_view()
-    {
-        $campaign = Campaign::factory()->create();
-
-        $response = $this->get(route('campaign.edit', $campaign));
-
-        $response->assertOk();
-        $response->assertViewIs('campaign.edit');
-        $response->assertViewHas('campaign');
-    }
-
-    /**
-     * @test
-     */
     public function update_uses_form_request_validation()
     {
         $this->assertActionUsesFormRequest(
