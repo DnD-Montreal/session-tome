@@ -197,7 +197,7 @@ class EntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
@@ -250,7 +250,7 @@ class EntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
@@ -304,7 +304,7 @@ class EntryControllerTest extends TestCase
             ->where('gp', $gp)
             ->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $this->assertDatabaseHas('items', $itemData[0]);
         $this->assertDatabaseHas('items', $itemData[1]);
         $this->assertCount(2, $entry->items);
