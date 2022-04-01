@@ -79,8 +79,11 @@ class EntryController extends Controller
 
         list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
 
-        if ($entryData['type'] === Entry::TYPE_DM && !empty($entryData['campaign_id'])) {
+        if (!empty($entryData['campaign_id'])) {
             $campaign = Campaign::find($entryData['campaign_id']);
+        }
+
+        if ($entryData['type'] === Entry::TYPE_DM && isset($campaign)) {
             $campaignGmIds = $campaign->users()->wherePivot('is_dm', true)->pluck('id');
             if (!$campaignGmIds->contains(Auth::id())) {
                 $exception = new GMEntryException("GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.");
@@ -97,11 +100,13 @@ class EntryController extends Controller
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
-        if ($request->type == Entry::TYPE_DM) {
-            return redirect()->route('dm-entry.index');
+        if (isset($campaign)) {
+            return redirect(route('campaign.show', [
+                'campaign' => $campaign
+            ]));
+        } else {
+            return redirect(route('homepage'));
         }
-
-        return redirect()->route('character.show', $entry->character_id);
     }
 
     /**
