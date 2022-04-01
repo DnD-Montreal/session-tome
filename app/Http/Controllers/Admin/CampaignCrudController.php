@@ -42,6 +42,7 @@ class CampaignCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('adventure_id');
+        CRUD::column('code');
         CRUD::column('title');
     }
 
