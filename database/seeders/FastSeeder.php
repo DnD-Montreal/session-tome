@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
@@ -41,7 +42,7 @@ class FastSeeder extends Seeder
                 'name' => "League Admin Test account"
             ]);
 
-        $users = User::factory(3)->create()->prepend($defaultUser)->prepend($leagueAdminUser);
+        $users = User::factory(3)->create()->prepend($leagueAdminUser)->prepend($defaultUser);
         $dm = User::factory(2)->create();
         $events = Event::factory(2)->create([
             'league_id' => $dndmtl->id
@@ -52,6 +53,7 @@ class FastSeeder extends Seeder
 
         $sessions = $this->generateSessions($events, $dm);
         $characters = $this->generateCharacters($users->merge($dm), $events);
+        $campaigns = $this->generateCampaigns($dm, $users);
         $entries = $this->generateEntries($characters, $sessions, $dm);
         $this->generateEntryMeta($entries);
     }
@@ -78,7 +80,8 @@ class FastSeeder extends Seeder
                 'levels' => rand(0, 1),
                 'event_id' => null,
                 'character_id' => null,
-                'dungeon_master_id' => null
+                'dungeon_master_id' => null,
+                'campaign_id' => null
             ]);
         }
         return $characters;
@@ -102,6 +105,7 @@ class FastSeeder extends Seeder
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
+                'campaign_id' => null
             ];
 
             $items = Item::factory(rand(1, 2))->state([
@@ -172,5 +176,31 @@ class FastSeeder extends Seeder
                 ])->merge($sessions);
         }
         return $sessions;
+    }
+
+    private function generateCampaigns($dms, $users)
+    {
+        $users = collect($users);
+        $users->each(fn ($user) => $user->load('characters'));
+
+        $initialMembers = $users->slice(1)->random(4);
+        $campaigns = Campaign::factory(1)
+            ->hasAttached($users[0], ['is_dm' => true, 'is_owner' => true])
+            ->hasAttached($initialMembers)
+            ->hasAttached($initialMembers->map(fn ($user) => $user->characters->random()))
+            ->create();
+
+        foreach ($dms as $dm) {
+            $members = $users->random(4);
+            $characters = $members->map(fn ($user) => $user->characters->random());
+
+            $campaigns[] = Campaign::factory(2)
+                ->hasAttached($dm, ['is_dm' => true])
+                ->hasAttached($members)
+                ->hasAttached($characters)
+                ->create();
+        }
+
+        return $campaigns;
     }
 }
