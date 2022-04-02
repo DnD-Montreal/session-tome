@@ -48,11 +48,11 @@ class CampaignRegistrationController extends Controller
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
         if (!empty($data['character_id'])) {
-            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => false, 'is_owner' => false]]);
+            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => false, 'is_owner' => $campaign->is_owner]]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->syncWithoutDetaching($campaign);
         } else {
-            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => true, 'is_owner' => false]]);
+            $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => true, 'is_owner' => $campaign->is_owner]]);
         }
 
         return redirect()->route('campaign.index');
