@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
                 'name' => "League Admin Test account"
             ]);
 
-        $users = User::factory(10)->create()->prepend($defaultUser)->prepend($leagueAdminUser);
+        $users = User::factory(10)->create()->prepend($leagueAdminUser)->prepend($defaultUser);
         $dm = User::factory(5)->create();
         $events = Event::factory(5)->create([
             'league_id' => $dndmtl->id
@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
         }
 
         return $campaigns->merge(Campaign::factory(3)
-            ->hasAttached($users[0], ['is_dm' => true])
+            ->hasAttached($users[0], ['is_dm' => true, 'is_owner' => true])
             ->hasAttached($members)
             ->hasAttached($characters)
             ->create());
