@@ -60,7 +60,9 @@ const CampaignTable = ({
             property: 'title',
             title: t('tableColumn.title'),
             render: (value: string, row: CampaignData) => (
-                <Link href={route('campaign.show', [row.id])}>{value}</Link>
+                <Link data-cy='campaign_title' href={route('campaign.show', [row.id])}>
+                    {value}
+                </Link>
             ),
         },
         {
