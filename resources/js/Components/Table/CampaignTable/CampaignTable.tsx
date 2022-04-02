@@ -60,7 +60,9 @@ const CampaignTable = ({
             property: 'title',
             title: t('tableColumn.title'),
             render: (value: string, row: CampaignData) => (
-                <Link href={route('campaign.show', [row.id])}>{value}</Link>
+                <Link data-cy='campaign_title' href={route('campaign.show', [row.id])}>
+                    {value}
+                </Link>
             ),
         },
         {
@@ -75,6 +77,7 @@ const CampaignTable = ({
                 <Button
                     style={{textTransform: 'none'}}
                     color='info'
+                    data-cy='campaign_invite_code'
                     onClick={() => {
                         navigator.clipboard.writeText(value)
                         enqueueSnackbar(t('campaignDetail.invite-copied'), {
