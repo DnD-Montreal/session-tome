@@ -70,6 +70,7 @@ const EntryTable = ({
         {
             property: 'levels',
             title: t('tableColumn.level'),
+            render: (value: any) => <Typography data-cy='levels'>{value}</Typography>,
         },
         {
             property: 'gp',
