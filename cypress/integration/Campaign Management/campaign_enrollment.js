@@ -18,14 +18,12 @@ describe('Campaign Enrollment Test Suite', () => {
             .eq(0)
             .each(($el) => {
                 campaign_title = $el.text()
-                cy.log($el.text())
             })
             .then(() => {
                 cy.get('a')
                     .contains(campaign_title)
                     .invoke('attr', 'href')
                     .then((href) => {
-                        cy.log(href)
                         campaign_exploration_link = href
                         const parts = campaign_exploration_link.split('/')
                         campaign_exploration_id = parts[parts.length - 1]
@@ -35,7 +33,6 @@ describe('Campaign Enrollment Test Suite', () => {
                             .eq(0)
                             .each(($el) => {
                                 code = $el.text()
-                                cy.log($el.text())
                             })
                             .then(() => {
                                 cy.login({id: 2})
@@ -65,10 +62,13 @@ describe('Campaign Enrollment Test Suite', () => {
         cy.wait('@getPublicCampaign')
 
         cy.contains('button', 'Kick').click()
-        cy.get('[type="checkbox"]').eq(0).check()
+        cy.get('[type="checkbox"]').first().check()
+
         cy.contains('button', 'Submit').click()
-        cy.get('[data-cy="campaign_invite_code"]').each(($el) => {
-            expect($el.text()).to.not.equal(code)
-        })
+        cy.get('[data-cy="campaign_invite_code"]')
+            .first()
+            .each(($el) => {
+                expect($el.text()).to.not.equal(code)
+            })
     })
 })
