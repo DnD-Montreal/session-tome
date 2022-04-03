@@ -24,6 +24,7 @@ class Session extends Model
         'adventure_id',
         'dungeon_master_id',
         'table',
+        'seats',
         'start_time',
         'end_time',
         'language',
