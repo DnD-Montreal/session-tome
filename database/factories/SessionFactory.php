@@ -26,7 +26,7 @@ class SessionFactory extends Factory
      */
     public function definition()
     {
-        $startTime = $this->faker->dateTime();
+        $startTime = $this->faker->dateTimeBetween("-5 Years");
 
         return [
             'event_id' => Event::factory(),
@@ -35,7 +35,7 @@ class SessionFactory extends Factory
             'table' => $this->faker->randomDigit()+1,
             'seats' => $this->faker->numberBetween(2, 8),
             'start_time' => $startTime,
-            'end_time' => $this->faker->dateTimeBetween($startTime, $endDate = 'now'),
+            'end_time' => $this->faker->dateTimeBetween($startTime),
             'language' => $this->faker->randomElement(["FR","EN"]),
         ];
     }
