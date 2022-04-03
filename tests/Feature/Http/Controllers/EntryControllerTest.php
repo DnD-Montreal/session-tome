@@ -354,6 +354,9 @@ class EntryControllerTest extends TestCase
 
         ]);
 
+        //test proper redirect for dm entry w/o campaign
+        $response_advancement->assertRedirect(route('dm-entry.index'));
+
         $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
@@ -387,7 +390,7 @@ class EntryControllerTest extends TestCase
 
         ]);
 
-        //Create the DM Entry for each of the above requests
+        //Query the DM Entry for each of the above requests
         $advancement_entry = Entry::query()
             ->where('character_id', $character_adv->id)
             ->first();
