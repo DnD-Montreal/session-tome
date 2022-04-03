@@ -23,11 +23,38 @@ class CharacterFactory extends Factory
      */
     public function definition()
     {
+        $races = [
+            "Dwarf",
+            "Elf",
+            "Halfling",
+            "Human",
+            "Dragonborn",
+            "Gnome",
+            "Half-Elf",
+            "Half-Orc",
+            "Tiefling",
+        ];
+
+        $classes = [
+            "Barbarian",
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Fighter",
+            "Monk",
+            "Paladin",
+            "Ranger",
+            "Rogue",
+            "Sorcerer",
+            "Warlock",
+            "Wizard",
+        ];
+
         return [
             'user_id' => User::factory(),
             'name' => $this->faker->name(),
-            'race' => $this->faker->word(),
-            'class' => $this->faker->word(),
+            'race' => $this->faker->randomElement($races),
+            'class' => $this->faker->randomElement($classes),
             'level' => $this->faker->numberBetween(1, 20),
             'faction' => $this->faker->randomElement(array_values(Character::FACTIONS)),
             'downtime' => $this->faker->numberBetween(0, 1000),

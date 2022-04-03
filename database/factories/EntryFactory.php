@@ -35,7 +35,7 @@ class EntryFactory extends Factory
             'event_id' => Event::factory(),
             'dungeon_master_id' => User::factory(),
             'dungeon_master' => $this->faker->word(),
-            'date_played' => $this->faker->dateTime(),
+            'date_played' => $this->faker->dateTimeBetween("-5 years"),
             'location' => $this->faker->word(),
             'type' => $this->faker->word(),
             'length' => $this->faker->numberBetween(0, 10),
