@@ -100,17 +100,20 @@ class EntryController extends Controller
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
-        // Might possibly be more edge cases where different return statements needed
         if (isset($campaign)) {
-            return redirect(route('campaign.show', [
-                'campaign' => $campaign
-            ]));
+            $redirectRoute = 'campaign.show';
+            $parameter = $campaign;
         } elseif (!isset($campaign)) {
             if ($entryData['type'] === Entry::TYPE_DM) {
-                return redirect()->route('dm-entry.index');
+                $redirectRoute = 'dm-entry.index';
+                $parameter = null;
+            } else {
+                $redirectRoute = 'character.show';
+                $parameter = $entry->character_id;
             }
-            return redirect()->route('character.show', $entry->character_id);
         }
+
+        return redirect()->route($redirectRoute, $parameter);
     }
 
     /**
