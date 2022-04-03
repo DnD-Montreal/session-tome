@@ -61,6 +61,7 @@ class SessionCrudController extends CrudController
         CRUD::column('adventure_id');
         CRUD::column('dungeonMaster');
         CRUD::column('table');
+        CRUD::column('seats');
         CRUD::column('start_time');
         CRUD::column('end_time');
     }
@@ -109,6 +110,8 @@ class SessionCrudController extends CrudController
         CRUD::field('adventure_id');
         CRUD::field('dungeonMaster');
         CRUD::field('table');
+        CRUD::field('seats')->default(8);
+        CRUD::field('language')->type('enum');
         CRUD::field('start_time');
         CRUD::field('end_time');
     }
