@@ -197,7 +197,7 @@ class EntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
@@ -250,7 +250,7 @@ class EntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
@@ -304,7 +304,7 @@ class EntryControllerTest extends TestCase
             ->where('gp', $gp)
             ->first();
 
-        $response->assertRedirect(route('character.show', $character->id));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $this->assertDatabaseHas('items', $itemData[0]);
         $this->assertDatabaseHas('items', $itemData[1]);
         $this->assertCount(2, $entry->items);
@@ -354,6 +354,9 @@ class EntryControllerTest extends TestCase
 
         ]);
 
+        //test proper redirect for dm entry w/o campaign
+        $response_advancement->assertRedirect(route('dm-entry.index'));
+
         $response_MI = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
             'adventure' => ['id' => $adventure->id],
@@ -387,7 +390,7 @@ class EntryControllerTest extends TestCase
 
         ]);
 
-        //Create the DM Entry for each of the above requests
+        //Query the DM Entry for each of the above requests
         $advancement_entry = Entry::query()
             ->where('character_id', $character_adv->id)
             ->first();

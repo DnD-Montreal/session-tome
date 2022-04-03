@@ -123,7 +123,7 @@ class DMEntryControllerTest extends TestCase
         $this->assertCount(1, $entries);
         $entry = $entries->first();
 
-        $response->assertRedirect(route('dm-entry.index'));
+        $response->assertRedirect(route('campaign.show', $campaign));
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
