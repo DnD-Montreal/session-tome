@@ -1,8 +1,10 @@
-describe('Campaign Enrollment Test Suite', () => {
+describe('Campaign Enrollment and Entry Creation Test Suite', () => {
     let campaign_title
     let code
     let campaign_exploration_link
     let campaign_exploration_id
+    const levelup = 2
+
     before(() => {
         cy.refreshDatabase()
         cy.seed('FastSeeder')
@@ -51,6 +53,31 @@ describe('Campaign Enrollment Test Suite', () => {
             })
     })
 
+    it('Create Campaign Entry', () => {
+        cy.login({id: 2})
+
+        cy.intercept('GET', campaign_exploration_link).as('campaign_detail')
+        cy.visit(campaign_exploration_link)
+        cy.wait('@campaign_detail')
+
+        cy.contains('button', 'Entry')
+            .click()
+            .then(() => {
+                cy.get('#levels').clear().type(levelup)
+                cy.contains('button', 'Continue').click()
+                cy.contains('button', 'Create').click()
+                cy.url().should('include', campaign_exploration_id)
+            })
+            .then(() => {
+                cy.login({id: 1})
+
+                cy.visit(campaign_exploration_link)
+                cy.wait('@campaign_detail')
+                cy.contains('Entries')
+                cy.get('[data-cy="levels"]').contains(levelup)
+            })
+    })
+
     it('Kick User from Campaign', () => {
         cy.login({id: 1})
 
@@ -62,7 +89,7 @@ describe('Campaign Enrollment Test Suite', () => {
         cy.wait('@getPublicCampaign')
 
         cy.contains('button', 'Kick').click()
-        cy.get('[type="checkbox"]').first().check()
+        cy.get('[data-cy="campaign_member"]>input').first().check()
 
         cy.contains('button', 'Submit').click()
         cy.get('[data-cy="campaign_invite_code"]')

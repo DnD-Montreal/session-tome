@@ -39,6 +39,7 @@ const CampaignKickModal = ({open, onClose, campaign}: CampaignKickModalPropType)
                                     <Checkbox
                                         id={character.id}
                                         checked={data.user_id.includes(character.user_id)}
+                                        data-cy='campaign_member'
                                         onChange={() => {
                                             if (data.user_id.includes(character.user_id)) {
                                                 const newUserIds = data.user_id.filter(
