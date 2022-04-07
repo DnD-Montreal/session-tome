@@ -90,7 +90,3 @@ Session Tome is open-sourced software licensed under the [MIT license](https://o
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Session Tome, please send an e-mail to Massimo Triassi via [massimo@dndmtl.com](mailto:massimo@dndmtl.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
