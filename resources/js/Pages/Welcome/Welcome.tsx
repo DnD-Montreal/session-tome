@@ -3,6 +3,7 @@ import {Select} from 'Components'
 import i18n from 'i18next'
 import {useTranslation} from 'react-i18next'
 import styled from 'styled-components'
+import {UserType} from 'Types/global'
 
 const StyledBox = styled(Box)`
     font-family: 'Cinzel Decorative', cursive;
@@ -15,8 +16,16 @@ const CenteredGrid = styled(Grid)`
     justify-content: center;
 `
 
-const Welcome = () => {
+type WelcomeProps = {
+    auth: {
+        user: UserType | null
+    }
+}
+
+const Welcome = (props: WelcomeProps) => {
     const {t} = useTranslation()
+    const {auth} = props
+    const {user} = auth
 
     return (
         <Container maxWidth='lg'>
@@ -34,19 +43,21 @@ const Welcome = () => {
                     </Typography>
                 </Grid>
             </CenteredGrid>
-            <Grid container style={{marginTop: 16}}>
-                <Grid item xs={4} />
-                <Grid item xs={4}>
-                    <Select
-                        options={['English', 'Français']}
-                        onChange={(e) => {
-                            i18n.changeLanguage(e.target.value === 'English' ? 'en' : 'fr')
-                        }}
-                        defaultValue='English'
-                    />
+            {!user && (
+                <Grid container style={{marginTop: 16}}>
+                    <Grid item xs={4} />
+                    <Grid item xs={4}>
+                        <Select
+                            options={['English', 'Français']}
+                            onChange={(e) => {
+                                i18n.changeLanguage(e.target.value === 'English' ? 'en' : 'fr')
+                            }}
+                            defaultValue='English'
+                        />
+                    </Grid>
+                    <Grid item xs={4} />
                 </Grid>
-                <Grid item xs={4} />
-            </Grid>
+            )}
         </Container>
     )
 }
