@@ -46,21 +46,4 @@ class AuthenticationTest extends TestCase
 
         $response->assertRedirect();
     }
-
-    /**
-     * @test
-     */
-    public function test_locust_can_authenticate()
-    {
-        $token = config('app.key');
-
-        app()->detectEnvironment(function () {
-            return 'load';
-        });
-
-        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])->get(route('character.index'));
-
-        $response->assertOk();
-        $this->assertAuthenticated();
-    }
 }
