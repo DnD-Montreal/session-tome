@@ -25,9 +25,10 @@ class AdventureFactory extends Factory
         $suffix = ["HC", "AL", "EP"];
         $season = str_pad($this->faker->numberBetween(1, 11), 2, "0", STR_PAD_LEFT);
         $series = str_pad($this->faker->numberBetween(1, 15), 2, "0", STR_PAD_LEFT);
+        $count = Adventure::count();
         return [
             'title' => $this->faker->sentence(4),
-            'code' => "DD" . $this->faker->randomElement($suffix) . "{$season}-{$series}",
+            'code' => "DD" . $this->faker->randomElement($suffix) . "{$season}-{$series}-{$count}",
             'description' => $this->faker->text(),
         ];
     }

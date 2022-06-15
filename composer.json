@@ -14,6 +14,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
         "lorisleiva/laravel-actions": "^2.1",
+        "maatwebsite/excel": "^3.1",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
