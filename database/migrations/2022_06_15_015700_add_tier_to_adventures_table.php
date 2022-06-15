@@ -14,7 +14,9 @@ class AddTierToAdventuresTable extends Migration
     public function up()
     {
         Schema::table('adventures', function (Blueprint $table) {
-            $table->smallInteger('tier')->after('code');
+            $table->smallInteger('tier')->after('code')->default(1);
+            $table->text('description')->nullable()->change();
+            $table->string('code')->unique()->change();
         });
     }
 
@@ -27,6 +29,8 @@ class AddTierToAdventuresTable extends Migration
     {
         Schema::table('adventures', function (Blueprint $table) {
             $table->dropColumn('tier');
+            $table->text('description')->change();
+            $table->string('code')->change();
         });
     }
 }
