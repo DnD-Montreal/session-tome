@@ -22,6 +22,7 @@ class Adventure extends Model
         'title',
         'code',
         'description',
+        'tier'
     ];
 
     /**
