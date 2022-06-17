@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import {usePage} from '@inertiajs/inertia-react'
-import {Avatar, Grid, Link, Typography} from '@mui/material'
+import {Avatar, GlobalStyles, Grid, Link, Typography} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {Authentication, Link as InertiaLink} from 'Components'
 import dayjs from 'dayjs'
@@ -119,6 +119,21 @@ const ApplicationLayout = ({children}: LayoutProps) => {
 
     return (
         <ThemeProvider theme={getFontTheme('Normal')}>
+            <GlobalStyles
+                styles={{
+                    '*::-webkit-scrollbar': {
+                        width: '0.4em',
+                        height: '0.4em',
+                    },
+                    '*::-webkit-scrollbar-thumb': {
+                        backgroundColor: '#babac0',
+                        borderRadius: 16,
+                    },
+                    '*::-webkit-scrollbar-button': {
+                        display: 'none',
+                    },
+                }}
+            />
             <MainGrid>
                 <Grid container>
                     <PrimaryRow item container justifyContent='space-between' alignItems='center'>
