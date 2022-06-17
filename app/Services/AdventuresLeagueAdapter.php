@@ -165,6 +165,7 @@ class AdventuresLeagueAdapter
                 'date_played' => Carbon::parse($data->get(3)),
                 'gp' => (float) $data->get(7, 0),
                 'downtime' => (float) $data->get(8, 0),
+                'levels' => ((float) $data->get(8, 0) > 0) ? 1 : 0,
                 'type' => $type,
             ];
             return array_merge($entryData, $populatedEntryData);
