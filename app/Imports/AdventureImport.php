@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class AdvenutreImport implements ToModel, WithUpserts
+class AdventureImport implements ToModel, WithUpserts
 {
     /**
     * @param array $row

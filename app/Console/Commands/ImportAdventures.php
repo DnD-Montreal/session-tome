@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Imports\AdvenutreImport;
+use App\Imports\AdventureImport;
 use App\Models\Adventure;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +48,7 @@ class ImportAdventures extends Command
         $bar->start();
 
         foreach ($files as $file) {
-            Excel::import(new AdvenutreImport(), $file);
+            Excel::import(new AdventureImport(), $file);
             $bar->advance();
         }
 
