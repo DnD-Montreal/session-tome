@@ -20,7 +20,7 @@ class EntryObserver
 
         if (!$isDMEntry || !is_null($entry->character)) {
             $character = $entry->character;
-            $character->level += $entry->levels;
+            $character->level += $character->level < 20 ? $entry->levels : 0;
             $character->save();
         }
 
