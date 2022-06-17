@@ -67,7 +67,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals($this->donteName, $character->name);
         $this->assertEquals($this->donteRace, $character->race);
         $this->assertEquals($this->donteClass, $character->class);
-        $this->assertEquals(1, $character->level);
+        $this->assertEquals(20, $character->level);
         $this->assertEquals("Shield +1", $firstItem->name);
         $this->assertCount(18, $character->items);
     }
@@ -92,7 +92,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals($this->donteName, $character->name);
         $this->assertEquals($this->donteRace, $character->race);
         $this->assertEquals($this->donteClass, $character->class);
-        $this->assertEquals(1, $character->level);
+        $this->assertEquals(20, $character->level);
         $this->assertEquals("Shield +1", $firstItem->name);
         $this->assertCount(19, $character->items);
     }
