@@ -81,7 +81,7 @@ const Welcome = (props: WelcomeProps) => {
                     <StyledTypography>
                         {t('welcome.more-definition')}{' '}
                         <StyledLink href='https://dnd.wizards.com/what-is-dnd' target='_blank'>
-                            official Wizards of the Coast website.
+                            {t('welcome.wizard-of-coast-website')}
                         </StyledLink>
                     </StyledTypography>
                 </Grid>
@@ -96,7 +96,7 @@ const Welcome = (props: WelcomeProps) => {
                         <StyledLink
                             href='http://dndadventurersleague.org/start-here/'
                             target='_blank'>
-                            official website.
+                            {t('welcome.official-site')}
                         </StyledLink>
                     </StyledTypography>
                 </Grid>
