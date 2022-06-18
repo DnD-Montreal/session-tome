@@ -257,7 +257,13 @@
     "welcome": {
         "welcome-text-1": "Bienvenue à ",
         "session-tome": "Session Tome",
-        "welcome-text-2": ". Créer un compte pour gérer vos personnages, campagnes et objets pour les parties de D&D.",
-        "upcoming-events": "Évènements à venir"
+        "welcome-text-2": "Créer un compte pour gérer vos personnages, campagnes et objets pour les parties de D&D.",
+        "what-is-dnd": "Qu'est ce que c'est Donjons & Dragons?",
+        "dnd-definition": "Dungeons & Dragons (D&D) est une jeu de table mettant de l’avant des histoires, de la narration ainsi que de l’improvisation pour vous faire vivre des expériences stimulantes et uniques.",
+        "more-definition": "Pour plus d’information, visitez",
+        "what-is-adventure-league": "Qu'est ce que c'est la Ligue des Aventuriers de Donjons & Dragons?",
+        "adventure-league-definition": "Adventurers League (AL) est le programme officiel de jeu organisé par Wizards of the Coast. Chaque aventure ou module est d’une durée approximative de 4 heures. Ces aventures sont reliées à des saisons thématiques spécifiques. Les joueurs créent un personnage AL et enregistre leur progrès et peuvent ainsi jouer ce personnage n’importe où sur la planète.",
+        "wizard-of-coast-website": "le site officiel de Wizards of the Coast.",
+        "official-site": "le site web officiel"
     }
 }

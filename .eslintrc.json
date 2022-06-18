@@ -10,7 +10,7 @@
         {
             "files": ["**/*.d.ts"],
             "parser": "@typescript-eslint/parser",
-            "plugins": ["@typescript-eslint", "plugin:@typescript-eslint/recommended"]
+            "plugins": ["@typescript-eslint"]
         }
     ],
     "parser": "@typescript-eslint/parser",
