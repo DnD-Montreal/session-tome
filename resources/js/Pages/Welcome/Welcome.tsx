@@ -1,7 +1,9 @@
 import {Grid, Link, Typography} from '@mui/material'
 import i18n from 'i18next'
-import dndBanner from 'Images/dnd-banner.jpg'
+import dice from 'Icons/dice.svg'
+import dndBanner from 'Images/dnd-banner.png'
 import {useTranslation} from 'react-i18next'
+import SVG from 'react-inlinesvg'
 import styled from 'styled-components'
 import {UserType} from 'Types/global'
 
@@ -16,10 +18,11 @@ const Container = styled.div`
 `
 
 const StyledImg = styled.img`
-    @media only screen and (max-width: 1200px) {
-        width: 65vw;
-    }
-    max-height: 40vh;
+    width: 100%;
+`
+
+const StyledSVG = styled(SVG)`
+    margin-right: 0.5em;
 `
 
 const StyledText = styled.p`
@@ -56,7 +59,7 @@ const Welcome = (props: WelcomeProps) => {
 
     return (
         <Container>
-            <Grid container spacing={4}>
+            <Grid container spacing={6}>
                 <Grid item xs={12}>
                     <StyledTypography align='center'>
                         {t('welcome.welcome-text-1')}
@@ -70,7 +73,10 @@ const Welcome = (props: WelcomeProps) => {
                     <StyledImg src={dndBanner} alt='dungeon-and-dragons-banner' />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                    <StyledTypography variant='h4'>{t('welcome.what-is-dnd')}</StyledTypography>
+                    <StyledTypography variant='h4'>
+                        <StyledSVG src={dice} />
+                        {t('welcome.what-is-dnd')}
+                    </StyledTypography>
                     <StyledTypography>{t('welcome.dnd-definition')}</StyledTypography>
                     <StyledTypography>
                         {t('welcome.more-definition')}{' '}
@@ -81,6 +87,7 @@ const Welcome = (props: WelcomeProps) => {
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <StyledTypography variant='h4'>
+                        <StyledSVG src={dice} />
                         {t('welcome.what-is-adventure-league')}
                     </StyledTypography>
                     <StyledTypography>{t('welcome.adventure-league-definition')}</StyledTypography>
