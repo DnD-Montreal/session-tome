@@ -11,6 +11,7 @@ const Container = styled.div`
     text-align: center;
     max-width: 70%;
     margin: 0px auto;
+    padding: 24px;
 
     @media only screen and (max-width: 1200px) {
         width: 100%;
