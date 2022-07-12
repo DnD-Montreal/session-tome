@@ -5,12 +5,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.4|^8.0",
-        "backpack/crud": "4.1.*",
+        "php": "^8.0",
+        "backpack/crud": "^5.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "inertiajs/inertia-laravel": "^0.4.0",
-        "laravel/framework": "^8.54",
+        "inertiajs/inertia-laravel": "^0.5",
+        "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
         "lorisleiva/laravel-actions": "^2.1",
@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "backpack/generators": "^3.1",
-        "facade/ignition": "^2.5",
+        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.1",
         "jasonmccreary/laravel-test-assertions": "^v2.0.0",
@@ -28,9 +28,9 @@
         "laravel/breeze": "^1.4",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.3.3",
-        "vimeo/psalm": "^4.10"
+        "vimeo/psalm": "^4.24"
     },
     "autoload": {
         "psr-4": {
