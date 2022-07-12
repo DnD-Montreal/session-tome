@@ -124,6 +124,7 @@ class SessionCrudController extends CrudController
      */
     protected function setupShowOperation()
     {
+        $this->autoSetupShowOperation();
         $this->checkIfAccessible('show');
         $this->setupListOperation();
     }
