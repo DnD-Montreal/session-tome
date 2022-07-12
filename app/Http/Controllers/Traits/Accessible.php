@@ -11,7 +11,7 @@ trait Accessible
      */
     public function checkIfNotSiteAdmin()
     {
-        if (!Auth::user()->isSiteAdmin()) {
+        if (! Auth::user()->isSiteAdmin()) {
             $this->crud->denyAccess(['create', 'show', 'list', 'reorder', 'delete']);
         }
     }

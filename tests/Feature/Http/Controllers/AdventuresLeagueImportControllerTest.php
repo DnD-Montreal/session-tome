@@ -18,17 +18,18 @@ class AdventuresLeagueImportControllerTest extends TestCase
     use WithFaker;
 
     public $donteName;
+
     public $donteClass;
+
     public $donteRace;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->donteClass = "Fighter";
-        $this->donteName = "Donte Greysor";
-        $this->donteRace = "V. Human";
+        $this->donteClass = 'Fighter';
+        $this->donteName = 'Donte Greysor';
+        $this->donteRace = 'V. Human';
     }
-
 
     /**
      * @test
@@ -51,7 +52,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
     public function a_user_can_import_an_adventures_league_character()
     {
         $user = User::factory()->create();
-        $csv = new UploadedFile(database_path('mocks/dante.csv'), "dante.csv");
+        $csv = new UploadedFile(database_path('mocks/dante.csv'), 'dante.csv');
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
         $character = Character::where('name', $this->donteName)
@@ -66,7 +67,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals($this->donteRace, $character->race);
         $this->assertEquals($this->donteClass, $character->class);
         $this->assertEquals(20, $character->level);
-        $this->assertEquals("Shield +1", $firstItem->name);
+        $this->assertEquals('Shield +1', $firstItem->name);
         $this->assertCount(18, $character->items);
     }
 
@@ -76,7 +77,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
     public function first_line_item_creates_entry()
     {
         $user = User::factory()->create();
-        $csv = new UploadedFile(database_path('mocks/dante-bad.csv'), "dante.csv");
+        $csv = new UploadedFile(database_path('mocks/dante-bad.csv'), 'dante.csv');
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
         $character = Character::where('name', $this->donteName)
@@ -91,7 +92,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
         $this->assertEquals($this->donteRace, $character->race);
         $this->assertEquals($this->donteClass, $character->class);
         $this->assertEquals(20, $character->level);
-        $this->assertEquals("Shield +1", $firstItem->name);
+        $this->assertEquals('Shield +1', $firstItem->name);
         $this->assertCount(19, $character->items);
     }
 
@@ -101,7 +102,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
     public function response_failure_if_invalid_file_format()
     {
         $user = User::factory()->create();
-        $csv = new UploadedFile(database_path('mocks/grod-bad.csv'), "grod-bad.csv");
+        $csv = new UploadedFile(database_path('mocks/grod-bad.csv'), 'grod-bad.csv');
         $response = $this->actingAs($user)->post('/adventures-league-import', ['logs' => $csv]);
 
         $this->assertNotNull($response->exception);

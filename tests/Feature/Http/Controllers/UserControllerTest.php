@@ -39,11 +39,10 @@ class UserControllerTest extends TestCase
         $response->assertOk();
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-                ->component("Profile/Profile")
+                ->component('Profile/Profile')
                 ->has('user')
         );
     }
-
 
     /**
      * @test
@@ -66,7 +65,7 @@ class UserControllerTest extends TestCase
         $otherUser = User::factory()->create();
         $name = $this->faker->name;
         $email = $this->faker->safeEmail;
-        $password = "aVerySecurePasssword000";
+        $password = 'aVerySecurePasssword000';
         $language = $this->faker->randomElement(['en', 'fr']);
 
         $response = $this->actingAs($user)->put(route('user.update', $otherUser), [

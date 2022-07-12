@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -107,7 +106,7 @@ class Session extends Model
         }
 
         return $q->withCount('characters')
-            ->having('characters_count', "<", DB::raw('seats'));
+            ->having('characters_count', '<', DB::raw('seats'));
     }
 
     public function scopeWhereRegistered(Builder $q, $eventId, $userId = null)
@@ -119,17 +118,17 @@ class Session extends Model
 
     /**
      * Determines if this session overlaps with the given session
-     * @param Session $otherSession
+     *
+     * @param  Session  $otherSession
      * @return bool true if overlapping
      */
-
     public function overlapsWith(Session $otherSession): bool
     {
         $otherSessionStart = $otherSession->start_time;
         $otherSessionEnd = $otherSession->end_time;
 
         $startTime = $this->start_time;
-        $endTime= $this->end_time;
+        $endTime = $this->end_time;
 
         $startsWithin = $startTime <= $otherSessionStart && $otherSessionStart <= $endTime;
         $endsWithin = $startTime <= $otherSessionEnd && $otherSessionEnd <= $endTime;

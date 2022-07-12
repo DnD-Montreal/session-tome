@@ -38,26 +38,26 @@ class ItemControllerTest extends TestCase
     public function index_displays_view()
     {
         $character = Character::factory()->has(Item::factory()->count(3))->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $items = $character->items;
 
         $privateCharacter = Character::factory()->has(Item::factory()->count(3))->create([
-            'status' => "private"
+            'status' => 'private',
         ]);
 
-        $response = $this->get(route('item.index') . "?character_id={$character->id}");
+        $response = $this->get(route('item.index')."?character_id={$character->id}");
         $responseEmpty = $this->get(route('item.index'));
 //        $this->expectException(UnauthorizedException::class);
-        $responsePrivate = $this->get(route('item.index') . "?character_id={$privateCharacter->id}");
+        $responsePrivate = $this->get(route('item.index')."?character_id={$privateCharacter->id}");
 
         $response->assertOk();
         $responseEmpty->assertNotFound();
-        ;
+
         // This is not right, but for some reason expectException is not catching this?
         // We expect this except because the exception handler should render the appropriate view in production.
         $this->assertEquals(UnauthorizedException::class, get_class($responsePrivate->exception));
-        $response->assertInertia(function (AssertableInertia $page) use ($character) {
+        $response->assertInertia(function (AssertableInertia $page) {
             $page->component('Item/Item')
                 ->has('items')
                 ->has('character');
@@ -86,7 +86,7 @@ class ItemControllerTest extends TestCase
         $response->assertOk();
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-            ->component("Item/Detail/ItemDetail")
+            ->component('Item/Detail/ItemDetail')
             ->has('item')
             ->has('character')
         );
@@ -101,7 +101,7 @@ class ItemControllerTest extends TestCase
         $entry = Entry::factory()->create();
         $character = Character::factory()->create();
         $name = $this->faker->name;
-        $rarity = $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]);
+        $rarity = $this->faker->randomElement(['common', 'uncommon', 'rare', 'very_rare', 'legendary']);
         $tier = $this->faker->numberBetween(1, 4);
         $description = $this->faker->text;
         $author = User::factory()->create();
@@ -113,7 +113,7 @@ class ItemControllerTest extends TestCase
             'rarity' => $rarity,
             'tier' => $tier,
             'description' => $description,
-            'author_id' => $author->id
+            'author_id' => $author->id,
         ]);
 
         $item->refresh();
@@ -128,7 +128,7 @@ class ItemControllerTest extends TestCase
             'rarity' => $rarity,
             'tier' => $tier,
             'description' => $description,
-            'author_id' => $author->id
+            'author_id' => $author->id,
         ]);
 
         $item->refresh();
@@ -144,7 +144,6 @@ class ItemControllerTest extends TestCase
         $this->assertEquals($description, $item->description);
         $this->assertEquals($author->id, $item->author_id);
     }
-
 
     /**
      * @test

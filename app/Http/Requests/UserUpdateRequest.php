@@ -28,7 +28,7 @@ class UserUpdateRequest extends FormRequest
             'name' => ['string'],
             'email' => ['email'],
             'password' => ['confirmed', Rules\Password::defaults()],
-            'language' => ['string', 'in:en,fr']
+            'language' => ['string', 'in:en,fr'],
         ];
     }
 }

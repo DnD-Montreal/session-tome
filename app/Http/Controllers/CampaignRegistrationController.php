@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Campaign;
 use App\Models\Character;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CampaignRegistrationController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Inertia\Response
      */
     public function create(Request $request)
@@ -19,13 +19,13 @@ class CampaignRegistrationController extends Controller
         $characters = Auth::user()->characters;
 
         $code = $request->validate([
-            'code' => "sometimes|string"
+            'code' => 'sometimes|string',
         ])['code'] ?? null;
 
         $campaign = Campaign::with('characters', 'users')->where('code', $code)->first();
 
-        if (!$campaign) {
-            return redirect()->back()->withErrors(['error' => "The provided campaign code is incorrect."]);
+        if (! $campaign) {
+            return redirect()->back()->withErrors(['error' => 'The provided campaign code is incorrect.']);
         }
 
         return Inertia::render('Campaign/Registration/Create/CampaignRegistrationCreate', compact('characters', 'campaign', 'code'));
@@ -40,14 +40,14 @@ class CampaignRegistrationController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'character_id' => "nullable|sometimes|exists:characters,id",
-            'code' => "required|string"
+            'character_id' => 'nullable|sometimes|exists:characters,id',
+            'code' => 'required|string',
         ]);
 
         $user = Auth::user();
         $campaign = Campaign::where('code', $data['code'])->firstOrFail();
 
-        if (!empty($data['character_id'])) {
+        if (! empty($data['character_id'])) {
             $user->campaigns()->syncWithoutDetaching([$campaign->id => ['is_dm' => false, 'is_owner' => $campaign->is_owner]]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->syncWithoutDetaching($campaign);
@@ -61,24 +61,24 @@ class CampaignRegistrationController extends Controller
     /**
      * De-register a user and their characters from a campaign
      *
-     * @param Request $request
-     * @param Campaign $campaignRegistration
+     * @param  Request  $request
+     * @param  Campaign  $campaignRegistration
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Request $request, Campaign $campaignRegistration)
     {
         $data = $request->validate([
-            'user_id' => 'sometimes|array'
+            'user_id' => 'sometimes|array',
         ]);
 
         $user = Auth::user();
         $isCampaignOwner = $campaignRegistration->users()->where('user_id', $user->id)->first()->pivot->is_owner;
 
-        if (!$request->has('user_id')) {
-            return redirect()->back()->withErrors(['error' => "You need to specify a user."]);
+        if (! $request->has('user_id')) {
+            return redirect()->back()->withErrors(['error' => 'You need to specify a user.']);
         }
 
-        if (!$isCampaignOwner) {
+        if (! $isCampaignOwner) {
             return redirect()->back()->withErrors(['error' => "You don't have permission to do that."]);
         }
 

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Adventure;
 use App\Models\Campaign;
-use App\Models\Entry;
 use App\Models\Character;
+use App\Models\Entry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -13,12 +13,12 @@ use Inertia\Inertia;
 class DMEntryController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
     {
-        $search = $request->get("search", "");
+        $search = $request->get('search', '');
         $entries = Entry::where('type', Entry::TYPE_DM)
             ->where('user_id', Auth::id())
             ->with('character', 'adventure', 'items', 'campaign')
@@ -36,15 +36,15 @@ class DMEntryController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
     {
-        $search = $request->get("search");
+        $search = $request->get('search');
         $characters = Character::where('user_id', Auth::user()->id)->get();
 
-        if ($campaignId = $request->get("campaign_id")) {
+        if ($campaignId = $request->get('campaign_id')) {
             $campaign = Campaign::where('id', $campaignId);
             $adventure = Campaign::where('id', $campaignId)->first()->adventure();
         } else {

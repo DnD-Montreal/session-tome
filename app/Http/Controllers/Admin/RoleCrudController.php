@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Traits\Accessible;
+use App\Http\Requests\RoleRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class RoleCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class RoleCrudController extends CrudController
@@ -20,6 +20,7 @@ class RoleCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use Accessible;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,7 +30,7 @@ class RoleCrudController extends CrudController
     {
         $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Role::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/role');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/role');
         CRUD::setEntityNameStrings('role', 'roles');
     }
 
@@ -37,6 +38,7 @@ class RoleCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -49,6 +51,7 @@ class RoleCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -64,6 +67,7 @@ class RoleCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

@@ -30,7 +30,7 @@ class BeyondTest extends TestCase
         // Donte is a lvl 20 Variant Human Fighter
         $this->fakeCharacterData = file_get_contents(database_path('mocks/beyond-donte.json'));
         $this->fakeUnauthorizedData = file_get_contents(database_path('mocks/beyond-unauthorized.json'));
-        $this->characterUrl = "https://www.dndbeyond.com/profile/UserName/characters/1234567";
+        $this->characterUrl = 'https://www.dndbeyond.com/profile/UserName/characters/1234567';
     }
 
     /**
@@ -43,14 +43,14 @@ class BeyondTest extends TestCase
 
         // Mock the response from dnd beyond
         Http::fake([
-           'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200)
+            'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200),
         ]);
 
         $character = Beyond::getCharacter($this->characterUrl);
 
-        $this->assertEquals("Donte Greyson", $character->name);
-        $this->assertEquals("Variant Human", $character->race);
-        $this->assertEquals("Fighter", $character->class);
+        $this->assertEquals('Donte Greyson', $character->name);
+        $this->assertEquals('Variant Human', $character->race);
+        $this->assertEquals('Fighter', $character->class);
         $this->assertEquals(20, $character->level);
     }
 
@@ -63,7 +63,7 @@ class BeyondTest extends TestCase
     {
         // Mock the response from dnd beyond
         Http::fake([
-            'dndbeyond.com/*' => Http::response($this->fakeUnauthorizedData, 403)
+            'dndbeyond.com/*' => Http::response($this->fakeUnauthorizedData, 403),
         ]);
 
         $this->expectException(UnauthorizedException::class);
@@ -71,14 +71,13 @@ class BeyondTest extends TestCase
     }
 
     /**
-     *
      * @test
      */
     public function characters_are_cached_when_accessed()
     {
         // Mock the response from dnd beyond
         Http::fake([
-            'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200)
+            'dndbeyond.com/*' => Http::response($this->fakeCharacterData, 200),
         ]);
 
         $character = Beyond::getCharacter($this->characterUrl);

@@ -5,9 +5,9 @@ namespace Tests\Unit\Actions;
 use App\Actions\FulfillTrade;
 use App\Exceptions\TradeClosedException;
 use App\Exceptions\TradeNotAllowedException;
-use App\Models\Trade;
-use App\Models\Item;
 use App\Models\Character;
+use App\Models\Item;
+use App\Models\Trade;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -37,16 +37,15 @@ class FulfillTradeTest extends TestCase
     {
         $offerUser = User::factory()->create();
 
-
         $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
         $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
 
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id,
-            "status" => Trade::STATUS_OPEN,
-            ]);
+            'character_id' => $tradeCharacter->id,
+            'item_id' => $tradeItem->id,
+            'status' => Trade::STATUS_OPEN,
+        ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
 
@@ -66,12 +65,12 @@ class FulfillTradeTest extends TestCase
         $offerItem->refresh();
 
         $offerCharacterEntries = $offerCharacter->entries()
-            ->where('notes', "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name)
+            ->where('notes', 'Trade between '.$tradeCharacter->name.' and '.$offerCharacter->name)
             ->where('downtime', -5)
             ->get();
 
         $tradeCharacterEntries = $tradeCharacter->entries()
-            ->where('notes', "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name)
+            ->where('notes', 'Trade between '.$tradeCharacter->name.' and '.$offerCharacter->name)
             ->where('downtime', -5)
             ->get();
 
@@ -101,8 +100,8 @@ class FulfillTradeTest extends TestCase
 
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id]);
+            'character_id' => $tradeCharacter->id,
+            'item_id' => $tradeItem->id, ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
 
@@ -129,9 +128,9 @@ class FulfillTradeTest extends TestCase
 
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id,
-            "status" => Trade::STATUS_OPEN]);
+            'character_id' => $tradeCharacter->id,
+            'item_id' => $tradeItem->id,
+            'status' => Trade::STATUS_OPEN, ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
 

@@ -25,7 +25,7 @@ class AttachDMEntryRequest extends FormRequest
     {
         return [
             'dm_entry_ids' => ['required', 'array'],
-            'dm_entry_ids.*' => ['required', 'integer', 'distinct:strict', 'exists:entries,id']
+            'dm_entry_ids.*' => ['required', 'integer', 'distinct:strict', 'exists:entries,id'],
         ];
     }
 }

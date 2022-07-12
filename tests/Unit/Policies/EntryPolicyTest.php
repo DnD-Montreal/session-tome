@@ -29,7 +29,7 @@ class EntryPolicyTest extends TestCase
         $entry->user()->associate($ownerUser)->save();
 
         $admin = Role::factory()->create([
-            'type' => Role::SITE_ADMIN
+            'type' => Role::SITE_ADMIN,
         ]);
         $adminUser = User::factory()->create();
         $adminUser->roles()->save($admin);
@@ -52,7 +52,7 @@ class EntryPolicyTest extends TestCase
         $entry->user()->associate($ownerUser)->save();
 
         $admin = Role::factory()->create([
-            'type' => Role::SITE_ADMIN
+            'type' => Role::SITE_ADMIN,
         ]);
         $adminUser = User::factory()->create();
         $adminUser->roles()->save($admin);

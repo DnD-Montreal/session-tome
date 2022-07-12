@@ -3,15 +3,15 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Character;
-use App\Models\Session;
 use App\Models\Event;
+use App\Models\Session;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class SessionTest extends TestCase
 {
@@ -25,17 +25,16 @@ class SessionTest extends TestCase
     public function open_seats_are_calculated_properly()
     {
         $sessionEmpty = Session::factory()->create([
-            'seats' => 10
+            'seats' => 10,
         ]);
 
         $sessionHalf = Session::factory()->has(Character::factory(5))->create([
-            'seats' => 10
+            'seats' => 10,
         ]);
 
         $sessionFull = Session::factory()->has(Character::factory(10))->create([
-            'seats' => 10
+            'seats' => 10,
         ]);
-
 
         $this->assertEquals(10, $sessionEmpty->open_seats);
         $this->assertEquals(5, $sessionHalf->open_seats);
@@ -81,27 +80,27 @@ class SessionTest extends TestCase
 
         $sessionA = Session::factory()->create([
             'start_time' => $dateA0,
-            'end_time' => $dateA1
+            'end_time' => $dateA1,
         ]);
 
         $sessionB = Session::factory()->create([
             'start_time' => $dateB0,
-            'end_time' => $dateB1
+            'end_time' => $dateB1,
         ]);
 
         $sessionC = Session::factory()->create([
             'start_time' => $dateC0,
-            'end_time' => $dateC1
+            'end_time' => $dateC1,
         ]);
 
         $sessionD = Session::factory()->create([
             'start_time' => $dateD0,
-            'end_time' => $dateD1
+            'end_time' => $dateD1,
         ]);
 
         $sessionE = Session::factory()->create([
             'start_time' => $dateD0,
-            'end_time' => $dateD1
+            'end_time' => $dateD1,
         ]);
 
         //A and B

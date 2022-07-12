@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class EntryUpdateRequest extends FilterableRequest
@@ -27,7 +26,7 @@ class EntryUpdateRequest extends FilterableRequest
             return $this->type == Entry::TYPE_DM && $this->user()->can('update', $this->entry);
         }
 
-        return $this->user()->can('update', Character::findOrFail($this->character_id))  && $this->user()->can('update', $this->entry);
+        return $this->user()->can('update', Character::findOrFail($this->character_id)) && $this->user()->can('update', $this->entry);
     }
 
     /**
@@ -37,9 +36,9 @@ class EntryUpdateRequest extends FilterableRequest
      */
     public function rules()
     {
-        $rarities = implode(",", Item::RARITY);
-        $requiredIf = Rule::requiredIf(!empty($this->get('items')));
-        $requiredChoice = Rule::requiredIf($this->get('choice') == "magic_item" && empty($this->get('items')));
+        $rarities = implode(',', Item::RARITY);
+        $requiredIf = Rule::requiredIf(! empty($this->get('items')));
+        $requiredChoice = Rule::requiredIf($this->get('choice') == 'magic_item' && empty($this->get('items')));
 
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
@@ -60,9 +59,9 @@ class EntryUpdateRequest extends FilterableRequest
             'items.*.id' => ['sometimes', 'integer', 'exists:items,id'],
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
-            'items.*.tier' =>  ['integer', 'between:1,4', $requiredIf],
-            'choice' => ['sometimes', "nullable", 'string'],
-            'rating_data' => ['nullable', 'sometimes', 'array']
+            'items.*.tier' => ['integer', 'between:1,4', $requiredIf],
+            'choice' => ['sometimes', 'nullable', 'string'],
+            'rating_data' => ['nullable', 'sometimes', 'array'],
         ];
     }
 }

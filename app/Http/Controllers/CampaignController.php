@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignStoreRequest;
 use App\Http\Requests\CampaignUpdateRequest;
-use App\Models\Campaign;
-use App\Models\Entry;
-use App\Models\User;
-use App\Models\Character;
 use App\Models\Adventure;
+use App\Models\Campaign;
+use App\Models\Character;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -18,7 +16,7 @@ use Inertia\Inertia;
 class CampaignController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -35,12 +33,12 @@ class CampaignController extends Controller
         return Inertia::render('Campaign/Campaign', [
             'campaigns' => $campaigns,
             'characters' => $characters,
-            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code'])
+            'adventures' => Adventure::filtered($search)->get(['id', 'title', 'code']),
         ]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
@@ -56,7 +54,7 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\CampaignStoreRequest $request
+     * @param  \App\Http\Requests\CampaignStoreRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CampaignStoreRequest $request)
@@ -67,7 +65,7 @@ class CampaignController extends Controller
         // User joins campaign
         $user = Auth::user();
 
-        if (!empty($data['character_id'])) {
+        if (! empty($data['character_id'])) {
             $user->campaigns()->attach($campaign, ['is_dm' => false, 'is_owner' => true]);
             $character = Character::findOrFail($data['character_id']);
             $character->campaigns()->attach($campaign);
@@ -81,8 +79,8 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Campaign $campaign
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Campaign  $campaign
      * @return \Inertia\Response
      */
     public function show(Request $request, Campaign $campaign)
@@ -92,14 +90,14 @@ class CampaignController extends Controller
             'characters',
             'adventure',
             'entries' => function (HasMany $q) use ($user) {
-                return $q->whereRelation("user", "user_id", $user->id);
+                return $q->whereRelation('user', 'user_id', $user->id);
             },
-            'entries.adventure']);
+            'entries.adventure', ]);
         $userCharacter = $campaign->characters()
             ->where('user_id', Auth::id())
             ->first();
         $characters = $user->characters;
-        $search = $request->get('search', "");
+        $search = $request->get('search', '');
 
         return Inertia::render('Campaign/Detail/CampaignDetail', [
             'campaign' => $campaign,
@@ -111,8 +109,8 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\CampaignUpdateRequest $request
-     * @param \App\Models\Campaign $campaign
+     * @param  \App\Http\Requests\CampaignUpdateRequest  $request
+     * @param  \App\Models\Campaign  $campaign
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CampaignUpdateRequest $request, Campaign $campaign)
@@ -121,10 +119,10 @@ class CampaignController extends Controller
 
         // Fetch the character ids in the campaign that don't belong to the current user.
         $playerCharacters = $campaign->characters()
-            ->where('user_id', "!=", Auth::id())
+            ->where('user_id', '!=', Auth::id())
             ->pluck('id');
 
-        if ($hasCharacter = !empty($data['character_id'])) {
+        if ($hasCharacter = ! empty($data['character_id'])) {
             // Add the new character ID to be attached, along with the rest of the characters.
             $campaign->characters()->sync($playerCharacters->prepend($data['character_id']));
         } else {
@@ -133,7 +131,7 @@ class CampaignController extends Controller
         }
 
         // If the user doesnt have a character, then they're a DM, otherwise, they're not.
-        $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => !$hasCharacter]);
+        $campaign->users()->updateExistingPivot(Auth::user(), ['is_dm' => ! $hasCharacter]);
 
         $campaign->update($data);
 
@@ -143,13 +141,13 @@ class CampaignController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Campaign $campaign
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Campaign  $campaign
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Campaign $campaign)
     {
-        if (!$campaign->is_owner) {
+        if (! $campaign->is_owner) {
             return redirect()->back()->withErrors(['errors' => "You're not allowed to do that because you're not the campaign owner."]);
         }
 

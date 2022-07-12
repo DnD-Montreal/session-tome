@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +25,10 @@ class SessionRequest extends FormRequest
             $eventIdRequest = request()->input('event_id');
             $leagueId = Auth::user()->roles()->pluck('league_id');
             $eventId = Event::wherein('league_id', $leagueId)->pluck('id')->toarray();
-            if (!in_array($eventIdRequest, $eventId)) {
+            if (! in_array($eventIdRequest, $eventId)) {
                 abort(403);
             }
+
             return true;
         }
     }

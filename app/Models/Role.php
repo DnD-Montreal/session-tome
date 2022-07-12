@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
@@ -13,6 +12,7 @@ class Role extends Model
     use HasFactory;
 
     public const SITE_ADMIN = 'site admin';
+
     public const LEAGUE_ADMIN = 'league admin';
 
     /**
@@ -33,7 +33,6 @@ class Role extends Model
     protected $casts = [
         'id' => 'integer',
     ];
-
 
     public function users(): BelongsToMany
     {

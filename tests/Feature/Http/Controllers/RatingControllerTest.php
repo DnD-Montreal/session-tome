@@ -56,13 +56,13 @@ class RatingControllerTest extends TestCase
         $response->assertOk();
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-            ->component("Rating/Rating")
+            ->component('Rating/Rating')
             ->has('users')
         );
         $responseNoFilter->assertOk();
         $responseNoFilter->assertInertia(
             fn (AssertableInertia $page) => $page
-            ->component("Rating/Rating")
+            ->component('Rating/Rating')
             ->has('users')
         );
     }

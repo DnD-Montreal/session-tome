@@ -22,13 +22,13 @@ class CharacterPolicyTest extends TestCase
     public function a_character_can_be_viewed_by_the_appropriate_users()
     {
         $character = Character::factory()->create([
-            'status' => 'private'
+            'status' => 'private',
         ]);
         $publicCharacter = Character::factory()->create([
-            'status' => 'public'
+            'status' => 'public',
         ]);
         $admin = Role::factory()->create([
-            'type' => Role::SITE_ADMIN
+            'type' => Role::SITE_ADMIN,
         ]);
         $adminUser = User::factory()->create();
         $adminUser->roles()->save($admin);

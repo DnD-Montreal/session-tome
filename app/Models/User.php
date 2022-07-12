@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Traits\Filterable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableInterface;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -30,7 +29,7 @@ class User extends Authenticatable implements AuthenticatableInterface
         'name',
         'email',
         'password',
-        'language'
+        'language',
     ];
 
     /**
@@ -91,7 +90,7 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     public function authored_items()
     {
-        return $this->hasMany(\App\Models\Item::class, "author_id");
+        return $this->hasMany(\App\Models\Item::class, 'author_id');
     }
 
     public function ratings()
@@ -101,7 +100,7 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     public function sessions()
     {
-        return $this->hasMany(\App\Models\Session::class, "dungeon_master_id");
+        return $this->hasMany(\App\Models\Session::class, 'dungeon_master_id');
     }
 
     public function entries()
@@ -111,12 +110,13 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     /**
      * Check if the user has one of a given list of roles
+     *
      * @param  string|array  $role one or more role types to check for
      * @return bool       Returns true is the user's role matches any the provided roles
      */
     public function hasRole($roles): bool
     {
-        return count(array_intersect($this->roles->pluck('type')->toArray(), (array)$roles))>0;
+        return count(array_intersect($this->roles->pluck('type')->toArray(), (array) $roles)) > 0;
     }
 
     public function isSiteAdmin(): bool
@@ -126,6 +126,7 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     /**
      * Check if the user has league admin role with a league ID that is not null
+     *
      * @return bool Returns true if the user has league admin role with a league ID that is not null
      */
     public function isLeagueAdminWithLeagueId(): bool
@@ -135,7 +136,8 @@ class User extends Authenticatable implements AuthenticatableInterface
 
     /**
      * Check if the user has league admin role on a particular league
-     * @param  string $league_name name of league we want to check if user has admin role on
+     *
+     * @param  string  $league_name name of league we want to check if user has admin role on
      * @return bool       Returns true if the user has a league admin role for the given league
      */
     public function isLeagueAdmin($leagueId): bool
@@ -145,6 +147,7 @@ class User extends Authenticatable implements AuthenticatableInterface
                 return true;
             }
         }
+
         return false;
     }
 
@@ -160,7 +163,7 @@ class User extends Authenticatable implements AuthenticatableInterface
             Rating::FLEXIBLE_LABEL,
             Rating::FRIENDLY_LABEL,
             Rating::HELPFUL_LABEL,
-            Rating::PREPARED_LABEL
+            Rating::PREPARED_LABEL,
         ];
 
         $total = collect([
@@ -171,11 +174,12 @@ class User extends Authenticatable implements AuthenticatableInterface
             $labels[4] => 0,
         ]);
         foreach ($this->ratings as $rating) {
-            $tempStr = str_pad(decbin($rating->categories), 5, "0", STR_PAD_LEFT);
+            $tempStr = str_pad(decbin($rating->categories), 5, '0', STR_PAD_LEFT);
             for ($i = 0; $i < strlen($tempStr); $i++) {
                 $total[$labels[$i]] += (int) $tempStr[$i];
             }
         }
+
         return $total;
     }
 

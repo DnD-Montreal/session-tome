@@ -3,10 +3,9 @@
 namespace App\Policies;
 
 use App\Models\Character;
-use App\Models\User;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
 
 class ItemPolicy
 {
@@ -30,6 +29,7 @@ class ItemPolicy
     public function create(User $user)
     {
         $request = request();
+
         return $request->user()->id == Character::findOrFail($request->character_id)->user->id || $user->isSiteAdmin();
     }
 }

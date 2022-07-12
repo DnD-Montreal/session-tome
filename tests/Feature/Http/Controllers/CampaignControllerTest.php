@@ -127,7 +127,7 @@ class CampaignControllerTest extends TestCase
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
         $this->assertDatabaseHas('campaign_user', ['user_id' => $this->user->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => true]);
-        $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' =>$campaign->id]);
+        $this->assertDatabaseHas('campaign_character', ['character_id' => $character->id, 'campaign_id' => $campaign->id]);
     }
 
     /**
@@ -138,18 +138,17 @@ class CampaignControllerTest extends TestCase
         $adventure = Adventure::factory()->create();
         $entries = Entry::factory(3)->state([
             'user_id' => $this->user->id,
-            'adventure_id' => $adventure->id
+            'adventure_id' => $adventure->id,
         ]);
         $character = Character::factory()
             ->has($entries)
             ->state([
-                'user_id' => $this->user->id
+                'user_id' => $this->user->id,
             ]);
         $campaign = Campaign::factory()->has($character)->create([
-            'adventure_id' => $adventure->id
+            'adventure_id' => $adventure->id,
         ]);
         $campaign->entries()->saveMany(Entry::all());
-
 
         $response = $this->get(route('campaign.show', $campaign));
 
@@ -183,7 +182,7 @@ class CampaignControllerTest extends TestCase
         $adventure = Adventure::factory()->create();
         $title = $this->faker->sentence(4);
         $newCharacter = Character::factory()->create([
-           'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $response = $this->put(route('campaign.update', $campaign), [

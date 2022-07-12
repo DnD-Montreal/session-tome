@@ -18,6 +18,7 @@ class UserPolicy
     {
         //
     }
+
     public function update(User $user, User $target)
     {
         return $user->id == $target->id || $user->isSiteAdmin();

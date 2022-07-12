@@ -21,7 +21,7 @@ class CreateTradesTable extends Migration
             $table->foreignId('character_id')->constrained();
             $table->string('requested_items');
             $table->text('description');
-            $table->enum('status', ["open","closed"]);
+            $table->enum('status', ['open', 'closed']);
             $table->timestamps();
         });
 

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EntryRequest;
 use App\Http\Controllers\Traits\Accessible;
+use App\Http\Requests\EntryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class EntryCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class EntryCrudController extends CrudController
@@ -20,6 +20,7 @@ class EntryCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use Accessible;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,7 +30,7 @@ class EntryCrudController extends CrudController
     {
         $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Entry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/entry');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/entry');
         CRUD::setEntityNameStrings('entry', 'entries');
     }
 
@@ -37,6 +38,7 @@ class EntryCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -61,6 +63,7 @@ class EntryCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -87,6 +90,7 @@ class EntryCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

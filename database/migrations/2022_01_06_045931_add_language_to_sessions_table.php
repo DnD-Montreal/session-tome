@@ -14,7 +14,7 @@ class AddLanguageToSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->enum('language', ["FR","EN"]);
+            $table->enum('language', ['FR', 'EN']);
         });
     }
 

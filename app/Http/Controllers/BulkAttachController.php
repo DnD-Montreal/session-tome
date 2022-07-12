@@ -9,8 +9,8 @@ use App\Models\Entry;
 class BulkAttachController extends Controller
 {
     /**
-     * @param \App\Http\Requests\AttachDMEntryRequest $request
-     * @param \App\Models\Character $character
+     * @param  \App\Http\Requests\AttachDMEntryRequest  $request
+     * @param  \App\Models\Character  $character
      * @return \Illuminate\Http\Response
      */
     public function update(AttachDMEntryRequest $request, Character $character)

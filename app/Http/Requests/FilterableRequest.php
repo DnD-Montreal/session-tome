@@ -15,7 +15,7 @@ class FilterableRequest extends FormRequest
             if ($modelData && is_array($modelData)) {
                 $this->merge([
                     "{$model}_id" => $modelData['id'],
-                    $model => null
+                    $model => null,
                 ]);
             }
         }

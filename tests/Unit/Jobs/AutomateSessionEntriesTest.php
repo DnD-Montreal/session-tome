@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Jobs;
 
-use Tests\TestCase;
 use App\Jobs\AutomateSessionEntries;
 use App\Models\Character;
 use App\Models\Entry;
@@ -13,6 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Tests\TestCase;
 
 class AutomateSessionEntriesTest extends TestCase
 {
@@ -36,7 +36,7 @@ class AutomateSessionEntriesTest extends TestCase
         $dungeon_master = User::factory()->create();
         $session = Session::factory()->create([
             'start_time' => Carbon::now(),
-            'dungeon_master_id' => $dungeon_master->id
+            'dungeon_master_id' => $dungeon_master->id,
         ]);
         $session->characters()->attach($characters);
 
@@ -49,14 +49,14 @@ class AutomateSessionEntriesTest extends TestCase
                 'dungeon_master_id' => $dungeon_master->id,
                 'date_played' => $session->start_time,
                 'type' => Entry::TYPE_GAME,
-                'event_id' => $session->event_id
+                'event_id' => $session->event_id,
             ])->get();
 
         $dm_entry = Entry::where([
             'user_id' => $dungeon_master->id,
             'date_played' => $session->start_time,
             'type' => Entry::TYPE_DM,
-            'event_id' => $session->event_id
+            'event_id' => $session->event_id,
         ])->get();
 
         //assert Game Entries exist for all characters in $characters

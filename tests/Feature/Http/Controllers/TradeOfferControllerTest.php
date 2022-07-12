@@ -27,7 +27,6 @@ class TradeOfferControllerTest extends TestCase
         Auth::login($this->user);
     }
 
-
     /**
      * @test
      */
@@ -35,10 +34,10 @@ class TradeOfferControllerTest extends TestCase
     {
         $trade = Trade::factory()->create();
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $items = Item::factory()->count(2)->create([
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
         $character->items()->saveMany($items);
 
@@ -57,35 +56,35 @@ class TradeOfferControllerTest extends TestCase
     {
         $item = Item::factory()->create([
             'rarity' => 'rare',
-            'description' => "listed"
+            'description' => 'listed',
         ]);
 
         $trade = Trade::factory()->create();
         $trade->item()->associate($item)->save();
 
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $offer = Item::factory()->create([
             'character_id' => $character->id,
             'rarity' => $item->rarity,
-            'description' => "offered"
+            'description' => 'offered',
         ]);
         $invalidOffer = Item::factory()->create([
-            'rarity' => 'common'
+            'rarity' => 'common',
         ]);
 
         $response = $this->post(route('offer.store'), [
             'trade_id' => $trade->id,
-            'item_id' => $offer->id
+            'item_id' => $offer->id,
         ]);
 
         $response->assertRedirect();
 
         $responseInvalid = $this->post(route('offer.store'), [
             'trade_id' => $trade->id,
-            'item_id' => $invalidOffer->id
+            'item_id' => $invalidOffer->id,
         ]);
 
         $responseInvalid->assertRedirect();
@@ -103,7 +102,7 @@ class TradeOfferControllerTest extends TestCase
     public function destroy_detaches_offer()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $offer = Item::factory()->create([
             'character_id' => $character->id,

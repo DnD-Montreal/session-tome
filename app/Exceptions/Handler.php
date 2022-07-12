@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Closure;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Inertia\Inertia;
 use Throwable;
@@ -60,20 +59,21 @@ class Handler extends ExceptionHandler
     /**
      * Prepare exception for rendering.
      *
-     * @param \Illuminate\Http\Request  $request
-     * @param \Throwable $e
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $e
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object|\Symfony\Component\HttpFoundation\Response|Throwable
+     *
      * @throws Throwable
      */
     public function render($request, Throwable $e)
     {
         $response = parent::render($request, $e);
 
-        if (config("app.debug") && !app()->environment(['local', 'testing'])) {
+        if (config('app.debug') && ! app()->environment(['local', 'testing'])) {
             dump($e->getTraceAsString());
         }
 
-        if (!app()->environment(['local', 'testing']) && in_array($response->status(), array_keys($this->titles))) {
+        if (! app()->environment(['local', 'testing']) && in_array($response->status(), array_keys($this->titles))) {
             return $this->renderError($request, $response, null, $e->getMessage(), $e->getCode());
         } elseif ($response->status() === 419) {
             return back()->with([
@@ -87,16 +87,16 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @param $response
-     * @param null $title
-     * @param null $description
-     * @param null $status
+     * @param  null  $title
+     * @param  null  $description
+     * @param  null  $status
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object|\Symfony\Component\HttpFoundation\Response
      */
     protected function renderError($request, $response, $meta = null)
     {
-        if (!is_array($meta)) {
+        if (! is_array($meta)) {
             $meta = func_get_arg(2);
         }
 
@@ -106,6 +106,7 @@ class Handler extends ExceptionHandler
 
         $title = $title ?? $this->titles[$status ?? $response->status()];
         $description = $description ?? $this->descriptions[$status ?? $response->status()];
+
         return Inertia::render('Error', ['title' => $title, 'description' => $description])
             ->toResponse($request)
             ->setStatusCode($status ?? $response->status());

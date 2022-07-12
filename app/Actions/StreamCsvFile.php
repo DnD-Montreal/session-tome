@@ -11,6 +11,7 @@ class StreamCsvFile
 
     /**
      * Creates a response stream that downloads a CSV consisting of passed data to the users browser
+     *
      * @param $columns
      * @param $data
      * @param $suffix
@@ -18,7 +19,7 @@ class StreamCsvFile
      */
     public function handle($columns, $data, $suffix)
     {
-        $filename = now()->toDateString() . "-{$suffix}.csv";
+        $filename = now()->toDateString()."-{$suffix}.csv";
         $headers = ['Content-Disposition' => "attachment; filename={$filename}"];
 
         return response()->stream(function () use ($columns, $data) {

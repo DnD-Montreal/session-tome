@@ -2,16 +2,16 @@
 
 namespace App\Jobs;
 
+use App\Models\Entry;
 use App\Models\Event;
 use App\Models\Session;
-use App\Models\Entry;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Carbon\Carbon;
 
 class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
 {
@@ -44,7 +44,7 @@ class AutomateSessionEntries implements ShouldQueue, ShouldBeUnique
                     'event_id' => $session->event_id,
                     'dungeon_master_id' => $session->dungeon_master_id,
                     'date_played' => $session->start_time,
-                    'location' =>$session->event->location,
+                    'location' => $session->event->location,
                     'type' => Entry::TYPE_GAME,
                 ]);
             }

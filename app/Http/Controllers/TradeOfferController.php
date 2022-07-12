@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TradeStoreRequest;
-use App\Http\Requests\TradeUpdateRequest;
 use App\Models\Character;
 use App\Models\Item;
 use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
-use function PHPUnit\Framework\isNull;
 
 class TradeOfferController extends Controller
 {
     /**
      * Retrieve character's items that are valid to trade
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request, Trade $trade)
@@ -38,7 +34,7 @@ class TradeOfferController extends Controller
     {
         $offerData = $request->validate([
             'item_id' => 'required|exists:items,id|integer',
-            'trade_id' => 'required|exists:trades,id|integer'
+            'trade_id' => 'required|exists:trades,id|integer',
         ]);
 
         $trade = Trade::findOrFail($offerData['trade_id']);
@@ -46,7 +42,7 @@ class TradeOfferController extends Controller
         $offerItem = ($dataItem->rarity == $trade->item()->get()[0]->rarity) ? $dataItem : null;
 
         // Attach offered item that meets rarity criteria
-        if (!is_null($offerItem)) {
+        if (! is_null($offerItem)) {
             $trade->offers()->attach($offerItem);
         } else {
             return redirect()->back()->withErrors(['error' => 'Offer does not meet rarity requirements']);
@@ -56,9 +52,9 @@ class TradeOfferController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Item $item
-     * @param \App\Models\Trade $trade
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Trade  $trade
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Item $offer, Trade $trade)

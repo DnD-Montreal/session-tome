@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\LeagueRequest;
+use App\Actions\GenerateRatingReport;
 use App\Http\Controllers\Traits\Accessible;
+use App\Http\Requests\LeagueRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Actions\GenerateRatingReport;
-use App\Models\League;
 
 /**
  * Class LeagueCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class LeagueCrudController extends CrudController
@@ -32,7 +31,7 @@ class LeagueCrudController extends CrudController
     {
         $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\League::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/league');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/league');
         CRUD::setEntityNameStrings('league', 'leagues');
     }
 
@@ -40,6 +39,7 @@ class LeagueCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -53,6 +53,7 @@ class LeagueCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -67,6 +68,7 @@ class LeagueCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
@@ -77,6 +79,7 @@ class LeagueCrudController extends CrudController
     public function report()
     {
         $league = $this->crud->getCurrentEntry();
+
         return GenerateRatingReport::run(true, $league);
     }
 }

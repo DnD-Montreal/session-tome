@@ -32,8 +32,8 @@ class CreateEntryItemsTest extends TestCase
         // Assign
         $entry = Entry::factory()->create();
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon"],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher without it."],
+            ['name' => 'Longsword +1', 'rarity' => 'uncommon'],
+            ['name' => 'Amulet of Health', 'rarity' => 'rare', 'description' => 'Your Constitution score is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher without it.'],
         ];
 
         // Act

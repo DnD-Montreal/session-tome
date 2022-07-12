@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -25,9 +24,10 @@ class EventRequest extends FormRequest
         if ($this->user()->isLeagueAdminWithLeagueId()) {
             $leagueIdRequest = request()->input('league_id');
             $leagueId = Auth::user()->roles()->pluck('league_id')->toarray();
-            if (!in_array($leagueIdRequest, $leagueId)) {
+            if (! in_array($leagueIdRequest, $leagueId)) {
                 abort(403);
             }
+
             return true;
         }
     }

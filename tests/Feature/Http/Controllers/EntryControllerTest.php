@@ -66,7 +66,7 @@ class EntryControllerTest extends TestCase
             'location' => $location,
             'gp' => $gp,
             'type' => Entry::TYPE_DM,
-            'choice' => $choice
+            'choice' => $choice,
         ]);
 
         $response->assertRedirect();
@@ -78,7 +78,7 @@ class EntryControllerTest extends TestCase
     public function create_displays_view()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $response = $this->get(route('entry.create', ['character_id' => $character->id]));
 
@@ -98,14 +98,14 @@ class EntryControllerTest extends TestCase
     public function create_displays_view_with_campaign_info()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $campaign = Campaign::factory()->has(Adventure::factory())->create();
 
         $response = $this->get(route('entry.create', [
             'character_id' => $character->id,
             'campaign_id' => $campaign->id,
-            ]));
+        ]));
 
         $response->assertOk();
 
@@ -116,8 +116,6 @@ class EntryControllerTest extends TestCase
                 ->has('campaigns')
         );
     }
-
-
 
     /**
      * @test
@@ -269,10 +267,9 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
+            ['name' => 'Longsword +1', 'rarity' => 'uncommon', 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => 'Amulet of Health', 'rarity' => 'rare', 'description' => 'Your Constitution score is 19 while you wear this amulet.', 'tier' => $this->faker->numberBetween(1, 4)],
         ];
-
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
             'user_id' => $this->user->id,
@@ -329,8 +326,8 @@ class EntryControllerTest extends TestCase
         $levels = $this->faker->numberBetween(1, 20);
         $gp = $this->faker->randomFloat(2, 0, 9999999.99);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
-            ['name' => "Amulet of Health", 'rarity' => "rare", 'description' => "Your Constitution score is 19 while you wear this amulet.", 'tier' => $this->faker->numberBetween(1, 4)]
+            ['name' => 'Longsword +1', 'rarity' => 'uncommon', 'tier' => $this->faker->numberBetween(1, 4)],
+            ['name' => 'Amulet of Health', 'rarity' => 'rare', 'description' => 'Your Constitution score is 19 while you wear this amulet.', 'tier' => $this->faker->numberBetween(1, 4)],
         ];
         $choice_advancement = 'advancement';
         $choice_item = 'magic_item';
@@ -513,7 +510,7 @@ class EntryControllerTest extends TestCase
     public function update_allows_non_system_dms()
     {
         $entry = Entry::factory()->create([
-            'dungeon_master_id' => null
+            'dungeon_master_id' => null,
         ]);
         $adventure = Adventure::factory()->create();
         $campaign = Campaign::factory()->create();
@@ -618,7 +615,7 @@ class EntryControllerTest extends TestCase
             'dungeon_master_id' => null,
             'levels' => 1,
             'character_id' => null,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -653,7 +650,7 @@ class EntryControllerTest extends TestCase
     {
         $character = Character::factory()->create([
             'level' => 1,
-            ]);
+        ]);
 
         $entry = Entry::factory()->create([
             'character_id' => null,
@@ -663,7 +660,6 @@ class EntryControllerTest extends TestCase
 
         $character->user()->associate($this->user)->save();
         $entry->character()->associate($character)->save();
-
 
         $oldLevel = $character->level;
 
@@ -686,7 +682,7 @@ class EntryControllerTest extends TestCase
         $entry = Entry::factory()->create([
             'type' => Entry::TYPE_DM,
             'levels' => 5,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $character->user()->associate($this->user)->save();
@@ -745,11 +741,11 @@ class EntryControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $entries = Entry::factory(2)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $response = $this->actingAs($user)->delete(route('entry.destroy', [
-            'entries' => [$entries[0]->id, $entries[1]->id]
+            'entries' => [$entries[0]->id, $entries[1]->id],
         ]));
 
         $response->assertRedirect();
@@ -771,11 +767,11 @@ class EntryControllerTest extends TestCase
         $type = $this->faker->word;
 
         $ratingData = [
-            "creative" => true,
-            "flexible" => false,
-            "friendly" => true,
-            "helpful" => false,
-            "prepared" => true
+            'creative' => true,
+            'flexible' => false,
+            'friendly' => true,
+            'helpful' => false,
+            'prepared' => true,
         ];
 
         $response = $this->actingAs($this->user)->post(route('entry.store'), [
@@ -786,12 +782,12 @@ class EntryControllerTest extends TestCase
             'date_played' => $date_played,
             'type' => $type,
             'rating_data' => [
-                "creative" => true,
-                "flexible" => false,
-                "friendly" => true,
-                "helpful" => false,
-                "prepared" => true
-            ]
+                'creative' => true,
+                'flexible' => false,
+                'friendly' => true,
+                'helpful' => false,
+                'prepared' => true,
+            ],
         ]);
 
         $entry = Entry::first();
@@ -823,12 +819,12 @@ class EntryControllerTest extends TestCase
             'dungeon_master' => ['id' => $dm->id],
             'type' => $entry->type,
             'rating_data' => [
-                "creative" => true,
-                "flexible" => false,
-                "friendly" => true,
-                "helpful" => false,
-                "prepared" => true
-            ]
+                'creative' => true,
+                'flexible' => false,
+                'friendly' => true,
+                'helpful' => false,
+                'prepared' => true,
+            ],
         ]);
 
         $rating = Rating::first();
@@ -847,16 +843,16 @@ class EntryControllerTest extends TestCase
         $entry = Entry::factory()->create([
             'user_id' => $this->user->id,
             'type' => Entry::TYPE_GAME,
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
         $existingItem = Item::factory()
             ->create([
                 'entry_id' => $entry->id,
-                'character_id' => $character->id
+                'character_id' => $character->id,
             ]);
         $itemData = [
-            ['name' => "Longsword +1", 'rarity' => "uncommon", 'tier' => $this->faker->numberBetween(1, 4)],
-            $existingItem->toArray()
+            ['name' => 'Longsword +1', 'rarity' => 'uncommon', 'tier' => $this->faker->numberBetween(1, 4)],
+            $existingItem->toArray(),
         ];
 
         $response = $this->actingAs($this->user)->put(
@@ -903,7 +899,7 @@ class EntryControllerTest extends TestCase
 
         $this->assertEmpty($createdEntries);
         $this->assertNotNull($response->exception);
-        $this->assertEquals("GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.", $response->exception->getMessage());
+        $this->assertEquals('GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.', $response->exception->getMessage());
         $this->assertEquals(400, $response->exception->getCode());
         $response->assertRedirect();
     }

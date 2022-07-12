@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RatingStoreRequest;
-use App\Http\Requests\RatingUpdateRequest;
-use App\Models\Rating;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class RatingController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -26,17 +23,17 @@ class RatingController extends Controller
 
         if ($searchLanguage = $request->get('search_language')) {
             $users = $users->whereHas('sessions', function (Builder $q) use ($searchLanguage) {
-                $q->whereIn('language', explode(",", $searchLanguage));
+                $q->whereIn('language', explode(',', $searchLanguage));
             });
         }
 
         if ($fromEvent = (bool) $request->get('from_event')) {
             $users = $users->has('ratings.entry.event')->with(['ratings' => function ($q) {
                 $q->has('entry.event');
-            } ]);
+            }]);
         }
 
-        if ($searchCategory = $request->get('search_category', "CREATIVE")) {
+        if ($searchCategory = $request->get('search_category', 'CREATIVE')) {
             $users = $users->get()->sortByDesc(function ($user) use ($searchCategory) {
                 return $user->total_ratings[$searchCategory];
             })->values();

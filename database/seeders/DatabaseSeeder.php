@@ -29,24 +29,24 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $defaultUser = User::factory()->hasAttached(Role::first())->create([
             'email' => 'default@test.com',
-            'name' => "Test account"
+            'name' => 'Test account',
         ]);
 
         $dndmtl = League::factory()->create([
-            'name' => "DnD MTL"
+            'name' => 'DnD MTL',
         ]);
 
         $leagueAdminUser = User::factory()
             ->hasAttached(Role::where('name', Role::LEAGUE_ADMIN)->first(), ['league_id' => $dndmtl->id])
             ->create([
                 'email' => 'league_default@test.com',
-                'name' => "League Admin Test account"
+                'name' => 'League Admin Test account',
             ]);
 
         $users = User::factory(10)->create()->prepend($leagueAdminUser)->prepend($defaultUser);
         $dm = User::factory(5)->create();
         $events = Event::factory(5)->create([
-            'league_id' => $dndmtl->id
+            'league_id' => $dndmtl->id,
         ]);
 
         // add all users to our League
@@ -60,8 +60,8 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * @param Collection $users
-     * @param Collection $events
+     * @param  Collection  $users
+     * @param  Collection  $events
      * @return array|Collection|Model
      */
     private function generateCharacters(Collection $users, Collection $events)
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $characters = Character::factory(6)->create([
                 'user_id' => $user->id,
-                'level' => 1
+                'level' => 1,
             ])->merge($characters);
 
             // Everyone has DMed at least 1 "home-game"
@@ -82,17 +82,19 @@ class DatabaseSeeder extends Seeder
                 'event_id' => null,
                 'character_id' => null,
                 'dungeon_master_id' => null,
-                'campaign_id' => null
+                'campaign_id' => null,
             ]);
         }
+
         return $characters;
     }
 
     /**
-     * @param Collection $characters
-     * @param Collection $sessions
-     * @param Collection $dms
+     * @param  Collection  $characters
+     * @param  Collection  $sessions
+     * @param  Collection  $dms
      * @return Collection
+     *
      * @throws \Exception
      */
     private function generateEntries(Collection $characters, Collection $sessions, Collection $dms): Collection
@@ -109,12 +111,12 @@ class DatabaseSeeder extends Seeder
                 'character_id' => $character->id,
                 'user_id' => $character->user->id,
                 'levels' => random_int(0, 1),
-                'type' => Entry::TYPE_GAME
+                'type' => Entry::TYPE_GAME,
             ];
 
             $items = Item::factory(rand(0, 2))->state([
                 'character_id' => $character->id,
-                'author_id' => $character->user_id
+                'author_id' => $character->user_id,
             ]);
             // Session Entries --> Player played this character at an event
             $entries = Entry::factory(2)
@@ -124,14 +126,14 @@ class DatabaseSeeder extends Seeder
                     'dungeon_master_id' => $session->dungeon_master_id,
                     'event_id' => $session->event_id,
                     'campaign_id' => null,
-            ], $defaults))->merge($entries);
+                ], $defaults))->merge($entries);
 
             // Regular Entries --> Home games
             $entries = Entry::factory(8)->create(array_merge([
                 'adventure_id' => $adventures->random()->id,
                 'dungeon_master_id' => $dm->id,
                 'event_id' => null,
-                'campaign_id' => $campaigns->random()
+                'campaign_id' => $campaigns->random(),
             ], $defaults))->merge($entries);
         }
 
@@ -139,7 +141,7 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * @param Collection $entries
+     * @param  Collection  $entries
      */
     private function generateEntryMeta(Collection $entries): void
     {
@@ -149,22 +151,22 @@ class DatabaseSeeder extends Seeder
                 Item::factory(rand(0, 3))->create([
                     'entry_id' => $entry->id,
                     'character_id' => $entry->character_id,
-                    'author_id' => $entry->user_id
+                    'author_id' => $entry->user_id,
                 ]);
             } elseif ($entry->dungeon_master_id) {
                 // If a game has DM the user should rate them
                 Rating::factory()->create([
                     'entry_id' => $entry->id,
                     'user_id' => $entry->dungeon_master_id,
-                    'author_id' => $entry->user_id
+                    'author_id' => $entry->user_id,
                 ]);
             }
         }
     }
 
     /**
-     * @param Collection $events
-     * @param Collection $dm
+     * @param  Collection  $events
+     * @param  Collection  $dm
      * @return array|Collection|Model
      */
     private function generateSessions(Collection $events, Collection $dm)
@@ -180,9 +182,10 @@ class DatabaseSeeder extends Seeder
                 ->sequence(fn ($sequence) => ['dungeon_master_id' => $dm[$sequence->index]])
                 ->create([
                     'event_id' => $event->id,
-                    'seats' => $seats
+                    'seats' => $seats,
                 ])->merge($sessions);
         }
+
         return $sessions;
     }
 

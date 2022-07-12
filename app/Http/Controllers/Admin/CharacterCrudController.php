@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CharacterRequest;
 use App\Http\Controllers\Traits\Accessible;
+use App\Http\Requests\CharacterRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class CharacterCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class CharacterCrudController extends CrudController
@@ -20,6 +20,7 @@ class CharacterCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use Accessible;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,7 +30,7 @@ class CharacterCrudController extends CrudController
     {
         $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Character::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/character');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/character');
         CRUD::setEntityNameStrings('character', 'characters');
     }
 
@@ -37,6 +38,7 @@ class CharacterCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -57,6 +59,7 @@ class CharacterCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -79,8 +82,8 @@ class CharacterCrudController extends CrudController
         CRUD::addField([
             'name' => 'sessions',
             'type' => 'relationship',
-            'attribute' => "display_title",
-            'label' => "Event Inscriptions"
+            'attribute' => 'display_title',
+            'label' => 'Event Inscriptions',
         ]);
     }
 
@@ -88,6 +91,7 @@ class CharacterCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\GenerateEventReport;
+use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
-use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,7 +25,7 @@ class GenerateEventReportTest extends TestCase
     public function a_report_containing_event_data_is_compiled()
     {
         $today = now()->toDateString();
-        $suffix = "event-report";
+        $suffix = 'event-report';
         $event = Event::factory()->create();
         $sessions = Session::factory(4)->create(['event_id' => $event->id]);
         $users = User::factory(10)->create();

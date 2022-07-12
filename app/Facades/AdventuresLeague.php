@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Beyond
- * @package App\Facades
  *
  * @method Character getCharacter($filePath)
  *

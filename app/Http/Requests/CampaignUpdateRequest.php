@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class CampaignUpdateRequest extends FilterableRequest
@@ -29,7 +28,7 @@ class CampaignUpdateRequest extends FilterableRequest
         return [
             'adventure_id' => ['required', 'integer', 'exists:adventures,id'],
             'title' => ['required', 'string'],
-            'character_id' => ['nullable', 'integer', 'exists:characters,id']
+            'character_id' => ['nullable', 'integer', 'exists:characters,id'],
         ];
     }
 }

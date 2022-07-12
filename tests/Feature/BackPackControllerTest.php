@@ -2,18 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
-use App\Models\Item;
 use App\Models\League;
 use App\Models\Rating;
 use App\Models\Role;
 use App\Models\Session;
 use App\Models\Trade;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
@@ -27,15 +26,18 @@ class BackPackControllerTest extends TestCase
     use WithFaker;
 
     public $user;
-    public String $adminEvent = "/admin/event";
-    public String $adminDashboard = "/admin/dashboard";
-    public String $adminSession = "/admin/session";
+
+    public String $adminEvent = '/admin/event';
+
+    public String $adminDashboard = '/admin/dashboard';
+
+    public String $adminSession = '/admin/session';
 
     public function createLeagueAdmin()
     {
         $this->user = User::factory()->create();
         $league = League::factory()->create();
-        $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
+        $siteRole = Role::create(['name' => 'League Admin', 'type' => Role::LEAGUE_ADMIN, 'league_id' => $league->id]);
         $this->user->roles()->attach($siteRole, ['league_id' => $league->id]);
         Auth::login($this->user);
     }
@@ -43,7 +45,7 @@ class BackPackControllerTest extends TestCase
     public function createLeagueAdminWithNoLeagueId()
     {
         $this->user = User::factory()->create();
-        $siteRole = Role::create(['name' => "League Admin", 'type' => Role::LEAGUE_ADMIN]);
+        $siteRole = Role::create(['name' => 'League Admin', 'type' => Role::LEAGUE_ADMIN]);
         $this->user->roles()->attach($siteRole);
         Auth::login($this->user);
     }
@@ -51,7 +53,7 @@ class BackPackControllerTest extends TestCase
     public function createSiteAdmin()
     {
         $this->user = User::factory()->create();
-        $siteRole = Role::create(['name' => "test site admin", 'type' => Role::SITE_ADMIN]);
+        $siteRole = Role::create(['name' => 'test site admin', 'type' => Role::SITE_ADMIN]);
         $this->user->roles()->attach($siteRole);
         Auth::login($this->user);
     }
@@ -94,7 +96,6 @@ class BackPackControllerTest extends TestCase
 
         $response->assertRedirect();
     }
-
 
     /**
      * @test
@@ -228,7 +229,7 @@ class BackPackControllerTest extends TestCase
         $this->assertDatabaseMissing('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeon_master_id'=> $dungeon_master->id,
+            'dungeon_master_id' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);
@@ -306,7 +307,7 @@ class BackPackControllerTest extends TestCase
         $response = $this->post($this->adminSession, [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeonMaster'=> $dungeon_master->id,
+            'dungeonMaster' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);
@@ -315,12 +316,11 @@ class BackPackControllerTest extends TestCase
         $this->assertDatabaseHas('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeon_master_id'=> $dungeon_master->id,
+            'dungeon_master_id' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);
     }
-
 
     /**
      * @test
@@ -347,7 +347,7 @@ class BackPackControllerTest extends TestCase
         $response = $this->post($this->adminSession, [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeonMaster'=> $dungeon_master->id,
+            'dungeonMaster' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);
@@ -356,7 +356,7 @@ class BackPackControllerTest extends TestCase
         $this->assertDatabaseHas('sessions', [
             'event_id' => $event->id,
             'adventure_id' => $adventure->id,
-            'dungeon_master_id'=> $dungeon_master->id,
+            'dungeon_master_id' => $dungeon_master->id,
             'table' => $table,
             'start_time' => $start_time,
         ]);

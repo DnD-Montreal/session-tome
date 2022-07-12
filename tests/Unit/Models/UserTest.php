@@ -3,17 +3,16 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Campaign;
-use App\Models\User;
-use App\Models\Item;
 use App\Models\Character;
-use App\Models\Role;
+use App\Models\Item;
 use App\Models\League;
 use App\Models\Rating;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Webmozart\Assert\Assert;
 
 class UserTest extends TestCase
 {
@@ -26,8 +25,8 @@ class UserTest extends TestCase
         $testUser = User::factory()->create();
 
         $testAdminRole = Role::create([
-            'name' => "test admin",
-            'type' => Role::SITE_ADMIN
+            'name' => 'test admin',
+            'type' => Role::SITE_ADMIN,
         ]);
 
         $testUser->roles()->attach($testAdminRole);
@@ -53,8 +52,8 @@ class UserTest extends TestCase
         $testUser = User::factory()->create();
         $testLeague = League::factory()->create();
         $testRole = Role::create([
-            'name' => "test admin",
-            'type' => Role::LEAGUE_ADMIN
+            'name' => 'test admin',
+            'type' => Role::LEAGUE_ADMIN,
         ]);
 
         $testUser->roles()->attach($testRole, ['league_id' => $testLeague->id]);
@@ -70,10 +69,9 @@ class UserTest extends TestCase
     {
         $testUser = User::factory()->create();
         $testRole = Role::create([
-            'name' => "test admin",
-            'type' => Role::SITE_ADMIN
+            'name' => 'test admin',
+            'type' => Role::SITE_ADMIN,
         ]);
-
 
         $this->AssertFalse($testUser->hasAnyRole());
     }
@@ -85,8 +83,8 @@ class UserTest extends TestCase
     {
         $testUser = User::factory()->create();
         $testRole = Role::create([
-            'name' => "test admin",
-            'type' => Role::SITE_ADMIN
+            'name' => 'test admin',
+            'type' => Role::SITE_ADMIN,
         ]);
 
         $testUser->roles()->attach($testRole, ['league_id' => 0]);
@@ -141,7 +139,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
         $items = Item::factory(3)->create([
-            'author_id' => $user->id
+            'author_id' => $user->id,
         ]);
 
         $this->assertCount(3, $user->authored_items);
@@ -169,9 +167,9 @@ class UserTest extends TestCase
         $role = Role::factory()->create();
         $leagues = League::factory(3)->create();
         $user = User::factory()->create();
-        $user->roles()->attach($role, ['league_id'  => $leagues[0]->id]);
-        $user->roles()->attach($role, ['league_id'  => $leagues[1]->id]);
-        $user->roles()->attach($role, ['league_id'  => $leagues[2]->id]);
+        $user->roles()->attach($role, ['league_id' => $leagues[0]->id]);
+        $user->roles()->attach($role, ['league_id' => $leagues[1]->id]);
+        $user->roles()->attach($role, ['league_id' => $leagues[2]->id]);
 
         $user->fresh();
         $list = json_decode($user->roles_list, true);

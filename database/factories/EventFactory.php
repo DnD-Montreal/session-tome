@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Event;
 use App\Models\League;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory
 {

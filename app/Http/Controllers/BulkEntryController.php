@@ -14,13 +14,13 @@ use Inertia\Inertia;
 class BulkEntryController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
     {
         $charId = $request->validate([
-            'character_id' => "required|exists:characters,id|integer"
+            'character_id' => 'required|exists:characters,id|integer',
         ])['character_id'];
 
         $character = Character::where('user_id', Auth::id())
@@ -34,7 +34,7 @@ class BulkEntryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(BulkEntryStoreRequest $request)
@@ -42,17 +42,16 @@ class BulkEntryController extends Controller
         $data = $request->validated();
         $end = Carbon::parse($data['end_date'])->endOfDay();
         $dates = CarbonPeriod::since($data['start_date'])
-            ->weeks(1/$data['frequency'])
+            ->weeks(1 / $data['frequency'])
             ->until($end)
             ->toArray();
 
         $entriesCount = count($dates);
         $character = Character::findOrFail($data['character_id']);
 
-
         $character->stubEntries(0, $entriesCount, $data['adventure_id']);
         $character->entries()
-            ->where('created_at', ">=", now())
+            ->where('created_at', '>=', now())
             ->get()
             ->each(function ($entry, $key) use ($dates) {
                 $entry->date_played = $dates[$key];
@@ -60,7 +59,7 @@ class BulkEntryController extends Controller
             });
 
         return redirect(route('character.show', [
-            'character' => $character->refresh()
+            'character' => $character->refresh(),
         ]));
     }
 }

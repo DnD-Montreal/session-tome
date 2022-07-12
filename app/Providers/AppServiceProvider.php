@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind("beyond", fn () => new BeyondAdapter(config('beyond')));
-        $this->app->bind("adventuresleague", fn () => new AdventuresLeagueAdapter());
+        $this->app->bind('beyond', fn () => new BeyondAdapter(config('beyond')));
+        $this->app->bind('adventuresleague', fn () => new AdventuresLeagueAdapter());
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Character;
-use http\Message;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
@@ -17,7 +16,6 @@ use Illuminate\Validation\UnauthorizedException;
  * Wraps the DnD Beyond (unofficial) API in a wrapper for ease of access
  *
  * Class BeyondAdapter
- * @package App\Services
  */
 class BeyondAdapter
 {
@@ -58,9 +56,9 @@ class BeyondAdapter
             'user_id' => Auth::id(),
             'name' => $data['name'],
             'race' => $data['race']['fullName'],
-            'class' => collect($data['classes'])->pluck('definition.name')->implode(" / "),
+            'class' => collect($data['classes'])->pluck('definition.name')->implode(' / '),
             'level' => collect($data['classes'])->pluck('level')->sum(),
-            'character_sheet' => "https://www.dndbeyond.com/characters/" . $id,
+            'character_sheet' => 'https://www.dndbeyond.com/characters/'.$id,
             'faction' => Str::of($data['notes']['organizations'])->contains(Character::FACTIONS) ? $data['notes']['organizations'] : null,
         ];
 
@@ -76,7 +74,7 @@ class BeyondAdapter
      */
     private static function extractId($url): string
     {
-        return Str::of($url)->explode("/")->last();
+        return Str::of($url)->explode('/')->last();
     }
 
     /**
@@ -92,11 +90,11 @@ class BeyondAdapter
             return Cache::get("character.{$id}");
         }
 
-        $response = $this->client->get($this->config['base_url'] . $id);
+        $response = $this->client->get($this->config['base_url'].$id);
 
         // Test character is public
         if ($response->clientError()) {
-            throw new UnauthorizedException("This character is inaccessible.", $response->status());
+            throw new UnauthorizedException('This character is inaccessible.', $response->status());
         }
 
         // Cache the Json response data

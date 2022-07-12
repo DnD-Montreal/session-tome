@@ -2,13 +2,11 @@
 
 namespace App\Actions;
 
-use App\Models\Entry;
-use App\Models\Trade;
-use App\Models\Item;
-use App\Models\Character;
-use App\Models\User;
 use App\Exceptions\TradeClosedException;
 use App\Exceptions\TradeNotAllowedException;
+use App\Models\Entry;
+use App\Models\Item;
+use App\Models\Trade;
 use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -19,8 +17,8 @@ class FulfillTrade
     /**
      * Expects a trade and corresponding offer item, swaps them between their characters, creates entries, and closes the trade.
      *
-     * @param Trade $trade
-     * @param Item $offeredItem
+     * @param  Trade  $trade
+     * @param  Item  $offeredItem
      */
     public function handle(Trade $trade, Item $offeredItem)
     {
@@ -31,7 +29,7 @@ class FulfillTrade
         $currentUser = Auth::user();
         $offerUser = $offerCharacter->user;
 
-        if (!$currentUser->characters->contains($tradeCharacter)) {
+        if (! $currentUser->characters->contains($tradeCharacter)) {
             throw new TradeNotAllowedException();
         }
 
@@ -50,17 +48,17 @@ class FulfillTrade
             'type' => Entry::TYPE_DOWNTIME,
             'levels' => 0,
             'downtime' => -5,
-            'notes' => "Trade between ".$tradeCharacter->name." and ".$offerCharacter->name
+            'notes' => 'Trade between '.$tradeCharacter->name.' and '.$offerCharacter->name,
         ];
 
         $tradeCharacterEntry = Entry::create(array_merge($entryData, [
             'user_id' => $currentUser->id,
-            'character_id' => $tradeCharacter->id]));
+            'character_id' => $tradeCharacter->id, ]));
         $offeredItem->entry()->associate($tradeCharacterEntry)->save();
 
         $offerCharacterEntry = Entry::create(array_merge($entryData, [
             'user_id' => $offerUser->id,
-            'character_id' => $offerCharacter->id]));
+            'character_id' => $offerCharacter->id, ]));
         $tradeItem->entry()->associate($offerCharacterEntry)->save();
 
         $trade->offers()->sync([]);

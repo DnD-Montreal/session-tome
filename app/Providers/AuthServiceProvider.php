@@ -3,17 +3,16 @@
 namespace App\Providers;
 
 use App\Models\Character;
+use App\Models\Entry;
+use App\Models\Item;
 use App\Models\Trade;
 use App\Models\User;
-use App\Models\Item;
-use App\Models\Entry;
 use App\Policies\CharacterPolicy;
 use App\Policies\EntryPolicy;
+use App\Policies\ItemPolicy;
 use App\Policies\TradePolicy;
 use App\Policies\UserPolicy;
-use App\Policies\ItemPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {

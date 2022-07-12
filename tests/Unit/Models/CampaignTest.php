@@ -17,7 +17,6 @@ class CampaignTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-
     /**
      * @test
      */
@@ -33,14 +32,14 @@ class CampaignTest extends TestCase
      */
     public function can_belong_to_characters()
     {
-        ## Assign
+        //# Assign
         $character = Character::factory(3)->create();
         $campaign = Campaign::factory(1)->create()[0];
 
-        # Act
+        // Act
         $campaign->characters()->attach($character);
 
-        # Assert
+        // Assert
         $this->assertCount(3, $campaign->characters);
     }
 

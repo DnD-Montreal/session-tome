@@ -233,7 +233,7 @@ return [
          * Application Facades
          */
         'Beyond' => App\Facades\Beyond::class,
-        'AdventuresLeague' => App\Facades\AdventuresLeague::class
+        'AdventuresLeague' => App\Facades\AdventuresLeague::class,
 
     ],
 

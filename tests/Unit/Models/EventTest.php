@@ -32,7 +32,7 @@ class EventTest extends TestCase
 
     /**
      * @test
-    */
+     */
     public function can_have_sessions()
     {
         Session::factory(1)->create();
@@ -40,7 +40,6 @@ class EventTest extends TestCase
 
         $this->assertCount(1, $event->sessions()->get());
     }
-
 
     /**
      * @test
@@ -70,7 +69,6 @@ class EventTest extends TestCase
         $this->assertEquals($filtered[0], $filteredViaLogin[0]);
     }
 
-
     /**
      * @test
      */
@@ -79,7 +77,7 @@ class EventTest extends TestCase
         $startDate = now();
         $sessions = Session::factory(3)->has(Character::factory(3))->state([
             'seats' => 10,
-            'start_time' => $startDate
+            'start_time' => $startDate,
         ]);
         $event = Event::factory()->has($sessions)->create();
 
@@ -123,10 +121,10 @@ class EventTest extends TestCase
         $today = now()->startOfSecond();
         $tomorrow = $today->addDay();
         $firstSession = Session::factory()->state([
-           'start_time' => $today
+            'start_time' => $today,
         ]);
         $secondSession = Session::factory()->state([
-           'start_time' => $tomorrow
+            'start_time' => $tomorrow,
         ]);
 
         $event = Event::factory()
@@ -149,6 +147,7 @@ class EventTest extends TestCase
     {
         $characterFactory = Character::factory()->has(User::factory());
         $sessionFactory = Session::factory()->has($characterFactory);
+
         return Event::factory()->has($sessionFactory)->create();
     }
 }

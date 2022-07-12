@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class CharacterController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -24,12 +24,12 @@ class CharacterController extends Controller
             ->orderBy('updated_at', 'desc');
         $factions = array_values(Character::FACTIONS);
         $sortParams = $request->validate([
-            'sort_by' => "sometimes|in:name,race,class,level,faction,downtime,updated_at",
-            'sort_dir' => "sometimes|in:asc,desc"
+            'sort_by' => 'sometimes|in:name,race,class,level,faction,downtime,updated_at',
+            'sort_dir' => 'sometimes|in:asc,desc',
         ]);
 
         if (isset($sortParams['sort_by'])) {
-            $direction =  isset($sortParams['sort_dir']) ? $sortParams['sort_dir'] : "asc";
+            $direction = isset($sortParams['sort_dir']) ? $sortParams['sort_dir'] : 'asc';
             $characters = $characters->orderBy($sortParams['sort_by'], $direction);
         }
 
@@ -39,17 +39,18 @@ class CharacterController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
     {
         $factions = array_values(Character::FACTIONS);
+
         return Inertia::render('Character/Create/CharacterCreate', compact('factions'));
     }
 
     /**
-     * @param \App\Http\Requests\CharacterStoreRequest $request
+     * @param  \App\Http\Requests\CharacterStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CharacterStoreRequest $request)
@@ -62,8 +63,8 @@ class CharacterController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Character $character
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Character  $character
      * @return \Inertia\Response
      */
     public function show(Request $request, Character $character)
@@ -71,7 +72,7 @@ class CharacterController extends Controller
         if ($request->user()->cannot('view', $character)) {
             abort(403);
         }
-        $search = $request->get('search', "");
+        $search = $request->get('search', '');
 
         $entries = $character->entries()
             ->with('adventure', 'items', 'rating', 'campaign')
@@ -94,8 +95,8 @@ class CharacterController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\CharacterUpdateRequest $request
-     * @param \App\Models\Character $character
+     * @param  \App\Http\Requests\CharacterUpdateRequest  $request
+     * @param  \App\Models\Character  $character
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CharacterUpdateRequest $request, Character $character)
@@ -104,13 +105,12 @@ class CharacterController extends Controller
 
         $request->session()->flash('character.id', $character->id);
 
-
         return redirect()->back();
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Character $character
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Character  $character
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Character $character = null)
@@ -125,6 +125,7 @@ class CharacterController extends Controller
                     $char->delete();
                 }
             }
+
             return redirect()->route('character.index');
         }
 

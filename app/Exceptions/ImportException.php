@@ -6,7 +6,7 @@ use Exception;
 
 class ImportException extends Exception
 {
-    public function __construct($message = "Character could not be imported.", $code = 400)
+    public function __construct($message = 'Character could not be imported.', $code = 400)
     {
         parent::__construct($message, $code);
     }

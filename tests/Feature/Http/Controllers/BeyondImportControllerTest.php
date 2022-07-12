@@ -40,7 +40,7 @@ class BeyondImportControllerTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->post('/beyond-import', ['beyond_link' => "https://www.dndbeyond.com/characters/5441197"]);
+            ->post('/beyond-import', ['beyond_link' => 'https://www.dndbeyond.com/characters/5441197']);
 
         $response->assertRedirect();
         $content = Character::first();

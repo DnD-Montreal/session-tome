@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Character;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\UnauthorizedException;
 use Inertia\Inertia;
 
 class ItemController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -36,19 +34,20 @@ class ItemController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Item $item
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Item  $item
      * @return \Inertia\Response
      */
     public function show(Request $request, Item $item)
     {
         $character = $item->character;
+
         return Inertia::render('Item/Detail/ItemDetail', compact('item', 'character'));
     }
 
     /**
-     * @param \App\Http\Requests\ItemUpdateRequest $request
-     * @param \App\Models\Item $item
+     * @param  \App\Http\Requests\ItemUpdateRequest  $request
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
     public function update(ItemUpdateRequest $request, Item $item)
@@ -61,8 +60,8 @@ class ItemController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Item $item
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Item $item)

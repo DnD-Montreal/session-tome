@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TradeRequest;
 use App\Http\Controllers\Traits\Accessible;
+use App\Http\Requests\TradeRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class TradeCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class TradeCrudController extends CrudController
@@ -20,6 +20,7 @@ class TradeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use Accessible;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,7 +30,7 @@ class TradeCrudController extends CrudController
     {
         $this->checkIfNotSiteAdmin();
         CRUD::setModel(\App\Models\Trade::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/trade');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/trade');
         CRUD::setEntityNameStrings('trade', 'trades');
     }
 
@@ -37,6 +38,7 @@ class TradeCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -52,6 +54,7 @@ class TradeCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -64,8 +67,8 @@ class TradeCrudController extends CrudController
         CRUD::field('description');
         CRUD::field('status');
         CRUD::addField([
-            'name' => "items",
-            'label' => "Trade Offers"
+            'name' => 'items',
+            'label' => 'Trade Offers',
         ]);
     }
 
@@ -73,6 +76,7 @@ class TradeCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

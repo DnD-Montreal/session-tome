@@ -40,17 +40,24 @@ class Rating extends Model
     protected $appends = ['labels'];
 
     public const CREATIVE_BITMASK = 1 << 0;    // 00001
+
     public const FLEXIBLE_BITMASK = 1 << 1;    // 00010
+
     public const FRIENDLY_BITMASK = 1 << 2;    // 00100
+
     public const HELPFUL_BITMASK = 1 << 3;     // 01000
+
     public const PREPARED_BITMASK = 1 << 4;    // 10000
 
-    public const CREATIVE_LABEL = "CREATIVE";
-    public const FLEXIBLE_LABEL = "FLEXIBLE";
-    public const FRIENDLY_LABEL = "FRIENDLY";
-    public const HELPFUL_LABEL = "HELPFUL";
-    public const PREPARED_LABEL = "PREPARED";
+    public const CREATIVE_LABEL = 'CREATIVE';
 
+    public const FLEXIBLE_LABEL = 'FLEXIBLE';
+
+    public const FRIENDLY_LABEL = 'FRIENDLY';
+
+    public const HELPFUL_LABEL = 'HELPFUL';
+
+    public const PREPARED_LABEL = 'PREPARED';
 
     public function entry()
     {
@@ -69,6 +76,7 @@ class Rating extends Model
 
     /**
      * Determines if the rating instance has a category given by the passed parameter
+     *
      * @param $bitMask
      * bitmask param should always be one of the bitmask constants defined on this model
      * @return bool
@@ -80,6 +88,7 @@ class Rating extends Model
 
     /**
      * Adds a category given by the bitmask parameter, which should be one of the bitmask constants defined on this model
+     *
      * @param $bitMask
      */
     public function addCategory($bitMask)
@@ -89,6 +98,7 @@ class Rating extends Model
 
     /**
      * Removes a category given by the bitmask parameter, which should be one of the bitmask constants defined on this model
+     *
      * @param $bitMask
      */
     public function removeCategory($bitMask)
@@ -98,6 +108,7 @@ class Rating extends Model
 
     /**
      * Returns category labels. Not recommended for large batches of requests, instead use hasCategory with bitmask
+     *
      * @returns Collection of strings corresponding to the rating categories of this entity
      */
     public function getLabelsAttribute()

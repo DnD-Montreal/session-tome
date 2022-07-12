@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\FulfillTrade;
 use App\Exceptions\TradeClosedException;
 use App\Exceptions\TradeNotAllowedException;
 use App\Http\Requests\TradeFulfillRequest;
-use App\Actions\FulfillTrade;
 use App\Models\Item;
 use App\Models\Trade;
 use Illuminate\Http\RedirectResponse;
@@ -13,8 +13,8 @@ use Illuminate\Http\RedirectResponse;
 class TradeFulfillmentController extends Controller
 {
     /**
-     * @param TradeFulfillRequest $request
-     * @param Trade $trade
+     * @param  TradeFulfillRequest  $request
+     * @param  Trade  $trade
      * @return RedirectResponse
      */
     public function store(TradeFulfillRequest $request, Trade $trade)

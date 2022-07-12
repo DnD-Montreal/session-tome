@@ -19,9 +19,8 @@ class CharacterPolicy
      */
     public function view(User $user, Character $character)
     {
-        return $character->status == "public" || $character->user_id == $user->id || $user->isSiteAdmin();
+        return $character->status == 'public' || $character->user_id == $user->id || $user->isSiteAdmin();
     }
-
 
     /**
      * Determine whether the user can update the model.

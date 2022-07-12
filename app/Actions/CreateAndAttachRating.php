@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Models\Entry;
 use App\Models\Rating;
-use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CreateAndAttachRating
@@ -14,8 +13,8 @@ class CreateAndAttachRating
     /**
      * Expect an array of rating_data, create Rating and modify categories as required
      *
-     * @param Entry $entry
-     * @param array $ratingData
+     * @param  Entry  $entry
+     * @param  array  $ratingData
      */
     public function handle(Entry $entry, array $ratingData)
     {
@@ -31,7 +30,7 @@ class CreateAndAttachRating
         ]);
 
         $ratingMap = collect([
-            Rating::CREATIVE_LABEL  => Rating::CREATIVE_BITMASK ,
+            Rating::CREATIVE_LABEL => Rating::CREATIVE_BITMASK,
             Rating::FLEXIBLE_LABEL => Rating::FLEXIBLE_BITMASK,
             Rating::FRIENDLY_LABEL => Rating::FRIENDLY_BITMASK,
             Rating::HELPFUL_LABEL => Rating::HELPFUL_BITMASK,

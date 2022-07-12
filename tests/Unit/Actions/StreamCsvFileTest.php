@@ -25,12 +25,12 @@ class StreamCsvFileTest extends TestCase
             return $this->faker->words(5);
         });
         $dataString = $data->prepend($columns)->map(function ($row) {
-            return implode(",", $row);
+            return implode(',', $row);
         })->implode("\n");
         // remove the added columns...
         $data->shift();
         $today = now()->toDateString();
-        $suffix = "test";
+        $suffix = 'test';
 
         $responseStream = TestResponse::fromBaseResponse(StreamCsvFile::run($columns, $data, $suffix));
 

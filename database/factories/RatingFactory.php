@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Entry;
 use App\Models\Rating;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RatingFactory extends Factory
 {
@@ -28,7 +27,7 @@ class RatingFactory extends Factory
             'entry_id' => Entry::factory(),
             'user_id' => User::factory(),
             'author_id' => User::factory(),
-            'categories' => $this->faker->numberBetween(1, 31) //31 hardcoded because 5 categories all active would be 31 in binary (11111)
+            'categories' => $this->faker->numberBetween(1, 31), //31 hardcoded because 5 categories all active would be 31 in binary (11111)
         ];
     }
 }

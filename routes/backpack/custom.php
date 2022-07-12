@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Route;
 // Routes you generate using Backpack\Generators will be placed here.
 
 Route::group([
-    'prefix'     => config('backpack.base.route_prefix', 'admin'),
+    'prefix' => config('backpack.base.route_prefix', 'admin'),
     'middleware' => array_merge(
         (array) config('backpack.base.web_middleware', 'web'),
         (array) config('backpack.base.middleware_key', 'admin')
     ),
-    'namespace'  => 'App\Http\Controllers\Admin',
+    'namespace' => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::crud('adventure', 'AdventureCrudController');
     Route::crud('campaign', 'CampaignCrudController');

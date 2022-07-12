@@ -5,8 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -29,6 +27,7 @@ class EntryStoreRequest extends FilterableRequest
             return $this->type == Entry::TYPE_DM && $this->user_id == Auth::id();
         }
         $character = Character::findOrFail($this->character_id);
+
         return $this->user()->can('update', $character);
     }
 
@@ -39,9 +38,9 @@ class EntryStoreRequest extends FilterableRequest
      */
     public function rules()
     {
-        $rarities = implode(",", Item::RARITY);
-        $requiredIf = Rule::requiredIf(!empty($this->get('items')) || ($this->get('choice') == "magic_item"));
-        $requiredChoice = Rule::requiredIf($this->get('choice') == "magic_item" && empty($this->get('items')));
+        $rarities = implode(',', Item::RARITY);
+        $requiredIf = Rule::requiredIf(! empty($this->get('items')) || ($this->get('choice') == 'magic_item'));
+        $requiredChoice = Rule::requiredIf($this->get('choice') == 'magic_item' && empty($this->get('items')));
 
         return [
             'user_id' => ['sometimes', 'integer', 'exists:users,id'],
@@ -62,7 +61,7 @@ class EntryStoreRequest extends FilterableRequest
             'items' => ['sometimes', 'array', $requiredChoice],
             'items.*.name' => ['string', $requiredIf],
             'items.*.rarity' => ["in:{$rarities}", $requiredIf],
-            'items.*.tier' =>  ['integer', 'between:1,4',$requiredIf],
+            'items.*.tier' => ['integer', 'between:1,4', $requiredIf],
             'choice' => ['sometimes', 'nullable', 'string'],
             'rating_data' => ['nullable', 'array'],
         ];

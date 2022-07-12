@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use App\Models\Character;
 
 class CharacterFactory extends Factory
 {
@@ -24,30 +23,30 @@ class CharacterFactory extends Factory
     public function definition()
     {
         $races = [
-            "Dwarf",
-            "Elf",
-            "Halfling",
-            "Human",
-            "Dragonborn",
-            "Gnome",
-            "Half-Elf",
-            "Half-Orc",
-            "Tiefling",
+            'Dwarf',
+            'Elf',
+            'Halfling',
+            'Human',
+            'Dragonborn',
+            'Gnome',
+            'Half-Elf',
+            'Half-Orc',
+            'Tiefling',
         ];
 
         $classes = [
-            "Barbarian",
-            "Bard",
-            "Cleric",
-            "Druid",
-            "Fighter",
-            "Monk",
-            "Paladin",
-            "Ranger",
-            "Rogue",
-            "Sorcerer",
-            "Warlock",
-            "Wizard",
+            'Barbarian',
+            'Bard',
+            'Cleric',
+            'Druid',
+            'Fighter',
+            'Monk',
+            'Paladin',
+            'Ranger',
+            'Rogue',
+            'Sorcerer',
+            'Warlock',
+            'Wizard',
         ];
 
         return [

@@ -81,7 +81,6 @@ class TradeControllerTest extends TestCase
         );
     }
 
-
     /**
      * @test
      */
@@ -92,7 +91,6 @@ class TradeControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('trade.create');
     }
-
 
     /**
      * @test
@@ -139,7 +137,6 @@ class TradeControllerTest extends TestCase
         $response->assertSessionHas('trade.id', $trade->id);
     }
 
-
     /**
      * @test
      */
@@ -148,11 +145,11 @@ class TradeControllerTest extends TestCase
         $tradeRouteString = 'trade.show';
 
         $someUser = User::factory()->create();
-        $character = Character::factory()->create(["user_id" => $someUser->id]);
-        $item = Item::factory()->create(["character_id" => $character->id]);
+        $character = Character::factory()->create(['user_id' => $someUser->id]);
+        $item = Item::factory()->create(['character_id' => $character->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $character->id,
-            "item_id" => $item->id]);
+            'character_id' => $character->id,
+            'item_id' => $item->id, ]);
 
         $response = $this->get(route($tradeRouteString, $trade));
 
@@ -174,7 +171,6 @@ class TradeControllerTest extends TestCase
         $response->assertViewHas('tradeOffers');
     }
 
-
     /**
      * @test
      */
@@ -188,7 +184,6 @@ class TradeControllerTest extends TestCase
         $response->assertViewIs('trade.edit');
         $response->assertViewHas('trade');
     }
-
 
     /**
      * @test
@@ -233,7 +228,6 @@ class TradeControllerTest extends TestCase
         $this->assertEquals($description, $trade->description);
         $this->assertEquals($status, $trade->status);
     }
-
 
     /**
      * @test

@@ -49,15 +49,14 @@ class TradeFulfillmentControllerTest extends TestCase
     {
         $offerUser = User::factory()->create();
 
-
         $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
         $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
 
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id,
-            "status" => Trade::STATUS_OPEN,
+            'character_id' => $tradeCharacter->id,
+            'item_id' => $tradeItem->id,
+            'status' => Trade::STATUS_OPEN,
         ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
@@ -79,15 +78,14 @@ class TradeFulfillmentControllerTest extends TestCase
     {
         $offerUser = User::factory()->create();
 
-
         $tradeCharacter = Character::factory()->create(['user_id' => $this->user->id]);
         $offerCharacter = Character::factory()->create(['user_id' => $offerUser->id]);
 
         $tradeItem = Item::factory()->create(['character_id' => $tradeCharacter->id]);
         $trade = Trade::factory()->create([
-            "character_id" => $tradeCharacter->id,
-            "item_id" => $tradeItem->id,
-            "status" => Trade::STATUS_CLOSED,
+            'character_id' => $tradeCharacter->id,
+            'item_id' => $tradeItem->id,
+            'status' => Trade::STATUS_CLOSED,
         ]);
 
         $offerItem = Item::factory()->create(['character_id' => $offerCharacter->id]);
@@ -100,7 +98,7 @@ class TradeFulfillmentControllerTest extends TestCase
         ]);
 
         $this->assertNotNull($response->exception);
-        $this->assertEquals("The trade you are attempting to fulfill is closed.", $response->exception->getMessage());
+        $this->assertEquals('The trade you are attempting to fulfill is closed.', $response->exception->getMessage());
         $this->assertEquals(400, $response->exception->getCode());
         $response->assertRedirect();
     }

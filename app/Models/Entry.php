@@ -55,12 +55,16 @@ class Entry extends Model
     protected $appends = ['session', 'reward', 'dungeon_master'];
 
     public const TYPE_GAME = 'game';
+
     public const TYPE_DM = 'dm';
+
     public const TYPE_DOWNTIME = 'downtime';
 
-    public const REWARD_ADVANCEMENT = "advancement";
-    public const REWARD_MAGIC_ITEM = "magic_item";
-    public const REWARD_CAMPAIGN = "campaign_reward";
+    public const REWARD_ADVANCEMENT = 'advancement';
+
+    public const REWARD_MAGIC_ITEM = 'magic_item';
+
+    public const REWARD_CAMPAIGN = 'campaign_reward';
 
     public function items()
     {
@@ -111,7 +115,7 @@ class Entry extends Model
         // refactor to scope query?
         return self::where('character_id', $this->character_id)
             ->where('adventure_id', $this->adventure_id)
-            ->where('date_played', "<", $this->date_played)
+            ->where('date_played', '<', $this->date_played)
             ->where('dungeon_master_id', $this->dungeon_master_id)
             ->count() + 1;
     }

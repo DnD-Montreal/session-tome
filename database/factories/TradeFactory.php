@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Character;
 use App\Models\Item;
 use App\Models\Trade;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TradeFactory extends Factory
 {
@@ -29,7 +28,7 @@ class TradeFactory extends Factory
             'character_id' => Character::factory(),
             'requested_items' => $this->faker->word(),
             'description' => $this->faker->text(),
-            'status' => $this->faker->randomElement(["open","closed"]),
+            'status' => $this->faker->randomElement(['open', 'closed']),
         ];
     }
 

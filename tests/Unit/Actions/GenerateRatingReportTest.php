@@ -3,7 +3,6 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\GenerateRatingReport;
-use App\Actions\StreamCsvFile;
 use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,7 +23,7 @@ class GenerateRatingReportTest extends TestCase
     public function a_report_containing_rating_statistics_is_compiled()
     {
         $today = now()->toDateString();
-        $suffix = "rating-report";
+        $suffix = 'rating-report';
         $users = User::factory(10)->create();
         $users->each(function ($user) {
             Rating::factory(10)->create(['user_id' => $user->id]);

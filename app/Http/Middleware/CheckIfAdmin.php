@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\UnauthorizedException;
 
 class CheckIfAdmin
 {
@@ -29,7 +27,7 @@ class CheckIfAdmin
      */
     private function checkIfUserIsAdmin($user): bool
     {
-        return $user->isSiteAdmin()||$user->isLeagueAdminWithLeagueId();
+        return $user->isSiteAdmin() || $user->isLeagueAdminWithLeagueId();
     }
 
     /**

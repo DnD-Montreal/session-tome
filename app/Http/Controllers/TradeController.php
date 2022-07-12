@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TradeStoreRequest;
 use App\Http\Requests\TradeUpdateRequest;
 use App\Models\Trade;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TradeController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -47,7 +47,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -56,7 +56,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\TradeStoreRequest $request
+     * @param  \App\Http\Requests\TradeStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TradeStoreRequest $request)
@@ -69,8 +69,8 @@ class TradeController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Trade $trade
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Trade  $trade
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Trade $trade)
@@ -81,14 +81,16 @@ class TradeController extends Controller
 
         if ($currentUserID == $tradeCharacter->user->id) {
             $tradeOffers = $trade->offers()->with('character');
+
             return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter', 'tradeOffers'));
         }
+
         return view('trade.show', compact('trade', 'tradeItem', 'tradeCharacter'));
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Trade $trade
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Trade  $trade
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, Trade $trade)
@@ -97,8 +99,8 @@ class TradeController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\TradeUpdateRequest $request
-     * @param \App\Models\Trade $trade
+     * @param  \App\Http\Requests\TradeUpdateRequest  $request
+     * @param  \App\Models\Trade  $trade
      * @return \Illuminate\Http\Response
      */
     public function update(TradeUpdateRequest $request, Trade $trade)
@@ -111,8 +113,8 @@ class TradeController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Trade $trade
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Trade  $trade
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Trade $trade)

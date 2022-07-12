@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Observers;
 
-use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\User;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
@@ -107,10 +105,9 @@ class EntryObserverTest extends TestCase
             ->get()
             ->count();
 
-
         // Create a GM entry and test that character entries are created
         Entry::create([
-            'user_id'=> $userGM->id,
+            'user_id' => $userGM->id,
             'campaign_id' => $campaign->id,
             'type' => Entry::TYPE_DM,
         ]);

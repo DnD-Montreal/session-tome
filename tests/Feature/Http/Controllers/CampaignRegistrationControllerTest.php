@@ -35,7 +35,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign = Campaign::factory(1)->create()->first();
 
         $inputData = [
-            'code' => $campaign->code
+            'code' => $campaign->code,
         ];
         $response = $this->get(route('campaign-registration.create', $inputData));
 
@@ -52,7 +52,7 @@ class CampaignRegistrationControllerTest extends TestCase
     public function create_redirects_with_incorrect_code()
     {
         $inputData = [
-            'code' => 'invalid code'
+            'code' => 'invalid code',
         ];
 
         $response = $this->get(route('campaign-registration.create', $inputData));
@@ -67,13 +67,13 @@ class CampaignRegistrationControllerTest extends TestCase
     public function store_registers_a_character_and_user_for_a_campaign()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $campaign = Campaign::factory(1)->create()->first();
 
         $inputData = [
             'character_id' => $character->id,
-            'code' => $campaign->code
+            'code' => $campaign->code,
         ];
         $response = $this->post(route('campaign-registration.store', $inputData));
 
@@ -81,7 +81,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $this->assertDatabaseCount('campaign_user', 1);
         $this->assertDatabaseCount('campaign_character', 1);
         $this->assertDatabaseHas('campaign_user', ['user_id' => $this->user->id, 'campaign_id' => $campaign->id, 'is_dm' => false, 'is_owner' => false]);
-        $this->assertDatabaseHas('campaign_character', ['character_id' =>$inputData['character_id'], 'campaign_id' =>$campaign->id]);
+        $this->assertDatabaseHas('campaign_character', ['character_id' => $inputData['character_id'], 'campaign_id' => $campaign->id]);
     }
 
     /**
@@ -92,7 +92,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign = Campaign::factory(1)->create()->first();
 
         $inputData = [
-            'code' => $campaign->code
+            'code' => $campaign->code,
         ];
 
         $response = $this->post(route('campaign-registration.store', $inputData));
@@ -109,12 +109,12 @@ class CampaignRegistrationControllerTest extends TestCase
     public function store_registers_with_invalid_campaign_code()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $inputData = [
             'character_id' => $character->id,
-            'code' => 'invalid code'
+            'code' => 'invalid code',
         ];
         $response = $this->post(route('campaign-registration.store', $inputData));
 
@@ -131,11 +131,11 @@ class CampaignRegistrationControllerTest extends TestCase
         $user2 = User::factory()->create();
 
         $character = Character::factory()->create([
-            'user_id' => $user1->id
+            'user_id' => $user1->id,
         ]);
 
         $character2 = Character::factory()->create([
-            'user_id' => $user2->id
+            'user_id' => $user2->id,
         ]);
 
         $campaign = Campaign::factory()->create();
@@ -147,9 +147,8 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign->characters()->attach($character);
         $campaign->characters()->attach($character2);
 
-
         $response = $this->delete(route('campaign-registration.destroy', $campaign), [
-                'user_id' => [$character->user_id, $character2->user_id]
+            'user_id' => [$character->user_id, $character2->user_id],
         ]);
 
         $response->assertRedirect();
@@ -168,11 +167,11 @@ class CampaignRegistrationControllerTest extends TestCase
         $user2 = User::factory()->create();
 
         $character = Character::factory()->create([
-            'user_id' => $user1->id
+            'user_id' => $user1->id,
         ]);
 
         $character2 = Character::factory()->create([
-            'user_id' => $user2->id
+            'user_id' => $user2->id,
         ]);
 
         $campaign = Campaign::factory()->create();
@@ -185,7 +184,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $campaign->characters()->attach($character2);
 
         $response = $this->delete(route('campaign-registration.destroy', $campaign), [
-            'user_id' => [$character->user_id, $character2->user_id]
+            'user_id' => [$character->user_id, $character2->user_id],
         ]);
 
         $response->assertRedirect();

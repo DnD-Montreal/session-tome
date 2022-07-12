@@ -36,7 +36,7 @@ class CharacterControllerTest extends TestCase
     {
         $characters = Character::factory()->count(3)->create();
 
-        $response = $this->actingAs(User::first())->get(route('character.index', ['sort_by' => "name"]));
+        $response = $this->actingAs(User::first())->get(route('character.index', ['sort_by' => 'name']));
 
         $response->assertOk();
         $response->assertInertia(
@@ -45,7 +45,6 @@ class CharacterControllerTest extends TestCase
             ->has('characters')
         );
     }
-
 
     /**
      * @test
@@ -60,7 +59,6 @@ class CharacterControllerTest extends TestCase
             ->component('Character/Create/CharacterCreate')
         );
     }
-
 
     /**
      * @test
@@ -86,7 +84,7 @@ class CharacterControllerTest extends TestCase
         $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
         $downtime = $this->faker->numberBetween(0, 1000);
-        $status = $this->faker->randomElement(["private", "public"]);
+        $status = $this->faker->randomElement(['private', 'public']);
 
         $response = $this->actingAs(User::first())->post(route('character.store'), [
             'name' => $name,
@@ -114,14 +112,13 @@ class CharacterControllerTest extends TestCase
         $response->assertSessionHas('character.id', $character->id);
     }
 
-
     /**
      * @test
      */
     public function show_displays_view()
     {
         $character = Character::factory()->create([
-            'status' => "private"
+            'status' => 'private',
         ]);
         $user = $character->user;
         $nonOwner = User::factory()->create();
@@ -163,20 +160,20 @@ class CharacterControllerTest extends TestCase
         $level = $this->faker->numberBetween(1, 20);
         $faction = $this->faker->word;
         $downtime = $this->faker->numberBetween(0, 1000);
-        $status = $this->faker->randomElement(["private", "public"]);
+        $status = $this->faker->randomElement(['private', 'public']);
         $user = $character->user;
 
         $response = $this->actingAs($user)
             ->from(route('character.index'))
             ->put(route('character.update', $character), [
-            'name' => $name,
-            'race' => $race,
-            'class' => $class,
-            'level' => $level,
-            'faction' => $faction,
-            'downtime' => $downtime,
-            'status' => $status,
-        ]);
+                'name' => $name,
+                'race' => $race,
+                'class' => $class,
+                'level' => $level,
+                'faction' => $faction,
+                'downtime' => $downtime,
+                'status' => $status,
+            ]);
 
         $character->refresh();
 
@@ -191,7 +188,6 @@ class CharacterControllerTest extends TestCase
         $this->assertEquals($downtime, $character->downtime);
         $this->assertEquals($status, $character->status);
     }
-
 
     /**
      * @test
@@ -214,7 +210,7 @@ class CharacterControllerTest extends TestCase
     public function destroy_deletes_in_bulk_and_redirects()
     {
         $characters = Character::factory(3)->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $response = $this->delete(route('character.destroy', ['characters' => $characters->pluck('id')->toArray()]));

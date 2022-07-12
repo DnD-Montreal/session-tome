@@ -93,7 +93,7 @@ class CharacterTest extends TestCase
             'character_id' => $character->id,
         ]);
 
-        $this->assertEquals(3*1000, $character->gp);
+        $this->assertEquals(3 * 1000, $character->gp);
     }
 
     /**
@@ -101,7 +101,7 @@ class CharacterTest extends TestCase
      */
     public function can_access_tier()
     {
-        $character = Character::factory()->create(['level'=>1]);
+        $character = Character::factory()->create(['level' => 1]);
 
         $this->assertIsInt($character->tier);
         $this->assertEquals(1, $character->tier);

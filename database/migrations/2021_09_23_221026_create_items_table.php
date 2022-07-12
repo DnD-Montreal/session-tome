@@ -21,7 +21,7 @@ class CreateItemsTable extends Migration
             $table->foreignId('character_id')->constrained();
             $table->string('name', 500);
             $table->foreignId('author_id')->constrained('users', 'id');
-            $table->enum('rarity', ["common","uncommon","rare","very_rare","legendary"]);
+            $table->enum('rarity', ['common', 'uncommon', 'rare', 'very_rare', 'legendary']);
             $table->string('tier');
             $table->text('description');
             $table->string('counted');

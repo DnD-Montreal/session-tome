@@ -15,6 +15,7 @@ class RegistrationStoreRequest extends FormRequest
     public function authorize()
     {
         $character = Character::findOrFail($this->get('character_id'));
+
         return $this->user()->can('update', $character);
     }
 
@@ -26,9 +27,9 @@ class RegistrationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'session_id' => "sometimes|exists:sessions,id",
-            'character_id' => "required|exists:characters,id",
-            'event_id' => "required_without:session_id|exists:events,id",
+            'session_id' => 'sometimes|exists:sessions,id',
+            'character_id' => 'required|exists:characters,id',
+            'event_id' => 'required_without:session_id|exists:events,id',
         ];
     }
 }

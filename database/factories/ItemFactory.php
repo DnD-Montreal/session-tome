@@ -2,12 +2,11 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ItemFactory extends Factory
 {
@@ -29,10 +28,10 @@ class ItemFactory extends Factory
             'entry_id' => Entry::factory(),
             'character_id' => Character::factory(),
             'name' => $this->faker->words(rand(1, 3), true),
-            'rarity' => $this->faker->randomElement(["common","uncommon","rare","very_rare","legendary"]),
+            'rarity' => $this->faker->randomElement(['common', 'uncommon', 'rare', 'very_rare', 'legendary']),
             'tier' => $this->faker->numberBetween(1, 4),
             'description' => $this->faker->text(),
-            'author_id' => User::factory()
+            'author_id' => User::factory(),
         ];
     }
 }

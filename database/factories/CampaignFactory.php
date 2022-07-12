@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Adventure;
 use App\Models\Campaign;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CampaignFactory extends Factory
 {

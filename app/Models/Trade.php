@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\Filterable;
 
 class Trade extends Model
 {
@@ -36,11 +36,11 @@ class Trade extends Model
         'character_id' => 'integer',
     ];
 
-    public const STATUS_OPEN = "open";
-    public const STATUS_CLOSED = "closed";
+    public const STATUS_OPEN = 'open';
+
+    public const STATUS_CLOSED = 'closed';
 
     protected $filterableFields = ['requested_items', 'description'];
-
 
     public function offers()
     {

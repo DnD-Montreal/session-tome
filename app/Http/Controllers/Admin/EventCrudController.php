@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EventCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class EventCrudController extends CrudController
@@ -21,6 +21,7 @@ class EventCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,7 +30,7 @@ class EventCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Event::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/event');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings('event', 'events');
 
         $this->leagueId = Auth::user()->roles()->pluck('league_id');
@@ -37,17 +38,19 @@ class EventCrudController extends CrudController
     }
 
     private $leagueId;
+
     private $eventId;
 
     /**
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
     {
-        if (!Auth::user()->isSiteAdmin()) {
+        if (! Auth::user()->isSiteAdmin()) {
             /** @psalm-suppress UndefinedFunction */
             $this->crud->addClause('whereIn', 'id', $this->eventId);
         }
@@ -60,20 +63,21 @@ class EventCrudController extends CrudController
         CRUD::addColumn([
             'name' => 'sessions',
             'type' => 'relationship',
-            'attribute' => "table_title",
-            'label' => "Tables",
-            ]);
+            'attribute' => 'table_title',
+            'label' => 'Tables',
+        ]);
     }
 
     /**
      * Checks to see if an event is accessible as a league admin
+     *
      * @return void
      */
-    protected function checkIfAccessible(String $crudAction)
+    protected function checkIfAccessible(string $crudAction)
     {
-        if (!Auth::user()->isSiteAdmin()) {
+        if (! Auth::user()->isSiteAdmin()) {
             $id = $this->crud->getCurrentEntryId();
-            if (!in_array($id, $this->eventId->toarray())) {
+            if (! in_array($id, $this->eventId->toarray())) {
                 $this->crud->denyAccess($crudAction);
             }
         }
@@ -83,19 +87,21 @@ class EventCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(EventRequest::class);
 
-        if (!Auth::user()->isSiteAdmin()) {
+        if (! Auth::user()->isSiteAdmin()) {
             CRUD::addField([
                 'label' => 'League',
                 'type' => 'select',
                 'name' => 'league_id',
                 'options' => (function ($query) {
                     $query->whereIn('id', $this->leagueId);
+
                     return $query->get();
                 }),
             ]);
@@ -111,6 +117,7 @@ class EventCrudController extends CrudController
      * Define what happens when the show operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-show
+     *
      * @return void
      */
     protected function setupShowOperation()
@@ -124,6 +131,7 @@ class EventCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
@@ -136,18 +144,21 @@ class EventCrudController extends CrudController
      * Define what happens when the delete operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-delete
+     *
      * @return void
      */
     public function destroy($id)
     {
         $this->checkIfAccessible('delete');
         $this->crud->hasAccessOrFail('delete');
+
         return $this->crud->delete($id);
     }
 
     public function report()
     {
         $event = $this->crud->getCurrentEntry(); //gets the current backpack crud entry (NOT our entry model)
+
         return GenerateEventReport::run($event);
     }
 }

@@ -16,6 +16,6 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'unauthenticated' => 'You must be logged in to view that, please login or register.'
+    'unauthenticated' => 'You must be logged in to view that, please login or register.',
 
 ];

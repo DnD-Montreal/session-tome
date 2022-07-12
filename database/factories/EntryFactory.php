@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EntryFactory extends Factory
 {
@@ -35,7 +34,7 @@ class EntryFactory extends Factory
             'event_id' => Event::factory(),
             'dungeon_master_id' => User::factory(),
             'dungeon_master' => $this->faker->word(),
-            'date_played' => $this->faker->dateTimeBetween("-5 years"),
+            'date_played' => $this->faker->dateTimeBetween('-5 years'),
             'location' => $this->faker->word(),
             'type' => $this->faker->word(),
             'length' => $this->faker->numberBetween(0, 10),

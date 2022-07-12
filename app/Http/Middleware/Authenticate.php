@@ -4,8 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class Authenticate extends Middleware
@@ -20,7 +18,8 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             Inertia::share('unauthenticated', __('auth.unauthenticated'));
-            return "/";
+
+            return '/';
         }
     }
 

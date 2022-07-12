@@ -14,8 +14,8 @@ class CreateEntryItems
     /**
      * Expect an array of item details, create each item and attach them to the appropriate relation objects
      *
-     * @param Entry $entry
-     * @param array $items
+     * @param  Entry  $entry
+     * @param  array  $items
      */
     public function handle(Entry $entry, array $items)
     {
@@ -36,13 +36,13 @@ class CreateEntryItems
                 $out[] = new Item(
                     array_merge([
                         'author_id' => Auth::id(),
-                        'character_id' => $entry->character_id
+                        'character_id' => $entry->character_id,
                     ], $item)
                 );
             }
         }
 
-        if (!empty($existing)) {
+        if (! empty($existing)) {
             Item::destroy(collect($existing)->pluck('id'));
         }
 

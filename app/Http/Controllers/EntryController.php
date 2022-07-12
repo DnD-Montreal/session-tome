@@ -2,41 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateEntryItems;
 use App\Actions\CreateAndAttachRating;
+use App\Actions\CreateEntryItems;
 use App\Exceptions\GMEntryException;
 use App\Http\Requests\EntryStoreRequest;
 use App\Http\Requests\EntryUpdateRequest;
+use App\Models\Adventure;
 use App\Models\Campaign;
 use App\Models\Character;
-use App\Models\Adventure;
 use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use function PHPUnit\Framework\isEmpty;
 
 class EntryController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function create(Request $request)
     {
         $data = $request->validate([
-            'character_id' => "required|exists:characters,id|integer",
-            'search' => "sometimes|string"
+            'character_id' => 'required|exists:characters,id|integer',
+            'search' => 'sometimes|string',
         ]);
 
         $character = Character::where('user_id', Auth::id())
             ->findOrFail($data['character_id']);
 
-        $search = $data['search'] ?? "";
+        $search = $data['search'] ?? '';
 
-        if ($campaignId = $request->get("campaign_id")) {
+        if ($campaignId = $request->get('campaign_id')) {
             $campaign = Campaign::where('id', $campaignId);
             $adventure = Campaign::where('id', $campaignId)->first()->adventure();
         } else {
@@ -53,7 +52,7 @@ class EntryController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\EntryStoreRequest $request
+     * @param  \App\Http\Requests\EntryStoreRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(EntryStoreRequest $request)
@@ -62,7 +61,7 @@ class EntryController extends Controller
         $itemData = collect($request->validated())->only('items');
         $ratingData = collect($request->validated())->only('rating_data');
 
-        if (!$entryData->has('user_id')) {
+        if (! $entryData->has('user_id')) {
             $entryData['user_id'] = Auth::id();
         }
         if ($ratingData->has('rating_data')) {
@@ -77,16 +76,17 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData);
+        [$entryData, $itemData] = $this->chooseReward($entryData, $itemData);
 
-        if (!empty($entryData['campaign_id'])) {
+        if (! empty($entryData['campaign_id'])) {
             $campaign = Campaign::find($entryData['campaign_id']);
         }
 
         if ($entryData['type'] === Entry::TYPE_DM && isset($campaign)) {
             $campaignGmIds = $campaign->users()->wherePivot('is_dm', true)->pluck('id');
-            if (!$campaignGmIds->contains(Auth::id())) {
-                $exception = new GMEntryException("GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.");
+            if (! $campaignGmIds->contains(Auth::id())) {
+                $exception = new GMEntryException('GM Entry Exception: Cannot create a GM entry on a campaign in which user is not a GM.');
+
                 return redirect()->back()->withException($exception);
             }
         }
@@ -96,14 +96,14 @@ class EntryController extends Controller
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
-        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id && $entry->exists('dungeonMaster')) {
+        if (! empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id && $entry->exists('dungeonMaster')) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
         if (isset($campaign)) {
             $redirectRoute = 'campaign.show';
             $parameter = $campaign;
-        } elseif (!isset($campaign)) {
+        } elseif (! isset($campaign)) {
             if ($entryData['type'] === Entry::TYPE_DM) {
                 $redirectRoute = 'dm-entry.index';
                 $parameter = null;
@@ -117,8 +117,8 @@ class EntryController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\EntryUpdateRequest $request
-     * @param \App\Models\Entry $entry
+     * @param  \App\Http\Requests\EntryUpdateRequest  $request
+     * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(EntryUpdateRequest $request, Entry $entry)
@@ -139,14 +139,14 @@ class EntryController extends Controller
             $itemData = $itemData->toArray();
         }
 
-        list($entryData, $itemData) = $this->chooseReward($entryData, $itemData, $entry);
+        [$entryData, $itemData] = $this->chooseReward($entryData, $itemData, $entry);
 
         $entry->update($entryData->toArray());
         CreateEntryItems::run($entry, $itemData ?? []);
         $request->session()->flash('entry.id', $entry->id);
 
         // Need to find alternative to empty, this is true even if no rating_data found.
-        if (!empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
+        if (! empty($ratingData) && is_array($ratingData) && $entry->dungeon_master_id) {
             CreateAndAttachRating::run($entry, $ratingData);
         }
 
@@ -158,15 +158,15 @@ class EntryController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Entry $entry
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Entry $entry = null)
     {
         $user = $request->user();
         $data = $request->validate([
-            'entries' => 'sometimes|array'
+            'entries' => 'sometimes|array',
         ]);
 
         if ($request->has('entries')) {
@@ -187,8 +187,8 @@ class EntryController extends Controller
     }
 
     /**
-     * @param Collection $entryData
-     * @param array $itemData
+     * @param  Collection  $entryData
+     * @param  array  $itemData
      * @return array
      */
     private function chooseReward(Collection $entryData, array $itemData, Entry $entry = null): array
@@ -209,6 +209,7 @@ class EntryController extends Controller
             $itemData = [];
             $entryData['levels'] = 0;
         }
-        return array($entryData, $itemData);
+
+        return [$entryData, $itemData];
     }
 }

@@ -6,7 +6,6 @@ use App\Models\Character;
 use App\Models\Entry;
 use App\Models\Item;
 use App\Models\Rating;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -109,7 +108,7 @@ class EntryTest extends TestCase
             'character_id' => $character->id,
             'user_id' => $character->user->id,
             'type' => Entry::TYPE_DM,
-            'levels' => 0
+            'levels' => 0,
         ];
         $advancement = Entry::factory()->create(array_merge($defaults, ['levels' => 1]));
         $magicItem = Entry::factory()->create($defaults);
@@ -120,9 +119,8 @@ class EntryTest extends TestCase
         ]);
         $campaign = Entry::factory()->create($defaults);
         $nonDM = Entry::factory()->create([
-            'type' => Entry::TYPE_GAME
+            'type' => Entry::TYPE_GAME,
         ]);
-
 
         $this->assertEquals(Entry::REWARD_ADVANCEMENT, $advancement->reward);
         $this->assertEquals(Entry::REWARD_MAGIC_ITEM, $magicItem->reward);

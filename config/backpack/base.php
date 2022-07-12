@@ -12,7 +12,7 @@ return [
     */
 
     // Date & Datetime Format Syntax: https://carbon.nesbot.com/docs/#api-localization
-    'default_date_format'     => 'D MMM YYYY',
+    'default_date_format' => 'D MMM YYYY',
     'default_datetime_format' => 'D MMM YYYY, HH:mm',
 
     // Direction, according to language
@@ -72,7 +72,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>Session</b>Tome',
+    'project_logo' => '<b>Session</b>Tome',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -179,17 +179,17 @@ return [
     // The web middleware (group) used in all base & CRUD routes
     // If you've modified your "web" middleware group (ex: removed sessions), you can use a different
     // route group, that has all the the middleware listed below in the comments.
-//    'web_middleware' => 'web',
+    //    'web_middleware' => 'web',
     // Or you can comment the above, and uncomment the complete list below.
-     'web_middleware' => [
-         \App\Http\Middleware\EncryptCookies::class,
-         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-         \Illuminate\Session\Middleware\StartSession::class,
-         \Illuminate\Session\Middleware\AuthenticateSession::class,
-         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-         \App\Http\Middleware\VerifyCsrfToken::class,
-         \Illuminate\Routing\Middleware\SubstituteBindings::class,
-     ],
+    'web_middleware' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
 
     // Set this to false if you would like to use your own AuthController and PasswordController
     // (you then need to setup your auth routes manually in your routes.php file)
@@ -256,7 +256,7 @@ return [
     // Username column for authentication
     // The Backpack default is the same as the Laravel default (email)
     // If you need to switch to username, you also need to create that column in your db
-    'authentication_column'      => 'email',
+    'authentication_column' => 'email',
     'authentication_column_name' => 'Email',
 
     // The guard that protects the Backpack admin panel.

@@ -3,10 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
-use App\Http\Controllers\TradeOfferController;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +35,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
     Route::resource('rating', App\Http\Controllers\RatingController::class)->only('index');
 
     Route::delete('/entry/{entry?}', [App\Http\Controllers\EntryController::class, 'destroy'])
-        ->name("entry.destroy");
+        ->name('entry.destroy');
 
     Route::resource('entry', App\Http\Controllers\EntryController::class)->only('create', 'store', 'update');
 
@@ -45,7 +43,7 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->only(['create', 'store']);
 
     Route::delete('/character/{character?}', [App\Http\Controllers\CharacterController::class, 'destroy'])
-        ->name("character.destroy");
+        ->name('character.destroy');
 
     Route::resource('character', App\Http\Controllers\CharacterController::class)->except('destroy', 'edit');
 
@@ -65,11 +63,11 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->only('index', 'create');
 
     Route::resource('attach-entry-to-character', App\Http\Controllers\BulkAttachController::class)->parameters([
-        'attach-entry-to-character' => 'character'
-        ])->only('update');
+        'attach-entry-to-character' => 'character',
+    ])->only('update');
 
     Route::delete('/registration/{session}', [App\Http\Controllers\EventRegistrationController::class, 'destroy'])
-        ->name("event-registration.destroy");
+        ->name('event-registration.destroy');
 
     Route::resource('registration', App\Http\Controllers\EventRegistrationController::class)
         ->only('store');
@@ -82,24 +80,22 @@ Route::middleware(['auth', 'throttle'])->group(function () {
         ->only(['create', 'store', 'destroy']);
 
     // Disable unfinished features, for now.
-    if (config('app.env') == "testing") {
+    if (config('app.env') == 'testing') {
         Route::resource('trade', App\Http\Controllers\TradeController::class);
 
         Route::delete('/offer/destroy/{offer}/{trade}', [App\Http\Controllers\TradeOfferController::class, 'destroy'])
-            ->name("offer.destroy");
+            ->name('offer.destroy');
 
         Route::post('/offer/store', [App\Http\Controllers\TradeOfferController::class, 'store'])
-            ->name("offer.store");
+            ->name('offer.store');
 
         Route::get('/offer/create/{trade}', [App\Http\Controllers\TradeOfferController::class, 'create'])
-            ->name("offer.create");
+            ->name('offer.create');
 
-        Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, "store"])
+        Route::post('/trade-fulfilment/{trade}', [\App\Http\Controllers\TradeFulfillmentController::class, 'store'])
             ->name('trade-fulfillment.store');
     }
 });
-
-
 
 if (config('app.env') !== 'production') {
     Route::get('/token', fn () => csrf_token());

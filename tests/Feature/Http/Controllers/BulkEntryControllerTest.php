@@ -28,7 +28,6 @@ class BulkEntryControllerTest extends TestCase
         Auth::login($this->user);
     }
 
-
     /**
      * @test
      */
@@ -37,8 +36,8 @@ class BulkEntryControllerTest extends TestCase
         $characters = Character::factory(3)->create();
         $adventure = Adventure::factory()->create();
         // Three month difference
-        $startDate = "01-01-2022";
-        $endDate = "02-04-2022";
+        $startDate = '01-01-2022';
+        $endDate = '02-04-2022';
         $freqWeekly = 1;
         $freqBiweekly = 0.5;
         $freqTwiceWeekly = 2;
@@ -70,11 +69,10 @@ class BulkEntryControllerTest extends TestCase
                 'frequency' => $freqTwiceWeekly,
             ]);
 
-
         // Weekly
         $entries = $characters[0]->entries;
         $responseWeekly->assertRedirect(route('character.show', [
-            'character' => $characters[0]->refresh()
+            'character' => $characters[0]->refresh(),
         ]));
 
         // 14 saturdays between Jan 1st and April 2nd (inclusive)
@@ -82,11 +80,10 @@ class BulkEntryControllerTest extends TestCase
         $this->assertEquals(Carbon::parse('01-01-2022'), $entries[0]->date_played);
         $this->assertEquals(Carbon::parse('02-04-2022'), $entries->last()->date_played);
 
-
         // BiWeekly
         $entries = $characters[1]->entries;
         $responseBiweekly->assertRedirect(route('character.show', [
-            'character' => $characters[1]->refresh()
+            'character' => $characters[1]->refresh(),
         ]));
 
         // 14 saturdays in range, cut in half (played every other week), 7 entries
@@ -94,11 +91,10 @@ class BulkEntryControllerTest extends TestCase
         $this->assertEquals(Carbon::parse('01-01-2022'), $entries[0]->date_played);
         $this->assertEquals(Carbon::parse('26-03-2022'), $entries->last()->date_played);
 
-
         // Twice per Week
         $entries = $characters[2]->entries;
         $responseTwiceWeekly->assertRedirect(route('character.show', [
-            'character' => $characters[2]->refresh()
+            'character' => $characters[2]->refresh(),
         ]));
 
         // This doesnt actually get used in our system, currently.
@@ -113,7 +109,7 @@ class BulkEntryControllerTest extends TestCase
     public function create_displays_view()
     {
         $character = Character::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $response = $this->get(route('entry-bulk.create', ['character_id' => $character->id]));
 

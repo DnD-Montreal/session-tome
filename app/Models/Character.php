@@ -38,11 +38,11 @@ class Character extends Model
     ];
 
     public const FACTIONS = [
-        'harpers' => "The Harpers",
-        'order' => "The Order of the Gauntlet",
-        'emerald' => "The Emerald Enclave",
+        'harpers' => 'The Harpers',
+        'order' => 'The Order of the Gauntlet',
+        'emerald' => 'The Emerald Enclave',
         'lords' => "The Lords' Alliance",
-        'zhentarim' => "The Zhentarim"
+        'zhentarim' => 'The Zhentarim',
 
     ];
 

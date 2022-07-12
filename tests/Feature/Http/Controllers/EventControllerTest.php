@@ -120,7 +120,7 @@ class EventControllerTest extends TestCase
 
         $filterdResponse = $this->actingAs($request_user)->get(route('event.show', [
             'event' => $event,
-            'registered_sessions' => true
+            'registered_sessions' => true,
         ]));
 
         $filterdResponse->assertOk();
@@ -139,8 +139,8 @@ class EventControllerTest extends TestCase
     {
         $otherUser = User::factory()->create();
         $event = Event::factory()->has(Session::factory()
-            ->has(Character::factory(2)->state(['user_id'=>Auth::id()]))
-            ->has(Character::factory(2)->state(['user_id'=>$otherUser->id])))->create();
+            ->has(Character::factory(2)->state(['user_id' => Auth::id()]))
+            ->has(Character::factory(2)->state(['user_id' => $otherUser->id])))->create();
 
         $response = $this->get(route('event.show', $event));
 

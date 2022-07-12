@@ -37,7 +37,7 @@ class DMEntryControllerTest extends TestCase
     {
         $entry = Entry::factory(2)->create([
             'type' => Entry::TYPE_DM,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $response = $this->get(route('dm-entry.index'));
@@ -59,7 +59,7 @@ class DMEntryControllerTest extends TestCase
 
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-                ->component("Entry/Create/DmEntryCreate")
+                ->component('Entry/Create/DmEntryCreate')
                 ->has('adventures')
                 ->has('campaigns')
         );
@@ -72,11 +72,11 @@ class DMEntryControllerTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
 
-        $response = $this->get(route('dm-entry.create', ["campaign_id" => $campaign->id]));
+        $response = $this->get(route('dm-entry.create', ['campaign_id' => $campaign->id]));
 
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-                ->component("Entry/Create/DmEntryCreate")
+                ->component('Entry/Create/DmEntryCreate')
                 ->has('adventures')
                 ->has('campaigns')
         );
@@ -126,7 +126,6 @@ class DMEntryControllerTest extends TestCase
         $response->assertSessionHas('entry.id', $entry->id);
     }
 
-
     /**
      * @test
      */
@@ -154,7 +153,6 @@ class DMEntryControllerTest extends TestCase
             'user_id' => $this->user->id,
             'level' => 1,
         ]);
-
 
         $response = $this->actingAs($this->user)->put(route('attach-entry-to-character.update', $character), [
             'dm_entry_ids' => [$dmEntry1->id, $dmEntry2->id],
@@ -197,7 +195,6 @@ class DMEntryControllerTest extends TestCase
             'level' => 1,
         ]);
 
-
         // Entry ids are not unique.
         $response = $this->actingAs($this->user)->put(route('attach-entry-to-character.update', $character), [
             'dm_entry_ids' => [$dmEntry1->id, $dmEntry1->id],
@@ -220,7 +217,6 @@ class DMEntryControllerTest extends TestCase
             'user_id' => $this->user->id,
             'level' => 1,
         ]);
-
 
         // Entry id does not exist.
         $response = $this->actingAs($this->user)->put(route('attach-entry-to-character.update', $character), [

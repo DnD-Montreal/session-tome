@@ -2,10 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Entry;
 use App\Models\Item;
-use App\Models\User;
 use App\Models\Trade;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -72,7 +71,7 @@ class ItemTest extends TestCase
     public function can_be_listed_in_trade()
     {
         $item = Item::factory()->create([
-            'description' => "listed item"
+            'description' => 'listed item',
         ]);
         $trade = Trade::factory()->create();
 

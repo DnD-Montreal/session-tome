@@ -9,15 +9,15 @@ trait Filterable
     /**
      * Limits and filters adventures by title / code
      *
-     * @param Builder $q
-     * @param string $search
+     * @param  Builder  $q
+     * @param  string  $search
      * @return Builder
      */
-    public function scopeFiltered($q, $search = "")
+    public function scopeFiltered($q, $search = '')
     {
         foreach ($this->getFilteredFields() as $i => $field) {
-            $where = $i ? "orWhere" : "where";
-            $q->$where($field, "like", "%{$search}%");
+            $where = $i ? 'orWhere' : 'where';
+            $q->$where($field, 'like', "%{$search}%");
         }
 
         return $q->limit($this->getLimitValue());
@@ -40,6 +40,6 @@ trait Filterable
      */
     private function getLimitValue()
     {
-        return property_exists(self::class, "filterableLimit") ? $this->filterableLimit : 50;
+        return property_exists(self::class, 'filterableLimit') ? $this->filterableLimit : 50;
     }
 }

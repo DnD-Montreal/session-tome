@@ -12,7 +12,7 @@ class AdventuresLeagueImportController extends Controller
     /**
      * Show the Import index
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request)
@@ -23,7 +23,7 @@ class AdventuresLeagueImportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
@@ -35,6 +35,7 @@ class AdventuresLeagueImportController extends Controller
                 return back()->withException($e);
             }
             $character->save();
+
             return redirect(route('character.show', ['character' => $character->refresh()->load('entries')]));
         } else {
             return back()->withException(new \Exception("Adventure's League Log File Error", 400));
