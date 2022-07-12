@@ -9,9 +9,9 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Inertia\Testing\Assert;
 
 /**
  * @see \App\Http\Controllers\TradeController
@@ -50,12 +50,12 @@ class TradeControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Trade/Trade')
                 ->has(
                     'trades',
                     1,
-                    fn (Assert $page) => $page
+                    fn (AssertableInertia $page) => $page
                 ->where('id', $trades->first()->id)
                 ->where('item_id', $trades->first()->item_id)
                 ->where('character_id', $trades->first()->character_id)
@@ -65,7 +65,7 @@ class TradeControllerTest extends TestCase
                 ->etc()
                 ->has(
                     'item',
-                    fn (Assert $page) => $page
+                    fn (AssertableInertia $page) => $page
                     ->where('id', $trades->first()->item->id)
                     ->where('entry_id', $trades->first()->item->entry_id)
                     ->where('character_id', $trades->first()->item->character_id)
@@ -246,6 +246,6 @@ class TradeControllerTest extends TestCase
 
         $response->assertRedirect(route('trade.index'));
 
-        $this->assertDeleted($trade);
+        $this->assertModelMissing($trade);
     }
 }

@@ -10,9 +10,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Tests\TestCase;
 
 /**
@@ -46,7 +45,7 @@ class CampaignControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page->component('Campaign/Campaign')->has('campaigns')
+            fn (AssertableInertia $page) => $page->component('Campaign/Campaign')->has('campaigns')
         );
     }
 
@@ -59,7 +58,7 @@ class CampaignControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page->component('Campaign/Create/CampaignCreate')
+            fn (AssertableInertia $page) => $page->component('Campaign/Create/CampaignCreate')
         );
     }
 
@@ -156,7 +155,7 @@ class CampaignControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Campaign/Detail/CampaignDetail')
                 ->has('campaign')
                 ->has('userCharacter')

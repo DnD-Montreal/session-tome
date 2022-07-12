@@ -11,8 +11,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Testing\Fluent\AssertableJson;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -45,7 +44,7 @@ class DMEntryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('DMEntry/DMEntry')
                 ->has('entries')
         );
@@ -59,7 +58,7 @@ class DMEntryControllerTest extends TestCase
         $response = $this->get(route('dm-entry.create'));
 
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component("Entry/Create/DmEntryCreate")
                 ->has('adventures')
                 ->has('campaigns')
@@ -76,7 +75,7 @@ class DMEntryControllerTest extends TestCase
         $response = $this->get(route('dm-entry.create', ["campaign_id" => $campaign->id]));
 
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component("Entry/Create/DmEntryCreate")
                 ->has('adventures')
                 ->has('campaigns')

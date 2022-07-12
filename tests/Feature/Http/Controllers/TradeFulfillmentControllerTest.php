@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Inertia\Testing\Assert;
 
 /**
  * @see \App\Http\Controllers\TradeController

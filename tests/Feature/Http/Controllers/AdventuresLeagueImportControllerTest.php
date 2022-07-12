@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Facades\Beyond;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
@@ -42,7 +40,7 @@ class AdventuresLeagueImportControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
             ->component('Character/Import/CharacterImport')
         );
     }

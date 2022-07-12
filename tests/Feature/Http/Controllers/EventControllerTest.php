@@ -5,14 +5,13 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Character;
 use App\Models\Event;
 use App\Models\Session;
-use App\Models\League;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Inertia\Testing\Assert;
 
 /**
  * @see \App\Http\Controllers\EventController
@@ -52,12 +51,12 @@ class EventControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                     ->component('Event/Event')
                     ->has(
                         'events',
                         1,
-                        fn (Assert $page) => $page
+                        fn (AssertableInertia $page) => $page
                         ->where('id', $event->id)
                         ->where('league_id', $event->league_id)
                         ->where('title', $event->title)
@@ -87,12 +86,12 @@ class EventControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                     ->component('Event/Event')
                     ->has(
                         'events',
                         1,
-                        fn (Assert $page) => $page
+                        fn (AssertableInertia $page) => $page
                         ->where('id', $event->id)
                         ->where('league_id', $event->league_id)
                         ->where('title', $event->title)
@@ -126,7 +125,7 @@ class EventControllerTest extends TestCase
 
         $filterdResponse->assertOk();
         $filterdResponse->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Event/Detail/EventDetail')
                 ->has('event')
                 ->has('sessions', 1)
@@ -147,7 +146,7 @@ class EventControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Event/Detail/EventDetail')
                 ->has('event')
                 ->has('allUserCharacters')

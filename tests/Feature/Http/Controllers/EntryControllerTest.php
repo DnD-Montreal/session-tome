@@ -10,11 +10,10 @@ use App\Models\Event;
 use App\Models\Item;
 use App\Models\Rating;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -86,7 +85,7 @@ class EntryControllerTest extends TestCase
         $response->assertOk();
 
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Character/Detail/Entry/Create/EntryCreate')
                 ->has('character')
                 ->has('campaigns')
@@ -111,7 +110,7 @@ class EntryControllerTest extends TestCase
         $response->assertOk();
 
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Character/Detail/Entry/Create/EntryCreate')
                 ->has('character')
                 ->has('campaigns')
@@ -736,7 +735,7 @@ class EntryControllerTest extends TestCase
 
         $response->assertRedirect();
 
-        $this->assertDeleted($entry);
+        $this->assertModelMissing($entry);
     }
 
     /**
@@ -755,8 +754,8 @@ class EntryControllerTest extends TestCase
 
         $response->assertRedirect();
 
-        $this->assertDeleted($entries[0]);
-        $this->assertDeleted($entries[1]);
+        $this->assertModelMissing($entries[0]);
+        $this->assertModelMissing($entries[1]);
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -57,7 +57,7 @@ class ItemControllerTest extends TestCase
         // This is not right, but for some reason expectException is not catching this?
         // We expect this except because the exception handler should render the appropriate view in production.
         $this->assertEquals(UnauthorizedException::class, get_class($responsePrivate->exception));
-        $response->assertInertia(function (Assert $page) use ($character) {
+        $response->assertInertia(function (AssertableInertia $page) use ($character) {
             $page->component('Item/Item')
                 ->has('items')
                 ->has('character');
@@ -85,7 +85,7 @@ class ItemControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
             ->component("Item/Detail/ItemDetail")
             ->has('item')
             ->has('character')
@@ -158,6 +158,6 @@ class ItemControllerTest extends TestCase
 
         $response->assertRedirect(route('item.index', compact('character_id')));
 
-        $this->assertDeleted($item);
+        $this->assertModelMissing($item);
     }
 }

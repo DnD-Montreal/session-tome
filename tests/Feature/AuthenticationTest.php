@@ -3,10 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Support\Facades\App;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase

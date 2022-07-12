@@ -8,9 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
-use Inertia\Testing\Assert;
 
 class CampaignRegistrationControllerTest extends TestCase
 {
@@ -40,7 +40,7 @@ class CampaignRegistrationControllerTest extends TestCase
         $response = $this->get(route('campaign-registration.create', $inputData));
 
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Campaign/Registration/Create/CampaignRegistrationCreate')
                 ->has('campaign')
         );

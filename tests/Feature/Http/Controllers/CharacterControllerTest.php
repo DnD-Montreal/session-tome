@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -40,7 +40,7 @@ class CharacterControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
             ->component('Character/Character')
             ->has('characters')
         );
@@ -56,7 +56,7 @@ class CharacterControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
             ->component('Character/Create/CharacterCreate')
         );
     }
@@ -132,7 +132,7 @@ class CharacterControllerTest extends TestCase
         $badResponse->assertStatus(403);
         $response->assertOk();
         $response->assertInertia(
-            fn (Assert $page) => $page
+            fn (AssertableInertia $page) => $page
                 ->component('Character/Detail/CharacterDetail')
                 ->has('character')
                 ->has('entries')
@@ -205,7 +205,7 @@ class CharacterControllerTest extends TestCase
 
         $response->assertRedirect(route('character.index'));
 
-        $this->assertDeleted($character);
+        $this->assertModelMissing($character);
     }
 
     /**
@@ -221,8 +221,8 @@ class CharacterControllerTest extends TestCase
 
         $response->assertRedirect(route('character.index'));
 
-        $this->assertDeleted($characters[0]);
-        $this->assertDeleted($characters[1]);
-        $this->assertDeleted($characters[2]);
+        $this->assertModelMissing($characters[0]);
+        $this->assertModelMissing($characters[1]);
+        $this->assertModelMissing($characters[2]);
     }
 }
