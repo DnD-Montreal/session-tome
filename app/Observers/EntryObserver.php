@@ -5,13 +5,14 @@ namespace App\Observers;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\Entry;
+use Illuminate\Support\Collection;
 
 class EntryObserver
 {
     /**
      * Handle the Entry "created" event.
      *
-     * @param  \App\Models\Entry  $entry
+     * @param \App\Models\Entry $entry
      * @return void
      */
     public function created(Entry $entry)
@@ -28,19 +29,19 @@ class EntryObserver
         $inCampaign = !is_null($entry->campaign);
         if ($inCampaign && $isDMEntry) {
             $campaign = $entry->campaign;
-            $this->generateCharacterEntriesForCampaign(-1, $campaign, $entry->attributesToArray());
+            $this->generateCharacterEntriesForCampaign(-1, $campaign, collect($entry->attributesToArray()));
         } elseif ($inCampaign) {
             $campaign = $entry->campaign;
             $char = $entry->character;
-            $this->generateCharacterEntriesForCampaign($char->id, $campaign, $entry->attributesToArray());
-            $this->generateGMEntryForCampaign($campaign, $entry->attributesToArray());
+            $this->generateCharacterEntriesForCampaign($char->id, $campaign, collect($entry->attributesToArray()));
+            $this->generateGMEntryForCampaign($campaign, collect($entry->attributesToArray()));
         }
     }
 
     /**
      * Handle the Entry "updated" event.
      *
-     * @param  \App\Models\Entry  $entry
+     * @param \App\Models\Entry $entry
      * @return void
      */
     public function updated(Entry $entry)
@@ -50,21 +51,17 @@ class EntryObserver
             $dirtyLevel = $entry->isDirty('levels');
             $dirtyCharacter = $entry->isDirty('character_id');
 
-            // level changed and new character -> add current entry level to newly added character
+            // level changed and new character: add current entry level to newly added character
             if ($dirtyLevel && $dirtyCharacter) {
                 $character->level += $entry->levels;
                 $character->save();
-            }
-
-            // level changed with old character -> calculate change in entry level and apply to character
-            elseif ($dirtyLevel) {
+            } elseif ($dirtyLevel) {
+                // User changed the amount of levels granted by entry: calculate change in entry level and apply to character
                 $levelDelta = $entry->levels - $entry->getOriginal('levels');
                 $character->level += $levelDelta;
                 $character->save();
-            }
-
-            // entry level unchanged but character newly attached -> add level to character
-            elseif (!is_null($character) && $dirtyCharacter) {
+            } elseif (!is_null($character) && $dirtyCharacter) {
+                // entry level unchanged but character newly attached -> add level to character
                 $character->level = (is_null($character->level))
                     ? $entry->levels
                     : $character->level + $entry->levels;
@@ -76,7 +73,7 @@ class EntryObserver
     /**
      * Handle the Entry "deleted" event.
      *
-     * @param  \App\Models\Entry  $entry
+     * @param \App\Models\Entry $entry
      * @return void
      */
     public function deleting(Entry $entry)
@@ -98,22 +95,15 @@ class EntryObserver
      * Creates entries on all characters except one designated to be ignored.
      * @param int $excludedCharacterId Character to be excluded
      * @param Campaign $campaign Campaign for which the entries are being created
-     * @param $entryData Array of data from the triggering entry
+     * @param $entryData Collection of data from the triggering entry
      */
-    private function generateCharacterEntriesForCampaign(int $excludedCharacterId, Campaign $campaign, $entryData)
+    private function generateCharacterEntriesForCampaign(int $excludedCharacterId, Campaign $campaign, Collection $entryData)
     {
         $characters = $campaign->characters;
+        $entryData->forget(['campaign_id', 'session', 'reward', 'id']);
 
         foreach ($characters as $character) {
             if ($character->id != $excludedCharacterId) {
-
-                //Prep the data to create the entry
-                unset($entryData['campaign_id']); // this is so the observer doesn't fire infinitely
-                // these fields are computed so they don't need to be set
-                unset($entryData['session']);
-                unset($entryData['reward']);
-                unset($entryData['id']);
-
                 $entryData['character_id'] = $character->id; // assign to the correct character
                 $entryData['user_id'] = $character->user->id;// author this entry by the correct person
                 $entryData['type'] = $entryData['type'] == Entry::TYPE_DM
@@ -123,7 +113,7 @@ class EntryObserver
 
 
                 //Create the Entry and allow the observer to fire to modify the character
-                $newEntry = Entry::create($entryData);
+                $newEntry = Entry::create($entryData->toArray());
 
                 //Add remaining missing associations to the entry and save quietly to avoid infinite looping
                 $newEntry->campaign()->associate($campaign);
@@ -134,26 +124,27 @@ class EntryObserver
         }
     }
 
-    private function generateGMEntryForCampaign(Campaign $campaign, $entryData)
+    /**
+     * Create the entry for the GM of a campaign
+     * @param Campaign $campaign
+     * @param Collection $entryData
+     */
+    private function generateGMEntryForCampaign(Campaign $campaign, Collection $entryData)
     {
         //get the GM (currently handles multiple GMs by just creating an entry for each of them)
         $GMs = $campaign->users()->wherePivot('is_dm', 1)->get();
 
         //prep the data
-        unset($entryData['campaign_id']);
-        unset($entryData['character_id']);
-        // these fields are computed so they don't need to be set
-        unset($entryData['session']);
-        unset($entryData['reward']);
-        unset($entryData['id']);
+        $entryData->forget(['campaign_id', 'character_id', 'session', 'reward', 'id']);
         $entryData['type'] = Entry::TYPE_DM;
+        // Pull out the appropriate dungeon master name field
         $entryData['dungeon_master'] = is_array($entryData['dungeon_master']) ? $entryData['dungeon_master']['name'] : $entryData['dungeon_master'];
 
         foreach ($GMs as $GM) {
             $entryData['user_id'] = $GM->id;
 
             //Create the Entry and allow the observer to fire to modify the character
-            $newEntry = Entry::create($entryData);
+            $newEntry = Entry::create($entryData->toArray());
 
             //Add remaining missing associations to the entry and save quietly to avoid infinite looping
             $newEntry->campaign()->associate($campaign);
