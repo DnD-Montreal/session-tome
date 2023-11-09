@@ -14,10 +14,6 @@ This Project is built as a React front end SPA and communicates with Laravel via
 
 Session Tome was built for and in collaboration with [DnD MTL](dndmtl.com).
 
-## Purpose
-This Project was created in part to satisfy the requirements of SOEN 490: Capstone Software Engineering Design Project @
-Concordia University.
-
 ## Installation
 For more in-depth development environment set-up & application installation instructions, see the [Wiki entry about Development Environments](https://github.com/DnD-Montreal/session-tome/wiki/Development-Environment).
 
