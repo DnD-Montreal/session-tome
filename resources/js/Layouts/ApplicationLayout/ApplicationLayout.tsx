@@ -125,6 +125,9 @@ const ApplicationLayout = ({children}: LayoutProps) => {
                         width: '0.4em',
                         height: '0.4em',
                     },
+                    '*::-webkit-scrollbar-track': {
+                        backgroundColor: '#23272a',
+                    },
                     '*::-webkit-scrollbar-thumb': {
                         backgroundColor: '#babac0',
                         borderRadius: 16,
